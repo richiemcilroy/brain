@@ -1,0 +1,2305 @@
+{
+  "schema": "brain-scaling-benchmark/1",
+  "generated_at": "2026-09-11T19:46:08.219570+00:00",
+  "protocol": {
+    "forced_activity": "heterogeneous tonic drive U(1.0, 2.0) per neuron, plasticity disabled (eligibility=off, enabled=False), 20 warmup steps, then timed steps with force_eval (mx.eval + synchronize) after every step",
+    "spontaneous": "same configuration with no external drive",
+    "zero_input_control": "noise_std=0, no drive, brain.reset() -> v=0 exactly",
+    "timing": "wall clock per step, median over all timed steps; repeated reps are reported",
+    "bio_time": "1 step = 1 ms biological (dt=1.0)",
+    "algorithmic_synaptic_events_per_s": "mean_spikes_per_step * k_out / step_seconds",
+    "delivered_synaptic_events_per_s": "min(mean_spikes_per_step, capacity) * k_out / step_seconds; spikes beyond capacity are counted but never delivered",
+    "rows_gathered_per_s": "capacity * k_out / step_seconds - the work this implementation actually performs every step"
+  },
+  "host": {
+    "platform": "macOS-27.0-arm64-arm-64bit-Mach-O",
+    "machine": "arm64",
+    "cpu": "arm",
+    "cpu_count": 16,
+    "python": "3.14.3",
+    "numpy": "2.4.1",
+    "backend": "mlx",
+    "total_ram_gb": 137.44,
+    "available_ram_gb_at_start": 68.72,
+    "available_ram_source": "estimated as 50% of total RAM (sysconf unsupported)",
+    "loadavg_1_5_15": [
+      10.78,
+      17.23,
+      26.68
+    ],
+    "mlx": "0.31.0",
+    "device_name": "Apple M4 Max",
+    "recommended_working_set_gb": 115.45
+  },
+  "substrate": {
+    "revision_before_sweep": {
+      "__init__.py": "73524bc5c0cf6216",
+      "backend.py": "8c38321b46b771c6",
+      "baselines.py": "1dd61369669ecb65",
+      "connectivity.py": "e7e8020b0711277c",
+      "cortex.py": "70d5a10b16b01bef",
+      "metrics.py": "ec9dc1fd84ea6848",
+      "neurons.py": "4aa58f52ad3a828f",
+      "plasticity.py": "0f44e14e4c798ac1",
+      "simulator.py": "f8daecd215c8a5d8",
+      "tasks.py": "86101d42761e96dc"
+    },
+    "revision_after_sweep": {
+      "__init__.py": "73524bc5c0cf6216",
+      "backend.py": "8c38321b46b771c6",
+      "baselines.py": "1dd61369669ecb65",
+      "connectivity.py": "e7e8020b0711277c",
+      "cortex.py": "70d5a10b16b01bef",
+      "metrics.py": "ec9dc1fd84ea6848",
+      "neurons.py": "4aa58f52ad3a828f",
+      "plasticity.py": "0f44e14e4c798ac1",
+      "simulator.py": "f8daecd215c8a5d8",
+      "tasks.py": "86101d42761e96dc"
+    },
+    "revision_changed_during_run": false
+  },
+  "bounds": {
+    "budget_gb": 48.0,
+    "min_plausible_ms_per_step": 0.05,
+    "available_ram_gb_before_sweep": 68.719476736
+  },
+  "bandwidth_probe": {
+    "applicable": true,
+    "array_elements": 67108864,
+    "repeats": 20,
+    "bytes_moved": 16106127360,
+    "seconds": 0.06254483398515731,
+    "bandwidth_gb_per_s": 257.51331219173414,
+    "note": "streaming triad (read 2 arrays, write 1); best-case ceiling, not random access"
+  },
+  "lazy_eval_guard": {
+    "applicable": true,
+    "description": "identical op chain timed with and without mx.eval",
+    "array_elements": 200000,
+    "steps": 120,
+    "dispatch_only_ms_per_step": 0.0029809084177638097,
+    "evalled_ms_per_step": 0.18872152480374402,
+    "ratio_evalled_over_dispatch": 63.310071412833736,
+    "guard_passed": true
+  },
+  "determinism": {
+    "n_neurons": 20000,
+    "k_out": 64,
+    "steps": 25,
+    "seed": 0,
+    "spike_trajectories_identical": true,
+    "final_soma_potentials_bitwise_identical": false,
+    "max_abs_diff_v_soma": 1.1920928955078125e-07,
+    "note": "Determinism holds for the discrete spike output. The continuous soma state is reproducible only to fp32 reduction order: MLX scatter_add accumulates with atomics, so two runs differ by ~1 ULP instead of bit-for-bit.",
+    "guard_passed": true
+  },
+  "configurations": [
+    {
+      "label": "forced_activity",
+      "n_neurons": 10000,
+      "k_out": 64,
+      "n_synapses": 640000,
+      "spike_capacity": 1000,
+      "spike_capacity_frac": 0.1,
+      "drive": {
+        "kind": "uniform_per_neuron",
+        "low": 1.0,
+        "high": 2.0
+      },
+      "noise_std": 0.05,
+      "seed": 0,
+      "build_seconds": 0.0012623750371858478,
+      "warmup_steps": 20,
+      "steps_per_rep": 400,
+      "reps": 3,
+      "timed_steps": 1200,
+      "ms_per_step": 1.057062007021159,
+      "ms_per_step_mean": 1.106397571808581,
+      "ms_per_step_min": 0.6781250122003257,
+      "ms_per_step_p10": 0.8200003416277468,
+      "ms_per_step_p90": 1.29849131917581,
+      "ms_per_step_rep_medians": [
+        0.8586670155636966,
+        1.063020492438227,
+        1.1659375159069896
+      ],
+      "ms_per_step_rep_spread": 1.3578459341908882,
+      "bio_ms_per_wall_s": 946.0182972785467,
+      "realtime_factor": 0.9460182972785467,
+      "mean_spikes_per_step": 378.6425,
+      "mean_active_frac": 0.037864249999999995,
+      "algorithmic_synaptic_events_per_s": 22924974.920146696,
+      "delivered_synaptic_events_per_s": 22924974.920146696,
+      "rows_gathered_per_s": 60545171.02582699,
+      "scheduled_padded_rows_per_s": 60545171.02582699,
+      "padded_fraction_of_gather": 0.6213575,
+      "overflow": 0,
+      "overflow_total_including_warmup": 0,
+      "overflow_step_frac": 0.0,
+      "spike_truncated": false,
+      "ram": {
+        "total_bytes": 8040000,
+        "by_array": {
+          "synapse_targets": 2560000,
+          "synapse_weights": 2560000,
+          "synapse_delays": 2560000,
+          "neuron_state": 160000,
+          "eligibility": 0,
+          "delay_buffer": 200000
+        }
+      },
+      "mlx_memory_gb": {
+        "active": 0.008234796,
+        "peak": 0.01826196
+      },
+      "process_max_rss_bytes": 70287360,
+      "naive_dispatch_ms_per_step": 0.5398339999374002,
+      "speedup_from_forcing_eval": 0.5106928414338465,
+      "spike_accounting": {
+        "device_spike_count_sum": 468135.0,
+        "per_step_readout_sum": 468135.0,
+        "abs_error": 0.0,
+        "rel_error": 0.0,
+        "tolerance": 468.135,
+        "note": "fp32 accumulation across n_neurons, so the tolerance is relative"
+      },
+      "checks": {
+        "ms_per_step_above_plausible_floor": true,
+        "evaluated_slower_than_dispatch_only": true,
+        "spike_accounting_consistent": true,
+        "overflow_accounting_consistent": true,
+        "state_finite": true
+      },
+      "spontaneous": {
+        "label": "spontaneous",
+        "n_neurons": 10000,
+        "k_out": 64,
+        "n_synapses": 640000,
+        "spike_capacity": 1000,
+        "spike_capacity_frac": 0.1,
+        "drive": null,
+        "noise_std": 0.05,
+        "seed": 0,
+        "build_seconds": 0.0020430420408956707,
+        "warmup_steps": 10,
+        "steps_per_rep": 400,
+        "reps": 1,
+        "timed_steps": 400,
+        "ms_per_step": 1.151062489952892,
+        "ms_per_step_mean": 1.161068124929443,
+        "ms_per_step_min": 1.0165420244447887,
+        "ms_per_step_p10": 1.085863122716546,
+        "ms_per_step_p90": 1.2495212198700756,
+        "ms_per_step_rep_medians": [
+          1.151062489952892
+        ],
+        "ms_per_step_rep_spread": 1.0,
+        "bio_ms_per_wall_s": 868.7625639168605,
+        "realtime_factor": 0.8687625639168605,
+        "mean_spikes_per_step": 32.0,
+        "mean_active_frac": 0.0032,
+        "algorithmic_synaptic_events_per_s": 1779225.7309017302,
+        "delivered_synaptic_events_per_s": 1779225.7309017302,
+        "rows_gathered_per_s": 55600804.09067907,
+        "scheduled_padded_rows_per_s": 55600804.09067907,
+        "padded_fraction_of_gather": 0.968,
+        "overflow": 0,
+        "overflow_total_including_warmup": 0,
+        "overflow_step_frac": 0.0,
+        "spike_truncated": false,
+        "ram": {
+          "total_bytes": 8040000,
+          "by_array": {
+            "synapse_targets": 2560000,
+            "synapse_weights": 2560000,
+            "synapse_delays": 2560000,
+            "neuron_state": 160000,
+            "eligibility": 0,
+            "delay_buffer": 200000
+          }
+        },
+        "mlx_memory_gb": {
+          "active": 0.008234796,
+          "peak": 0.026227112
+        },
+        "process_max_rss_bytes": 70483968,
+        "naive_dispatch_ms_per_step": 0.5732914723921567,
+        "speedup_from_forcing_eval": 0.49805416942708214,
+        "spike_accounting": {
+          "device_spike_count_sum": 13377.0,
+          "per_step_readout_sum": 13377.0,
+          "abs_error": 0.0,
+          "rel_error": 0.0,
+          "tolerance": 13.377,
+          "note": "fp32 accumulation across n_neurons, so the tolerance is relative"
+        },
+        "checks": {
+          "ms_per_step_above_plausible_floor": true,
+          "evaluated_slower_than_dispatch_only": true,
+          "spike_accounting_consistent": true,
+          "overflow_accounting_consistent": true,
+          "state_finite": true
+        }
+      },
+      "status": "ok",
+      "estimated_peak_gb": 0.016
+    },
+    {
+      "label": "forced_activity",
+      "n_neurons": 10000,
+      "k_out": 256,
+      "n_synapses": 2560000,
+      "spike_capacity": 1000,
+      "spike_capacity_frac": 0.1,
+      "drive": {
+        "kind": "uniform_per_neuron",
+        "low": 1.0,
+        "high": 2.0
+      },
+      "noise_std": 0.05,
+      "seed": 0,
+      "build_seconds": 0.0038509159930981696,
+      "warmup_steps": 20,
+      "steps_per_rep": 305,
+      "reps": 3,
+      "timed_steps": 915,
+      "ms_per_step": 1.2558330199681222,
+      "ms_per_step_mean": 1.340463285746633,
+      "ms_per_step_min": 1.0059999767690897,
+      "ms_per_step_p10": 1.1584414052776992,
+      "ms_per_step_p90": 1.423008379060775,
+      "ms_per_step_rep_medians": [
+        1.2693749740719795,
+        1.2379169929772615,
+        1.2634999584406614
+      ],
+      "ms_per_step_rep_spread": 1.0254120278445,
+      "bio_ms_per_wall_s": 796.2842066578116,
+      "realtime_factor": 0.7962842066578116,
+      "mean_spikes_per_step": 496.16612021857924,
+      "mean_active_frac": 0.04961661202185792,
+      "algorithmic_synaptic_events_per_s": 101142846.82463636,
+      "delivered_synaptic_events_per_s": 101142846.82463636,
+      "rows_gathered_per_s": 203848756.90439978,
+      "scheduled_padded_rows_per_s": 203848756.90439978,
+      "padded_fraction_of_gather": 0.5038338797814208,
+      "overflow": 0,
+      "overflow_total_including_warmup": 0,
+      "overflow_step_frac": 0.0,
+      "spike_truncated": false,
+      "ram": {
+        "total_bytes": 31080000,
+        "by_array": {
+          "synapse_targets": 10240000,
+          "synapse_weights": 10240000,
+          "synapse_delays": 10240000,
+          "neuron_state": 160000,
+          "eligibility": 0,
+          "delay_buffer": 200000
+        }
+      },
+      "mlx_memory_gb": {
+        "active": 0.031237932,
+        "peak": 0.071935928
+      },
+      "process_max_rss_bytes": 70565888,
+      "naive_dispatch_ms_per_step": 0.6074999691918492,
+      "speedup_from_forcing_eval": 0.4837426310125767,
+      "spike_accounting": {
+        "device_spike_count_sum": 472431.0,
+        "per_step_readout_sum": 472431.0,
+        "abs_error": 0.0,
+        "rel_error": 0.0,
+        "tolerance": 472.431,
+        "note": "fp32 accumulation across n_neurons, so the tolerance is relative"
+      },
+      "checks": {
+        "ms_per_step_above_plausible_floor": true,
+        "evaluated_slower_than_dispatch_only": true,
+        "spike_accounting_consistent": true,
+        "overflow_accounting_consistent": true,
+        "state_finite": true
+      },
+      "spontaneous": {
+        "label": "spontaneous",
+        "n_neurons": 10000,
+        "k_out": 256,
+        "n_synapses": 2560000,
+        "spike_capacity": 1000,
+        "spike_capacity_frac": 0.1,
+        "drive": null,
+        "noise_std": 0.05,
+        "seed": 0,
+        "build_seconds": 0.004180458025075495,
+        "warmup_steps": 10,
+        "steps_per_rep": 400,
+        "reps": 1,
+        "timed_steps": 400,
+        "ms_per_step": 1.224937499500811,
+        "ms_per_step_mean": 1.2344961546477862,
+        "ms_per_step_min": 1.0487090330570936,
+        "ms_per_step_p10": 1.1453208164311945,
+        "ms_per_step_p90": 1.3344337232410908,
+        "ms_per_step_rep_medians": [
+          1.224937499500811
+        ],
+        "ms_per_step_rep_spread": 1.0,
+        "bio_ms_per_wall_s": 816.3681823827925,
+        "realtime_factor": 0.8163681823827925,
+        "mean_spikes_per_step": 127.0,
+        "mean_active_frac": 0.0127,
+        "algorithmic_synaptic_events_per_s": 26541762.34562935,
+        "delivered_synaptic_events_per_s": 26541762.34562935,
+        "rows_gathered_per_s": 208990254.6899949,
+        "scheduled_padded_rows_per_s": 208990254.6899949,
+        "padded_fraction_of_gather": 0.873,
+        "overflow": 0,
+        "overflow_total_including_warmup": 0,
+        "overflow_step_frac": 0.0,
+        "spike_truncated": false,
+        "ram": {
+          "total_bytes": 31080000,
+          "by_array": {
+            "synapse_targets": 10240000,
+            "synapse_weights": 10240000,
+            "synapse_delays": 10240000,
+            "neuron_state": 160000,
+            "eligibility": 0,
+            "delay_buffer": 200000
+          }
+        },
+        "mlx_memory_gb": {
+          "active": 0.031237932,
+          "peak": 0.071935928
+        },
+        "process_max_rss_bytes": 70565888,
+        "naive_dispatch_ms_per_step": 0.5837499920744449,
+        "speedup_from_forcing_eval": 0.47655491999578414,
+        "spike_accounting": {
+          "device_spike_count_sum": 53102.0,
+          "per_step_readout_sum": 53102.0,
+          "abs_error": 0.0,
+          "rel_error": 0.0,
+          "tolerance": 53.102000000000004,
+          "note": "fp32 accumulation across n_neurons, so the tolerance is relative"
+        },
+        "checks": {
+          "ms_per_step_above_plausible_floor": true,
+          "evaluated_slower_than_dispatch_only": true,
+          "spike_accounting_consistent": true,
+          "overflow_accounting_consistent": true,
+          "state_finite": true
+        }
+      },
+      "status": "ok",
+      "estimated_peak_gb": 0.06208
+    },
+    {
+      "label": "forced_activity",
+      "n_neurons": 10000,
+      "k_out": 1024,
+      "n_synapses": 10240000,
+      "spike_capacity": 1000,
+      "spike_capacity_frac": 0.1,
+      "drive": {
+        "kind": "uniform_per_neuron",
+        "low": 1.0,
+        "high": 2.0
+      },
+      "noise_std": 0.05,
+      "seed": 0,
+      "build_seconds": 0.011656749993562698,
+      "warmup_steps": 20,
+      "steps_per_rep": 400,
+      "reps": 3,
+      "timed_steps": 1200,
+      "ms_per_step": 1.4493545168079436,
+      "ms_per_step_mean": 1.5067698643542826,
+      "ms_per_step_min": 0.9549590176902711,
+      "ms_per_step_p10": 1.321795821422711,
+      "ms_per_step_p90": 1.622146076988429,
+      "ms_per_step_rep_medians": [
+        1.4307494857348502,
+        1.4647085044998676,
+        1.443166984245181
+      ],
+      "ms_per_step_rep_spread": 1.0237351256132554,
+      "bio_ms_per_wall_s": 689.9623166058768,
+      "realtime_factor": 0.6899623166058768,
+      "mean_spikes_per_step": 3613.1858333333334,
+      "mean_active_frac": 0.36131858333333333,
+      "algorithmic_synaptic_events_per_s": 2552793157.523663,
+      "delivered_synaptic_events_per_s": 706521412.2044178,
+      "rows_gathered_per_s": 706521412.2044178,
+      "scheduled_padded_rows_per_s": 706521412.2044178,
+      "padded_fraction_of_gather": -2.6131858333333335,
+      "overflow": 3180275,
+      "overflow_total_including_warmup": 3180367,
+      "overflow_step_frac": 2650.2291666666665,
+      "spike_truncated": true,
+      "ram": {
+        "total_bytes": 123240000,
+        "by_array": {
+          "synapse_targets": 40960000,
+          "synapse_weights": 40960000,
+          "synapse_delays": 40960000,
+          "neuron_state": 160000,
+          "eligibility": 0,
+          "delay_buffer": 200000
+        }
+      },
+      "mlx_memory_gb": {
+        "active": 0.123397932,
+        "peak": 0.286975928
+      },
+      "process_max_rss_bytes": 70631424,
+      "naive_dispatch_ms_per_step": 0.5849165027029812,
+      "speedup_from_forcing_eval": 0.40357034522595653,
+      "spike_accounting": {
+        "device_spike_count_sum": 4368165.0,
+        "per_step_readout_sum": 4368165.0,
+        "abs_error": 0.0,
+        "rel_error": 0.0,
+        "tolerance": 4368.165,
+        "note": "fp32 accumulation across n_neurons, so the tolerance is relative"
+      },
+      "checks": {
+        "ms_per_step_above_plausible_floor": true,
+        "evaluated_slower_than_dispatch_only": true,
+        "spike_accounting_consistent": true,
+        "overflow_accounting_consistent": true,
+        "state_finite": true
+      },
+      "spontaneous": {
+        "label": "spontaneous",
+        "n_neurons": 10000,
+        "k_out": 1024,
+        "n_synapses": 10240000,
+        "spike_capacity": 1000,
+        "spike_capacity_frac": 0.1,
+        "drive": null,
+        "noise_std": 0.05,
+        "seed": 0,
+        "build_seconds": 0.012458082986995578,
+        "warmup_steps": 10,
+        "steps_per_rep": 362,
+        "reps": 1,
+        "timed_steps": 362,
+        "ms_per_step": 1.5908959903754294,
+        "ms_per_step_mean": 1.6058055825148148,
+        "ms_per_step_min": 1.4242089819163084,
+        "ms_per_step_p10": 1.5149589802604169,
+        "ms_per_step_p90": 1.728779182303697,
+        "ms_per_step_rep_medians": [
+          1.5908959903754294
+        ],
+        "ms_per_step_rep_spread": 1.0,
+        "bio_ms_per_wall_s": 628.5766046616371,
+        "realtime_factor": 0.6285766046616371,
+        "mean_spikes_per_step": 581.0524861878453,
+        "mean_active_frac": 0.05810524861878453,
+        "algorithmic_synaptic_events_per_s": 374001662.8717144,
+        "delivered_synaptic_events_per_s": 374001662.8717144,
+        "rows_gathered_per_s": 643662443.1735165,
+        "scheduled_padded_rows_per_s": 643662443.1735165,
+        "padded_fraction_of_gather": 0.4189475138121548,
+        "overflow": 0,
+        "overflow_total_including_warmup": 0,
+        "overflow_step_frac": 0.0,
+        "spike_truncated": false,
+        "ram": {
+          "total_bytes": 123240000,
+          "by_array": {
+            "synapse_targets": 40960000,
+            "synapse_weights": 40960000,
+            "synapse_delays": 40960000,
+            "neuron_state": 160000,
+            "eligibility": 0,
+            "delay_buffer": 200000
+          }
+        },
+        "mlx_memory_gb": {
+          "active": 0.123397932,
+          "peak": 0.286975928
+        },
+        "process_max_rss_bytes": 70647808,
+        "naive_dispatch_ms_per_step": 0.6540209869854152,
+        "speedup_from_forcing_eval": 0.4111022913767451,
+        "spike_accounting": {
+          "device_spike_count_sum": 219871.0,
+          "per_step_readout_sum": 219871.0,
+          "abs_error": 0.0,
+          "rel_error": 0.0,
+          "tolerance": 219.871,
+          "note": "fp32 accumulation across n_neurons, so the tolerance is relative"
+        },
+        "checks": {
+          "ms_per_step_above_plausible_floor": true,
+          "evaluated_slower_than_dispatch_only": true,
+          "spike_accounting_consistent": true,
+          "overflow_accounting_consistent": true,
+          "state_finite": true
+        }
+      },
+      "status": "ok",
+      "estimated_peak_gb": 0.2464
+    },
+    {
+      "label": "forced_activity",
+      "n_neurons": 100000,
+      "k_out": 64,
+      "n_synapses": 6400000,
+      "spike_capacity": 10000,
+      "spike_capacity_frac": 0.1,
+      "drive": {
+        "kind": "uniform_per_neuron",
+        "low": 1.0,
+        "high": 2.0
+      },
+      "noise_std": 0.05,
+      "seed": 0,
+      "build_seconds": 0.009464250004384667,
+      "warmup_steps": 20,
+      "steps_per_rep": 400,
+      "reps": 3,
+      "timed_steps": 1200,
+      "ms_per_step": 1.6314999957103282,
+      "ms_per_step_mean": 1.6119514002639335,
+      "ms_per_step_min": 0.901290972251445,
+      "ms_per_step_p10": 1.5058997320011258,
+      "ms_per_step_p90": 1.767300278879702,
+      "ms_per_step_rep_medians": [
+        1.682437490671873,
+        1.6008544771466404,
+        1.5968749939929694
+      ],
+      "ms_per_step_rep_spread": 1.0535812114290521,
+      "bio_ms_per_wall_s": 612.9328854607912,
+      "realtime_factor": 0.6129328854607913,
+      "mean_spikes_per_step": 3597.6758333333332,
+      "mean_active_frac": 0.03597675833333333,
+      "algorithmic_synaptic_events_per_s": 141128565.08656362,
+      "delivered_synaptic_events_per_s": 141128565.08656362,
+      "rows_gathered_per_s": 392277046.6949064,
+      "scheduled_padded_rows_per_s": 392277046.6949064,
+      "padded_fraction_of_gather": 0.6402324166666666,
+      "overflow": 0,
+      "overflow_total_including_warmup": 0,
+      "overflow_step_frac": 0.0,
+      "spike_truncated": false,
+      "ram": {
+        "total_bytes": 80400000,
+        "by_array": {
+          "synapse_targets": 25600000,
+          "synapse_weights": 25600000,
+          "synapse_delays": 25600000,
+          "neuron_state": 1600000,
+          "eligibility": 0,
+          "delay_buffer": 2000000
+        }
+      },
+      "mlx_memory_gb": {
+        "active": 0.081412124,
+        "peak": 0.181420204
+      },
+      "process_max_rss_bytes": 73924608,
+      "naive_dispatch_ms_per_step": 0.6990625115577132,
+      "speedup_from_forcing_eval": 0.42847840232653683,
+      "spike_accounting": {
+        "device_spike_count_sum": 4447666.0,
+        "per_step_readout_sum": 4447666.0,
+        "abs_error": 0.0,
+        "rel_error": 0.0,
+        "tolerance": 4447.666,
+        "note": "fp32 accumulation across n_neurons, so the tolerance is relative"
+      },
+      "checks": {
+        "ms_per_step_above_plausible_floor": true,
+        "evaluated_slower_than_dispatch_only": true,
+        "spike_accounting_consistent": true,
+        "overflow_accounting_consistent": true,
+        "state_finite": true
+      },
+      "spontaneous": {
+        "label": "spontaneous",
+        "n_neurons": 100000,
+        "k_out": 64,
+        "n_synapses": 6400000,
+        "spike_capacity": 10000,
+        "spike_capacity_frac": 0.1,
+        "drive": null,
+        "noise_std": 0.05,
+        "seed": 0,
+        "build_seconds": 0.006986375025007874,
+        "warmup_steps": 10,
+        "steps_per_rep": 400,
+        "reps": 1,
+        "timed_steps": 400,
+        "ms_per_step": 1.049375016009435,
+        "ms_per_step_mean": 1.0605853448214475,
+        "ms_per_step_min": 0.933125033043325,
+        "ms_per_step_p10": 0.9957253350876272,
+        "ms_per_step_p90": 1.1554166325367987,
+        "ms_per_step_rep_medians": [
+          1.049375016009435
+        ],
+        "ms_per_step_rep_spread": 1.0,
+        "bio_ms_per_wall_s": 952.9481689041936,
+        "realtime_factor": 0.9529481689041936,
+        "mean_spikes_per_step": 32.0,
+        "mean_active_frac": 0.00032,
+        "algorithmic_synaptic_events_per_s": 1951637.8499157885,
+        "delivered_synaptic_events_per_s": 1951637.8499157885,
+        "rows_gathered_per_s": 609886828.098684,
+        "scheduled_padded_rows_per_s": 609886828.098684,
+        "padded_fraction_of_gather": 0.9968,
+        "overflow": 0,
+        "overflow_total_including_warmup": 0,
+        "overflow_step_frac": 0.0,
+        "spike_truncated": false,
+        "ram": {
+          "total_bytes": 80400000,
+          "by_array": {
+            "synapse_targets": 25600000,
+            "synapse_weights": 25600000,
+            "synapse_delays": 25600000,
+            "neuron_state": 1600000,
+            "eligibility": 0,
+            "delay_buffer": 2000000
+          }
+        },
+        "mlx_memory_gb": {
+          "active": 0.081412124,
+          "peak": 0.293617688
+        },
+        "process_max_rss_bytes": 74072064,
+        "naive_dispatch_ms_per_step": 0.48393700853921473,
+        "speedup_from_forcing_eval": 0.4611668861524178,
+        "spike_accounting": {
+          "device_spike_count_sum": 13400.0,
+          "per_step_readout_sum": 13400.0,
+          "abs_error": 0.0,
+          "rel_error": 0.0,
+          "tolerance": 13.4,
+          "note": "fp32 accumulation across n_neurons, so the tolerance is relative"
+        },
+        "checks": {
+          "ms_per_step_above_plausible_floor": true,
+          "evaluated_slower_than_dispatch_only": true,
+          "spike_accounting_consistent": true,
+          "overflow_accounting_consistent": true,
+          "state_finite": true
+        }
+      },
+      "status": "ok",
+      "estimated_peak_gb": 0.16
+    },
+    {
+      "label": "forced_activity",
+      "n_neurons": 100000,
+      "k_out": 256,
+      "n_synapses": 25600000,
+      "spike_capacity": 10000,
+      "spike_capacity_frac": 0.1,
+      "drive": {
+        "kind": "uniform_per_neuron",
+        "low": 1.0,
+        "high": 2.0
+      },
+      "noise_std": 0.05,
+      "seed": 0,
+      "build_seconds": 0.023116624972317368,
+      "warmup_steps": 20,
+      "steps_per_rep": 400,
+      "reps": 3,
+      "timed_steps": 1200,
+      "ms_per_step": 1.1704375210683793,
+      "ms_per_step_mean": 1.1855793202024263,
+      "ms_per_step_min": 1.0109999566338956,
+      "ms_per_step_p10": 1.0948039183858782,
+      "ms_per_step_p90": 1.2872834166046232,
+      "ms_per_step_rep_medians": [
+        1.1696455185301602,
+        1.1687710066325963,
+        1.1729374818969518
+      ],
+      "ms_per_step_rep_spread": 1.003564834549036,
+      "bio_ms_per_wall_s": 854.3813591068036,
+      "realtime_factor": 0.8543813591068037,
+      "mean_spikes_per_step": 3776.5866666666666,
+      "mean_active_frac": 0.03776586666666667,
+      "algorithmic_synaptic_events_per_s": 826021183.7571328,
+      "delivered_synaptic_events_per_s": 826021183.7571328,
+      "rows_gathered_per_s": 2187216279.3134174,
+      "scheduled_padded_rows_per_s": 2187216279.3134174,
+      "padded_fraction_of_gather": 0.6223413333333334,
+      "overflow": 0,
+      "overflow_total_including_warmup": 0,
+      "overflow_step_frac": 0.0,
+      "spike_truncated": false,
+      "ram": {
+        "total_bytes": 310800000,
+        "by_array": {
+          "synapse_targets": 102400000,
+          "synapse_weights": 102400000,
+          "synapse_delays": 102400000,
+          "neuron_state": 1600000,
+          "eligibility": 0,
+          "delay_buffer": 2000000
+        }
+      },
+      "mlx_memory_gb": {
+        "active": 0.311787548,
+        "peak": 0.718962856
+      },
+      "process_max_rss_bytes": 74432512,
+      "naive_dispatch_ms_per_step": 0.49827099428512156,
+      "speedup_from_forcing_eval": 0.42571344930082056,
+      "spike_accounting": {
+        "device_spike_count_sum": 4670551.0,
+        "per_step_readout_sum": 4670551.0,
+        "abs_error": 0.0,
+        "rel_error": 0.0,
+        "tolerance": 4670.551,
+        "note": "fp32 accumulation across n_neurons, so the tolerance is relative"
+      },
+      "checks": {
+        "ms_per_step_above_plausible_floor": true,
+        "evaluated_slower_than_dispatch_only": true,
+        "spike_accounting_consistent": true,
+        "overflow_accounting_consistent": true,
+        "state_finite": true
+      },
+      "spontaneous": {
+        "label": "spontaneous",
+        "n_neurons": 100000,
+        "k_out": 256,
+        "n_synapses": 25600000,
+        "spike_capacity": 10000,
+        "spike_capacity_frac": 0.1,
+        "drive": null,
+        "noise_std": 0.05,
+        "seed": 0,
+        "build_seconds": 0.022807334025856107,
+        "warmup_steps": 10,
+        "steps_per_rep": 400,
+        "reps": 1,
+        "timed_steps": 400,
+        "ms_per_step": 1.1789170384872705,
+        "ms_per_step_mean": 1.1951633177523036,
+        "ms_per_step_min": 1.0371670359745622,
+        "ms_per_step_p10": 1.1126003286335617,
+        "ms_per_step_p90": 1.3009497139137238,
+        "ms_per_step_rep_medians": [
+          1.1789170384872705
+        ],
+        "ms_per_step_rep_spread": 1.0,
+        "bio_ms_per_wall_s": 848.2361076765434,
+        "realtime_factor": 0.8482361076765433,
+        "mean_spikes_per_step": 128.0,
+        "mean_active_frac": 0.00128,
+        "algorithmic_synaptic_events_per_s": 27795000.776344974,
+        "delivered_synaptic_events_per_s": 27795000.776344974,
+        "rows_gathered_per_s": 2171484435.651951,
+        "scheduled_padded_rows_per_s": 2171484435.651951,
+        "padded_fraction_of_gather": 0.9872,
+        "overflow": 0,
+        "overflow_total_including_warmup": 0,
+        "overflow_step_frac": 0.0,
+        "spike_truncated": false,
+        "ram": {
+          "total_bytes": 310800000,
+          "by_array": {
+            "synapse_targets": 102400000,
+            "synapse_weights": 102400000,
+            "synapse_delays": 102400000,
+            "neuron_state": 1600000,
+            "eligibility": 0,
+            "delay_buffer": 2000000
+          }
+        },
+        "mlx_memory_gb": {
+          "active": 0.311787548,
+          "peak": 0.718962856
+        },
+        "process_max_rss_bytes": 74465280,
+        "naive_dispatch_ms_per_step": 0.4988124710507691,
+        "speedup_from_forcing_eval": 0.42311074890462286,
+        "spike_accounting": {
+          "device_spike_count_sum": 53540.0,
+          "per_step_readout_sum": 53540.0,
+          "abs_error": 0.0,
+          "rel_error": 0.0,
+          "tolerance": 53.54,
+          "note": "fp32 accumulation across n_neurons, so the tolerance is relative"
+        },
+        "checks": {
+          "ms_per_step_above_plausible_floor": true,
+          "evaluated_slower_than_dispatch_only": true,
+          "spike_accounting_consistent": true,
+          "overflow_accounting_consistent": true,
+          "state_finite": true
+        }
+      },
+      "status": "ok",
+      "estimated_peak_gb": 0.6208
+    },
+    {
+      "label": "forced_activity",
+      "n_neurons": 100000,
+      "k_out": 1024,
+      "n_synapses": 102400000,
+      "spike_capacity": 10000,
+      "spike_capacity_frac": 0.1,
+      "drive": {
+        "kind": "uniform_per_neuron",
+        "low": 1.0,
+        "high": 2.0
+      },
+      "noise_std": 0.05,
+      "seed": 0,
+      "build_seconds": 0.08973558299476281,
+      "warmup_steps": 20,
+      "steps_per_rep": 400,
+      "reps": 3,
+      "timed_steps": 1200,
+      "ms_per_step": 2.2037705057300627,
+      "ms_per_step_mean": 2.2241808844167585,
+      "ms_per_step_min": 2.071250055450946,
+      "ms_per_step_p10": 2.128995826933533,
+      "ms_per_step_p90": 2.336466580163688,
+      "ms_per_step_rep_medians": [
+        2.236583473859355,
+        2.2077705070842057,
+        2.178167022066191
+      ],
+      "ms_per_step_rep_spread": 1.0268190874259728,
+      "bio_ms_per_wall_s": 453.76775730498355,
+      "realtime_factor": 0.45376775730498353,
+      "mean_spikes_per_step": 4085.5633333333335,
+      "mean_active_frac": 0.040855633333333335,
+      "algorithmic_synaptic_events_per_s": 1898390436.9603992,
+      "delivered_synaptic_events_per_s": 1898390436.9603992,
+      "rows_gathered_per_s": 4646581834.803032,
+      "scheduled_padded_rows_per_s": 4646581834.803032,
+      "padded_fraction_of_gather": 0.5914436666666667,
+      "overflow": 0,
+      "overflow_total_including_warmup": 0,
+      "overflow_step_frac": 0.0,
+      "spike_truncated": false,
+      "ram": {
+        "total_bytes": 1232400000,
+        "by_array": {
+          "synapse_targets": 409600000,
+          "synapse_weights": 409600000,
+          "synapse_delays": 409600000,
+          "neuron_state": 1600000,
+          "eligibility": 0,
+          "delay_buffer": 2000000
+        }
+      },
+      "mlx_memory_gb": {
+        "active": 1.233387548,
+        "peak": 2.868953152
+      },
+      "process_max_rss_bytes": 74727424,
+      "naive_dispatch_ms_per_step": 0.49775000661611557,
+      "speedup_from_forcing_eval": 0.2258629042007355,
+      "spike_accounting": {
+        "device_spike_count_sum": 5058519.0,
+        "per_step_readout_sum": 5058519.0,
+        "abs_error": 0.0,
+        "rel_error": 0.0,
+        "tolerance": 5058.519,
+        "note": "fp32 accumulation across n_neurons, so the tolerance is relative"
+      },
+      "checks": {
+        "ms_per_step_above_plausible_floor": true,
+        "evaluated_slower_than_dispatch_only": true,
+        "spike_accounting_consistent": true,
+        "overflow_accounting_consistent": true,
+        "state_finite": true
+      },
+      "spontaneous": {
+        "label": "spontaneous",
+        "n_neurons": 100000,
+        "k_out": 1024,
+        "n_synapses": 102400000,
+        "spike_capacity": 10000,
+        "spike_capacity_frac": 0.1,
+        "drive": null,
+        "noise_std": 0.05,
+        "seed": 0,
+        "build_seconds": 0.09363141702488065,
+        "warmup_steps": 10,
+        "steps_per_rep": 281,
+        "reps": 1,
+        "timed_steps": 281,
+        "ms_per_step": 2.1039160201326013,
+        "ms_per_step_mean": 2.118706119659413,
+        "ms_per_step_min": 1.9877500017173588,
+        "ms_per_step_p10": 2.0429579890333116,
+        "ms_per_step_p90": 2.217791974544525,
+        "ms_per_step_rep_medians": [
+          2.1039160201326013
+        ],
+        "ms_per_step_rep_spread": 1.0,
+        "bio_ms_per_wall_s": 475.3041425755074,
+        "realtime_factor": 0.4753041425755074,
+        "mean_spikes_per_step": 510.83274021352315,
+        "mean_active_frac": 0.0051083274021352315,
+        "algorithmic_synaptic_events_per_s": 248628139.608766,
+        "delivered_synaptic_events_per_s": 248628139.608766,
+        "rows_gathered_per_s": 4867114419.973196,
+        "scheduled_padded_rows_per_s": 4867114419.973196,
+        "padded_fraction_of_gather": 0.9489167259786477,
+        "overflow": 0,
+        "overflow_total_including_warmup": 0,
+        "overflow_step_frac": 0.0,
+        "spike_truncated": false,
+        "ram": {
+          "total_bytes": 1232400000,
+          "by_array": {
+            "synapse_targets": 409600000,
+            "synapse_weights": 409600000,
+            "synapse_delays": 409600000,
+            "neuron_state": 1600000,
+            "eligibility": 0,
+            "delay_buffer": 2000000
+          }
+        },
+        "mlx_memory_gb": {
+          "active": 1.233387548,
+          "peak": 2.868953152
+        },
+        "process_max_rss_bytes": 74743808,
+        "naive_dispatch_ms_per_step": 0.4897909821011126,
+        "speedup_from_forcing_eval": 0.23279968278878502,
+        "spike_accounting": {
+          "device_spike_count_sum": 152763.0,
+          "per_step_readout_sum": 152763.0,
+          "abs_error": 0.0,
+          "rel_error": 0.0,
+          "tolerance": 152.763,
+          "note": "fp32 accumulation across n_neurons, so the tolerance is relative"
+        },
+        "checks": {
+          "ms_per_step_above_plausible_floor": true,
+          "evaluated_slower_than_dispatch_only": true,
+          "spike_accounting_consistent": true,
+          "overflow_accounting_consistent": true,
+          "state_finite": true
+        }
+      },
+      "status": "ok",
+      "estimated_peak_gb": 2.464
+    },
+    {
+      "label": "forced_activity",
+      "n_neurons": 1000000,
+      "k_out": 64,
+      "n_synapses": 64000000,
+      "spike_capacity": 100000,
+      "spike_capacity_frac": 0.1,
+      "drive": {
+        "kind": "uniform_per_neuron",
+        "low": 1.0,
+        "high": 2.0
+      },
+      "noise_std": 0.05,
+      "seed": 0,
+      "build_seconds": 0.06427570799132809,
+      "warmup_steps": 20,
+      "steps_per_rep": 400,
+      "reps": 3,
+      "timed_steps": 1200,
+      "ms_per_step": 2.6456250343471766,
+      "ms_per_step_mean": 2.6652195145046185,
+      "ms_per_step_min": 2.4421249981969595,
+      "ms_per_step_p10": 2.5491830019745976,
+      "ms_per_step_p90": 2.80462889932096,
+      "ms_per_step_rep_medians": [
+        2.6410419668536633,
+        2.6357294991612434,
+        2.664645988261327
+      ],
+      "ms_per_step_rep_spread": 1.0109709623500005,
+      "bio_ms_per_wall_s": 377.98251340132026,
+      "realtime_factor": 0.3779825134013203,
+      "mean_spikes_per_step": 35670.45583333333,
+      "mean_active_frac": 0.03567045583333334,
+      "algorithmic_synaptic_events_per_s": 862899747.2034636,
+      "delivered_synaptic_events_per_s": 862899747.2034636,
+      "rows_gathered_per_s": 2419088085.76845,
+      "scheduled_padded_rows_per_s": 2419088085.76845,
+      "padded_fraction_of_gather": 0.6432954416666667,
+      "overflow": 0,
+      "overflow_total_including_warmup": 0,
+      "overflow_step_frac": 0.0,
+      "spike_truncated": false,
+      "ram": {
+        "total_bytes": 804000000,
+        "by_array": {
+          "synapse_targets": 256000000,
+          "synapse_weights": 256000000,
+          "synapse_delays": 256000000,
+          "neuron_state": 16000000,
+          "eligibility": 0,
+          "delay_buffer": 20000000
+        }
+      },
+      "mlx_memory_gb": {
+        "active": 0.81310518,
+        "peak": 1.809072192
+      },
+      "process_max_rss_bytes": 103940096,
+      "naive_dispatch_ms_per_step": 0.8243335178121924,
+      "speedup_from_forcing_eval": 0.3115836549436045,
+      "spike_accounting": {
+        "device_spike_count_sum": 44097752.0,
+        "per_step_readout_sum": 44097753.0,
+        "abs_error": 1.0,
+        "rel_error": 2.2676892403111788e-08,
+        "tolerance": 44097.753000000004,
+        "note": "fp32 accumulation across n_neurons, so the tolerance is relative"
+      },
+      "checks": {
+        "ms_per_step_above_plausible_floor": true,
+        "evaluated_slower_than_dispatch_only": true,
+        "spike_accounting_consistent": true,
+        "overflow_accounting_consistent": true,
+        "state_finite": true
+      },
+      "spontaneous": {
+        "label": "spontaneous",
+        "n_neurons": 1000000,
+        "k_out": 64,
+        "n_synapses": 64000000,
+        "spike_capacity": 100000,
+        "spike_capacity_frac": 0.1,
+        "drive": null,
+        "noise_std": 0.05,
+        "seed": 0,
+        "build_seconds": 0.060418790963012725,
+        "warmup_steps": 10,
+        "steps_per_rep": 187,
+        "reps": 1,
+        "timed_steps": 187,
+        "ms_per_step": 3.1779580167494714,
+        "ms_per_step_mean": 3.1886817632183275,
+        "ms_per_step_min": 2.9419170459732413,
+        "ms_per_step_p10": 3.075383394025266,
+        "ms_per_step_p90": 3.31455881241709,
+        "ms_per_step_rep_medians": [
+          3.1779580167494714
+        ],
+        "ms_per_step_rep_spread": 1.0,
+        "bio_ms_per_wall_s": 314.66746720047473,
+        "realtime_factor": 0.3146674672004747,
+        "mean_spikes_per_step": 32.01069518716577,
+        "mean_active_frac": 3.2010695187165775e-05,
+        "algorithmic_synaptic_events_per_s": 644654.3601838003,
+        "delivered_synaptic_events_per_s": 644654.3601838003,
+        "rows_gathered_per_s": 2013871790.0830383,
+        "scheduled_padded_rows_per_s": 2013871790.0830383,
+        "padded_fraction_of_gather": 0.9996798930481283,
+        "overflow": 0,
+        "overflow_total_including_warmup": 0,
+        "overflow_step_frac": 0.0,
+        "spike_truncated": false,
+        "ram": {
+          "total_bytes": 804000000,
+          "by_array": {
+            "synapse_targets": 256000000,
+            "synapse_weights": 256000000,
+            "synapse_delays": 256000000,
+            "neuron_state": 16000000,
+            "eligibility": 0,
+            "delay_buffer": 20000000
+          }
+        },
+        "mlx_memory_gb": {
+          "active": 0.81310518,
+          "peak": 3.190718488
+        },
+        "process_max_rss_bytes": 106201088,
+        "naive_dispatch_ms_per_step": 0.7840420003049076,
+        "speedup_from_forcing_eval": 0.2467125104147391,
+        "spike_accounting": {
+          "device_spike_count_sum": 6814.0,
+          "per_step_readout_sum": 6814.0,
+          "abs_error": 0.0,
+          "rel_error": 0.0,
+          "tolerance": 10.0,
+          "note": "fp32 accumulation across n_neurons, so the tolerance is relative"
+        },
+        "checks": {
+          "ms_per_step_above_plausible_floor": true,
+          "evaluated_slower_than_dispatch_only": true,
+          "spike_accounting_consistent": true,
+          "overflow_accounting_consistent": true,
+          "state_finite": true
+        }
+      },
+      "status": "ok",
+      "estimated_peak_gb": 1.6
+    },
+    {
+      "label": "forced_activity",
+      "n_neurons": 1000000,
+      "k_out": 256,
+      "n_synapses": 256000000,
+      "spike_capacity": 100000,
+      "spike_capacity_frac": 0.1,
+      "drive": {
+        "kind": "uniform_per_neuron",
+        "low": 1.0,
+        "high": 2.0
+      },
+      "noise_std": 0.05,
+      "seed": 0,
+      "build_seconds": 0.2348857920151204,
+      "warmup_steps": 20,
+      "steps_per_rep": 239,
+      "reps": 3,
+      "timed_steps": 717,
+      "ms_per_step": 6.186750018969178,
+      "ms_per_step_mean": 6.207532186068938,
+      "ms_per_step_min": 5.812957999296486,
+      "ms_per_step_p10": 6.035174988210201,
+      "ms_per_step_p90": 6.384824798442423,
+      "ms_per_step_rep_medians": [
+        6.200791976880282,
+        6.173875008244067,
+        6.180583033710718
+      ],
+      "ms_per_step_rep_spread": 1.0043598175538495,
+      "bio_ms_per_wall_s": 161.63575333315595,
+      "realtime_factor": 0.16163575333315594,
+      "mean_spikes_per_step": 36537.36959553696,
+      "mean_active_frac": 0.03653736959553696,
+      "algorithmic_synaptic_events_per_s": 1511870786.4029605,
+      "delivered_synaptic_events_per_s": 1511870786.4029605,
+      "rows_gathered_per_s": 4137875285.3287926,
+      "scheduled_padded_rows_per_s": 4137875285.3287926,
+      "padded_fraction_of_gather": 0.6346263040446304,
+      "overflow": 0,
+      "overflow_total_including_warmup": 0,
+      "overflow_step_frac": 0.0,
+      "spike_truncated": false,
+      "ram": {
+        "total_bytes": 3108000000,
+        "by_array": {
+          "synapse_targets": 1024000000,
+          "synapse_weights": 1024000000,
+          "synapse_delays": 1024000000,
+          "neuron_state": 16000000,
+          "eligibility": 0,
+          "delay_buffer": 20000000
+        }
+      },
+      "mlx_memory_gb": {
+        "active": 3.11710518,
+        "peak": 7.185072192
+      },
+      "process_max_rss_bytes": 106201088,
+      "naive_dispatch_ms_per_step": 0.8275000145658851,
+      "speedup_from_forcing_eval": 0.13375358823755434,
+      "spike_accounting": {
+        "device_spike_count_sum": 27524106.0,
+        "per_step_readout_sum": 27524106.0,
+        "abs_error": 0.0,
+        "rel_error": 0.0,
+        "tolerance": 27524.106,
+        "note": "fp32 accumulation across n_neurons, so the tolerance is relative"
+      },
+      "checks": {
+        "ms_per_step_above_plausible_floor": true,
+        "evaluated_slower_than_dispatch_only": true,
+        "spike_accounting_consistent": true,
+        "overflow_accounting_consistent": true,
+        "state_finite": true
+      },
+      "spontaneous": {
+        "label": "spontaneous",
+        "n_neurons": 1000000,
+        "k_out": 256,
+        "n_synapses": 256000000,
+        "spike_capacity": 100000,
+        "spike_capacity_frac": 0.1,
+        "drive": null,
+        "noise_std": 0.05,
+        "seed": 0,
+        "build_seconds": 0.24276712501887232,
+        "warmup_steps": 10,
+        "steps_per_rep": 98,
+        "reps": 1,
+        "timed_steps": 98,
+        "ms_per_step": 6.089250498916954,
+        "ms_per_step_mean": 6.092971461654013,
+        "ms_per_step_min": 5.747542018070817,
+        "ms_per_step_p10": 5.907070706598461,
+        "ms_per_step_p90": 6.269541196525097,
+        "ms_per_step_rep_medians": [
+          6.089250498916954
+        ],
+        "ms_per_step_rep_spread": 1.0,
+        "bio_ms_per_wall_s": 164.22382363442955,
+        "realtime_factor": 0.16422382363442956,
+        "mean_spikes_per_step": 128.0,
+        "mean_active_frac": 0.000128,
+        "algorithmic_synaptic_events_per_s": 5381286.2528529875,
+        "delivered_synaptic_events_per_s": 5381286.2528529875,
+        "rows_gathered_per_s": 4204129885.0413966,
+        "scheduled_padded_rows_per_s": 4204129885.0413966,
+        "padded_fraction_of_gather": 0.99872,
+        "overflow": 0,
+        "overflow_total_including_warmup": 0,
+        "overflow_step_frac": 0.0,
+        "spike_truncated": false,
+        "ram": {
+          "total_bytes": 3108000000,
+          "by_array": {
+            "synapse_targets": 1024000000,
+            "synapse_weights": 1024000000,
+            "synapse_delays": 1024000000,
+            "neuron_state": 16000000,
+            "eligibility": 0,
+            "delay_buffer": 20000000
+          }
+        },
+        "mlx_memory_gb": {
+          "active": 3.11710518,
+          "peak": 7.185072192
+        },
+        "process_max_rss_bytes": 106233856,
+        "naive_dispatch_ms_per_step": 0.8347915136255324,
+        "speedup_from_forcing_eval": 0.13709265430515793,
+        "spike_accounting": {
+          "device_spike_count_sum": 15105.0,
+          "per_step_readout_sum": 15105.0,
+          "abs_error": 0.0,
+          "rel_error": 0.0,
+          "tolerance": 15.105,
+          "note": "fp32 accumulation across n_neurons, so the tolerance is relative"
+        },
+        "checks": {
+          "ms_per_step_above_plausible_floor": true,
+          "evaluated_slower_than_dispatch_only": true,
+          "spike_accounting_consistent": true,
+          "overflow_accounting_consistent": true,
+          "state_finite": true
+        }
+      },
+      "status": "ok",
+      "estimated_peak_gb": 6.208
+    },
+    {
+      "label": "forced_activity",
+      "n_neurons": 1000000,
+      "k_out": 1024,
+      "n_synapses": 1024000000,
+      "spike_capacity": 100000,
+      "spike_capacity_frac": 0.1,
+      "drive": {
+        "kind": "uniform_per_neuron",
+        "low": 1.0,
+        "high": 2.0
+      },
+      "noise_std": 0.05,
+      "seed": 0,
+      "build_seconds": 1.089373417024035,
+      "warmup_steps": 20,
+      "steps_per_rep": 71,
+      "reps": 3,
+      "timed_steps": 213,
+      "ms_per_step": 19.805042014922947,
+      "ms_per_step_mean": 19.900809242466615,
+      "ms_per_step_min": 19.013665965758264,
+      "ms_per_step_p10": 19.451308203861117,
+      "ms_per_step_p90": 20.16956660663709,
+      "ms_per_step_rep_medians": [
+        19.89054202567786,
+        19.658584031276405,
+        19.729499996174127
+      ],
+      "ms_per_step_rep_spread": 1.0117993235948435,
+      "bio_ms_per_wall_s": 50.49219280860438,
+      "realtime_factor": 0.050492192808604376,
+      "mean_spikes_per_step": 39761.03755868544,
+      "mean_active_frac": 0.039761037558685444,
+      "algorithmic_synaptic_events_per_s": 2055804902.075705,
+      "delivered_synaptic_events_per_s": 2055804902.075705,
+      "rows_gathered_per_s": 5170400543.601089,
+      "scheduled_padded_rows_per_s": 5170400543.601089,
+      "padded_fraction_of_gather": 0.6023896244131456,
+      "overflow": 0,
+      "overflow_total_including_warmup": 0,
+      "overflow_step_frac": 0.0,
+      "spike_truncated": false,
+      "ram": {
+        "total_bytes": 12324000000,
+        "by_array": {
+          "synapse_targets": 4096000000,
+          "synapse_weights": 4096000000,
+          "synapse_delays": 4096000000,
+          "neuron_state": 16000000,
+          "eligibility": 0,
+          "delay_buffer": 20000000
+        }
+      },
+      "mlx_memory_gb": {
+        "active": 12.33310518,
+        "peak": 28.689072192
+      },
+      "process_max_rss_bytes": 106233856,
+      "naive_dispatch_ms_per_step": 0.9444169700145721,
+      "speedup_from_forcing_eval": 0.04768568374169372,
+      "spike_accounting": {
+        "device_spike_count_sum": 9884120.0,
+        "per_step_readout_sum": 9884120.0,
+        "abs_error": 0.0,
+        "rel_error": 0.0,
+        "tolerance": 9884.12,
+        "note": "fp32 accumulation across n_neurons, so the tolerance is relative"
+      },
+      "checks": {
+        "ms_per_step_above_plausible_floor": true,
+        "evaluated_slower_than_dispatch_only": true,
+        "spike_accounting_consistent": true,
+        "overflow_accounting_consistent": true,
+        "state_finite": true
+      },
+      "spontaneous": {
+        "label": "spontaneous",
+        "n_neurons": 1000000,
+        "k_out": 1024,
+        "n_synapses": 1024000000,
+        "spike_capacity": 100000,
+        "spike_capacity_frac": 0.1,
+        "drive": null,
+        "noise_std": 0.05,
+        "seed": 0,
+        "build_seconds": 1.1249072920181789,
+        "warmup_steps": 10,
+        "steps_per_rep": 35,
+        "reps": 1,
+        "timed_steps": 35,
+        "ms_per_step": 16.803250007797033,
+        "ms_per_step_mean": 17.526462032193585,
+        "ms_per_step_min": 16.273749992251396,
+        "ms_per_step_p10": 16.484208591282368,
+        "ms_per_step_p90": 17.35375839052722,
+        "ms_per_step_rep_medians": [
+          16.803250007797033
+        ],
+        "ms_per_step_rep_spread": 1.0,
+        "bio_ms_per_wall_s": 59.51229670069663,
+        "realtime_factor": 0.05951229670069663,
+        "mean_spikes_per_step": 511.42857142857144,
+        "mean_active_frac": 0.0005114285714285714,
+        "algorithmic_synaptic_events_per_s": 31166759.817288257,
+        "delivered_synaptic_events_per_s": 31166759.817288257,
+        "rows_gathered_per_s": 6094059182.151335,
+        "scheduled_padded_rows_per_s": 6094059182.151335,
+        "padded_fraction_of_gather": 0.9948857142857143,
+        "overflow": 0,
+        "overflow_total_including_warmup": 0,
+        "overflow_step_frac": 0.0,
+        "spike_truncated": false,
+        "ram": {
+          "total_bytes": 12324000000,
+          "by_array": {
+            "synapse_targets": 4096000000,
+            "synapse_weights": 4096000000,
+            "synapse_delays": 4096000000,
+            "neuron_state": 16000000,
+            "eligibility": 0,
+            "delay_buffer": 20000000
+          }
+        },
+        "mlx_memory_gb": {
+          "active": 12.33310518,
+          "peak": 28.689072192
+        },
+        "process_max_rss_bytes": 106233856,
+        "naive_dispatch_ms_per_step": NaN,
+        "speedup_from_forcing_eval": NaN,
+        "spike_accounting": {
+          "device_spike_count_sum": 27379.0,
+          "per_step_readout_sum": 27379.0,
+          "abs_error": 0.0,
+          "rel_error": 0.0,
+          "tolerance": 27.379,
+          "note": "fp32 accumulation across n_neurons, so the tolerance is relative"
+        },
+        "checks": {
+          "ms_per_step_above_plausible_floor": true,
+          "evaluated_slower_than_dispatch_only": true,
+          "spike_accounting_consistent": true,
+          "overflow_accounting_consistent": true,
+          "state_finite": true
+        }
+      },
+      "status": "ok",
+      "estimated_peak_gb": 24.64
+    },
+    {
+      "label": "forced_activity",
+      "n_neurons": 4000000,
+      "k_out": 64,
+      "n_synapses": 256000000,
+      "spike_capacity": 400000,
+      "spike_capacity_frac": 0.1,
+      "drive": {
+        "kind": "uniform_per_neuron",
+        "low": 1.0,
+        "high": 2.0
+      },
+      "noise_std": 0.05,
+      "seed": 0,
+      "build_seconds": 0.2986802500090562,
+      "warmup_steps": 20,
+      "steps_per_rep": 125,
+      "reps": 3,
+      "timed_steps": 375,
+      "ms_per_step": 11.736500018741935,
+      "ms_per_step_mean": 11.799552539673945,
+      "ms_per_step_min": 11.154124978929758,
+      "ms_per_step_p10": 11.43016602145508,
+      "ms_per_step_p90": 12.09790816064924,
+      "ms_per_step_rep_medians": [
+        11.87349995598197,
+        11.717000044882298,
+        11.69966597808525
+      ],
+      "ms_per_step_rep_spread": 1.014858029128552,
+      "bio_ms_per_wall_s": 85.20427711865607,
+      "realtime_factor": 0.08520427711865607,
+      "mean_spikes_per_step": 146300.464,
+      "mean_active_frac": 0.036575116000000005,
+      "algorithmic_synaptic_events_per_s": 797787217.7436138,
+      "delivered_synaptic_events_per_s": 797787217.7436138,
+      "rows_gathered_per_s": 2181229494.2375956,
+      "scheduled_padded_rows_per_s": 2181229494.2375956,
+      "padded_fraction_of_gather": 0.6342488399999999,
+      "overflow": 0,
+      "overflow_total_including_warmup": 0,
+      "overflow_step_frac": 0.0,
+      "spike_truncated": false,
+      "ram": {
+        "total_bytes": 3216000000,
+        "by_array": {
+          "synapse_targets": 1024000000,
+          "synapse_weights": 1024000000,
+          "synapse_delays": 1024000000,
+          "neuron_state": 64000000,
+          "eligibility": 0,
+          "delay_buffer": 80000000
+        }
+      },
+      "mlx_memory_gb": {
+        "active": 3.252060188,
+        "peak": 7.236042816
+      },
+      "process_max_rss_bytes": 218234880,
+      "naive_dispatch_ms_per_step": 2.766709018032998,
+      "speedup_from_forcing_eval": 0.23573544187916837,
+      "spike_accounting": {
+        "device_spike_count_sum": 60030432.0,
+        "per_step_readout_sum": 60030433.0,
+        "abs_error": 1.0,
+        "rel_error": 1.6658217341194257e-08,
+        "tolerance": 60030.433000000005,
+        "note": "fp32 accumulation across n_neurons, so the tolerance is relative"
+      },
+      "checks": {
+        "ms_per_step_above_plausible_floor": true,
+        "evaluated_slower_than_dispatch_only": true,
+        "spike_accounting_consistent": true,
+        "overflow_accounting_consistent": true,
+        "state_finite": true
+      },
+      "spontaneous": {
+        "label": "spontaneous",
+        "n_neurons": 4000000,
+        "k_out": 64,
+        "n_synapses": 256000000,
+        "spike_capacity": 400000,
+        "spike_capacity_frac": 0.1,
+        "drive": null,
+        "noise_std": 0.05,
+        "seed": 0,
+        "build_seconds": 0.2431029169820249,
+        "warmup_steps": 10,
+        "steps_per_rep": 46,
+        "reps": 1,
+        "timed_steps": 46,
+        "ms_per_step": 12.932521029142663,
+        "ms_per_step_mean": 12.955696589019878,
+        "ms_per_step_min": 12.257584021426737,
+        "ms_per_step_p10": 12.588833487825468,
+        "ms_per_step_p90": 13.302061997819692,
+        "ms_per_step_rep_medians": [
+          12.932521029142663
+        ],
+        "ms_per_step_rep_spread": 1.0,
+        "bio_ms_per_wall_s": 77.32444414716664,
+        "realtime_factor": 0.07732444414716665,
+        "mean_spikes_per_step": 32.0,
+        "mean_active_frac": 8e-06,
+        "algorithmic_synaptic_events_per_s": 158360.4616133973,
+        "delivered_synaptic_events_per_s": 158360.4616133973,
+        "rows_gathered_per_s": 1979505770.1674662,
+        "scheduled_padded_rows_per_s": 1979505770.1674662,
+        "padded_fraction_of_gather": 0.99992,
+        "overflow": 0,
+        "overflow_total_including_warmup": 0,
+        "overflow_step_frac": 0.0,
+        "spike_truncated": false,
+        "ram": {
+          "total_bytes": 3216000000,
+          "by_array": {
+            "synapse_targets": 1024000000,
+            "synapse_weights": 1024000000,
+            "synapse_delays": 1024000000,
+            "neuron_state": 64000000,
+            "eligibility": 0,
+            "delay_buffer": 80000000
+          }
+        },
+        "mlx_memory_gb": {
+          "active": 3.252060188,
+          "peak": 7.236042816
+        },
+        "process_max_rss_bytes": 218234880,
+        "naive_dispatch_ms_per_step": NaN,
+        "speedup_from_forcing_eval": NaN,
+        "spike_accounting": {
+          "device_spike_count_sum": 2947.0,
+          "per_step_readout_sum": 2947.0,
+          "abs_error": 0.0,
+          "rel_error": 0.0,
+          "tolerance": 10.0,
+          "note": "fp32 accumulation across n_neurons, so the tolerance is relative"
+        },
+        "checks": {
+          "ms_per_step_above_plausible_floor": true,
+          "evaluated_slower_than_dispatch_only": true,
+          "spike_accounting_consistent": true,
+          "overflow_accounting_consistent": true,
+          "state_finite": true
+        }
+      },
+      "status": "ok",
+      "estimated_peak_gb": 6.4
+    },
+    {
+      "label": "forced_activity",
+      "n_neurons": 4000000,
+      "k_out": 256,
+      "n_synapses": 1024000000,
+      "spike_capacity": 400000,
+      "spike_capacity_frac": 0.1,
+      "drive": {
+        "kind": "uniform_per_neuron",
+        "low": 1.0,
+        "high": 2.0
+      },
+      "noise_std": 0.05,
+      "seed": 0,
+      "build_seconds": 1.086830625019502,
+      "warmup_steps": 20,
+      "steps_per_rep": 45,
+      "reps": 3,
+      "timed_steps": 135,
+      "ms_per_step": 29.876832966692746,
+      "ms_per_step_mean": 29.888418216379016,
+      "ms_per_step_min": 28.341583034489304,
+      "ms_per_step_p10": 29.3189914082177,
+      "ms_per_step_p90": 30.4461328079924,
+      "ms_per_step_rep_medians": [
+        30.11283400701359,
+        29.74975004326552,
+        29.88008304964751
+      ],
+      "ms_per_step_rep_spread": 1.0122046055250895,
+      "bio_ms_per_wall_s": 33.47074976503764,
+      "realtime_factor": 0.03347074976503764,
+      "mean_spikes_per_step": 154971.34814814816,
+      "mean_active_frac": 0.03874283703703704,
+      "algorithmic_synaptic_events_per_s": 1327873846.9420023,
+      "delivered_synaptic_events_per_s": 1327873846.9420023,
+      "rows_gathered_per_s": 3427404775.939854,
+      "scheduled_padded_rows_per_s": 3427404775.939854,
+      "padded_fraction_of_gather": 0.6125716296296296,
+      "overflow": 0,
+      "overflow_total_including_warmup": 0,
+      "overflow_step_frac": 0.0,
+      "spike_truncated": false,
+      "ram": {
+        "total_bytes": 12432000000,
+        "by_array": {
+          "synapse_targets": 4096000000,
+          "synapse_weights": 4096000000,
+          "synapse_delays": 4096000000,
+          "neuron_state": 64000000,
+          "eligibility": 0,
+          "delay_buffer": 80000000
+        }
+      },
+      "mlx_memory_gb": {
+        "active": 12.468060188,
+        "peak": 28.740042816
+      },
+      "process_max_rss_bytes": 218234880,
+      "naive_dispatch_ms_per_step": 2.9071250464767218,
+      "speedup_from_forcing_eval": 0.09730365496629577,
+      "spike_accounting": {
+        "device_spike_count_sum": 26205080.0,
+        "per_step_readout_sum": 26205080.0,
+        "abs_error": 0.0,
+        "rel_error": 0.0,
+        "tolerance": 26205.08,
+        "note": "fp32 accumulation across n_neurons, so the tolerance is relative"
+      },
+      "checks": {
+        "ms_per_step_above_plausible_floor": true,
+        "evaluated_slower_than_dispatch_only": true,
+        "spike_accounting_consistent": true,
+        "overflow_accounting_consistent": true,
+        "state_finite": true
+      },
+      "spontaneous": {
+        "label": "spontaneous",
+        "n_neurons": 4000000,
+        "k_out": 256,
+        "n_synapses": 1024000000,
+        "spike_capacity": 400000,
+        "spike_capacity_frac": 0.1,
+        "drive": null,
+        "noise_std": 0.05,
+        "seed": 0,
+        "build_seconds": 1.0984852919937111,
+        "warmup_steps": 10,
+        "steps_per_rep": 25,
+        "reps": 1,
+        "timed_steps": 25,
+        "ms_per_step": 23.87362497393042,
+        "ms_per_step_mean": 24.032828195486218,
+        "ms_per_step_min": 22.378041001502424,
+        "ms_per_step_p10": 23.11593317426741,
+        "ms_per_step_p90": 24.61447479436174,
+        "ms_per_step_rep_medians": [
+          23.87362497393042
+        ],
+        "ms_per_step_rep_spread": 1.0,
+        "bio_ms_per_wall_s": 41.88722915317563,
+        "realtime_factor": 0.04188722915317563,
+        "mean_spikes_per_step": 127.96,
+        "mean_active_frac": 3.199e-05,
+        "algorithmic_synaptic_events_per_s": 1372131.7996647304,
+        "delivered_synaptic_events_per_s": 1372131.7996647304,
+        "rows_gathered_per_s": 4289252265.2851844,
+        "scheduled_padded_rows_per_s": 4289252265.2851844,
+        "padded_fraction_of_gather": 0.9996801,
+        "overflow": 0,
+        "overflow_total_including_warmup": 0,
+        "overflow_step_frac": 0.0,
+        "spike_truncated": false,
+        "ram": {
+          "total_bytes": 12432000000,
+          "by_array": {
+            "synapse_targets": 4096000000,
+            "synapse_weights": 4096000000,
+            "synapse_delays": 4096000000,
+            "neuron_state": 64000000,
+            "eligibility": 0,
+            "delay_buffer": 80000000
+          }
+        },
+        "mlx_memory_gb": {
+          "active": 12.468060188,
+          "peak": 28.740042816
+        },
+        "process_max_rss_bytes": 218234880,
+        "naive_dispatch_ms_per_step": NaN,
+        "speedup_from_forcing_eval": NaN,
+        "spike_accounting": {
+          "device_spike_count_sum": 6394.0,
+          "per_step_readout_sum": 6394.0,
+          "abs_error": 0.0,
+          "rel_error": 0.0,
+          "tolerance": 10.0,
+          "note": "fp32 accumulation across n_neurons, so the tolerance is relative"
+        },
+        "checks": {
+          "ms_per_step_above_plausible_floor": true,
+          "evaluated_slower_than_dispatch_only": true,
+          "spike_accounting_consistent": true,
+          "overflow_accounting_consistent": true,
+          "state_finite": true
+        }
+      },
+      "status": "ok",
+      "estimated_peak_gb": 24.832
+    },
+    {
+      "status": "skipped",
+      "n_neurons": 4000000,
+      "k_out": 1024,
+      "estimated_peak_gb": 98.56,
+      "reason": "estimated construction peak 98.6 GB exceeds budget 48 GB (raise --budget-gb to attempt it)"
+    }
+  ],
+  "zero_input_controls": [
+    {
+      "label": "zero_input_control",
+      "n_neurons": 100000,
+      "k_out": 64,
+      "n_synapses": 6400000,
+      "spike_capacity": 10000,
+      "spike_capacity_frac": 0.1,
+      "drive": null,
+      "noise_std": 0.0,
+      "seed": 0,
+      "build_seconds": 0.0440854579792358,
+      "warmup_steps": 5,
+      "steps_per_rep": 400,
+      "reps": 1,
+      "timed_steps": 400,
+      "ms_per_step": 1.030646002618596,
+      "ms_per_step_mean": 1.0426287636801135,
+      "ms_per_step_min": 0.8989999769255519,
+      "ms_per_step_p10": 0.9681452356744558,
+      "ms_per_step_p90": 1.1383624630980194,
+      "ms_per_step_rep_medians": [
+        1.030646002618596
+      ],
+      "ms_per_step_rep_spread": 1.0,
+      "bio_ms_per_wall_s": 970.2652486491651,
+      "realtime_factor": 0.9702652486491651,
+      "mean_spikes_per_step": 32.0,
+      "mean_active_frac": 0.00032,
+      "algorithmic_synaptic_events_per_s": 1987103.22923349,
+      "delivered_synaptic_events_per_s": 1987103.22923349,
+      "rows_gathered_per_s": 620969759.1354656,
+      "scheduled_padded_rows_per_s": 620969759.1354656,
+      "padded_fraction_of_gather": 0.9968,
+      "overflow": 0,
+      "overflow_total_including_warmup": 0,
+      "overflow_step_frac": 0.0,
+      "spike_truncated": false,
+      "ram": {
+        "total_bytes": 80400000,
+        "by_array": {
+          "synapse_targets": 25600000,
+          "synapse_weights": 25600000,
+          "synapse_delays": 25600000,
+          "neuron_state": 1600000,
+          "eligibility": 0,
+          "delay_buffer": 2000000
+        }
+      },
+      "mlx_memory_gb": {
+        "active": 0.081412124,
+        "peak": 28.740042816
+      },
+      "process_max_rss_bytes": 218234880,
+      "naive_dispatch_ms_per_step": 0.45691701234318316,
+      "speedup_from_forcing_eval": 0.44333069859319224,
+      "spike_accounting": {
+        "device_spike_count_sum": 13056.0,
+        "per_step_readout_sum": 13056.0,
+        "abs_error": 0.0,
+        "rel_error": 0.0,
+        "tolerance": 13.056000000000001,
+        "note": "fp32 accumulation across n_neurons, so the tolerance is relative"
+      },
+      "checks": {
+        "ms_per_step_above_plausible_floor": true,
+        "evaluated_slower_than_dispatch_only": true,
+        "spike_accounting_consistent": true,
+        "overflow_accounting_consistent": true,
+        "state_finite": true
+      },
+      "status": "ok"
+    },
+    {
+      "label": "zero_input_control",
+      "n_neurons": 1000000,
+      "k_out": 64,
+      "n_synapses": 64000000,
+      "spike_capacity": 100000,
+      "spike_capacity_frac": 0.1,
+      "drive": null,
+      "noise_std": 0.0,
+      "seed": 0,
+      "build_seconds": 0.05821333301719278,
+      "warmup_steps": 5,
+      "steps_per_rep": 164,
+      "reps": 1,
+      "timed_steps": 164,
+      "ms_per_step": 3.04947848781012,
+      "ms_per_step_mean": 3.063446132994325,
+      "ms_per_step_min": 2.8610419831238687,
+      "ms_per_step_p10": 2.919887489406392,
+      "ms_per_step_p90": 3.196637303335592,
+      "ms_per_step_rep_medians": [
+        3.04947848781012
+      ],
+      "ms_per_step_rep_spread": 1.0,
+      "bio_ms_per_wall_s": 327.9249235557376,
+      "realtime_factor": 0.3279249235557376,
+      "mean_spikes_per_step": 32.0,
+      "mean_active_frac": 3.2e-05,
+      "algorithmic_synaptic_events_per_s": 671590.2434421506,
+      "delivered_synaptic_events_per_s": 671590.2434421506,
+      "rows_gathered_per_s": 2098719510.7567208,
+      "scheduled_padded_rows_per_s": 2098719510.7567208,
+      "padded_fraction_of_gather": 0.99968,
+      "overflow": 0,
+      "overflow_total_including_warmup": 0,
+      "overflow_step_frac": 0.0,
+      "spike_truncated": false,
+      "ram": {
+        "total_bytes": 804000000,
+        "by_array": {
+          "synapse_targets": 256000000,
+          "synapse_weights": 256000000,
+          "synapse_delays": 256000000,
+          "neuron_state": 16000000,
+          "eligibility": 0,
+          "delay_buffer": 20000000
+        }
+      },
+      "mlx_memory_gb": {
+        "active": 0.81310518,
+        "peak": 28.740042816
+      },
+      "process_max_rss_bytes": 218234880,
+      "naive_dispatch_ms_per_step": 0.703478988725692,
+      "speedup_from_forcing_eval": 0.23068829360094018,
+      "spike_accounting": {
+        "device_spike_count_sum": 5501.0,
+        "per_step_readout_sum": 5501.0,
+        "abs_error": 0.0,
+        "rel_error": 0.0,
+        "tolerance": 10.0,
+        "note": "fp32 accumulation across n_neurons, so the tolerance is relative"
+      },
+      "checks": {
+        "ms_per_step_above_plausible_floor": true,
+        "evaluated_slower_than_dispatch_only": true,
+        "spike_accounting_consistent": true,
+        "overflow_accounting_consistent": true,
+        "state_finite": true
+      },
+      "status": "ok"
+    },
+    {
+      "label": "zero_input_control",
+      "n_neurons": 1000000,
+      "k_out": 1024,
+      "n_synapses": 1024000000,
+      "spike_capacity": 100000,
+      "spike_capacity_frac": 0.1,
+      "drive": null,
+      "noise_std": 0.0,
+      "seed": 0,
+      "build_seconds": 1.1020407080068253,
+      "warmup_steps": 5,
+      "steps_per_rep": 30,
+      "reps": 1,
+      "timed_steps": 30,
+      "ms_per_step": 16.772499977378175,
+      "ms_per_step_mean": 16.7600083979778,
+      "ms_per_step_min": 15.93020895961672,
+      "ms_per_step_p10": 16.3789335929323,
+      "ms_per_step_p90": 17.175016668625176,
+      "ms_per_step_rep_medians": [
+        16.772499977378175
+      ],
+      "ms_per_step_rep_spread": 1.0,
+      "bio_ms_per_wall_s": 59.621404164480246,
+      "realtime_factor": 0.059621404164480245,
+      "mean_spikes_per_step": 511.5,
+      "mean_active_frac": 0.0005115,
+      "algorithmic_synaptic_events_per_s": 31228260.587654807,
+      "delivered_synaptic_events_per_s": 31228260.587654807,
+      "rows_gathered_per_s": 6105231786.442778,
+      "scheduled_padded_rows_per_s": 6105231786.442778,
+      "padded_fraction_of_gather": 0.994885,
+      "overflow": 0,
+      "overflow_total_including_warmup": 0,
+      "overflow_step_frac": 0.0,
+      "spike_truncated": false,
+      "ram": {
+        "total_bytes": 12324000000,
+        "by_array": {
+          "synapse_targets": 4096000000,
+          "synapse_weights": 4096000000,
+          "synapse_delays": 4096000000,
+          "neuron_state": 16000000,
+          "eligibility": 0,
+          "delay_buffer": 20000000
+        }
+      },
+      "mlx_memory_gb": {
+        "active": 12.33310518,
+        "peak": 28.740042816
+      },
+      "process_max_rss_bytes": 218234880,
+      "naive_dispatch_ms_per_step": NaN,
+      "speedup_from_forcing_eval": NaN,
+      "spike_accounting": {
+        "device_spike_count_sum": 19454.0,
+        "per_step_readout_sum": 19454.0,
+        "abs_error": 0.0,
+        "rel_error": 0.0,
+        "tolerance": 19.454,
+        "note": "fp32 accumulation across n_neurons, so the tolerance is relative"
+      },
+      "checks": {
+        "ms_per_step_above_plausible_floor": true,
+        "evaluated_slower_than_dispatch_only": true,
+        "spike_accounting_consistent": true,
+        "overflow_accounting_consistent": true,
+        "state_finite": true
+      },
+      "status": "ok"
+    },
+    {
+      "label": "zero_input_control",
+      "n_neurons": 4000000,
+      "k_out": 256,
+      "n_synapses": 1024000000,
+      "spike_capacity": 400000,
+      "spike_capacity_frac": 0.1,
+      "drive": null,
+      "noise_std": 0.0,
+      "seed": 0,
+      "build_seconds": 1.1305528749944642,
+      "warmup_steps": 5,
+      "steps_per_rep": 21,
+      "reps": 1,
+      "timed_steps": 21,
+      "ms_per_step": 23.794209002517164,
+      "ms_per_step_mean": 23.900549623206082,
+      "ms_per_step_min": 22.67658297205344,
+      "ms_per_step_p10": 23.08741700835526,
+      "ms_per_step_p90": 24.619334028102458,
+      "ms_per_step_rep_medians": [
+        23.794209002517164
+      ],
+      "ms_per_step_rep_spread": 1.0,
+      "bio_ms_per_wall_s": 42.02703270758911,
+      "realtime_factor": 0.042027032707589104,
+      "mean_spikes_per_step": 127.95238095238095,
+      "mean_active_frac": 3.1988095238095235e-05,
+      "algorithmic_synaptic_events_per_s": 1376629.4782207015,
+      "delivered_synaptic_events_per_s": 1376629.4782207015,
+      "rows_gathered_per_s": 4303568149.257125,
+      "scheduled_padded_rows_per_s": 4303568149.257125,
+      "padded_fraction_of_gather": 0.999680119047619,
+      "overflow": 0,
+      "overflow_total_including_warmup": 0,
+      "overflow_step_frac": 0.0,
+      "spike_truncated": false,
+      "ram": {
+        "total_bytes": 12432000000,
+        "by_array": {
+          "synapse_targets": 4096000000,
+          "synapse_weights": 4096000000,
+          "synapse_delays": 4096000000,
+          "neuron_state": 64000000,
+          "eligibility": 0,
+          "delay_buffer": 80000000
+        }
+      },
+      "mlx_memory_gb": {
+        "active": 12.468060188,
+        "peak": 28.740042816
+      },
+      "process_max_rss_bytes": 218267648,
+      "naive_dispatch_ms_per_step": NaN,
+      "speedup_from_forcing_eval": NaN,
+      "spike_accounting": {
+        "device_spike_count_sum": 3702.0,
+        "per_step_readout_sum": 3702.0,
+        "abs_error": 0.0,
+        "rel_error": 0.0,
+        "tolerance": 10.0,
+        "note": "fp32 accumulation across n_neurons, so the tolerance is relative"
+      },
+      "checks": {
+        "ms_per_step_above_plausible_floor": true,
+        "evaluated_slower_than_dispatch_only": true,
+        "spike_accounting_consistent": true,
+        "overflow_accounting_consistent": true,
+        "state_finite": true
+      },
+      "status": "ok"
+    }
+  ],
+  "capacity_sensitivity": [
+    {
+      "label": "capacity_0.05",
+      "n_neurons": 1000000,
+      "k_out": 256,
+      "n_synapses": 256000000,
+      "spike_capacity": 50000,
+      "spike_capacity_frac": 0.05,
+      "drive": {
+        "kind": "uniform_per_neuron",
+        "low": 1.0,
+        "high": 2.0
+      },
+      "noise_std": 0.05,
+      "seed": 0,
+      "build_seconds": 0.2893834999995306,
+      "warmup_steps": 10,
+      "steps_per_rep": 228,
+      "reps": 2,
+      "timed_steps": 456,
+      "ms_per_step": 4.678562516346574,
+      "ms_per_step_mean": 4.702337988547106,
+      "ms_per_step_min": 4.433334048371762,
+      "ms_per_step_p10": 4.558458516839892,
+      "ms_per_step_p90": 4.8417290090583265,
+      "ms_per_step_rep_medians": [
+        4.6940835018176585,
+        4.6579375048168
+      ],
+      "ms_per_step_rep_spread": 1.007760086296452,
+      "bio_ms_per_wall_s": 213.74086517088725,
+      "realtime_factor": 0.21374086517088725,
+      "mean_spikes_per_step": 97395.01315789473,
+      "mean_active_frac": 0.09739501315789473,
+      "algorithmic_synaptic_events_per_s": 5329227360.178782,
+      "delivered_synaptic_events_per_s": 2735883074.187357,
+      "rows_gathered_per_s": 2735883074.187357,
+      "scheduled_padded_rows_per_s": 2735883074.187357,
+      "padded_fraction_of_gather": -0.9479002631578946,
+      "overflow": 21612126,
+      "overflow_total_including_warmup": 21816843,
+      "overflow_step_frac": 47395.01315789474,
+      "spike_truncated": true,
+      "ram": {
+        "total_bytes": 3108000000,
+        "by_array": {
+          "synapse_targets": 1024000000,
+          "synapse_weights": 1024000000,
+          "synapse_delays": 1024000000,
+          "neuron_state": 16000000,
+          "eligibility": 0,
+          "delay_buffer": 20000000
+        }
+      },
+      "mlx_memory_gb": {
+        "active": 3.11710518,
+        "peak": 28.740042816
+      },
+      "process_max_rss_bytes": 218284032,
+      "naive_dispatch_ms_per_step": 0.8490835316479206,
+      "speedup_from_forcing_eval": 0.18148384865677897,
+      "spike_accounting": {
+        "device_spike_count_sum": 45063712.0,
+        "per_step_readout_sum": 45063712.0,
+        "abs_error": 0.0,
+        "rel_error": 0.0,
+        "tolerance": 45063.712,
+        "note": "fp32 accumulation across n_neurons, so the tolerance is relative"
+      },
+      "checks": {
+        "ms_per_step_above_plausible_floor": true,
+        "evaluated_slower_than_dispatch_only": true,
+        "spike_accounting_consistent": true,
+        "overflow_accounting_consistent": true,
+        "state_finite": true
+      },
+      "status": "ok",
+      "recorded_usage_frac": 1.9479002631578946
+    },
+    {
+      "label": "capacity_0.10",
+      "n_neurons": 1000000,
+      "k_out": 256,
+      "n_synapses": 256000000,
+      "spike_capacity": 100000,
+      "spike_capacity_frac": 0.1,
+      "drive": {
+        "kind": "uniform_per_neuron",
+        "low": 1.0,
+        "high": 2.0
+      },
+      "noise_std": 0.05,
+      "seed": 0,
+      "build_seconds": 0.239786458958406,
+      "warmup_steps": 10,
+      "steps_per_rep": 157,
+      "reps": 2,
+      "timed_steps": 314,
+      "ms_per_step": 6.2720205169171095,
+      "ms_per_step_mean": 6.283697461787979,
+      "ms_per_step_min": 5.852375004906207,
+      "ms_per_step_p10": 6.051683804253116,
+      "ms_per_step_p90": 6.4781704801134765,
+      "ms_per_step_rep_medians": [
+        6.30629196530208,
+        6.2318750424310565
+      ],
+      "ms_per_step_rep_spread": 1.0119413374569195,
+      "bio_ms_per_wall_s": 159.43825395704073,
+      "realtime_factor": 0.15943825395704073,
+      "mean_spikes_per_step": 37868.05414012739,
+      "mean_active_frac": 0.03786805414012739,
+      "algorithmic_synaptic_events_per_s": 1545629806.810265,
+      "delivered_synaptic_events_per_s": 1545629806.810265,
+      "rows_gathered_per_s": 4081619301.300243,
+      "scheduled_padded_rows_per_s": 4081619301.300243,
+      "padded_fraction_of_gather": 0.6213194585987261,
+      "overflow": 0,
+      "overflow_total_including_warmup": 0,
+      "overflow_step_frac": 0.0,
+      "spike_truncated": false,
+      "ram": {
+        "total_bytes": 3108000000,
+        "by_array": {
+          "synapse_targets": 1024000000,
+          "synapse_weights": 1024000000,
+          "synapse_delays": 1024000000,
+          "neuron_state": 16000000,
+          "eligibility": 0,
+          "delay_buffer": 20000000
+        }
+      },
+      "mlx_memory_gb": {
+        "active": 3.11710518,
+        "peak": 28.740042816
+      },
+      "process_max_rss_bytes": 218284032,
+      "naive_dispatch_ms_per_step": 0.8597499981988221,
+      "speedup_from_forcing_eval": 0.13707703855238912,
+      "spike_accounting": {
+        "device_spike_count_sum": 12358497.0,
+        "per_step_readout_sum": 12358497.0,
+        "abs_error": 0.0,
+        "rel_error": 0.0,
+        "tolerance": 12358.497,
+        "note": "fp32 accumulation across n_neurons, so the tolerance is relative"
+      },
+      "checks": {
+        "ms_per_step_above_plausible_floor": true,
+        "evaluated_slower_than_dispatch_only": true,
+        "spike_accounting_consistent": true,
+        "overflow_accounting_consistent": true,
+        "state_finite": true
+      },
+      "status": "ok",
+      "recorded_usage_frac": 0.3786805414012739
+    },
+    {
+      "label": "capacity_0.20",
+      "n_neurons": 1000000,
+      "k_out": 256,
+      "n_synapses": 256000000,
+      "spike_capacity": 200000,
+      "spike_capacity_frac": 0.2,
+      "drive": {
+        "kind": "uniform_per_neuron",
+        "low": 1.0,
+        "high": 2.0
+      },
+      "noise_std": 0.05,
+      "seed": 0,
+      "build_seconds": 0.2417807910242118,
+      "warmup_steps": 10,
+      "steps_per_rep": 97,
+      "reps": 2,
+      "timed_steps": 194,
+      "ms_per_step": 10.284062009304762,
+      "ms_per_step_mean": 10.349096231385778,
+      "ms_per_step_min": 9.762166009750217,
+      "ms_per_step_p10": 9.998392075067386,
+      "ms_per_step_p90": 10.596704389899969,
+      "ms_per_step_rep_medians": [
+        10.34224999602884,
+        10.240750038065016
+      ],
+      "ms_per_step_rep_spread": 1.00991137930196,
+      "bio_ms_per_wall_s": 97.23784231320514,
+      "realtime_factor": 0.09723784231320513,
+      "mean_spikes_per_step": 38878.85567010309,
+      "mean_active_frac": 0.03887885567010309,
+      "algorithmic_synaptic_events_per_s": 967806985.4636405,
+      "delivered_synaptic_events_per_s": 967806985.4636405,
+      "rows_gathered_per_s": 4978577526.436103,
+      "scheduled_padded_rows_per_s": 4978577526.436103,
+      "padded_fraction_of_gather": 0.8056057216494845,
+      "overflow": 0,
+      "overflow_total_including_warmup": 0,
+      "overflow_step_frac": 0.0,
+      "spike_truncated": false,
+      "ram": {
+        "total_bytes": 3108000000,
+        "by_array": {
+          "synapse_targets": 1024000000,
+          "synapse_weights": 1024000000,
+          "synapse_delays": 1024000000,
+          "neuron_state": 16000000,
+          "eligibility": 0,
+          "delay_buffer": 20000000
+        }
+      },
+      "mlx_memory_gb": {
+        "active": 3.11710518,
+        "peak": 28.740042816
+      },
+      "process_max_rss_bytes": 218284032,
+      "naive_dispatch_ms_per_step": 0.8787289843894541,
+      "speedup_from_forcing_eval": 0.08544571042010464,
+      "spike_accounting": {
+        "device_spike_count_sum": 8010426.0,
+        "per_step_readout_sum": 8010426.0,
+        "abs_error": 0.0,
+        "rel_error": 0.0,
+        "tolerance": 8010.426,
+        "note": "fp32 accumulation across n_neurons, so the tolerance is relative"
+      },
+      "checks": {
+        "ms_per_step_above_plausible_floor": true,
+        "evaluated_slower_than_dispatch_only": true,
+        "spike_accounting_consistent": true,
+        "overflow_accounting_consistent": true,
+        "state_finite": true
+      },
+      "status": "ok",
+      "recorded_usage_frac": 0.19439427835051545
+    }
+  ],
+  "caveats": [
+    "Activity level dominates the delivered event rate; mean_active_frac is reported next to every throughput figure.",
+    "The forced-activity protocol measures an UPPER BOUND on achievable throughput: a driven network fires far more than an emergent one, and the substrate's per-step cost is padded-buffer bound rather than spike-count bound (see findings).",
+    "This host was not idle during the run; load average is recorded in host info and per-step times are reported as medians with min/max rep spread.",
+    "Measurements describe the substrate revision recorded in 'substrate.files' hashes; brain/ is under active concurrent development.",
+    "The human-brain gap analysis (86.1e9 neurons) lives in docs/SCALING.md; no literature number is mixed into these measurements."
+  ],
+  "findings": [
+    "largest measured network by neuron count: 4,000,000 neurons / 0.256e9 synapses, 3.22 GB from memory_bytes(), 11.74 ms per 1 ms biological (85.2 ms bio/wall-s, realtime factor 0.0852), 798M delivered synaptic events/s at 3.658% active.",
+    "largest measured network by synapse count: 1,000,000 neurons / 1.024e9 synapses, 12.32 GB, 19.81 ms/step, 2056M delivered events/s at 3.976% active.",
+    "smallest measured network: 10,000 neurons at 1.06 ms/step, i.e. a fixed per-step overhead floor of roughly 1.1 ms that is incurred even at 10,000 neurons.",
+    "activity barely changes latency: at n=10,000 k=64 the spontaneous run (3.20e-03 active) took 1.15 ms/step vs 1.06 ms/step forced (3.79e-02 active), a factor of 1.09. The step gathers the full padded buffer, so cost is set by capacity*k_out rather than by the spike count.",
+    "zero-input control: with noise_std=0, no external drive and v reset to exactly 0, the network STILL emits spikes every step (n=100,000/k=64 -> 32.0, n=1,000,000/k=64 -> 32.0, n=1,000,000/k=1024 -> 511.5, n=4,000,000/k=256 -> 128.0). A silent network must emit 0 spikes/step, so this is an artefact: Brain._compact() fills unused spike-buffer slots with index 0 and Brain.step() gathers targets/weights over the entire padded buffer, so every padded slot re-delivers neuron 0's real outgoing synapses. Measured signature: the floor tracks k_out/2 of the row-0 target pool, independent of n_neurons (i.e. a fixed phantom drive into one fan-out, saturating those targets). Consequence: any 'emergent sparse activity' figure from this substrate is contaminated by a constant floor of order k_out/2 spikes per step, and the event counts reported here include it.",
+    "capacity sensitivity at n=1,000,000 k=256: ms/step tracks the padded buffer size, from 4.68 ms at capacity_frac=0.05 to 10.28 ms at capacity_frac=0.20 (2.20x). Oversizing the spike buffer is therefore paid for on every step regardless of activity, while undersizing it truncates spikes (1 of 3 settings overflowed; overflow means those spikes were counted but never delivered). The buffer must be sized for peak, not mean, activity."
+  ],
+  "headline": {
+    "configs_measured": 11,
+    "configs_skipped": 1,
+    "max_neurons_measured": 4000000,
+    "max_synapses_measured": 1024000000,
+    "max_ram_gb_measured": 12.432,
+    "best_bio_ms_per_wall_s": 946.0182972785467,
+    "max_delivered_events_per_s": 2055804902.075705
+  }
+}

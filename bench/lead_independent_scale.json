@@ -1,0 +1,72 @@
+[
+  {
+    "n_neurons": 100000,
+    "k_out": 256,
+    "n_synapses": 25600000,
+    "ms_per_step": 1.3054400007240474,
+    "steps_per_s": 766.0252477673132,
+    "bio_ms_per_wall_s": 766.0252477673132,
+    "realtime_factor": 0.7660252477673132,
+    "active_frac": 0.04752,
+    "rate_hz": 47.52,
+    "overflow": 0,
+    "ram_gib": 0.2894550561904907,
+    "syn_events_per_s": 931878906.2119097
+  },
+  {
+    "n_neurons": 1000000,
+    "k_out": 256,
+    "n_synapses": 256000000,
+    "ms_per_step": 8.377343320753425,
+    "steps_per_s": 119.36958552512371,
+    "bio_ms_per_wall_s": 119.36958552512371,
+    "realtime_factor": 0.11936958552512371,
+    "active_frac": 0.038765,
+    "rate_hz": 38.765,
+    "overflow": 0,
+    "ram_gib": 2.8945505619049072,
+    "syn_events_per_s": 1184604667.6176436
+  },
+  {
+    "n_neurons": 1000000,
+    "k_out": 1024,
+    "n_synapses": 1024000000,
+    "ms_per_step": 28.416675000917166,
+    "steps_per_s": 35.19060551481566,
+    "bio_ms_per_wall_s": 35.19060551481566,
+    "realtime_factor": 0.035190605514815655,
+    "active_frac": 0.056081,
+    "rate_hz": 56.080999999999996,
+    "overflow": 0,
+    "ram_gib": 11.477619409561157,
+    "syn_events_per_s": 2020888932.22541
+  },
+  {
+    "n_neurons": 2000000,
+    "k_out": 256,
+    "n_synapses": 512000000,
+    "ms_per_step": 18.97456335835159,
+    "steps_per_s": 52.702135016975426,
+    "bio_ms_per_wall_s": 52.702135016975426,
+    "realtime_factor": 0.052702135016975425,
+    "active_frac": 0.0384465,
+    "rate_hz": 38.4465,
+    "overflow": 0,
+    "ram_gib": 5.7891011238098145,
+    "syn_events_per_s": 1037420868.5722345
+  },
+  {
+    "n_neurons": 4000000,
+    "k_out": 256,
+    "n_synapses": 1024000000,
+    "ms_per_step": 40.2397850016132,
+    "steps_per_s": 24.851027408817174,
+    "bio_ms_per_wall_s": 24.851027408817174,
+    "realtime_factor": 0.024851027408817176,
+    "active_frac": 0.0384935,
+    "rate_hz": 38.4935,
+    "overflow": 0,
+    "ram_gib": 11.578202247619629,
+    "syn_events_per_s": 979561496.1267753
+  }
+]
