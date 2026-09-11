@@ -65,6 +65,24 @@ class CortexConfig:
     seed: int = 0
     use_dendrite: bool = True
     plasticity: bool = True
+    #: Whether the READOUT learns. Deliberately separate from ``plasticity``:
+    #: an earlier version gated the readout update on the same flag, so the
+    #: ``brain_noplast`` arm removed *all* learning, not substrate plasticity.
+    #: That made it score exactly chance with zero variance, which was written
+    #: up as "plasticity is causal" when it actually tested nothing about the
+    #: substrate. Use ``plasticity=False, readout_learn=True`` to isolate
+    #: substrate plasticity properly.
+    readout_learn: bool = True
+    #: Local readout rule. ``"binary"`` is the ORIGINAL behaviour
+    #: (``err = target - (out > 0)``), which binarises the output so a class
+    #: already scoring positive receives exactly zero error and stops learning.
+    #: ``"delta"`` is the graded rule the docstring always claimed to implement.
+    readout_rule: str = "delta"
+    #: Reset the network between samples. Without this the adaptation state
+    #: (tau ~100 ms) carries across ~7 samples, so every code is partly a
+    #: function of the *previous* image - a leak that contaminated every
+    #: measurement in the repo.
+    reset_between_samples: bool = True
     inhibition: str = "none"
     k_wta: int = 0
     spike_capacity_frac: float = 0.30
@@ -75,6 +93,9 @@ class CortexConfig:
             raise ValueError("n_input cannot exceed n_neurons")
         if self.n_classes > self.n_neurons:
             raise ValueError("n_classes cannot exceed n_neurons")
+        if self.readout_rule not in ("binary", "delta"):
+            raise ValueError(
+                f"readout_rule must be 'binary'|'delta', got {self.readout_rule!r}")
 
 
 class CortexClassifier:
@@ -134,6 +155,11 @@ class CortexClassifier:
         That is a bug, not a finding, and it is why the routing is stated here.
         """
         be, cfg = self.be, self.cfg
+        # Adaptation (tau ~100 ms) outlives a 15 ms sample, so without a reset
+        # each code is partly a function of the PREVIOUS image. Every
+        # measurement in this repo predating this fix carries that leak.
+        if cfg.reset_between_samples:
+            self.brain.reset()
         pix = np.asarray(x, dtype=np.float32).reshape(-1)
         drive = np.zeros(cfg.n_neurons, dtype=np.float32)
         drive[: cfg.n_input] = pix * cfg.gain
@@ -175,11 +201,20 @@ class CortexClassifier:
                 c = self._code(X[i], cfg.t_train_ms)
                 self._update_running_stats(c)
                 cn = self._normalise(c)
-                if cfg.plasticity:
+                if cfg.readout_learn:
                     out = self.W.T @ cn
                     target = np.zeros(cfg.n_classes, dtype=np.float32)
                     target[int(y[i])] = 1.0
-                    err = target - (out > 0.0).astype(np.float32)
+                    if cfg.readout_rule == "delta":
+                        # Graded error: the correction shrinks as the output
+                        # approaches the target. This is the rule the docstring
+                        # has always described.
+                        err = target - out
+                    else:
+                        # ORIGINAL, DEFECTIVE. Kept only for ablation. Binarising
+                        # the output means a class that already scores positive
+                        # gets zero error and stops learning entirely.
+                        err = target - (out > 0.0).astype(np.float32)
                     self.W += cfg.readout_lr * np.outer(cn, err).astype(np.float32)
                     self.readout_updates += 1
                     info["updates"] += 1
