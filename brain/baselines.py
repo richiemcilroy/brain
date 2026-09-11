@@ -708,7 +708,14 @@ class FrozenFeaturesReadout:
         for idx in _chunked_batches(n, self.feature_chunk):
             f = self.features(t.x[idx]).astype(np.float64)
             gram += f.T @ f
-            xty[:, t.y[idx]] += f.T  # one-hot accumulation without materialising Y
+            # NOT ``xty[:, t.y[idx]] += f.T``. That is a NumPy buffered
+            # fancy-index trap: with repeated labels the in-place += keeps only
+            # the LAST write per class column instead of summing, so every class
+            # column held a single sample's features. That silently wrecked every
+            # ``frozen`` baseline number in this repo (it scored *below chance*,
+            # 8.5-14%, and was written up as "the substrate doubles a random
+            # projection"). np.add.at does an unbuffered accumulate.
+            np.add.at(xty, (slice(None), t.y[idx]), f.T)
 
         w = self._solve_ridge(gram, xty)
         self._assign_readout(w, universe)
