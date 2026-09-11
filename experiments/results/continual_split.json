@@ -14,6 +14,7 @@
     "arms": [
       "brain",
       "brain_nodend",
+      "brain_noplast",
       "mlp",
       "mlp_replay",
       "frozen",
@@ -34,7 +35,7 @@
       "diagonal_mean": 0.6213333333333334,
       "n_params": 8000,
       "synops_per_sample": 11157.333333333334,
-      "wall_seconds": 75.91536581968346
+      "wall_seconds": 35.05250193064179
     },
     "brain_nodend": {
       "status": "ok",
@@ -46,11 +47,19 @@
       "diagonal_mean": 0.7279999999999999,
       "n_params": 8000,
       "synops_per_sample": 16426.666666666668,
-      "wall_seconds": 77.263816389003
+      "wall_seconds": 34.54409079129497
     },
     "brain_noplast": {
-      "status": "failed",
-      "error": "not run"
+      "status": "ok",
+      "n_seeds": 3,
+      "final_average": 0.10000000000000002,
+      "final_average_ci95": 1.9233632618876244e-17,
+      "backward_transfer": 0.0,
+      "forgetting": 0.0,
+      "diagonal_mean": 0.10000000000000002,
+      "n_params": 8000,
+      "synops_per_sample": 11200.0,
+      "wall_seconds": 19.774984305646893
     },
     "mlp": {
       "status": "ok",
@@ -62,7 +71,7 @@
       "diagonal_mean": 0.96,
       "n_params": 101770,
       "synops_per_sample": 0.0,
-      "wall_seconds": 0.8627288333179118
+      "wall_seconds": 0.37503269429241
     },
     "mlp_replay": {
       "status": "ok",
@@ -74,7 +83,7 @@
       "diagonal_mean": 0.9546666666666667,
       "n_params": 101770,
       "synops_per_sample": 0.0,
-      "wall_seconds": 0.8368147083286507
+      "wall_seconds": 0.4102567363297567
     },
     "frozen": {
       "status": "ok",
@@ -86,7 +95,7 @@
       "diagonal_mean": 0.2026666666666667,
       "n_params": 1290,
       "synops_per_sample": 0.0,
-      "wall_seconds": 0.02496840265424301
+      "wall_seconds": 0.015626430336851627
     },
     "shuffled": {
       "status": "ok",
@@ -98,7 +107,7 @@
       "diagonal_mean": 0.15333333333333332,
       "n_params": 8000,
       "synops_per_sample": 11157.333333333334,
-      "wall_seconds": 73.8582641526591
+      "wall_seconds": 34.22973465300553
     }
   },
   "runs": [
@@ -147,7 +156,7 @@
       "forgetting": 0.268,
       "n_params": 8000,
       "synops_per_sample": 10240.0,
-      "wall_seconds": 73.9835964590311,
+      "wall_seconds": 39.30725137499394,
       "diagonal_mean": 0.648,
       "n_updates": 0,
       "error": null
@@ -197,8 +206,58 @@
       "forgetting": 0.344,
       "n_params": 8000,
       "synops_per_sample": 12352.0,
-      "wall_seconds": 56.605290542007424,
+      "wall_seconds": 37.67962833296042,
       "diagonal_mean": 0.736,
+      "n_updates": 0,
+      "error": null
+    },
+    {
+      "arm": "brain_noplast",
+      "seed": 0,
+      "acc_matrix": [
+        [
+          0.5,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.5,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.5,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.5,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.5,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "final_average": 0.1,
+      "backward_transfer": 0.0,
+      "forgetting": 0.0,
+      "n_params": 8000,
+      "synops_per_sample": 10368.0,
+      "wall_seconds": 21.592374917003326,
+      "diagonal_mean": 0.1,
       "n_updates": 0,
       "error": null
     },
@@ -247,7 +306,7 @@
       "forgetting": 0.788,
       "n_params": 101770,
       "synops_per_sample": 0.0,
-      "wall_seconds": 1.0379195419955067,
+      "wall_seconds": 0.4114683749503456,
       "diagonal_mean": 0.976,
       "n_updates": 0,
       "error": null
@@ -297,7 +356,7 @@
       "forgetting": 0.6759999999999999,
       "n_params": 101770,
       "synops_per_sample": 0.0,
-      "wall_seconds": 0.8328511249856092,
+      "wall_seconds": 0.43541941698640585,
       "diagonal_mean": 0.968,
       "n_updates": 0,
       "error": null
@@ -347,7 +406,7 @@
       "forgetting": 0.144,
       "n_params": 1290,
       "synops_per_sample": 0.0,
-      "wall_seconds": 0.02257633302360773,
+      "wall_seconds": 0.012129332986660302,
       "diagonal_mean": 0.20800000000000002,
       "n_updates": 0,
       "error": null
@@ -397,7 +456,7 @@
       "forgetting": 0.04,
       "n_params": 8000,
       "synops_per_sample": 10240.0,
-      "wall_seconds": 69.6684035420185,
+      "wall_seconds": 34.10183183400659,
       "diagonal_mean": 0.18,
       "n_updates": 0,
       "error": null
@@ -447,7 +506,7 @@
       "forgetting": 0.21600000000000003,
       "n_params": 8000,
       "synops_per_sample": 11392.0,
-      "wall_seconds": 84.61170866701286,
+      "wall_seconds": 32.61668804194778,
       "diagonal_mean": 0.632,
       "n_updates": 0,
       "error": null
@@ -497,8 +556,58 @@
       "forgetting": 0.304,
       "n_params": 8000,
       "synops_per_sample": 13568.0,
-      "wall_seconds": 65.80341499997303,
+      "wall_seconds": 32.68479445797857,
       "diagonal_mean": 0.716,
+      "n_updates": 0,
+      "error": null
+    },
+    {
+      "arm": "brain_noplast",
+      "seed": 1,
+      "acc_matrix": [
+        [
+          0.5,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.5,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.5,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.5,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.5,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "final_average": 0.1,
+      "backward_transfer": 0.0,
+      "forgetting": 0.0,
+      "n_params": 8000,
+      "synops_per_sample": 11136.0,
+      "wall_seconds": 18.293803249951452,
+      "diagonal_mean": 0.1,
       "n_updates": 0,
       "error": null
     },
@@ -547,7 +656,7 @@
       "forgetting": 0.768,
       "n_params": 101770,
       "synops_per_sample": 0.0,
-      "wall_seconds": 0.6821383329806849,
+      "wall_seconds": 0.3602608749642968,
       "diagonal_mean": 0.9559999999999998,
       "n_updates": 0,
       "error": null
@@ -597,7 +706,7 @@
       "forgetting": 0.6439999999999999,
       "n_params": 101770,
       "synops_per_sample": 0.0,
-      "wall_seconds": 0.7970994579955004,
+      "wall_seconds": 0.37225204199785367,
       "diagonal_mean": 0.9559999999999998,
       "n_updates": 0,
       "error": null
@@ -647,7 +756,7 @@
       "forgetting": 0.08800000000000001,
       "n_params": 1290,
       "synops_per_sample": 0.0,
-      "wall_seconds": 0.02126099995803088,
+      "wall_seconds": 0.010780417011119425,
       "diagonal_mean": 0.192,
       "n_updates": 0,
       "error": null
@@ -697,7 +806,7 @@
       "forgetting": 0.072,
       "n_params": 8000,
       "synops_per_sample": 11392.0,
-      "wall_seconds": 59.31623508298071,
+      "wall_seconds": 32.39803662500344,
       "diagonal_mean": 0.156,
       "n_updates": 0,
       "error": null
@@ -747,7 +856,7 @@
       "forgetting": 0.28800000000000003,
       "n_params": 8000,
       "synops_per_sample": 11840.0,
-      "wall_seconds": 69.1507923330064,
+      "wall_seconds": 33.23356637498364,
       "diagonal_mean": 0.5840000000000001,
       "n_updates": 0,
       "error": null
@@ -797,8 +906,58 @@
       "forgetting": 0.27999999999999997,
       "n_params": 8000,
       "synops_per_sample": 23360.0,
-      "wall_seconds": 109.38274362502852,
+      "wall_seconds": 33.26784958294593,
       "diagonal_mean": 0.7319999999999999,
+      "n_updates": 0,
+      "error": null
+    },
+    {
+      "arm": "brain_noplast",
+      "seed": 2,
+      "acc_matrix": [
+        [
+          0.5,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.5,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.5,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.5,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.5,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "final_average": 0.1,
+      "backward_transfer": 0.0,
+      "forgetting": 0.0,
+      "n_params": 8000,
+      "synops_per_sample": 12096.0,
+      "wall_seconds": 19.438774749985896,
+      "diagonal_mean": 0.1,
       "n_updates": 0,
       "error": null
     },
@@ -847,7 +1006,7 @@
       "forgetting": 0.764,
       "n_params": 101770,
       "synops_per_sample": 0.0,
-      "wall_seconds": 0.868128624977544,
+      "wall_seconds": 0.3533688329625875,
       "diagonal_mean": 0.9480000000000001,
       "n_updates": 0,
       "error": null
@@ -897,7 +1056,7 @@
       "forgetting": 0.616,
       "n_params": 101770,
       "synops_per_sample": 0.0,
-      "wall_seconds": 0.8804935420048423,
+      "wall_seconds": 0.4230987500050105,
       "diagonal_mean": 0.9400000000000001,
       "n_updates": 0,
       "error": null
@@ -947,7 +1106,7 @@
       "forgetting": 0.12000000000000002,
       "n_params": 1290,
       "synops_per_sample": 0.0,
-      "wall_seconds": 0.031067874981090426,
+      "wall_seconds": 0.023969541012775153,
       "diagonal_mean": 0.20800000000000002,
       "n_updates": 0,
       "error": null
@@ -997,7 +1156,7 @@
       "forgetting": 0.06000000000000001,
       "n_params": 8000,
       "synops_per_sample": 11840.0,
-      "wall_seconds": 92.5901538329781,
+      "wall_seconds": 36.189335500006564,
       "diagonal_mean": 0.124,
       "n_updates": 0,
       "error": null

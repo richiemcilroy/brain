@@ -1,0 +1,370 @@
+{
+  "config": {
+    "tasks": 5,
+    "seeds": 3,
+    "epochs": 1,
+    "permute": false,
+    "neurons": 800,
+    "k_out": 64,
+    "hidden": 128,
+    "lr": 0.01,
+    "batch_size": 64,
+    "inhibition": "kwta",
+    "k_wta": 64,
+    "arms": [
+      "brain",
+      "brain_noplast"
+    ],
+    "train_per_task": 80,
+    "test_per_task": 50,
+    "verbose": false
+  },
+  "summary": {
+    "brain": {
+      "status": "ok",
+      "n_seeds": 3,
+      "final_average": 0.36400000000000005,
+      "final_average_ci95": 0.06968344423175424,
+      "backward_transfer": -0.25733333333333336,
+      "forgetting": 0.25733333333333336,
+      "diagonal_mean": 0.6213333333333334,
+      "n_params": 8000,
+      "synops_per_sample": 11157.333333333334,
+      "wall_seconds": 42.96562559733866
+    },
+    "brain_nodend": {
+      "status": "failed",
+      "error": "not run"
+    },
+    "brain_noplast": {
+      "status": "ok",
+      "n_seeds": 3,
+      "final_average": 0.10000000000000002,
+      "final_average_ci95": 1.9233632618876244e-17,
+      "backward_transfer": 0.0,
+      "forgetting": 0.0,
+      "diagonal_mean": 0.10000000000000002,
+      "n_params": 8000,
+      "synops_per_sample": 11200.0,
+      "wall_seconds": 23.47942263898828
+    },
+    "mlp": {
+      "status": "failed",
+      "error": "not run"
+    },
+    "mlp_replay": {
+      "status": "failed",
+      "error": "not run"
+    },
+    "frozen": {
+      "status": "failed",
+      "error": "not run"
+    },
+    "shuffled": {
+      "status": "failed",
+      "error": "not run"
+    }
+  },
+  "runs": [
+    {
+      "arm": "brain",
+      "seed": 0,
+      "acc_matrix": [
+        [
+          0.72,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.66,
+          0.62,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.42,
+          0.5,
+          0.62,
+          0.0,
+          0.0
+        ],
+        [
+          0.44,
+          0.44,
+          0.46,
+          0.68,
+          0.0
+        ],
+        [
+          0.4,
+          0.38,
+          0.2,
+          0.32,
+          0.6
+        ]
+      ],
+      "final_average": 0.38,
+      "backward_transfer": -0.268,
+      "forgetting": 0.268,
+      "n_params": 8000,
+      "synops_per_sample": 10240.0,
+      "wall_seconds": 42.94518508302281,
+      "diagonal_mean": 0.648,
+      "n_updates": 0,
+      "error": null
+    },
+    {
+      "arm": "brain_noplast",
+      "seed": 0,
+      "acc_matrix": [
+        [
+          0.5,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.5,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.5,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.5,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.5,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "final_average": 0.1,
+      "backward_transfer": 0.0,
+      "forgetting": 0.0,
+      "n_params": 8000,
+      "synops_per_sample": 10368.0,
+      "wall_seconds": 24.35048545897007,
+      "diagonal_mean": 0.1,
+      "n_updates": 0,
+      "error": null
+    },
+    {
+      "arm": "brain",
+      "seed": 1,
+      "acc_matrix": [
+        [
+          0.78,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.6,
+          0.62,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.52,
+          0.54,
+          0.52,
+          0.0,
+          0.0
+        ],
+        [
+          0.64,
+          0.46,
+          0.48,
+          0.62,
+          0.0
+        ],
+        [
+          0.48,
+          0.34,
+          0.26,
+          0.38,
+          0.62
+        ]
+      ],
+      "final_average": 0.41600000000000004,
+      "backward_transfer": -0.21600000000000003,
+      "forgetting": 0.21600000000000003,
+      "n_params": 8000,
+      "synops_per_sample": 11392.0,
+      "wall_seconds": 36.20646516699344,
+      "diagonal_mean": 0.632,
+      "n_updates": 0,
+      "error": null
+    },
+    {
+      "arm": "brain_noplast",
+      "seed": 1,
+      "acc_matrix": [
+        [
+          0.5,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.5,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.5,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.5,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.5,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "final_average": 0.1,
+      "backward_transfer": 0.0,
+      "forgetting": 0.0,
+      "n_params": 8000,
+      "synops_per_sample": 11136.0,
+      "wall_seconds": 21.330855374981184,
+      "diagonal_mean": 0.1,
+      "n_updates": 0,
+      "error": null
+    },
+    {
+      "arm": "brain",
+      "seed": 2,
+      "acc_matrix": [
+        [
+          0.68,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.6,
+          0.52,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.5,
+          0.34,
+          0.5,
+          0.0,
+          0.0
+        ],
+        [
+          0.36,
+          0.34,
+          0.24,
+          0.64,
+          0.0
+        ],
+        [
+          0.18,
+          0.26,
+          0.12,
+          0.34,
+          0.58
+        ]
+      ],
+      "final_average": 0.296,
+      "backward_transfer": -0.28800000000000003,
+      "forgetting": 0.28800000000000003,
+      "n_params": 8000,
+      "synops_per_sample": 11840.0,
+      "wall_seconds": 49.74522654199973,
+      "diagonal_mean": 0.5840000000000001,
+      "n_updates": 0,
+      "error": null
+    },
+    {
+      "arm": "brain_noplast",
+      "seed": 2,
+      "acc_matrix": [
+        [
+          0.5,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.5,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.5,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.5,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.5,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "final_average": 0.1,
+      "backward_transfer": 0.0,
+      "forgetting": 0.0,
+      "n_params": 8000,
+      "synops_per_sample": 12096.0,
+      "wall_seconds": 24.75692708301358,
+      "diagonal_mean": 0.1,
+      "n_updates": 0,
+      "error": null
+    }
+  ]
+}

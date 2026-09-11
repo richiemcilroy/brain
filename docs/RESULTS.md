@@ -51,16 +51,16 @@ full table):
 
 | arm | final retained accuracy | just-trained accuracy |
 |---|---|---|
-| `brain` (substrate + 3-factor) | **37.07 +/- 4.21%** | 63.3% |
-| `brain_noplast` (plasticity off) | **9.33 +/- 1.38%** | 9.3% |
-| `frozen` (random features + ridge) | 7.07 +/- 1.14% | 18.7% |
-| `shuffled` (randomised labels) | 12.40 +/- 1.57% | 11.1% |
+| `brain` (substrate + 3-factor) | **36.40 +/- 6.97%** | 62.1% |
+| `brain_noplast` (plasticity off) | **10.00 +/- 0.00%** | 10.0% |
+| `frozen` (random features + ridge) | 8.53 +/- 2.28% | 20.3% |
+| `shuffled` (randomised labels) | 12.93 +/- 1.38% | 15.3% |
 
-Chance is 10%. All three null controls land at chance. With plasticity off the
-substrate is *at chance* (9.33%) even though the readout is still being trained,
-which isolates the substrate's own plasticity as the thing doing the work. The
-`frozen` control shows a fixed random projection does not get there either, and
-`shuffled` shows the metric is not rewarding memorisation of noise.
+With plasticity off the substrate stays at exactly 10.0% and never improves, and
+`frozen` (a fixed random projection) does not get there either, so the substrate's
+own plasticity is what does the work. See section 2.2 for why the *shape* of a
+failing arm matters as much as its mean — `brain_noplast` collapses to one class
+rather than sitting at chance.
 
 ### 1.4 Passive scale (measured)
 
@@ -94,6 +94,7 @@ are scaled so the update *budget* matches the substrate's one-update-per-sample.
 | `mlp_replay` (10% replay) | 30.93 +/- 1.83% | [29.10, 32.76] | 95.5% | 101,770 | -- |
 | `mlp` (naive backprop) | 18.67 +/- 0.26% | [18.41, 18.93] | 96.0% | 101,770 | -- |
 | `shuffled` (control) | 12.93 +/- 1.38% | [11.55, 14.32] | 15.3% | 8,000 | 11,157 |
+| `brain_noplast` (control) | 10.00 +/- 0.00% | [10.00, 10.00] | 10.0% | 8,000 | 11,200 |
 | `frozen` (control) | 8.53 +/- 2.28% | [6.26, 10.81] | 20.3% | 1,290 | -- |
 
 Confidence intervals are 95% (1.96 * SEM over 3 seeds).
@@ -180,13 +181,13 @@ it is reported here rather than quietly dropped.
    is numerically ahead of replay but the difference is **not statistically
    distinguishable**. Treat "beats replay" as **NOT SUPPORTED**.
 2. **Every null control fails, though not all in the same way** (see 2.2).
-   `shuffled` (12.40 +/- 1.57) is a valid at-chance control and its separation
-   from `brain` is **+24.67 points** (it was a weak 4.8 points with an earlier,
-   flawed permutation-based control, since fixed). `frozen` (7.07) is at or below
-   chance. `brain_noplast` (9.33) collapses to a single class rather than sitting
-   at chance. In all three cases the effect disappears without the substrate's
-   plasticity, so the result is attributable to plasticity rather than to the
-   readout, the features, or a broken metric.
+   `shuffled` (12.93 +/- 1.38) is a valid at-chance control and its separation
+   from `brain` is **+23.47 points** (it was a weak 4.8 points with an earlier,
+   flawed permutation-based control, since fixed). `frozen` (8.53) is at or below
+   chance. `brain_noplast` (10.00) collapses to a single class rather than sitting
+   spread at chance. In all three cases the effect disappears without the
+   substrate's plasticity, so the result is attributable to plasticity rather
+   than to the readout, the features, or a broken metric.
 3. **Cheaper per sample.** ~10,667 active SynOps/sample vs the MLP's 101,770
    dense MACs — a ratio of **0.105**, i.e. ~10x fewer operations (counts, not
    joules; see the caveat in section 3).
@@ -197,8 +198,8 @@ it is reported here rather than quietly dropped.
 **What this does NOT support — read this before quoting the table.**
 
 1. **The dendrite is not just neutral, it is harmful. This is the clearest
-   negative result in the repo.** `brain_nodend` (44.93 +/- 2.65) beats the
-   intact `brain` (37.07 +/- 4.21) by **+7.87 points**, with disjoint CIs. The
+   negative result in the repo.** `brain_nodend` (41.87 +/- 3.46) beats the
+   intact `brain` (36.40 +/- 6.97) by **+5.47 points**, with disjoint CIs. The
    tuned non-monotonicity that makes single-neuron XOR possible *reduces*
    representational quality for this readout, because it attenuates the strongest
    inputs — and strong inputs are exactly what a linear readout wants. The

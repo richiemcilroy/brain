@@ -352,7 +352,12 @@ def main(argv: list[str] | None = None) -> int:
         "summary": summary,
         "runs": [asdict(r) for r in all_results],
     }
-    out = RESULTS_DIR / f"continual_{'permuted' if args.permute else 'split'}.json"
+    # Include the arm set in the filename. Otherwise running a reduced
+    # ``--arms`` subset silently overwrites the full result file, destroying
+    # data that other numbers in the docs depend on.
+    subset = "" if set(args.arms) == set(ARMS) else "_" + "-".join(sorted(args.arms))
+    tag = "permuted" if args.permute else "split"
+    out = RESULTS_DIR / f"continual_{tag}{subset}.json"
     out.write_text(json.dumps(payload, indent=2))
     print(f"\nwrote {out}")
     return 0
