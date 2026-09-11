@@ -64,13 +64,12 @@ which isolates the substrate's own plasticity as the thing doing the work. The
 
 ### 1.4 Passive scale (measured)
 
-| Neurons | Synapses | Peak RSS | ms/step | Synaptic events/s |
-|---|---|---|---|---|
-| 100,000 | 25.6M | 3.1 GB | 1.06 | — |
-| 1,000,000 | 256M | 6.2 GB | 3.65 | 1.51e9 |
-| 1,000,000 | 1024M | 19.8 GB | 3.98 | 2.06e9 |
-| 4,000,000 | 1024M | 29.9 GB | 3.87 | 1.33e9 |
-
+| Neurons | Fan-out | Synapses | Est. peak memory | ms/step | Delivered synaptic events/s |
+|---|---|---|---|---|---|
+| 100,000 | 1024 | 0.10e9 | 2.5 GB | 2.20 | 1.898e9 |
+| 1,000,000 | 256 | 0.26e9 | 6.2 GB | 6.19 | 1.512e9 |
+| 1,000,000 | 1024 | 1.02e9 | 24.6 GB | 19.81 | 2.056e9 |
+| 4,000,000 | 256 | 1.02e9 | 24.8 GB | 29.88 | 1.328e9 |
 Storage is exactly **12 bytes/synapse**. Full detail and the honest caveats are
 in `docs/SCALING.md`; the headline caveat is that **cost is not sparsity-driven**
 — an undriven network fires ~1100x less and still costs ~80% as much per step,
