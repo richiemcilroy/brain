@@ -48,6 +48,11 @@ exact conditions that would falsify the claim: **[`docs/PARADIGM.md`](docs/PARAD
 ```bash
 cd human-brain
 
+# 0. fetch MNIST for the continual-learning experiments (~11 MB, once).
+#    Step 4 needs it; steps 1-3 do not. See data/README.md for the checksum.
+curl -sL -o data/mnist.npz \
+  https://storage.googleapis.com/tensorflow/tf-keras-datasets/mnist.npz
+
 # 1. prove the core biological claim: a single neuron computes XOR,
 #    and the linear-dendrite ablation cannot.
 python3 experiments/xor_neuron.py
@@ -59,7 +64,12 @@ python3 -m pytest tests/ -q
 python3 bench/bench_scale.py
 
 # 4. the falsification experiment: single-pass continual learning, no replay
-python3 experiments/continual.py --tasks 5 --seeds 3
+python3 experiments/continual.py --tasks 5 --seeds 3 --neurons 800 \
+  --train-per-task 80 --test-per-task 50 --lr 1e-2
+
+# 5. the benchmark that falsified the hypothesis (harder: new pixel map per task)
+python3 experiments/continual.py --permute --tasks 5 --seeds 2 --neurons 800 \
+  --train-per-task 200 --test-per-task 100 --lr 1e-2
 ```
 
 Requires `numpy` and `mlx`. If MLX is unavailable the whole stack falls back to
