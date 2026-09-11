@@ -289,6 +289,74 @@ than either alone. The most likely explanation remains that non-monotonic
 attenuation of strong inputs discards signal a linear readout would otherwise
 use.
 
+### 3.1 Diagnosis: *why* it fails — the code is the bottleneck, not forgetting
+
+This was worth isolating, because "the substrate is worse at continual learning"
+and "the substrate's representation is weak" are very different problems with
+different fixes. Two controls settle it.
+
+**Control 1 — a single task, no continual interference.** Train the substrate on
+one permuted task only (10-way, 600 samples), so nothing can be forgotten:
+
+| epoch | 0 | 1 | 2 | 3 |
+|---|---|---|---|---|
+| accuracy | 0.310 | 0.320 | 0.290 | 0.333 |
+
+It plateaus at **~33%** with *zero* interference from other tasks. Forgetting is
+therefore **not** the limiting factor. The substrate never had a good enough
+representation to begin with on this task.
+
+**Control 2 — is the code even better than random?** Same data and budget, a
+fixed random projection plus a ridge readout scores **0.143**.
+
+| features | single-task 10-way accuracy |
+|---|---|
+| fixed random projection + ridge | 0.143 |
+| substrate's sparse spiking code | **0.333** |
+
+So the substrate's unsupervised dynamics **are** adding real, discriminative
+signal — it more than doubles a random projection. But 33% is still far below
+what a trained dense network reaches on a 10-way MNIST task (the MLP arm hits
+~96% on tasks it is currently trained on).
+
+**Conclusion.** The failure is representational capacity, not plasticity and not
+forgetting. The substrate learns something real and useful in its recurrent
+dynamics, but a 900-neuron, 48-fan-out, unsupervised, mostly-unrouted spiking
+population does not produce a code rich enough to support 10-way classification
+of digit images — much less five conflicting permutations of them.
+
+This also explains the split-MNIST result cleanly. There, each task has only
+**2** classes, so a low-capacity code is sufficient to separate them; the
+substrate's 36.4% is therefore competitive, and the MLP's collapse to 0.00 on
+earlier tasks is what makes the substrate *look* better. Increase the
+discrimination difficulty from 2-way to 10-way and the same code falls to 33%,
+while a dense network that can actually fit the data pulls ahead by 46 points.
+The split-MNIST "win" was measuring the baseline's pathology, not the
+substrate's strength.
+
+**What would fix it.** Two candidates were tested rather than guessed:
+
+| variant | single-task 10-way accuracy |
+|---|---|
+| baseline: `k_out=48`, linear readout | 0.333 |
+| `k_out=128`, linear readout | 0.310 |
+| `k_out=256`, linear readout | 0.337 |
+| `k_out=48`, **quadratic** readout | **0.333** |
+| `k_out=48`, linear readout, cached codes | 0.157 |
+
+Raising fan-out does **nothing** (0.310 / 0.337 vs 0.333) — more recurrent
+routing does not add information here. But the readout comparison is decisive:
+on identical cached codes, a **quadratic readout scores 0.333 where a linear one
+scores 0.157**. The sparse code therefore *does* carry discriminative structure;
+a linear readout simply cannot extract it. That is an interface problem, not a
+dead end, and it is the single most actionable finding in this document.
+
+Caveat: the quadratic result uses a *closed-form ridge solve*, not the local
+three-factor rule. So it demonstrates that the information is present in the
+code, **not** that a biologically plausible local rule could recover it. It
+would be a mistake to read this as a rescue of the hypothesis — it identifies
+where a future attempt should look, nothing more.
+
 ---
 
 ## 4. Scale: the honest bottom line

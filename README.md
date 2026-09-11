@@ -211,6 +211,16 @@ Two further results went *against* the hypothesis and are reported as such:
    Single-neuron XOR still works; it just doesn't make a better code.
 2. **Replay matches the substrate** on split-MNIST, at far lower complexity.
 
+**Why it fails, diagnosed rather than guessed.** On a single permuted task with
+*no* interference from other tasks, the substrate plateaus at ~33% accuracy
+(10-way), so forgetting is not the limiting factor — the representation is. It
+does beat a fixed random projection (14.3%), so the recurrent dynamics add real
+signal, but a linear readout cannot extract it: on identical cached codes, a
+**quadratic readout scores 33.3% where a linear one scores 15.7%**. Raising
+fan-out to 256 changes nothing (31.0-33.7%). The bottleneck is the code→readout
+interface, and that is where a future attempt should look. See `docs/RESULTS.md`
+§3.1.
+
 Full analysis and every defect found along the way: `docs/RESULTS.md` and
 `docs/DECISIONS.md`.
 
