@@ -93,6 +93,43 @@ combining with something else:
   active maintenance on top.** This experiment shows the first half works and
   the second half is inert, which localises the work precisely.
 
+
+## UPDATE — an important confound, found afterwards
+
+The `tau_dend` sweep above was run with the default `dend_scale=1.0`. That
+turns out to be a fragile operating point (see
+`docs/NEURON_OPERATING_POINT.md`): at `dend_scale=1.0` with a drive of 6.0 the
+tuning curve attenuates the input ~25x, and a population can emit **zero
+spikes**.
+
+A retest at a **calibrated** operating point (`dend_scale=6.0`, delay 600 ms,
+`tau_dend=10 ms`) shows:
+
+| arm | spikes | accuracy |
+|---|---|---|
+| plasticity OFF | 13,680 | 0.150 |
+| plasticity ON | 13,680 | 0.150 |
+
+Chance is 0.167. So at a matched operating point there is **no active
+maintenance**, and plasticity changes nothing — not even the spike count.
+
+The positive control for that retest **failed**: `tau_dend=200 ms` at
+`dend_scale=6.0` emitted **0 spikes**, because a slower dendrite charges less
+within a 40 ms stimulus and never reaches threshold. So `tau_dend` does not only
+control memory duration; it also controls whether the neuron fires at all.
+
+**What this means for the result above.** The memory window did scale with
+`tau_dend`, and every arm in that sweep reached 1.000 at delay 0, so the
+neurons were firing in all of them. But because `tau_dend` also moves the
+operating point, the sweep conflates *how long the trace lasts* with *how
+strongly the trace drives the soma*. The scaling is real; the claim that
+`tau_dend` is a clean, tunable memory knob is **not yet established** and needs
+a re-run where the operating point is re-calibrated at each `tau_dend` so that
+spike counts are matched across arms.
+
+Until that is done, treat the duration numbers as measured but the mechanism
+attribution as provisional.
+
 ## Caveats
 
 - Six stimuli, 240 trials, held-out half. Enough to establish the ordering and
