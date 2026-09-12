@@ -1,0 +1,68 @@
+{
+ "inputs": {
+  "n_neurons": [
+   86100000000.0,
+   "literature: Azevedo 2009"
+  ],
+  "syn_per_neuron": [
+   7000.0,
+   "literature: cortical mean"
+  ],
+  "bytes_per_synapse": [
+   12.0,
+   "measured, exactly 12 B"
+  ],
+  "ev_per_s": [
+   2020888932.0,
+   "measured, peak of 5 configs"
+  ],
+  "rate_hz": [
+   1.0,
+   "literature: cortical average, scales linearly"
+  ]
+ },
+ "totals": {
+  "synapses": 602700000000000.0,
+  "storage_bytes": 7232400000000000.0,
+  "storage_pb": 7.2324,
+  "events_per_s_for_realtime": 602700000000000.0
+ },
+ "memory_wall": {
+  "machines_128gb": 52622.63584882021,
+  "note": "The binding constraint. Does not improve with more compute per chip."
+ },
+ "throughput_wall": {
+  "machines_of_ours": 298235.0937038038,
+  "realtime_deficit_x": 298235.0937038038,
+  "s_per_biological_s": 298235.0937038038,
+  "days_per_biological_s": 3.4517950660162473,
+  "ms_of_brain_per_hour_of_compute": 12.071014028870085
+ },
+ "energy": {
+  "pj_per_synaptic_event": 29689.904798785843,
+  "x_less_efficient_than_loihi2": 1258.0468135078747,
+  "x_less_efficient_than_biology_low": 29689904.798785843,
+  "x_less_efficient_than_biology_high": 296899.0479878584,
+  "note": "These are operation-count proxies scaled by package power, not measured synapse energy."
+ },
+ "sanity_checks": {
+  "dtb_2023": {
+   "gpus": 14012,
+   "neurons": 86000000000.0,
+   "synapses": 47800000000000.0,
+   "realtime": [
+    0.008,
+    0.015
+   ],
+   "plasticity": false,
+   "note": "static connectivity, no plasticity, 2x fewer synapses than the biological estimate"
+  },
+  "k_computer_2014": {
+   "procs": 82944,
+   "neurons": 1860000000.0,
+   "synapses": 11000000000000.0,
+   "s_per_bio_s": 2481.66
+  },
+  "ratio_dtb_gpus_to_our_measured_laptops": 0.04698306904792434
+ }
+}
