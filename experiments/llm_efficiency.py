@@ -208,7 +208,10 @@ class ParallelColumns(nn.Module):
             [Block(d, n_head, kind, banks, chunk) for _ in range(depth)]
             for _ in range(n_col)
         ]
-        self.mix = nn.Linear(d * n_col, d, bias=True)
+        # outs is [x] + one output per column, so the mixer input is
+        # (n_col + 1) * d, not n_col * d. The original version sized it as
+        # n_col * d and raised a shape error on the first forward pass.
+        self.mix = nn.Linear(d * (n_col + 1), d, bias=True)
 
     def __call__(self, x, mask=None):
         outs = [x]
