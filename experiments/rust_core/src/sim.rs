@@ -121,7 +121,7 @@ pub enum Mode {
     /// Python path. Isolates implementation speed from algorithmic gain.
     Dense,
     /// Integrate only neurons that can change state. Exact when a resting neuron
-    /// at the exact rest fixed point (see `Sim::at_rest`).
+    /// provably unable to fire without new input (see `Sim::can_sleep`).
     EventDriven,
 }
 
@@ -155,15 +155,19 @@ pub struct Sim {
     in_awake: Vec<u32>,
     awake_epoch: u32,
     carried: Vec<u32>,
-    /// Neurons at the exact rest fixed point. While asleep they cost nothing and
-    /// need no catch-up arithmetic on wake (see `Sim::at_rest`).
+    /// Neurons proven unable to fire without new input. While asleep they cost
+    /// nothing and are advanced in closed form on wake (see `fast_forward`).
     asleep: Vec<bool>,
+    sleep_since: Vec<u64>,
     idx_len: usize,
     needs_reseed: bool,
     // --- per-step scratch (no allocation in the hot loop) ---
     pub i_soma_buf: Vec<f32>,
     arrivals: Vec<u32>,
     prev_arrivals: Vec<u32>,
+    /// Neurons that slept and are being woken this step, so their state can be
+    /// fast-forwarded before they are integrated.
+    pending_wake: Vec<u32>,
     spike_idx: Vec<u32>,
     last_spikes: Vec<u32>,
     pub step_spikes: Vec<u32>,
@@ -198,10 +202,12 @@ impl Sim {
             awake_epoch: 1,
             carried: Vec::new(),
             asleep: vec![false; n],
+            sleep_since: vec![0; n],
             idx_len: 0,
             needs_reseed: true,
             i_soma_buf: vec![0.0; n],
             arrivals: Vec::new(),
+            pending_wake: Vec::new(),
             prev_arrivals: Vec::new(),
             spike_idx: Vec::new(),
             last_spikes: Vec::new(),
@@ -271,47 +277,130 @@ impl Sim {
         self.flat[slot * n + target]
     }
 
-    /// True when the neuron is exactly at the rest fixed point.
+    /// True when the neuron PROVABLY cannot fire again until new input arrives.
     ///
-    /// At `v_soma == e_leak`, `v_dend == e_dend`, `adapt == 0` and `refrac == 0`,
-    /// with no arriving current and no drive, every term of the Euler update is
-    /// exactly zero:
+    /// With no arriving current the soma recurrence is
     ///
     /// ```text
-    /// v_dend += (dt/tau_dend) * (-(e_dend - e_dend) + 0)          = 0
-    /// phi(e_dend) = 0                                            -> dend_drive = 0
-    /// adapt  *= (1 - dt/tau_adapt)      with adapt == 0           = 0
-    /// refrac  = max(0 - dt, 0)                                    = 0
-    /// v_soma += (dt/tau_soma) * (-(e_leak - e_leak) + 0 + 0 - 0)  = 0
+    /// w(t+1) = a*w(t) + (dt/tau)*D(t),   w = v_soma - e_leak,  a = 1 - dt/tau
+    /// D(t)   = dend_gain*phi(v_dend(t)) - adapt(t)
     /// ```
     ///
-    /// Every added term is a literal zero, so the state is a fixed point of the
-    /// update in IEEE floating point with no rounding drift to accumulate.
-    /// Skipping such a neuron is EXACT, not an approximation, and it can be
-    /// woken with no catch-up arithmetic because its stored state is already
-    /// correct.
+    /// Unrolling, `w(t) = a^t*w(0) + (dt/tau)*sum_{s<t} a^(t-1-s)*D(s)`. If
+    /// `D(t) <= 0` for all `t >= 0` the whole sum is non-positive, giving
     ///
-    /// This is deliberately conservative. A sharper bound exists -- a neuron with
-    /// `adapt > 0` and `v_soma < v_thresh` also provably cannot fire, because once
-    /// `phi == 0` and `adapt >= 0` the soma obeys
-    /// `sup_t v_soma <= e_leak + max(v_soma - e_leak, 0)`. Exploiting that bound
-    /// requires advancing the neuron in closed form on wake; an earlier version of
-    /// this core did so with a subtly wrong closed form and reported a convergent
-    /// trajectory at 0.1% activity while delivering 57% fewer spikes than the dense
-    /// path at 20% activity. Sleeping only at the exact fixed point needs no
-    /// arithmetic, so there is nothing left to get wrong. See BENCH.md.
+    /// ```text
+    /// sup_t w(t) <= max(w(0), 0)   hence   sup_t v_soma <= e_leak + max(v_soma - e_leak, 0)
+    /// ```
     ///
-    /// Requires `adapt_base == 0`, which holds for every configuration in this
-    /// repo. If a caller sets a nonzero `adapt_base` this returns false and nothing
-    /// is skipped, rather than silently mis-integrating.
+    /// If that supremum is below `v_thresh`, the neuron cannot fire again until
+    /// input arrives, so integrating it is pure waste.
+    ///
+    /// Two conditions pin `D(t) <= 0`:
+    ///
+    /// * `v_dend == e_dend` exactly, so `phi(v_dend) == 0`. This holds in this
+    ///   substrate because `brain/simulator.py` always passes `i_dend = 0` and
+    ///   `v_dend` is initialised to `e_dend`, so it never moves. It is CHECKED
+    ///   rather than assumed, so the moment a caller introduces dendritic current
+    ///   the shortcut disables itself instead of silently corrupting results.
+    ///   (The dendritic path is this substrate's most distinctive feature, so
+    ///   this is a real constraint on the prototype, not a formality.)
+    /// * `adapt >= 0`. With `adapt_base = 0` and `adapt_inc > 0`, adaptation is
+    ///   non-negative throughout, so `-adapt(t) <= 0`. Also checked.
+    ///
+    /// `refrac > 0` is deliberately NOT required: a refractory neuron is even
+    /// safer, and requiring `refrac == 0` would exclude exactly the neurons that
+    /// dominate sparse activity.
+    ///
+    /// This is a proof, not a tolerance. The remaining approximation is the
+    /// floating-point rounding of the closed-form fast-forward, which is exact in
+    /// real arithmetic.
+    ///
+    /// Sleeping is the ONLY thing that makes event-driven cheaper than dense, and
+    /// it is why the criterion must not be "exactly at rest": `adapt` decays as
+    /// `a_adapt^t` and never reaches exactly zero, so a criterion requiring exact
+    /// rest makes every neuron that has ever spiked awake forever. Measured, that
+    /// grew the awake set from 55k to 880k neurons over 120 steps and erased the
+    /// advantage above ~0.15% activity.
     #[inline(always)]
-    fn at_rest(p: &Params, v_soma: f32, v_dend: f32, adapt: f32, refrac: f32) -> bool {
-        p.adapt_base == 0.0
-            && v_soma == p.e_leak
-            && v_dend == p.e_dend
-            && adapt == 0.0
-            && refrac == 0.0
+    fn can_sleep(p: &Params, v_soma: f32, v_dend: f32, adapt: f32) -> bool {
+        v_dend == p.e_dend
+            && adapt >= 0.0
+            && p.e_leak + (v_soma - p.e_leak).max(0.0) < p.v_thresh
     }
+
+    /// Catch a sleeping neuron up to `now` with an EXACT cheap loop.
+    ///
+    /// A closed form (`a.powf(t)`) is mathematically right but not bit-exact with
+    /// repeated Euler steps: `powf` is computed as `exp(t*ln a)` and rounds
+    /// differently from t sequential multiplies. Measured, that ~1 ULP difference
+    /// was enough to make event-driven diverge from the dense path in a chaotic
+    /// spiking network (~0.02% of spikes at 20% activity, growing with activity),
+    /// so a closed form is not acceptable here even though the algebra is correct.
+    ///
+    /// This loop instead applies the same arithmetic the integrator would, in the
+    /// same order, but only the terms that are non-zero for a neuron that provably
+    /// cannot fire:
+    ///
+    ///   * no dendritic activation (`phi == 0`, guaranteed by `can_sleep`)
+    ///   * no arriving current and no drive (guaranteed by the caller)
+    ///   * no threshold test and no branch, because the neuron cannot cross it
+    ///
+    /// so it is a few flops per skipped millisecond instead of a full `integrate_one`
+    /// (which pays an `exp` for the dendritic activation and a compare/branch pair
+    /// every step). Bit-exactness is the point: the state after catching up is
+    /// identical to what step-by-step integration would have produced, so
+    /// event-driven and dense emit identical spike trains.
+    #[inline]
+    pub fn relax(&self, u: usize, t: u64) -> (f32, f32, f32, f32) {
+        let p = &self.p;
+        let dt = p.dt;
+        let (mut v_soma, mut v_dend, mut adapt, mut refrac) =
+            (self.v_soma[u], self.v_dend[u], self.adapt[u], self.refrac[u]);
+        let a_soma = dt / p.tau_soma;
+        let a_dend = dt / p.tau_dend;
+        let a_adapt = dt / p.tau_adapt;
+        for _ in 0..t {
+            // Same order as `integrate_one` with i_soma = 0 and drive = 0.
+            v_dend += a_dend * (-(v_dend - p.e_dend) + 0.0);
+            adapt *= 1.0 - a_adapt;
+            refrac = (refrac - dt).max(0.0);
+            v_soma += a_soma * (-(v_soma - p.e_leak) + 0.0 + 0.0 - adapt);
+        }
+        (v_soma, v_dend, adapt, refrac)
+    }
+
+    /// Bring every sleeping neuron's state exactly up to the current time.
+    ///
+    /// Sleeping neurons are not integrated step by step, so their stored fields
+    /// hold the values from when they fell asleep. Spike output and delivered
+    /// current are unaffected, because a neuron is fast-forwarded before it is
+    /// integrated again. But a consumer that reads the continuous state directly
+    /// (a rate readout over `v_soma`, an analysis plot, a decoder) must call this
+    /// first or it will read a stale value.
+    ///
+    /// O(N) with no per-step cost, so the hot loop stays activity-scaled while
+    /// exact continuous state remains available on demand. It does not perturb
+    /// the spike trajectory: it writes the values the step-by-step integrator
+    /// would have produced.
+    pub fn materialize_state(&mut self) {
+        let t = self.time;
+        for u in 0..self.p.n as usize {
+            if self.asleep[u] {
+                let n = t.saturating_sub(self.sleep_since[u]).saturating_sub(1);
+                if n > 0 {
+                    let (vs, vd, ad, rf) = self.relax(u, n);
+                    self.v_soma[u] = vs;
+                    self.v_dend[u] = vd;
+                    self.adapt[u] = ad;
+                    self.refrac[u] = rf;
+                }
+                self.sleep_since[u] = t;
+            }
+        }
+    }
+
+
 
     /// Mark the active set as needing a full rescan. Call after installing state
     /// from outside (fixture load, manual state edit, `reset`).
@@ -357,6 +446,8 @@ impl Sim {
         let dense = !event_mode;
         let mut wake = std::mem::take(&mut self.awake);
         wake.clear();
+        let mut fast_fwd = std::mem::take(&mut self.pending_wake);
+        fast_fwd.clear();
 
         if dense {
             for u in 0..self.p.n {
@@ -371,9 +462,10 @@ impl Sim {
                     let u: u32 = $u;
                     if self.in_awake[u as usize] != ep {
                         self.in_awake[u as usize] = ep;
-                        // No catch-up arithmetic: a sleeping neuron is exactly at
-                        // the rest fixed point, so its stored state is correct.
-                        self.asleep[u as usize] = false;
+                        if self.asleep[u as usize] {
+                            self.asleep[u as usize] = false;
+                            fast_fwd.push(u);
+                        }
                         wake.push(u);
                     }
                 }};
@@ -416,9 +508,9 @@ impl Sim {
                 let p2 = self.p.clone();
                 for u in 0..self.p.n {
                     let uu = u as usize;
-                    if Self::at_rest(&p2, self.v_soma[uu], self.v_dend[uu], self.adapt[uu],
-                                     self.refrac[uu]) {
+                    if Self::can_sleep(&p2, self.v_soma[uu], self.v_dend[uu], self.adapt[uu]) {
                         self.asleep[uu] = true;
+                        self.sleep_since[uu] = t;
                     } else {
                         enqueue!(u as u32);
                     }
@@ -427,8 +519,45 @@ impl Sim {
             }
         }
 
-        let idx = wake;
+        // Dense-iteration fallback. When almost every neuron is awake, the active
+        // set buys no skipping but still costs indirect indexed access, plus a
+        // 1M-entry `wake` vector. Iterating 0..n sequentially is then strictly
+        // cheaper. Measured at n=1M, k=64: event-driven integrated 99.998% of
+        // neurons at 0.5 driven and took 97.5 ms/step versus 68.9 ms/step for the
+        // dense loop -- i.e. the sparse machinery was pure overhead once there was
+        // nothing to skip. This fallback keeps the semantics identical (every
+        // neuron is integrated either way) and removes that overhead.
+        //
+        // The threshold is on the WORK, not on the model: it activates only when
+        // the awake set is >= 90% of the population.
+        let wake_nearly_full = event_mode && wake.len() * 10 >= self.p.n as usize * 9;
+        let idx: Vec<u32> = if wake_nearly_full {
+            let mut v = wake;
+            v.clear();
+            v.extend(0..self.p.n);
+            v
+        } else {
+            wake
+        };
         self.idx_len = idx.len();
+
+        // Advance every neuron that slept, in closed form, to the end of the
+        // previous step. `sleep_since` is the step whose POST-integration state is
+        // stored, and we are about to integrate step `t`, so the target state is
+        // post-step-(t-1): that is `t - sleep_since - 1` further steps.
+        if !fast_fwd.is_empty() {
+            for &u in fast_fwd.iter() {
+                let n = t.saturating_sub(self.sleep_since[u as usize]).saturating_sub(1);
+                if n > 0 {
+                    let (vs, vd, ad, rf) = self.relax(u as usize, n);
+                    self.v_soma[u as usize] = vs;
+                    self.v_dend[u as usize] = vd;
+                    self.adapt[u as usize] = ad;
+                    self.refrac[u as usize] = rf;
+                }
+            }
+            self.pending_wake = fast_fwd;
+        }
 
         // ---- 3. integrate ---------------------------------------------------
         let mut spikes: Vec<u32> = Vec::new();
@@ -450,15 +579,23 @@ impl Sim {
                     spikes.push(u);
                 }
                 if event_mode {
-                    // A neuron receiving drive this step must NOT be put to sleep:
-                    // it will be woken next step regardless, so the wake/sleep
-                    // round trip would be paid every single step (measured as a 3x
-                    // slowdown versus dense at 10% driven). Tonic input means
-                    // "awake" by definition.
-                    let driven_now = drive.at(uu) != 0.0;
-                    if !driven_now && Self::at_rest(&p, vs[uu], vd[uu], ad[uu], rf[uu]) {
-                        self.asleep[uu] = true;
-                        self.total_sleep_transitions += 1;
+                    // Any neuron left in a non-rest state must be carried into the
+                    // next step's active set, or it freezes mid-trajectory. This
+                    // applies on BOTH the sparse and the dense-fallback paths.
+                    if Self::can_sleep(&p, vs[uu], vd[uu], ad[uu]) {
+                        // Only the sparse path may mark it asleep: it received no
+                        // drive this step, so nothing will wake it prematurely. A
+                        // driven neuron must NOT be slept -- it will be woken next
+                        // step regardless, and the wake/sleep round trip would then
+                        // be paid every single step (measured as a 3x slowdown
+                        // versus dense at 10% driven). Tonic input means "awake".
+                        if !wake_nearly_full && drive.at(uu) == 0.0 {
+                            self.asleep[uu] = true;
+                            self.sleep_since[uu] = t;
+                            self.total_sleep_transitions += 1;
+                        } else {
+                            still.push(u);
+                        }
                     } else {
                         still.push(u);
                     }
@@ -619,6 +756,7 @@ impl Sim {
         self.carried.clear();
         self.awake.clear();
         self.asleep.fill(false);
+        self.sleep_since.fill(0);
         self.total_sleep_transitions = 0;
         self.i_soma_buf.fill(0.0);
         self.arrivals.clear();

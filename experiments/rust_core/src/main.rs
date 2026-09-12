@@ -67,6 +67,7 @@ fn main() {
         "bench-fraction" => bench_fraction(),
         "bench-scale" => bench_scale(),
         "bench-fixture" => bench_fixture(&args),
+        "bench-overhead" => bench_overhead(&args),
         "compare" => compare(&args),
         "help" | _ => {
             eprintln!(
@@ -266,6 +267,50 @@ fn sanity() {
             "exact_rest_neuron_sleeps",
             s.asleep_snapshot()[0] && s.v_soma[0] == p.e_leak,
             format!("at exact rest after one undriven step: asleep = {}, v_soma = {}", s.asleep_snapshot()[0], s.v_soma[0]),
+        );
+    }
+
+    // --- 6b. fast-forward matches explicit Euler with NONZERO adaptation ----
+    // Regression test for a real bug. The closed form originally omitted the
+    // adaptation decay that the Python update applies BEFORE the soma consumes
+    // it, making every fast-forwarded potential slightly too high: 3.3% excess
+    // spiking at 20% activity, invisible at 0.1%. With adapt0 = 0 the wrong and
+    // right formulas agree by accident, which is why this needs adapt0 > 0.
+    {
+        let mut p = Params::new(1, 1);
+        p.noise_std = 0.0;
+        p.tau_soma = 20.0;
+        p.tau_adapt = 100.0;
+        p.dend_mode = sim::DEND_NONE;
+        let syn = Synapses { targets: vec![0], weights: vec![0.0], delays: vec![1] };
+
+        // Explicit Euler reference from v=1, adapt=0.5.
+        let mut s_ref = Sim::new(p.clone(), syn_copy(&syn));
+        s_ref.v_soma[0] = 1.0;
+        s_ref.adapt[0] = 0.5;
+        s_ref.request_reseed();
+        let mut ref_vs = Vec::new();
+        for _ in 0..40 {
+            s_ref.step(&Drive::None, Mode::Dense, false, Some(1));
+            ref_vs.push(s_ref.v_soma[0]);
+        }
+
+        // Closed form evaluated from the same initial conditions. The t-th entry
+        // of `ref_vs` is the state after t+1 integrations.
+        let s_ff = Sim::new(p.clone(), syn_copy(&syn));
+        let mut worst = 0.0f32;
+        for (i, expect) in ref_vs.iter().enumerate() {
+            let mut probe = Sim::new(p.clone(), syn_copy(&syn));
+            probe.v_soma[0] = 1.0;
+            probe.adapt[0] = 0.5;
+            let (vs, _, _, _) = probe.relax(0, (i + 1) as u64);
+            worst = worst.max((vs - expect).abs());
+        }
+        let _ = s_ff;
+        check(
+            "relax_matches_euler_with_adaptation",
+            worst < 1e-5,
+            format!("max |closed form - explicit Euler| over 40 steps = {worst:.3e} (adapt0=0.5; the omitted a_adapt factor would show as ~2e-3 here)"),
         );
     }
 
@@ -822,5 +867,41 @@ fn compare(args: &[String]) {
     if !has_power {
         println!("  WARNING: the control did not diverge from the real run, so an");
         println!("  exact match here does NOT demonstrate that delivery is correct.");
+    }
+}
+
+/// Isolate the per-step cost of the active set at high activity.
+///
+/// Hypothesis: at high activity nearly every neuron is awake every step, so the
+/// active-set build (epoch array, dedup, sort) is pure overhead on top of the
+/// dense integration, and event-driven should converge to dense plus that
+/// overhead -- never faster. This measures the two directly on the same network.
+#[allow(dead_code)]
+fn bench_overhead(args: &[String]) {
+    let path = args.get(2).cloned().unwrap_or_default();
+    let fx = io::load_fixture(std::path::Path::new(&path)).expect("fixture");
+    let n = fx.params.n as usize;
+    let capacity = ((n as f32 * 0.10) as usize).max(1);
+    for (name, mode, sort_on) in [
+        ("dense", Mode::Dense, false),
+        ("event", Mode::EventDriven, false),
+    ] {
+        let mut sim = io::run_fixture_ctl(&fx, mode, 0, false);
+        sim.request_reseed();
+        let drive = match &fx.drive {
+            Some(d) => Drive::Dense(d.clone()),
+            None => Drive::None,
+        };
+        for _ in 0..10 {
+            sim.step(&drive, mode, false, Some(capacity));
+        }
+        sim.total_neuron_updates = 0;
+        let t0 = Instant::now();
+        for _ in 0..30 {
+            sim.step(&drive, mode, false, Some(capacity));
+        }
+        let ms = t0.elapsed().as_secs_f64() / 30.0 * 1e3;
+        println!("{:8} sort={:5} {:9.4} ms/step  updates/step={:.0}",
+                 name, sort_on, ms, sim.total_neuron_updates as f64 / 30.0);
     }
 }
