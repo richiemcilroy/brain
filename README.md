@@ -4,14 +4,33 @@ A working, locally-runnable brain-inspired simulation substrate, and a
 falsifiable test of whether its mechanisms solve a problem that current AI
 structurally cannot: **learning continually, in a single pass, without replay.**
 
-> **Outcome, stated up front: the central hypothesis FAILED.** The substrate
-> beats naive backprop on Split-MNIST (+17.7 points) but **loses by 46 points to
-> backprop on the harder Permuted-MNIST**, and a plain replay buffer matches it
-> on the easier one. The mechanism-level results (dendritic XOR, plasticity
-> correctness, determinism, measured scale) all hold and are verified — but
-> "this is a better way to learn continually" is **not supported**. See
-> [The headline result is a FALSIFICATION](#the-headline-result-is-a-falsification--please-read-this-before-the-tables)
-> and `docs/RESULTS.md` §3.
+> **Outcome, stated up front: the headline continual-learning result is a
+> FAILURE, and the mechanism it was meant to test was never actually running.**
+> The substrate beats naive backprop on Split-MNIST (+17.7 points) but **loses
+> by 46 points to backprop on the harder Permuted-MNIST**, and a plain replay
+> buffer matches it on the easier one.
+>
+> The important correction, established after that result: **no error signal
+> ever reached a hidden layer.** `brain/cortex.py` drives the substrate with a
+> *constant* neuromodulator (`M = 1`, i.e. unsupervised Hebbian), and the only
+> error-driven layer is a single linear readout updated by the delta rule —
+> which is exact gradient descent on that layer. So the model was a frozen
+> projection + a fixed nonlinearity + one linear layer, and the comparison
+> measured whether *that* can do 10-way MNIST. It cannot. `docs/RESULTS.md` §3.1
+> says the same thing from the other side: on a single task with **zero**
+> interference it plateaus at ~33%, so the limit is **representational
+> capacity, not forgetting**.
+>
+> The correct label for the paradigm claim (credit assignment via a broadcast
+> scalar, no backward pass) is therefore **UNTESTED, not falsified**. What *is*
+> falsified is that this configuration's self-organising dynamics contribute
+> anything measurable (`docs/SUBSTRATE_CONTRIBUTION.md`: 0.702 → 0.710, inside
+> seed noise, and a static random ReLU projection scores 0.765).
+>
+> The mechanism-level results (dendritic XOR, plasticity correctness,
+> determinism, measured scale) all hold and are verified. See
+> `docs/PARADIGM.md` §3.3 for the correction and `EXIT.md` for the full ledger
+> of what is established, retracted, and still untested.
 
 Everything here runs on one Apple M4 Max with MLX/Metal. No cluster, no cloud.
 
