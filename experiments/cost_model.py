@@ -7,8 +7,24 @@ the first comparison happened to use.
 
 The two cost models per token (forward, multiply-accumulates):
 
-  attention:  4d^2 (qkvo)  +  4*T*d (scores + AV)  +  8d^2 (mlp)
-  gated mem:  (2 + 2*gate + 2*out + 2)*B*d^2 ...  +  3*B*d*log2(chunk)  +  8d^2
+  attention:  8d^2 (qkvo)  +  2*T*d causal (scores + AV)  +  16d^2 (mlp)
+  gated mem:  (2 + 2*gate + 2*out + 2)*B*d^2 ...  +  3*B*d*log2(chunk)  +  16d^2
+
+TWO CORRECTIONS APPLIED AFTER REVIEW
+------------------------------------
+1. The MLP term is 16d^2 (two matmuls of 4d x d, counted twice), not 8d^2.
+   The prose previously said 8d^2 while the code used 16d^2.
+2. Attention is charged 2*T*d, not 4*T*d, because with a CAUSAL mask a kernel
+   that skips masked blocks evaluates roughly half the score matrix. Charging
+   the full 4*T*d overstated the advantage. The uncorrected ratio is an upper
+   bound; the causal-corrected one is what is printed.
+
+FLOPs ARE STILL NOT WALL-CLOCK. The attention term is a dense matmul near
+peak throughput; the scan is elementwise, bandwidth-bound, and Hillis-Steele
+stores O(log C) intermediate levels for the backward pass. A fused kernel
+keeping state in SRAM (as Mamba does) is what buys real time. Every ratio here
+is an upper bound on the wall-clock advantage, and the docstring says so
+rather than implying the ratio is achievable.
 
 The context-dependent term is 4*T*d for attention and
 3*B*d*log2(chunk) ~ 18*B*d for memory. So attention's context cost grows
@@ -31,7 +47,7 @@ import math
 
 def cost_attn(d: int, T: int, mlp_mult: int = 4) -> float:
     proj = 2 * 4 * d * d                 # qkv + out projection
-    scores = 2 * 2 * T * d               # QK^T + AV, per token
+    scores = 2 * T * d                   # causal: ~half the score matrix
     mlp = 2 * (d * mlp_mult * d + mlp_mult * d * d)
     return proj + scores + mlp
 
@@ -76,8 +92,8 @@ if __name__ == "__main__":
                 hi = mid
         print(f"  d={d:>5}: T ~ {lo:,}")
 
-    print("\n=== attention cost that is the T^2 (context) term ===")
+    print("\n=== context term as a fraction of attention cost (causal) ===")
     for d in (128, 512, 1024):
         for T in (512, 4096, 32768):
             a = cost_attn(d, T)
-            print(f"  d={d:>5} T={T:>6}: {100 * 2 * 2 * T * d / a:5.1f}%")
+            print(f"  d={d:>5} T={T:>6}: {100 * 2 * T * d / a:5.1f}%")
