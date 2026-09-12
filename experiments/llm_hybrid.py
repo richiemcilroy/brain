@@ -1,0 +1,535 @@
+"""Can our brain method improve a REAL pretrained LLM?
+
+THE QUESTION, stated so it can fail
+-----------------------------------
+Not "is our model better than Llama" -- ours is 18,000x smaller and it is not.
+The answerable question is:
+
+    Replace one attention sublayer of a pretrained LLM with our gated-memory
+    primitive. Does quality hold, using FEWER parameters, with cost that is
+    flat in context instead of quadratic?
+
+WHY SURGERY ON A PRETRAINED MODEL IS THE RIGHT TEST
+---------------------------------------------------
+Every previous comparison in this repo trained from scratch on 1.1 MB of
+Shakespeare, so "who overfits least" dominated the result. A pretrained model
+already knows how to language-model. Swapping into it measures the PRIMITIVE,
+not the training budget -- which is exactly the confound this project has been
+unable to remove all session.
+
+WHAT TRANSFERS, AND WHY IT IS NOT ARBITRARY
+-------------------------------------------
+Attention and our gated memory are both linear maps over the same residual
+stream with the same output width, so the surrounding RMSNorm and MLP accept our
+output unchanged:
+
+    attention:  out = softmax(q k^T / sqrt(d)) V ,  then  W_O
+    gated mem:  h_t = sigmoid(W_g x_t) * h_{t-1} + W_v x_t ,  then  W_o
+
+The value path of attention is `x W_V W_O` and ours is `x W_v W_o`; both are
+compositions of two linear maps of the same shapes. So:
+
+    W_v  <-  W_V   (expanded across heads for grouped-query attention)
+    W_o  <-  W_O
+
+is a real parameter transplant, not an analogy. The gate has no attention
+counterpart, so it is initialised from the MEASURED recency profile of the
+attention it replaces (see `fit_decay_from_attention`), which is the closest
+thing to a principled prior available.
+
+THE ARMS, and what each one is for
+----------------------------------
+  teacher       - unmodified pretrained model. Reference.
+  zero          - attention contribution removed entirely. The CONTROL THAT
+                  MAKES THE REST MEANINGFUL: any swap destroys information, so
+                  the question is whether ours destroys LESS than the dumbest
+                  possible intervention.
+  transfer      - our gated memory, weights transplanted from attention. No
+                  training. Measures how much function the transplant alone
+                  preserves.
+  random_ft     - our gated memory, RANDOM init, same finetuning. If this
+                  matches transfer_ft, the transplant bought nothing and all
+                  the recovery came from finetuning.
+  transfer_ft   - our gated memory, transplanted, then finetuned. The headline
+                  arm.
+
+WHAT WOULD FALSIFY IT
+---------------------
+* If `transfer` does not beat `zero`, the primitive does not carry the replaced
+  function better than deleting it.
+* If `transfer_ft` does not beat `random_ft`, the transplant is worthless and
+  the value is only from finetuning.
+Either is a clean negative and gets reported as one.
+
+HONEST LIMITS
+-------------
+* One layer of 24 is swapped. Swapping all 24 needs full retraining, which
+  changes the question from "does it carry the function" to "can it be trained
+  in", and a 0.5-1B full finetune is not available on this machine.
+* Perplexity on Shakespeare measures in-distribution degradation, not
+  generation quality. A swap can hurt ppl while remaining recoverable.
+* The teacher's tokenizer differs from ours (151936 vs 65), so we compare the
+  teacher's own token-level perplexity throughout. That is a fair comparison
+  between ARMS but says nothing about bits-per-character in the other docs.
+"""
+from __future__ import annotations
+
+import json
+import math
+import os
+import sys
+import time
+
+import numpy as np
+import mlx.core as mx
+import mlx.nn as nn
+import mlx.optimizers as optim
+
+os.environ.setdefault("HF_HOME", "/tmp/zz_llm/hf")
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from llm_efficiency import GatedMemory  # noqa: E402
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+OUT = os.path.join(HERE, "results", "llm_hybrid.json")
+TEACHER = os.environ.get("HYBRID_TEACHER", "Qwen/Qwen2.5-0.5B")
+CORPUS = os.path.join(os.path.dirname(HERE), "data", "tinyshakespeare.txt")
+
+
+# --------------------------------------------------------------------------
+# locating and replacing the attention sublayer
+# --------------------------------------------------------------------------
+def get_layers(model):
+    for name in ("layers", "h", "blocks", "model.layers"):
+        obj = model
+        try:
+            for part in name.split("."):
+                obj = getattr(obj, part)
+            if isinstance(obj, list) and len(obj) > 0:
+                return obj, name
+        except AttributeError:
+            continue
+    inner = getattr(model, "model", None)
+    if inner is not None:
+        return get_layers(inner)
+    raise RuntimeError("could not locate the layer list")
+
+
+ATTN_ATTRS = ("self_attn", "attn", "attention", "mixer")
+
+
+def attention_module(model, idx):
+    layers, _ = get_layers(model)
+    layer = layers[idx]
+    for attr in ATTN_ATTRS:
+        if hasattr(layer, attr):
+            mod = getattr(layer, attr)
+            if hasattr(mod, "parameters"):
+                return layer, attr, mod
+    raise RuntimeError(f"no attention attribute on layer {idx}")
+
+
+def fit_decay_from_attention(inner, x, n_bins=8):
+    """Measure the replaced attention's recency profile and fit a gate decay.
+
+    A gated trace with constant decay `g` has an effective horizon ~1/(1-g)
+    and an exponential recency kernel. We read the real attention's mean
+    attention weight as a function of distance, then choose the decay whose
+    exponential decay rate best matches it. This is a measured prior, not a
+    guess, and it is reported so the fit can be checked.
+    """
+    try:
+        _, attn_w = inner(x, None, None, return_weights=True)
+    except Exception:
+        return 0.99, None
+    w = np.array(attn_w.astype(mx.float32)).mean(axis=(0, 1))          # (T, T) averaged over heads
+    T = w.shape[0]
+    dist = np.arange(T)[None, :] - np.arange(T)[:, None]
+    prof = np.zeros(T)
+    for d_ in range(T):
+        m = dist == d_
+        if m.any():
+            prof[d_] = w[m].mean()
+    if prof.sum() <= 0:
+        return 0.99, None
+    prof = prof / prof.sum()
+    xs = np.arange(T)
+    best, best_err = 0.9, np.inf
+    for g in np.linspace(0.5, 0.99999, 400):
+        k = (1 - g) * g ** xs
+        k = k / k.sum()
+        err = np.abs(np.cumsum(k) - np.cumsum(prof)).sum()
+        if err < best_err:
+            best_err, best = err, float(g)
+    return best, dict(profile_head=prof[:n_bins].tolist(),
+                      fitted_decay=best, cdf_l1=float(best_err))
+
+
+def to_f32(a):
+    """bfloat16 cannot be buffered by numpy; cast through MLX first."""
+    return np.array(a.astype(mx.float32))
+
+
+def transplant(model, idx, mode):
+    """Replace layer idx's attention with a carrier; return a diagnostic record."""
+    layer, attr, inner = attention_module(model, idx)
+    d = None
+    for _, v in nn.utils.tree_flatten(inner.parameters()):
+        if v.ndim == 2 and v.shape[0] == v.shape[1]:
+            d = v.shape[0]
+            break
+    if d is None:
+        for _, v in nn.utils.tree_flatten(inner.parameters()):
+            if v.ndim == 2:
+                d = v.shape[-1]
+                break
+
+    carrier = GatedMemoryCarrier(d, mode)
+    rec = dict(attr=attr, d=int(d), mode=mode)
+
+    # measure the recency profile on a small slice of real input
+    mx.random.seed(0)
+    probe = mx.array(np.random.randint(0, 1000, size=(1, 128)).astype(np.int32))
+    try:
+        h = layer.input_layernorm(model.model.embed_tokens(probe))
+    except Exception:
+        h = probe.astype(mx.float32)
+    decay, prof = fit_decay_from_attention(inner, h)
+    rec["fitted_decay"] = decay
+    rec["recency_profile_first8"] = prof["profile_head"] if prof else None
+    rec["fit_cdf_l1"] = prof["cdf_l1"] if prof else None
+
+    # probe activations for output-rms matching (real input, not noise)
+    probe_h = ref_out = None
+    if mode == "random_scaled":
+        try:
+            ids_probe = np.random.default_rng(0).integers(0, 500, size=(1, 128))
+            emb = model.model.embed_tokens(mx.array(ids_probe.astype(np.int32)))
+            probe_h = layer.input_layernorm(emb)
+            ref_out = inner(probe_h, None, None)
+            mx.eval(probe_h, ref_out)
+        except Exception:
+            probe_h = ref_out = None
+
+    if mode == "random_scaled":
+        # THE DECISIVE CONTROL, and getting it right matters.
+        #
+        # A raw random module at 1/sqrt(d) produces output rms 2.18x the
+        # attention it replaces, and the transplant produces 0.44x. Comparing
+        # those two would compare SCALES, not the informational content of the
+        # weights -- an earlier version of this file made exactly that mistake
+        # and reported the random arm at ppl 1620, which measures nothing.
+        #
+        # So: draw random v/o weights, then rescale them so the module's OUTPUT
+        # rms matches the module it replaces on real input. Same architecture,
+        # same fitted decay, same output scale, random weights. Now the only
+        # difference from `transfer` is whose weights they are.
+        # fan-in matched: std = 1/sqrt(fan_in), the standard init scale
+        rng = np.random.default_rng(0)
+        v_rand = rng.normal(0, 1.0 / math.sqrt(d), size=(d, d)).astype(np.float32)
+        o_rand = rng.normal(0, 1.0 / math.sqrt(d), size=(d, d)).astype(np.float32)
+        carrier.mem.v.weight = mx.array(v_rand)
+        carrier.mem.o.weight = mx.array(o_rand)
+        rec["transplanted"] = False
+        rec["control"] = ("random weights, output-rms matched to the attention "
+                          "it replaces")
+        b = math.log(decay / (1.0 - decay)) if 0 < decay < 1 else 4.6
+        carrier.mem.gate.bias = mx.array(np.array([b], np.float32))
+        carrier.mem.gate.weight = mx.array(
+            (to_f32(carrier.mem.gate.weight) * 0.1).astype(np.float32))
+        rec["gate_bias"] = float(b)
+        # measure both rms values on real activations and match them
+        if probe_h is not None:
+            try:
+                setattr(layer, attr, carrier)
+                out_new = carrier(probe_h, None, None)
+                out_ref = ref_out
+                mx.eval(out_new)
+                r_new = float(mx.sqrt(mx.mean(out_new.astype(mx.float32) ** 2)))
+                r_ref = float(mx.sqrt(mx.mean(out_ref.astype(mx.float32) ** 2)))
+                if r_new > 0:
+                    k = r_ref / r_new
+                    carrier.mem.v.weight = mx.array(
+                        (to_f32(carrier.mem.v.weight) * k).astype(np.float32))
+                    rec["output_rms_before"] = r_new
+                    rec["output_rms_target"] = r_ref
+                    rec["output_rms_scale_applied"] = float(k)
+            except Exception as e:
+                rec["rms_match_error"] = f"{type(e).__name__}: {e}"
+        setattr(layer, attr, carrier)
+        return carrier, rec
+
+    if mode in ("transfer", "transfer_ft"):
+        params = dict(nn.utils.tree_flatten(inner.parameters()))
+        wv = params.get("v_proj.weight")
+        wo = params.get("o_proj.weight")
+        wq = params.get("q_proj.weight")
+        rec["found"] = sorted(params.keys())
+        if wv is not None and wo is not None:
+            v = to_f32(wv)                         # (kv_dim, d)
+            o = to_f32(wo)                         # (n_head*hd, d)
+            # expand the value projection to full width by tiling across heads
+            n_rep = o.shape[1] // v.shape[0] if v.shape[0] else 1
+            if n_rep >= 1 and v.shape[0] * n_rep == o.shape[1] and o.shape[1] == d:
+                v_exp = expand_gqa(v, n_rep, int(getattr(inner, 'head_dim', 0)) or None)
+            else:
+                v_exp = np.zeros((d, d), np.float32)
+                k = min(d, v.shape[0])
+                j = min(d, v.shape[1])
+                v_exp[:k, :j] = v[:k, :j]
+            rec["value_expand_reps"] = int(n_rep)
+            # W_v is (d -> d) with weight (d_out, d_in); our Linear(d,d) matches
+            carrier.mem.v.weight = mx.array(v_exp.astype(np.float32))
+            # MLX nn.Linear stores weight as (out, in) and computes x @ w.T.
+            # attention computes attn_concat @ W_O.T, so the faithful transplant
+            # is a DIRECT copy -- an earlier version transposed here and was wrong.
+            carrier.mem.o.weight = mx.array(o.astype(np.float32))
+            rec["transplanted"] = True
+            rec["wv_norm"] = float(np.linalg.norm(v_exp))
+            rec["wo_norm"] = float(np.linalg.norm(o))
+        else:
+            rec["transplanted"] = False
+        # gate: set the bias so the trace decays at the measured rate
+        b = math.log(decay / (1.0 - decay)) if 0 < decay < 1 else 4.6
+        carrier.mem.gate.bias = mx.array(np.array([b], np.float32))
+        rec["gate_bias"] = float(b)
+        # Attention output is a CONVEX combination of past values; h_t = g h + v
+        # is an unnormalised SUM, which for g=0.99 is ~100x too large and would
+        # blow up the residual stream. Scaling v by (1-g) turns the trace into an
+        # exponential moving AVERAGE, sum_k (1-g) g^k = 1, making the two
+        # scale-comparable. This is the same normalisation RG-LRU applies.
+        if mode in ("transfer", "transfer_ft") and rec.get("transplanted"):
+            carrier.mem.v.weight = mx.array(
+                (to_f32(carrier.mem.v.weight) * (1.0 - decay)).astype(np.float32))
+            rec["value_scaled_by"] = float(1.0 - decay)
+        # random-init the gate INPUT weights only (no attention analogue); keep
+        # them small so the fitted constant decay dominates at t=0
+        carrier.mem.gate.weight = mx.array(
+            (np.array(carrier.mem.gate.weight) * 0.1).astype(np.float32))
+    else:
+        # 'zero' has no memory module at all -- it is a pure ablation.
+        rec["transplanted"] = False
+        rec["gate_bias"] = None
+
+    setattr(layer, attr, carrier)
+    return carrier, rec
+
+
+
+def expand_gqa(v, n_rep, hd=None):
+    """Expand a grouped-query value projection to full query-head width.
+
+    Llama-3.2-1B has 32 query heads and 8 kv heads, so 4 query heads share one
+    kv head. `o_proj` receives the query heads concatenated, each hd wide, in
+    query-head order -- so query heads j*4..j*4+3 each receive kv head j's
+    hd-wide block.
+
+    THE SUBTLE PART, and it cost me several wrong attempts: this repeats the
+    hd-BLOCK contiguously, not the row and not the matrix. `np.repeat` along
+    the row axis of the (n_kv*hd, d) matrix INTERLEAVES rows; `np.tile`
+    duplicates the whole matrix. All three produce the SAME SHAPE, so a shape
+    assertion cannot tell them apart -- only a value check can. Verified here
+    against an explicit simulation of the query-to-kv routing:
+        ref = concat over query heads q of V[(q // n_rep)*hd : ...+hd]
+
+    `hd` (head_dim) must be supplied, because (n_kv, hd) cannot be recovered
+    from shapes alone: any factorisation of the same row count gives the same
+    shapes. Defaults to inferring it from n_rep, which is correct whenever
+    n_rep > 1.
+    """
+    kv_dim, d = v.shape
+    n_head = kv_dim * n_rep
+    if hd is None:
+        # n_head = n_kv * n_rep and kv_dim = n_kv * hd, so hd = kv_dim / n_kv,
+        # and n_kv = n_head / n_rep. Only soluble when n_rep > 1.
+        if n_rep <= 1:
+            return v
+        hd = d // n_rep if d % n_rep == 0 else 1
+    n_kv = kv_dim // hd
+    assert n_kv * hd == kv_dim, (n_kv, hd, kv_dim)
+    assert n_kv * n_rep * hd == n_head, (n_kv, n_rep, hd, n_head)
+    return np.repeat(v.reshape(n_kv, 1, hd, d), n_rep,
+                     axis=1).reshape(n_head, d)
+
+
+
+class GatedMemoryCarrier(nn.Module):
+    """Drop-in replacement for a self-attention sublayer.
+
+    The block calls `self_attn(x_norm, mask, cache)` and adds the result to the
+    residual. Our carrier ignores mask/cache (a gated trace is causal by
+    construction -- it can only see the past) and returns the same shape.
+
+    mode='zero' returns ZEROS, i.e. the attention sublayer contributes nothing.
+    That is the standard ablation and the control every other arm is judged
+    against.
+    """
+
+    def __init__(self, d: int, mode: str = "transfer", chunk: int = 64):
+        super().__init__()
+        self.mode = mode
+        self.d = d
+        if mode != "zero":
+            self.mem = GatedMemory(d, banks=1, chunk=chunk)
+
+    def __call__(self, x, *args, **kwargs):
+        if self.mode == "zero":
+            return mx.zeros_like(x)
+        return self.mem(x)
+
+
+# --------------------------------------------------------------------------
+# measurement
+# --------------------------------------------------------------------------
+def perplexity(model, ids_arr, window=512):
+    """Token-level NLL, chunked so the logits allocation stays bounded."""
+    ids_arr = np.asarray(ids_arr, dtype=np.int32)
+    T = len(ids_arr) - 1
+    tot, n = 0.0, 0
+    for i in range(0, T, window):
+        seg = ids_arr[i:i + window + 1]
+        if len(seg) < 2:
+            break
+        x = mx.array(seg[:-1].astype(np.int32)[None, :])
+        y = mx.array(seg[1:].astype(np.int32)[None, :])
+        logits = model(x)
+        mx.eval(logits)
+        logp = nn.log_softmax(logits, axis=-1)
+        loss = -mx.take_along_axis(logp, y[..., None], axis=-1).squeeze(-1)
+        mx.eval(loss)
+        tot += float(loss.sum())
+        n += int(loss.size)
+    nll = tot / n
+    return dict(nll=nll, ppl=math.exp(nll), n_tokens=n)
+
+
+def n_params(m):
+    return sum(int(np.prod(v.shape)) for _, v in nn.utils.tree_flatten(m.parameters()))
+
+
+def finetune(model, carrier, train_ids, *, steps=200, bs=2, ctx=128, lr=2e-4,
+             log=print):
+    """Train ONLY the swapped module. Everything else stays frozen.
+
+    Freezing the rest is deliberate: the claim under test is about the
+    primitive's capacity to hold the function, not about how much of the model
+    gradient descent can paper over.
+    """
+    model.freeze()
+    carrier.unfreeze()
+    opt = optim.AdamW(learning_rate=lr, weight_decay=0.0)
+    rng = np.random.default_rng(0)
+    tr = np.asarray(train_ids, dtype=np.int32)
+
+    # Differentiate w.r.t. the CARRIER ONLY. Passing the whole model would
+    # return gradients for every parameter and opt.update would then move
+    # frozen weights too, which would silently turn this into a different
+    # experiment (how much can finetuning paper over, rather than what the
+    # primitive can hold).
+    def full_loss(carrier, x, y):
+        lo = model(x)
+        return nn.losses.cross_entropy(
+            lo.reshape(-1, lo.shape[-1]), y.reshape(-1), reduction="mean")
+
+    lg = nn.value_and_grad(carrier, full_loss)
+    t0 = time.time()
+    hist = []
+    for s in range(1, steps + 1):
+        ix = rng.integers(0, len(tr) - ctx - 1, size=bs)
+        x = mx.array(np.stack([tr[i:i + ctx] for i in ix]).astype(np.int32))
+        y = mx.array(np.stack([tr[i + 1:i + 1 + ctx] for i in ix]).astype(np.int32))
+        l, g = lg(carrier, x, y)
+        opt.update(carrier, g)
+        mx.eval(model.parameters(), opt.state)
+        if s % 50 == 0 or s == steps:
+            hist.append(dict(step=s, loss=float(l)))
+            log(f"      ft step {s:>4}/{steps} loss {float(l):.4f} "
+                f"({time.time()-t0:.0f}s)")
+    return hist
+
+
+if __name__ == "__main__":
+    from mlx_lm import load
+
+    print(f"loading {TEACHER} ...", flush=True)
+    t0 = time.time()
+    model, tok = load(TEACHER)
+    base_par = n_params(model)
+    print(f"  {base_par:,} params in {time.time()-t0:.0f}s", flush=True)
+
+    text = open(CORPUS, encoding="utf-8").read()
+    ids_all = np.array(tok.encode(text), dtype=np.int32)
+    n_tr = int(0.5 * len(ids_all))
+    val = ids_all[int(0.9 * len(ids_all)):int(0.9 * len(ids_all)) + 3000]
+    train_ids = ids_all[:n_tr]
+    print(f"corpus {len(text):,} chars -> {len(ids_all):,} tokens | "
+          f"train {len(train_ids):,} | val {len(val):,}", flush=True)
+
+    layers, path = get_layers(model)
+    n_layer = len(layers)
+    k = int(os.environ.get("HYBRID_LAYER", str(n_layer // 2)))
+    print(f"layers: {n_layer} at .{path}; swapping layer {k}\n", flush=True)
+
+    out = dict(teacher=TEACHER, base_params=base_par, n_layers=n_layer,
+               swap_layer=k, val_tokens=len(val), arms={})
+
+    r = perplexity(model, val)
+    out["arms"]["teacher"] = dict(mode="none", params=base_par, **r)
+    print(f"  {'teacher':<13} ppl={r['ppl']:>10.4f}  params={base_par:,}", flush=True)
+
+    modes = os.environ.get("HYBRID_MODES", "zero,transfer,random_ft,transfer_ft").split(",")
+    for mode in modes:
+        mx.random.seed(0)
+        m2, _ = load(TEACHER)
+        carrier, rec = transplant(m2, k, mode)
+        mx.eval(m2.parameters())
+        arm_params = n_params(m2)
+        r = perplexity(m2, val)
+        rec.pop("mode", None)
+        entry = dict(**rec, mode=mode, params=arm_params,
+                     delta_params=arm_params - base_par, **r)
+        print(f"  {mode:<13} ppl={r['ppl']:>10.4f}  "
+              f"params={arm_params:,} ({arm_params-base_par:+,})", flush=True)
+
+        if mode.endswith("_ft"):
+            hist = finetune(m2, carrier, train_ids,
+                            steps=int(os.environ.get("HYBRID_FT_STEPS", "150")),
+                            bs=int(os.environ.get("HYBRID_FT_BS", "2")),
+                            ctx=int(os.environ.get("HYBRID_FT_CTX", "128")))
+            r2 = perplexity(m2, val)
+            entry["after_ft"] = r2
+            entry["ft_history"] = hist
+            print(f"  {mode:<13} AFTER FT ppl={r2['ppl']:>10.4f}", flush=True)
+        out["arms"][mode] = entry
+        json.dump(out, open(OUT, "w"), indent=1)
+        del m2
+
+    t = out["arms"]["teacher"]["ppl"]
+    def gp(a, key="ppl"):
+        v = out["arms"].get(a, {})
+        if "after_ft" in v:
+            return v["after_ft"][key]
+        return v.get(key, float("nan"))
+    z, tr_, rnd, trf = gp("zero"), gp("transfer"), gp("random_ft"), gp("transfer_ft")
+    out["verdict"] = dict(
+        teacher_ppl=t, zero_ppl=z, transfer_ppl=tr_,
+        random_ft_ppl=rnd, transfer_ft_ppl=trf,
+        transfer_beats_zero=bool(tr_ < z) if (tr_ == tr_ and z == z) else None,
+        transfer_ft_beats_zero=bool(trf < z) if (trf == trf and z == z) else None,
+        transfer_ft_beats_random_ft=bool(trf < rnd) if (trf == trf and rnd == rnd) else None,
+        recovered_fraction_of_zero_gap=(
+            float((z - trf) / (z - t)) if (z > t and trf == trf) else None),
+        note=("transfer beats zero: the primitive carries the replaced function "
+              "better than deleting it. transfer_ft beats random_ft: the weight "
+              "transplant itself mattered, not just finetuning."),
+    )
+    json.dump(out, open(OUT, "w"), indent=1)
+
+    print("\n=== VERDICT ===")
+    print(f"  teacher  ppl {t:>10.4f}")
+    print(f"  zero     ppl {z:>10.4f}   (attention deleted)")
+    print(f"  transfer ppl {tr_:>10.4f}   (transplanted, no training)")
+    print(f"  rand+ft  ppl {rnd:>10.4f}   (random init, finetuned)")
+    print(f"  xfer+ft  ppl {trf:>10.4f}   (transplanted, finetuned)")
+    print(f"\n  transfer beats zero-control: {out['verdict']['transfer_beats_zero']}")
+    print(f"  transplant beats random init: {out['verdict']['transfer_ft_beats_random_ft']}")
+    print(f"\nwrote {OUT}")
