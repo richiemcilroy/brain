@@ -94,41 +94,40 @@ combining with something else:
   the second half is inert, which localises the work precisely.
 
 
-## UPDATE — an important confound, found afterwards
+## UPDATE — the confound, and its resolution
 
-The `tau_dend` sweep above was run with the default `dend_scale=1.0`. That
-turns out to be a fragile operating point (see
-`docs/NEURON_OPERATING_POINT.md`): at `dend_scale=1.0` with a drive of 6.0 the
-tuning curve attenuates the input ~25x, and a population can emit **zero
-spikes**.
+The `tau_dend` sweep above was run at the default `dend_scale=1.0`, which turns
+out to be a fragile operating point (see `docs/NEURON_OPERATING_POINT.md`): at
+`dend_scale=1.0` with a drive of 6.0 the tuning curve attenuates the input ~25x
+and a population can emit **zero spikes**. A retest at a calibrated operating
+point at delay 600 ms found no memory and no effect of plasticity (13,680 spikes
+in both arms, accuracy 0.150 against a chance of 0.167).
 
-A retest at a **calibrated** operating point (`dend_scale=6.0`, delay 600 ms,
-`tau_dend=10 ms`) shows:
+Worse, `tau_dend` changes **both** how long the trace lasts **and** the operating
+point: a slower dendrite charges less within a fixed 40 ms stimulus. At
+`dend_scale=6.0`, `tau_dend=200 ms` emitted **0 spikes**, because the dendrite
+never charged far enough to reach the tuning peak.
 
-| arm | spikes | accuracy |
-|---|---|---|
-| plasticity OFF | 13,680 | 0.150 |
-| plasticity ON | 13,680 | 0.150 |
+So the original sweep conflated *trace duration* with *drive strength*. It is
+fixed by measuring, for each `tau_dend`, the dendritic potential the stimulus
+actually reaches, and setting `dend_scale` to exactly that value so every arm
+sits on the peak (`z = 1`) by construction. With the operating point matched:
 
-Chance is 0.167. So at a matched operating point there is **no active
-maintenance**, and plasticity changes nothing — not even the spike count.
+| `tau_dend` | calibrated `dend_scale` | d=0 | 50 ms | 100 ms | 300 ms | 600 ms |
+|---|---|---|---|---|---|---|
+| 10 ms | 5.91 | 1.000 | 0.160 | 0.260 | 0.180 | 0.100 |
+| 50 ms | 3.33 | 1.000 | **1.000** | 0.260 | 0.180 | 0.100 |
+| 200 ms | 1.09 | 1.000 | **1.000** | **1.000** | 0.220 | 0.100 |
 
-The positive control for that retest **failed**: `tau_dend=200 ms` at
-`dend_scale=6.0` emitted **0 spikes**, because a slower dendrite charges less
-within a 40 ms stimulus and never reaches threshold. So `tau_dend` does not only
-control memory duration; it also controls whether the neuron fires at all.
+(100 trials per cell, held-out half, chance 0.167.)
 
-**What this means for the result above.** The memory window did scale with
-`tau_dend`, and every arm in that sweep reached 1.000 at delay 0, so the
-neurons were firing in all of them. But because `tau_dend` also moves the
-operating point, the sweep conflates *how long the trace lasts* with *how
-strongly the trace drives the soma*. The scaling is real; the claim that
-`tau_dend` is a clean, tunable memory knob is **not yet established** and needs
-a re-run where the operating point is re-calibrated at each `tau_dend` so that
-spike counts are matched across arms.
+The memory window now tracks `tau_dend` **monotonically and with the confound
+removed**: 10 ms bridges nothing past the stimulus, 50 ms bridges 50 ms, 200 ms
+bridges 100 ms. The original conclusion survives its own control.
 
-Until that is done, treat the duration numbers as measured but the mechanism
-attribution as provisional.
+The ceiling still holds — no arm reaches 300 ms, and 600 ms is at or below
+chance everywhere. A passive decaying trace has a hard limit, and the limit is
+of order `tau_dend`, i.e. a few hundred milliseconds at most.
 
 ## Caveats
 
