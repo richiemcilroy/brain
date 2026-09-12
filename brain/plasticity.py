@@ -209,8 +209,17 @@ class ThreeFactorPlasticity:
             return False
         be, cfg = self.be, self.cfg
         w = synapses.weights
-        mean_abs = be.sum(be.abs(w)) / float(synapses.n_synapses)
-        scale = 1.0 + cfg.homeo_rate * (cfg.target_mean_w / (mean_abs + 1e-9) - 1.0)
+        mean_abs = float(be.to_numpy(be.sum(be.abs(w)))) / float(synapses.n_synapses)
+        # A SILENT network must not be scaled. With no activity, mean_abs -> 0,
+        # so target_mean_w/mean_abs diverges, the scale saturates at its 2.0
+        # ceiling, and the weights double every homeo_every steps forever. That
+        # is unbounded exponential growth driven by nothing: measured, a silent
+        # network changed weights by up to 0.119 with zero spikes and
+        # updates == 0. Scaling an empty weight matrix only amplifies noise, so
+        # skip it entirely below a floor.
+        if mean_abs < 1e-6:
+            return False
+        scale = 1.0 + cfg.homeo_rate * (cfg.target_mean_w / mean_abs - 1.0)
         scale = float(min(max(scale, 0.5), 2.0))
         synapses.weights = w * scale
         synapses.clamp_weights()
