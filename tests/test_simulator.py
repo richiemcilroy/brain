@@ -216,15 +216,20 @@ def test_measured_throughput_is_populated(backend_name):
     assert report["overflow_total"] >= 0.0
 
 
-@pytest.mark.xfail(
-    reason=(
-        "known bug (found during this validation run): _compact zero-fills unused buffer "
-        "slots, but Brain.step consumes the whole buffer as spike indices, so a quiet network "
-        "treats padding zeros as spikes of neuron 0. Observed: 0 spikes in a step yet "
-        "x_pre[0]==capacity and a phantom delay-buffer current > 0 is scheduled."
-    ),
-)
 def test_compact_padding_is_not_consumed_as_a_spike_index(backend_name):
+    """REGRESSION TEST for the phantom-drive bug (was xfail, now fixed).
+
+    _compact zero-fills unused buffer slots. An earlier revision had
+    Brain.step consume the WHOLE padded buffer as spike indices, so every
+    padding slot re-delivered neuron 0's genuine synapses: a quiet network
+    emitted ~28 phantom spikes per step. The fix is ``spike_buf[:n_spk]``.
+
+    This marker was deliberately flipped from ``xfail`` to a plain test once
+    the bug was fixed. Leaving it as ``xfail`` (with no ``xfail_strict``) meant
+    the regression could silently return while the suite stayed green - the
+    reviewer demonstrated exactly that by reverting the one-line fix and
+    observing pytest still pass.
+    """
     be = Backend(backend_name, seed=0)
     brain = _brain(be, plas=PlasticityConfig())
 
@@ -242,16 +247,19 @@ def test_compact_padding_is_not_consumed_as_a_spike_index(backend_name):
     )
 
 
-@pytest.mark.xfail(
-    reason=(
-        "known bug (found during this validation run): _kwta_mask reads v_soma AFTER "
-        "NeuronState.update has reset spikers to v_reset=0, so every spike candidate scores "
-        "0, the k-th largest cut equals 0, and the mask is returned unchanged. Observed: "
-        "k_wta=8 allowed 11 spikes in one step, i.e. k-WTA does not bound sparsity when "
-        "v_reset == 0 (the default)."
-    ),
-)
 def test_kwta_enforces_at_most_k_winners(backend_name):
+    """REGRESSION TEST for the k-WTA tie bug (was xfail, now fixed).
+
+    Two separate defects lived here. First, the mask ranked by post-reset
+    ``v_soma``, which is 0 for every neuron that just spiked, so all candidates
+    scored equally and the cut was meaningless (fixed by ranking on
+    ``v_pre_reset``). Second, selection used ``score >= cut``, which keeps every
+    neuron TIED with the k-th score: measured, ``k_wta=8`` admitted up to 20
+    winners, so k-WTA did not bound sparsity at all. Fixed by selecting by rank.
+
+    Flipped from ``xfail`` to a plain test once both were fixed. With ties now
+    broken deterministically this asserts the exact bound, not just ``<= k``.
+    """
     be = Backend(backend_name, seed=0)
     brain = _brain(be, n=64, k=8, frac=0.5, seed=3, inhibition="kwta", k_wta=8)
     brain.neurons.v_soma = be.zeros((64,))
@@ -263,4 +271,14 @@ def test_kwta_enforces_at_most_k_winners(backend_name):
 
     assert kept <= brain.cfg.k_wta, (
         f"k_wta={brain.cfg.k_wta} but {kept} neurons survived the winner-take-all mask"
+    )
+
+    # The 11 candidates are ALL tied at v_soma == 0, which is exactly the case
+    # that used to blow past k. Exactly k must survive.
+    raw2 = np.zeros(64, dtype=bool)
+    raw2[:20] = True
+    mask2 = brain._kwta_mask(be.array(raw2))
+    kept2 = int(be.to_numpy(be.sum(be.astype(mask2, be.float_dtype))))
+    assert kept2 <= brain.cfg.k_wta, (
+        f"20 tied candidates admitted {kept2} winners against k_wta={brain.cfg.k_wta}"
     )
