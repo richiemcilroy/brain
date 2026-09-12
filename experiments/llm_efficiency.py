@@ -46,7 +46,9 @@ import mlx.nn as nn
 import mlx.optimizers as optim
 
 CORPUS = os.environ.get(
-    "BRAIN_CORPUS", "/Volumes/T9/human-brain/scratch/tinyshake.txt"
+    "BRAIN_CORPUS",
+    os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                 "data", "tinyshakespeare.txt"),
 )
 OUT = os.environ.get(
     "BRAIN_EFF_OUT", "/Volumes/T9/human-brain/scratch/llm_efficiency.json"
