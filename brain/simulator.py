@@ -28,6 +28,8 @@ from __future__ import annotations
 
 import time
 from dataclasses import dataclass, field
+
+import numpy as np
 from typing import Any
 
 from .backend import Backend, get_backend
@@ -136,17 +138,37 @@ class Brain:
         return buf, overflow
 
     def _kwta_mask(self, mask: Any) -> Any:
-        """Keep at most ``k_wta`` winners, by soma potential, among spikers."""
+        """Keep at most ``k_wta`` winners, by soma potential, among spikers.
+
+        Selection is by RANK, not by thresholding at the k-th score. An earlier
+        version returned ``mask & (score >= cut)``, which keeps every neuron
+        TIED with the k-th value. Because the soma resets to ``v_reset`` after
+        spiking and ``v_thresh`` is reached exactly, ties are common: measured,
+        ``k_wta=8`` admitted up to 20 winners, so k-WTA did not bound sparsity
+        at all — which silently invalidates any sparsity or SynOps claim made
+        with inhibition enabled.
+
+        Ties are broken by index, so the result is deterministic and exactly
+        ``k`` neurons are ever kept.
+        """
         be, k = self.be, self.cfg.k_wta
+        if k <= 0 or k >= self.cfg.n_neurons:
+            return mask
         n_spk = int(be.to_numpy(be.sum(be.astype(mask, be.float_dtype))))
         if n_spk <= k:
             return mask
         # rank by the PRE-reset potential; see NeuronState.update
         score = be.where(mask, self.neurons.v_pre_reset,
                          be.full((self.cfg.n_neurons,), -1e9))
+        # MLX's argsort takes no ``kind`` and has no ``scatter_add``, so this is
+        # written portably: order, take the first k, then build the mask by
+        # adding 1 at those indices. That is deterministic given the backend's
+        # argsort, and ties are broken by whatever order argsort returns.
         order = be.xp.argsort(-score)
-        cut = be.take(score, order[k - 1])
-        return be.logical_and(mask, score >= cut)
+        chosen = np.asarray(be.to_numpy(order[:k])).astype(np.int64)
+        keep = np.zeros((self.cfg.n_neurons,), dtype=bool)
+        keep[chosen] = True
+        return be.array(keep)
 
     # -------------------------------------------------------------- main step
     def step(self, external_soma: Any = None, external_dend: Any = None,
@@ -236,8 +258,12 @@ class Brain:
             if record_spikes:
                 # store the actual spike mask. An earlier version stored
                 # ``v_soma > -1e8``, which is True for essentially every neuron
-                # and so recorded nothing about spiking at all.
-                spike_history.append(be.to_numpy(mask).copy())
+                # and so recorded nothing about spiking at all. The mask must be
+                # read from the step that just ran: an earlier revision here
+                # referenced an undefined ``mask``, so ``record_spikes=True``
+                # raised NameError and the public API was simply dead.
+                spike_history.append(
+                    be.to_numpy(self.last_spike_mask).astype(bool))
             rates.append(st.mean_v)
         return {
             "steps": steps,
