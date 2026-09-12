@@ -1,0 +1,48 @@
+{
+ "teacher": "unsloth/Llama-3.2-1B",
+ "n_layers": 16,
+ "val_tokens": 3000,
+ "note": "1 seed per layer; deterministic eval so per-layer numbers are exact",
+ "rows": [
+  {
+   "layer": 0,
+   "teacher": 20.375600125475536,
+   "zero": 513.9267232719343,
+   "transfer": 354.04620353354227
+  },
+  {
+   "layer": 4,
+   "teacher": 20.375600125475536,
+   "zero": 33.37596216821673,
+   "transfer": 51.59844307769913
+  },
+  {
+   "layer": 8,
+   "teacher": 20.375600125475536,
+   "zero": 24.104393610665852,
+   "transfer": 23.722761662217685
+  },
+  {
+   "layer": 12,
+   "teacher": 20.375600125475536,
+   "zero": 23.09724249163832,
+   "transfer": 25.34685397021985
+  },
+  {
+   "layer": 15,
+   "teacher": 20.375600125475536,
+   "zero": 23.220798158958807,
+   "transfer": 22.37324874607205
+  }
+ ],
+ "beats_zero": [
+  0,
+  8,
+  15
+ ],
+ "loses_to_zero": [
+  4,
+  12
+ ],
+ "mean_gain": 28.127521742332608
+}

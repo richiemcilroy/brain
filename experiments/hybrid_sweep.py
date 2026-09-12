@@ -43,7 +43,7 @@ from llm_hybrid import (  # noqa: E402
 )
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-OUT = os.path.join(HERE, "results", "hybrid_sweep.json")
+OUT = os.environ.get("SWEEP_OUT", os.path.join(HERE, "results", "hybrid_sweep.json"))
 TEACHER = os.environ.get("HYBRID_TEACHER", "unsloth/Llama-3.2-1B")
 CORPUS = os.path.join(os.path.dirname(HERE), "data", "tinyshakespeare.txt")
 
