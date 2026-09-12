@@ -88,6 +88,45 @@ identically to every synapse.
 This is the mechanism that could let a system learn from experience in a single
 pass without replay — the thing an LLM cannot do.
 
+> **STATUS CORRECTION (must read): mechanism 3.3 was never applied to a hidden
+> layer, so the continual-learning comparison did not test it.**
+>
+> Two facts from this repo's own code and results:
+>
+> 1. `brain/cortex.py` line 183 drives the substrate with `neuromod=1.0`, a
+>    *constant*. That is pure unsupervised Hebbian learning. No error signal
+>    reaches the afferent projection, so the eligibility trace above is never
+>    modulated by anything informative.
+> 2. The only error-driven layer is the readout, and it is a single linear
+>    layer updated as `W += lr * outer(c, target - W.T @ c)`. That is **exact
+>    gradient descent on one linear layer**, not a local approximation to it.
+>
+> So the model under test was structurally: *frozen input projection -> fixed
+> spiking nonlinearity -> one linear layer trained by gradient descent*. The
+> comparison against a two-layer backprop MLP therefore measured whether **one
+> linear layer on untrained random features** can do 10-way MNIST. It cannot,
+> and the answer was 22% versus 68%.
+>
+> `docs/RESULTS.md` §3.1 already said the same thing from the other side:
+> trained on a *single* task with *zero* interference the substrate plateaus at
+> **~33%**, and a static random ReLU projection at matched sparsity beats its
+> probe (0.765 vs 0.702). The limit is **representational capacity**, not
+> forgetting.
+>
+> **The correct label for the continual-learning result is UNTESTED, not
+> falsified.** "Local plasticity with a broadcast scalar beats backprop at
+> retaining tasks" has not been contradicted by this project; it has not been
+> run. What *is* falsified is the weaker claim that this configuration's
+> self-organising dynamics contribute anything measurable
+> (`docs/SUBSTRATE_CONTRIBUTION.md`).
+>
+> The thesis experiment therefore is: make the afferent projection plastic
+> under the three-factor rule with an **error-derived** third factor, and
+> compare it against the identical model with the hidden learning rate set to
+> zero. Success is pre-registered as beating that frozen ablation by more than
+> twice the seed standard deviation. See `experiments/threefactor_hidden.py`
+> and `docs/THREEFACTOR.md`.
+
 ## 4. The paradigm
 
 > **A sparse, dendritically-expanded, locally-plastic cortical substrate used as
