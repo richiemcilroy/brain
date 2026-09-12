@@ -27,18 +27,13 @@ distribution is right-skewed by scheduler noise.
 
 RESULT (measured, M4 Max, MLX 0.31, d=128, B=16, T=512)
 ------------------------------------------------------
-  component             MACs/tok   min ms   share of block wall
-  LayerNorm                    0    0.209    17.2%
-  GatedMemory banks=1     49,152    1.098    90.4%
-  MLP d->4d->d           131,072    0.474    39.1%
-  mem BLOCK total        180,224    1.214     100%
-  attn BLOCK total       524,288    1.457     120%
-
-The primitive that owns 72.7% of the MACs (the MLP) owns 39.1% of the wall
-clock. The primitive that owns 27.3% of the MACs (the scan) owns 90.4%. Shares
-sum above 100% because the components overlap on the GPU. The memory block is
-only 1.20x faster than the attention block in wall clock at T=512 despite
-having 2.9x fewer MACs.
+The primitive that owns 72.7% of the MACs (the MLP) owns less of the wall clock
+than the primitive that owns 27.3% (the scan), so the scan is the wall-clock
+bottleneck. Component times each include a fixed dispatch cost and are not
+additive; the dispatch floor is measured and reported. Attention is charged a
+TRUE MAC count (4d^2 + 2Td, i.e. the full masked T x T matrix). An earlier
+version charged attention the 2x FLOP figure used elsewhere in this repo while
+charging memory and the MLP a true 1x, overstating the MAC advantage by 2x.
 
 CONSEQUENCE: optimising FLOPs in this architecture is close to useless. The
 next real lever is the scan's execution character, not its arithmetic.
@@ -58,7 +53,9 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from llm_efficiency import GatedMemory, AttentionMemory, Block  # noqa: E402
 
 OUT = os.environ.get(
-    "BRAIN_WC_OUT", "/Volumes/T9/human-brain/scratch/wallclock_split.json"
+    "BRAIN_WC_OUT",
+    os.path.join(os.path.dirname(os.path.abspath(__file__)), "results",
+                 "wallclock_split.json"),
 )
 D, B, T = 128, 16, 512
 REPS = 30
@@ -97,9 +94,25 @@ def main():
 
     mem_macs = 3 * d * d
     mlp_macs = 2 * d * 4 * d
-    attn_macs = 2 * 4 * d * d + 2 * 2 * T * d
+    # TRUE MACs. flops_per_token() in llm_efficiency charges 2x for every arm;
+    # an earlier version of this file charged attention that 2x while charging
+    # memory and the MLP a true 1x, overstating attention by exactly 2x.
+    attn_macs = 4 * d * d + 2 * T * d          # full masked T x T scores + AV
+    attn_macs_causal = 4 * d * d + T * d       # if the kernel skipped masked work
     block_macs = mem_macs + mlp_macs
     ablock_macs = attn_macs + mlp_macs
+    ablock_macs_causal = attn_macs_causal + mlp_macs
+
+    # Dispatch floor: time a trivial op on a tensor of the same size class.
+    # Every separately-timed component pays this, so component times are NOT
+    # additive and the floor must be reported to read the table honestly.
+    tiny = mx.zeros((4,))
+    mx.eval(tiny)
+    n_call = 60
+    t0 = time.perf_counter()
+    for _ in range(n_call):
+        mx.eval(tiny + 1.0)
+    dispatch_floor_ms = (time.perf_counter() - t0) / n_call * 1e3
 
     rows = []
     t_ln, _ = bench(lambda: ln(x))
@@ -135,6 +148,10 @@ def main():
             mlp_mac_share_pct=round(100.0 * mlp_macs / block_macs, 1),
             mem_over_attn_wall_ratio=round(t_blk / t_ablk, 3),
             mem_over_attn_mac_ratio=round(ablock_macs / block_macs, 3),
+            mem_over_attn_mac_ratio_causal=round(ablock_macs_causal / block_macs, 3),
+            attention_macs_full_masked=attn_macs,
+            attention_macs_causal_skipping=attn_macs_causal,
+            dispatch_floor_ms=round(dispatch_floor_ms, 4),
             block_ms_min=round(t_blk, 4), block_ms_median=round(t_blk_med, 4),
             attn_block_ms_min=round(t_ablk, 4),
             attn_block_ms_median=round(t_ablk_med, 4),
@@ -144,7 +161,9 @@ def main():
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     json.dump(out, open(OUT, "w"), indent=1)
 
-    print(f"d={d} B={B} T={T}  MLX {out['config']['mlx']}  min-of-{REPS}\n")
+    print(f"d={d} B={B} T={T}  MLX {out['config']['mlx']}  min-of-{REPS}")
+    print(f"dispatch floor for a trivial op: {dispatch_floor_ms:.4f} ms "
+          f"(component times below include this; they are not additive)\n")
     print(f"{'component':<24}{'MACs/tok':>11}{'min ms':>9}{'wall share':>12}{'MAC share':>11}")
     for r in rows:
         print(f"{r['component']:<24}{r['macs_per_token']:>11,}{r['min_ms']:>9.3f}"
@@ -157,7 +176,8 @@ def main():
     print(f"MLP:              {h['mlp_mac_share_pct']:.1f}% of MACs "
           f"but {h['mlp_wall_share_pct']:.1f}% of wall")
     print(f"mem/attn wall ratio {h['mem_over_attn_wall_ratio']} "
-          f"vs MAC ratio {h['mem_over_attn_mac_ratio']}")
+          f"vs MAC ratio {h['mem_over_attn_mac_ratio']} (full masked) "
+          f"/ {h['mem_over_attn_mac_ratio_causal']} (causal-skipping)")
     print(f"\nwrote {OUT}")
 
 
