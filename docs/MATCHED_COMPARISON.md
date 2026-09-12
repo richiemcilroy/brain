@@ -39,19 +39,34 @@ floor, so all have learned to use context.
 
 ## The three comparisons, in order of how much they can carry
 
-### 1. Matched depth — the clean one
+### 1. Matched depth — the clean one, now confirmed at 5 seeds
 
-Only the mixing primitive differs. Same depth (2), same width (128), same seeds
-(2, 3, 4), same everything else:
+Only the mixing primitive differs. Same depth (2), same width (128), same
+everything else. **5 seeds**, and validation evaluated **deterministically on
+every non-overlapping 512-token window of the split (217 windows, 111,104
+tokens)** so every arm is scored on identical data:
 
-| arm | params | bpc (mean of seeds 2,3,4) | sd |
-|---|---|---|---|
-| `depth2_mem` (gated memory) | **445,440** | **2.2127** | 0.0070 |
-| `depth2_attn` (attention) | 478,976 | 2.3376 | 0.0039 |
+| arm | params | bpc (mean of 5 seeds) | sd | train bpc |
+|---|---|---|---|---|
+| `depth2_mem` (gated memory) | **445,440** | **2.2092** | 0.0055 | 1.90 |
+| `depth2_attn` (attention) | 478,976 | 2.3329 | 0.0113 | 2.04 |
 
-**Gated memory is 0.1249 bpc better with 7% fewer parameters.** All five seeds
-run for `depth2_mem` land in 2.1839-2.2173, entirely below `depth2_attn`'s
-2.334-2.343, so the separation is well outside seed spread.
+**Paired difference (seeds are paired, so the shared per-seed effect cancels):
+-0.1237 bpc, 95% CI [-0.1382, -0.1092], with 5/5 seeds agreeing in sign.** The
+interval excludes zero, so at matched depth and matched width, with a
+deterministic evaluation and five seeds, the gated-memory stack is better than
+the attention stack while having 7% fewer parameters.
+
+Per-seed differences: -0.1069, -0.1340, -0.1177, -0.1346, -0.1252.
+
+Note that both arms still underfit-or-overfit in the same direction (train bpc
+sits ~0.3 below validation in each), so this is not one arm overfitting while
+the other generalises - the comparison is made with both in the same regime.
+
+An earlier version of this document reported this comparison on 2 seeds with
+sampled validation and got -0.1249. The 5-seed deterministic rerun gives
+-0.1237. **The number barely moved**, which is the point of redoing it properly:
+the earlier figure was not an artifact of sampling or seed count.
 
 ### 2. Matched steps against the 4-layer baseline
 
