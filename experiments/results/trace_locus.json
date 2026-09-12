@@ -148,14 +148,14 @@
         },
         {
           "gain": 24.0,
-          "spikes_per_trial": 364.0,
-          "rate_per_neuron_per_ms": 0.023697916666666666,
+          "spikes_per_trial": 363.6666666666667,
+          "rate_per_neuron_per_ms": 0.02367621527777778,
           "in_band": true
         },
         {
           "gain": 32.0,
-          "spikes_per_trial": 344.6666666666667,
-          "rate_per_neuron_per_ms": 0.02243923611111111,
+          "spikes_per_trial": 339.3333333333333,
+          "rate_per_neuron_per_ms": 0.022092013888888887,
           "in_band": true
         }
       ],
@@ -169,13 +169,13 @@
         0.0033203125,
         0.011176215277777778,
         0.022569444444444444,
-        0.02243923611111111
+        0.022092013888888887
       ],
       "chosen_spikes_per_trial": [
         51.0,
         171.66666666666666,
         346.6666666666667,
-        344.6666666666667
+        339.3333333333333
       ],
       "rate_spread_max_over_min": 6.7973856209150325
     },
@@ -204,8 +204,8 @@
         "in_band": true
       },
       "32": {
-        "spikes_per_trial": 344.6666666666667,
-        "rate_per_neuron_per_ms": 0.02243923611111111,
+        "spikes_per_trial": 339.3333333333333,
+        "rate_per_neuron_per_ms": 0.022092013888888887,
         "in_band": true
       }
     }
@@ -291,32 +291,32 @@
       "description": "Within the aliased arm, the two classes are bit-identical by construction, so their spike counts must match.",
       "rel_spike_count_diff_mean": 0.0,
       "rel_spike_count_diff_max": 0.0,
-      "class0_spikes_per_trial": 235.77708212534586,
-      "class1_spikes_per_trial": 235.77708212534586
+      "class0_spikes_per_trial": 234.57499726613364,
+      "class1_spikes_per_trial": 234.57499726613364
     },
     "aliased_vs_structured_spikes": {
       "description": "Across arms at the same gain, so a routing difference cannot be read as an activity difference.",
       "rel_spike_count_diff_by_gain": {
         "3": 0.2053651123812568,
         "6": 0.08784495418980022,
-        "16": 0.01551050992887626,
-        "32": 0.027178414086415286
+        "16": 0.015534177775154631,
+        "32": 0.01907423777963981
       },
-      "rel_spike_count_diff_mean": 0.08397474764658715
+      "rel_spike_count_diff_mean": 0.08195462053146287
     },
     "aliased_vs_reference_spikes": {
       "description": "Reference emulations inject extra drive by design, so this is reported to bound how much activity they add.",
       "rel_spike_count_diff_mean": {
-        "ref_per_neuron_b0.5": 0.543756386556662,
-        "ref_per_neuron_b1": 0.5351177401011005,
-        "ref_per_neuron_b2": 0.5184196680747435,
-        "ref_per_neuron_b4": 0.5005954980740998,
-        "ref_per_neuron_b8": 0.5062124071920836,
-        "ref_per_synapse_b0.5": 0.3491060548102838,
-        "ref_per_synapse_b1": 0.4199453767556454,
-        "ref_per_synapse_b2": 0.48413864811513013,
-        "ref_per_synapse_b4": 0.5264621619029662,
-        "ref_per_synapse_b8": 0.5495508870442546
+        "ref_per_neuron_b0.5": 0.5425644861204733,
+        "ref_per_neuron_b1": 0.5339763163789085,
+        "ref_per_neuron_b2": 0.5173221177600885,
+        "ref_per_neuron_b4": 0.4995250975246352,
+        "ref_per_neuron_b8": 0.5051607581607164,
+        "ref_per_synapse_b0.5": 0.3468061385964751,
+        "ref_per_synapse_b1": 0.41788637414216906,
+        "ref_per_synapse_b2": 0.4823579894188928,
+        "ref_per_synapse_b4": 0.5249282358885907,
+        "ref_per_synapse_b8": 0.5482085001933424
       }
     }
   },
@@ -345,24 +345,24 @@
         "16": {
           "accuracy_mean": 0.5,
           "accuracy_ci95": 0.0,
-          "spikes_per_trial": 354.8166666666666,
-          "rate_per_neuron_per_ms": 0.02310004340277778,
+          "spikes_per_trial": 354.8,
+          "rate_per_neuron_per_ms": 0.023098958333333332,
           "trials_with_spikes_frac": 1.0
         },
         "32": {
           "accuracy_mean": 0.5,
           "accuracy_ci95": 0.0,
-          "spikes_per_trial": 369.3333333333333,
-          "rate_per_neuron_per_ms": 0.024045138888888887,
+          "spikes_per_trial": 365.1166666666666,
+          "rate_per_neuron_per_ms": 0.023770616319444448,
           "trials_with_spikes_frac": 1.0
         }
       },
-      "spikes_per_trial_mean": 236.38333333333335,
-      "rate_per_neuron_per_ms_mean": 0.015389539930555555,
-      "spikes_total_all_runs": 113464,
+      "spikes_per_trial_mean": 235.32499999999996,
+      "rate_per_neuron_per_ms_mean": 0.015320638020833333,
+      "spikes_total_all_runs": 112956,
       "trials_with_spikes_frac_min": 1.0,
-      "v_dend_absmax": 25.873628616333008,
-      "clamp_hits_total": 221600
+      "v_dend_absmax": 62.40550231933594,
+      "clamp_hits_total": 0
     },
     "ref_per_neuron_b0.5": {
       "accuracy_mean": 0.5,
@@ -818,24 +818,24 @@
         "16": {
           "accuracy_mean": 1.0,
           "accuracy_ci95": 0.0,
-          "spikes_per_trial": 352.7666666666667,
-          "rate_per_neuron_per_ms": 0.022966579861111114,
+          "spikes_per_trial": 352.7416666666666,
+          "rate_per_neuron_per_ms": 0.022964952256944445,
           "trials_with_spikes_frac": 1.0
         },
         "32": {
           "accuracy_mean": 1.0,
           "accuracy_ci95": 0.0,
-          "spikes_per_trial": 379.6583333333333,
-          "rate_per_neuron_per_ms": 0.02471733940972222,
+          "spikes_per_trial": 372.2250000000001,
+          "rate_per_neuron_per_ms": 0.024233398437499998,
           "trials_with_spikes_frac": 1.0
         }
       },
-      "spikes_per_trial_mean": 232.0375,
-      "rate_per_neuron_per_ms_mean": 0.015106608072916665,
-      "spikes_total_all_runs": 111378,
+      "spikes_per_trial_mean": 230.17291666666665,
+      "rate_per_neuron_per_ms_mean": 0.014985215928819443,
+      "spikes_total_all_runs": 110483,
       "trials_with_spikes_frac_min": 1.0,
-      "v_dend_absmax": 25.873628616333008,
-      "clamp_hits_total": 223200
+      "v_dend_absmax": 62.40550231933594,
+      "clamp_hits_total": 0
     }
   },
   "runs": [
@@ -854,7 +854,7 @@
           "spikes_class1_per_trial": 49.900001525878906,
           "spikes_class0_probe_window": 0.19492188096046448,
           "spikes_class1_probe_window": 0.19492188096046448,
-          "wall_seconds": 6.829690666985698,
+          "wall_seconds": 4.703919042018242,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 49.9,
@@ -932,7 +932,7 @@
           "spikes_class1_per_trial": 30.924999237060547,
           "spikes_class0_probe_window": 0.19492188096046448,
           "spikes_class1_probe_window": 0.12080077826976776,
-          "wall_seconds": 6.618916790990625,
+          "wall_seconds": 3.8656108750146814,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 40.4125,
@@ -1010,7 +1010,7 @@
           "spikes_class1_per_trial": 263.875,
           "spikes_class0_probe_window": 1.03076171875,
           "spikes_class1_probe_window": 1.03076171875,
-          "wall_seconds": 5.974669750023168,
+          "wall_seconds": 3.8992502909968607,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 263.875,
@@ -1088,7 +1088,7 @@
           "spikes_class1_per_trial": 165.75,
           "spikes_class0_probe_window": 0.742480456829071,
           "spikes_class1_probe_window": 0.6474609375,
-          "wall_seconds": 7.216632957977708,
+          "wall_seconds": 4.7598337910021655,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 177.9125,
@@ -1166,7 +1166,7 @@
           "spikes_class1_per_trial": 255.14999389648438,
           "spikes_class0_probe_window": 0.9966796636581421,
           "spikes_class1_probe_window": 0.9966796636581421,
-          "wall_seconds": 6.039935208042152,
+          "wall_seconds": 4.141768041998148,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 255.15,
@@ -1244,7 +1244,7 @@
           "spikes_class1_per_trial": 247.9499969482422,
           "spikes_class0_probe_window": 1.069726586341858,
           "spikes_class1_probe_window": 0.968554675579071,
-          "wall_seconds": 6.58166370796971,
+          "wall_seconds": 4.510681708983611,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 260.9,
@@ -1322,7 +1322,7 @@
           "spikes_class1_per_trial": 234.875,
           "spikes_class0_probe_window": 0.91748046875,
           "spikes_class1_probe_window": 0.91748046875,
-          "wall_seconds": 5.11328616598621,
+          "wall_seconds": 4.2852855419623666,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 234.875,
@@ -1400,7 +1400,7 @@
           "spikes_class1_per_trial": 333.3500061035156,
           "spikes_class0_probe_window": 1.336035132408142,
           "spikes_class1_probe_window": 1.302148461341858,
-          "wall_seconds": 7.176760708040092,
+          "wall_seconds": 4.53134308301378,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 337.6875,
@@ -1478,7 +1478,7 @@
           "spikes_class1_per_trial": 211.0749969482422,
           "spikes_class0_probe_window": 0.824511706829071,
           "spikes_class1_probe_window": 0.824511706829071,
-          "wall_seconds": 6.183042582997587,
+          "wall_seconds": 4.470130749978125,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 211.075,
@@ -1556,7 +1556,7 @@
           "spikes_class1_per_trial": 370.95001220703125,
           "spikes_class0_probe_window": 1.3538086414337158,
           "spikes_class1_probe_window": 1.4490234851837158,
-          "wall_seconds": 3.1843954999931157,
+          "wall_seconds": 4.319835292000789,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 358.7625,
@@ -1634,7 +1634,7 @@
           "spikes_class1_per_trial": 188.8000030517578,
           "spikes_class0_probe_window": 0.737500011920929,
           "spikes_class1_probe_window": 0.737500011920929,
-          "wall_seconds": 3.0337732910411432,
+          "wall_seconds": 4.603275083005428,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 188.8,
@@ -1712,7 +1712,7 @@
           "spikes_class1_per_trial": 346.8500061035156,
           "spikes_class0_probe_window": 1.2291991710662842,
           "spikes_class1_probe_window": 1.354882836341858,
-          "wall_seconds": 4.674315750016831,
+          "wall_seconds": 5.093138625030406,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 330.7625,
@@ -1797,7 +1797,7 @@
           "spikes_class1_per_trial": 52.0,
           "spikes_class0_probe_window": 0.203125,
           "spikes_class1_probe_window": 0.203125,
-          "wall_seconds": 3.2388965419959277,
+          "wall_seconds": 3.8632021250086837,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 52.0,
@@ -1875,7 +1875,7 @@
           "spikes_class1_per_trial": 29.424999237060547,
           "spikes_class0_probe_window": 0.203125,
           "spikes_class1_probe_window": 0.11494140326976776,
-          "wall_seconds": 2.8995327499578707,
+          "wall_seconds": 4.048903541988693,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 40.7125,
@@ -1953,7 +1953,7 @@
           "spikes_class1_per_trial": 264.42498779296875,
           "spikes_class0_probe_window": 1.0329101085662842,
           "spikes_class1_probe_window": 1.0329101085662842,
-          "wall_seconds": 2.9070309999515302,
+          "wall_seconds": 4.1765132079599425,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 264.425,
@@ -2031,7 +2031,7 @@
           "spikes_class1_per_trial": 168.4250030517578,
           "spikes_class0_probe_window": 0.75732421875,
           "spikes_class1_probe_window": 0.657910168170929,
-          "wall_seconds": 3.340167709044181,
+          "wall_seconds": 5.231128874991555,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 181.15,
@@ -2109,7 +2109,7 @@
           "spikes_class1_per_trial": 254.9499969482422,
           "spikes_class0_probe_window": 0.995898425579071,
           "spikes_class1_probe_window": 0.995898425579071,
-          "wall_seconds": 2.6850801249966025,
+          "wall_seconds": 4.646861249988433,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 254.95,
@@ -2187,7 +2187,7 @@
           "spikes_class1_per_trial": 252.25,
           "spikes_class0_probe_window": 1.078515648841858,
           "spikes_class1_probe_window": 0.9853515625,
-          "wall_seconds": 3.357923374976963,
+          "wall_seconds": 5.457500750024337,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 264.175,
@@ -2265,7 +2265,7 @@
           "spikes_class1_per_trial": 231.1999969482422,
           "spikes_class0_probe_window": 0.903124988079071,
           "spikes_class1_probe_window": 0.903124988079071,
-          "wall_seconds": 2.9517744170152582,
+          "wall_seconds": 5.071296375012025,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 231.2,
@@ -2343,7 +2343,7 @@
           "spikes_class1_per_trial": 336.3999938964844,
           "spikes_class0_probe_window": 1.3411133289337158,
           "spikes_class1_probe_window": 1.314062476158142,
-          "wall_seconds": 3.113532916002441,
+          "wall_seconds": 4.960795083025005,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 339.8625,
@@ -2421,7 +2421,7 @@
           "spikes_class1_per_trial": 207.25,
           "spikes_class0_probe_window": 0.8095703125,
           "spikes_class1_probe_window": 0.8095703125,
-          "wall_seconds": 2.401192291988991,
+          "wall_seconds": 4.595639583014417,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 207.25,
@@ -2499,7 +2499,7 @@
           "spikes_class1_per_trial": 371.57501220703125,
           "spikes_class0_probe_window": 1.3525390625,
           "spikes_class1_probe_window": 1.4514648914337158,
-          "wall_seconds": 3.70997416699538,
+          "wall_seconds": 5.235258499975316,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 358.9125,
@@ -2577,7 +2577,7 @@
           "spikes_class1_per_trial": 187.9499969482422,
           "spikes_class0_probe_window": 0.734179675579071,
           "spikes_class1_probe_window": 0.734179675579071,
-          "wall_seconds": 2.9214557909872383,
+          "wall_seconds": 4.573556957999244,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 187.95,
@@ -2655,7 +2655,7 @@
           "spikes_class1_per_trial": 344.3999938964844,
           "spikes_class0_probe_window": 1.216796875,
           "spikes_class1_probe_window": 1.345312476158142,
-          "wall_seconds": 3.628646791970823,
+          "wall_seconds": 5.835535459045786,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 327.95,
@@ -2740,7 +2740,7 @@
           "spikes_class1_per_trial": 51.79999923706055,
           "spikes_class0_probe_window": 0.20234374701976776,
           "spikes_class1_probe_window": 0.20234374701976776,
-          "wall_seconds": 3.192025291034952,
+          "wall_seconds": 4.1825497500249185,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 51.8,
@@ -2818,7 +2818,7 @@
           "spikes_class1_per_trial": 27.924999237060547,
           "spikes_class0_probe_window": 0.20234374701976776,
           "spikes_class1_probe_window": 0.10908202826976776,
-          "wall_seconds": 4.058674708008766,
+          "wall_seconds": 4.161438583978452,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 39.8625,
@@ -2896,7 +2896,7 @@
           "spikes_class1_per_trial": 264.7749938964844,
           "spikes_class0_probe_window": 1.034277319908142,
           "spikes_class1_probe_window": 1.034277319908142,
-          "wall_seconds": 3.028415041975677,
+          "wall_seconds": 4.284193166997284,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 264.775,
@@ -2974,7 +2974,7 @@
           "spikes_class1_per_trial": 170.1999969482422,
           "spikes_class0_probe_window": 0.762402355670929,
           "spikes_class1_probe_window": 0.664843738079071,
-          "wall_seconds": 3.2076220830203965,
+          "wall_seconds": 5.131903166009579,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 182.6875,
@@ -3052,7 +3052,7 @@
           "spikes_class1_per_trial": 254.39999389648438,
           "spikes_class0_probe_window": 0.9937499761581421,
           "spikes_class1_probe_window": 0.9937499761581421,
-          "wall_seconds": 2.6482762090163305,
+          "wall_seconds": 4.243600124958903,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 254.4,
@@ -3130,7 +3130,7 @@
           "spikes_class1_per_trial": 253.9499969482422,
           "spikes_class0_probe_window": 1.095117211341858,
           "spikes_class1_probe_window": 0.991992175579071,
-          "wall_seconds": 3.307698291959241,
+          "wall_seconds": 5.245250499981921,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 267.15,
@@ -3208,7 +3208,7 @@
           "spikes_class1_per_trial": 234.5749969482422,
           "spikes_class0_probe_window": 0.916308581829071,
           "spikes_class1_probe_window": 0.916308581829071,
-          "wall_seconds": 2.5347789999796078,
+          "wall_seconds": 4.659819875028916,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 234.575,
@@ -3286,7 +3286,7 @@
           "spikes_class1_per_trial": 338.67498779296875,
           "spikes_class0_probe_window": 1.351660132408142,
           "spikes_class1_probe_window": 1.3229491710662842,
-          "wall_seconds": 2.766552665969357,
+          "wall_seconds": 5.656949041993357,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 342.35,
@@ -3364,7 +3364,7 @@
           "spikes_class1_per_trial": 209.375,
           "spikes_class0_probe_window": 0.81787109375,
           "spikes_class1_probe_window": 0.81787109375,
-          "wall_seconds": 2.916459332976956,
+          "wall_seconds": 4.592969833989628,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 209.375,
@@ -3442,7 +3442,7 @@
           "spikes_class1_per_trial": 373.79998779296875,
           "spikes_class0_probe_window": 1.35888671875,
           "spikes_class1_probe_window": 1.4601562023162842,
-          "wall_seconds": 2.6927305000135675,
+          "wall_seconds": 6.8479955840157345,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 360.8375,
@@ -3520,7 +3520,7 @@
           "spikes_class1_per_trial": 188.625,
           "spikes_class0_probe_window": 0.73681640625,
           "spikes_class1_probe_window": 0.73681640625,
-          "wall_seconds": 2.7499927500030026,
+          "wall_seconds": 6.608641457976773,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 188.625,
@@ -3598,7 +3598,7 @@
           "spikes_class1_per_trial": 346.54998779296875,
           "spikes_class0_probe_window": 1.22802734375,
           "spikes_class1_probe_window": 1.3537108898162842,
-          "wall_seconds": 3.1431967089883983,
+          "wall_seconds": 7.033715084020514,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 330.4625,
@@ -3683,7 +3683,7 @@
           "spikes_class1_per_trial": 166.3000030517578,
           "spikes_class0_probe_window": 0.649609386920929,
           "spikes_class1_probe_window": 0.649609386920929,
-          "wall_seconds": 2.1906275840010494,
+          "wall_seconds": 6.574752459011506,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 166.3,
@@ -3761,7 +3761,7 @@
           "spikes_class1_per_trial": 141.5,
           "spikes_class0_probe_window": 0.649609386920929,
           "spikes_class1_probe_window": 0.552734375,
-          "wall_seconds": 2.3860067920177244,
+          "wall_seconds": 7.552480333019048,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 153.9,
@@ -3839,7 +3839,7 @@
           "spikes_class1_per_trial": 234.97500610351562,
           "spikes_class0_probe_window": 0.9178711175918579,
           "spikes_class1_probe_window": 0.9178711175918579,
-          "wall_seconds": 2.9587157500209287,
+          "wall_seconds": 6.8449460419942625,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 234.975,
@@ -3917,7 +3917,7 @@
           "spikes_class1_per_trial": 303.7749938964844,
           "spikes_class0_probe_window": 1.2483398914337158,
           "spikes_class1_probe_window": 1.186621069908142,
-          "wall_seconds": 1.9088754580006935,
+          "wall_seconds": 5.424785250041168,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 311.675,
@@ -3995,7 +3995,7 @@
           "spikes_class1_per_trial": 210.4499969482422,
           "spikes_class0_probe_window": 0.822070300579071,
           "spikes_class1_probe_window": 0.822070300579071,
-          "wall_seconds": 2.2075145000126213,
+          "wall_seconds": 5.494031833019108,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 210.45,
@@ -4073,7 +4073,7 @@
           "spikes_class1_per_trial": 356.3500061035156,
           "spikes_class0_probe_window": 1.399316430091858,
           "spikes_class1_probe_window": 1.391992211341858,
-          "wall_seconds": 3.184616875019856,
+          "wall_seconds": 5.357549124979414,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 357.2875,
@@ -4151,7 +4151,7 @@
           "spikes_class1_per_trial": 187.6750030517578,
           "spikes_class0_probe_window": 0.733105480670929,
           "spikes_class1_probe_window": 0.733105480670929,
-          "wall_seconds": 2.40721641597338,
+          "wall_seconds": 5.788935583026614,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 187.675,
@@ -4229,7 +4229,7 @@
           "spikes_class1_per_trial": 371.0,
           "spikes_class0_probe_window": 1.359960913658142,
           "spikes_class1_probe_window": 1.44921875,
-          "wall_seconds": 2.661902666965034,
+          "wall_seconds": 5.4242828329443,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 359.575,
@@ -4307,7 +4307,7 @@
           "spikes_class1_per_trial": 171.375,
           "spikes_class0_probe_window": 0.66943359375,
           "spikes_class1_probe_window": 0.66943359375,
-          "wall_seconds": 2.0711294589564204,
+          "wall_seconds": 4.008220750023611,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 171.375,
@@ -4385,7 +4385,7 @@
           "spikes_class1_per_trial": 342.95001220703125,
           "spikes_class0_probe_window": 1.2219727039337158,
           "spikes_class1_probe_window": 1.3396484851837158,
-          "wall_seconds": 2.364516208996065,
+          "wall_seconds": 6.070228624972515,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 327.8875,
@@ -4463,7 +4463,7 @@
           "spikes_class1_per_trial": 157.27499389648438,
           "spikes_class0_probe_window": 0.6143554449081421,
           "spikes_class1_probe_window": 0.6143554449081421,
-          "wall_seconds": 2.2562953750020824,
+          "wall_seconds": 4.288520250003785,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 157.275,
@@ -4541,7 +4541,7 @@
           "spikes_class1_per_trial": 301.54998779296875,
           "spikes_class0_probe_window": 1.0529296398162842,
           "spikes_class1_probe_window": 1.1779296398162842,
-          "wall_seconds": 2.0802477920078672,
+          "wall_seconds": 5.522199624974746,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 285.55,
@@ -4626,7 +4626,7 @@
           "spikes_class1_per_trial": 169.14999389648438,
           "spikes_class0_probe_window": 0.6607421636581421,
           "spikes_class1_probe_window": 0.6607421636581421,
-          "wall_seconds": 1.7891897090012208,
+          "wall_seconds": 5.192360249988269,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 169.15,
@@ -4704,7 +4704,7 @@
           "spikes_class1_per_trial": 135.27499389648438,
           "spikes_class0_probe_window": 0.6607421636581421,
           "spikes_class1_probe_window": 0.5284179449081421,
-          "wall_seconds": 1.0605027499841526,
+          "wall_seconds": 4.735688749991823,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 152.2125,
@@ -4782,7 +4782,7 @@
           "spikes_class1_per_trial": 231.27499389648438,
           "spikes_class0_probe_window": 0.9034179449081421,
           "spikes_class1_probe_window": 0.9034179449081421,
-          "wall_seconds": 0.9706259589875117,
+          "wall_seconds": 5.079822667001281,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 231.275,
@@ -4860,7 +4860,7 @@
           "spikes_class1_per_trial": 307.57501220703125,
           "spikes_class0_probe_window": 1.2600586414337158,
           "spikes_class1_probe_window": 1.2014648914337158,
-          "wall_seconds": 1.140674541995395,
+          "wall_seconds": 8.236431292025372,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 315.075,
@@ -4938,7 +4938,7 @@
           "spikes_class1_per_trial": 206.9250030517578,
           "spikes_class0_probe_window": 0.808300793170929,
           "spikes_class1_probe_window": 0.808300793170929,
-          "wall_seconds": 1.0644169590086676,
+          "wall_seconds": 5.46255066600861,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 206.925,
@@ -5016,7 +5016,7 @@
           "spikes_class1_per_trial": 358.625,
           "spikes_class0_probe_window": 1.405371069908142,
           "spikes_class1_probe_window": 1.40087890625,
-          "wall_seconds": 1.0989829170284793,
+          "wall_seconds": 6.836228583997581,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 359.2,
@@ -5094,7 +5094,7 @@
           "spikes_class1_per_trial": 187.72500610351562,
           "spikes_class0_probe_window": 0.7333008050918579,
           "spikes_class1_probe_window": 0.7333008050918579,
-          "wall_seconds": 1.006889541982673,
+          "wall_seconds": 4.243335958046373,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 187.725,
@@ -5172,7 +5172,7 @@
           "spikes_class1_per_trial": 370.57501220703125,
           "spikes_class0_probe_window": 1.36083984375,
           "spikes_class1_probe_window": 1.4475586414337158,
-          "wall_seconds": 1.107517333002761,
+          "wall_seconds": 5.1436978750280105,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 359.475,
@@ -5250,7 +5250,7 @@
           "spikes_class1_per_trial": 169.85000610351562,
           "spikes_class0_probe_window": 0.6634765863418579,
           "spikes_class1_probe_window": 0.6634765863418579,
-          "wall_seconds": 1.0322089589899406,
+          "wall_seconds": 3.9693713749875315,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 169.85,
@@ -5328,7 +5328,7 @@
           "spikes_class1_per_trial": 340.67498779296875,
           "spikes_class0_probe_window": 1.209570288658142,
           "spikes_class1_probe_window": 1.3307616710662842,
-          "wall_seconds": 1.0671317080268636,
+          "wall_seconds": 4.657107207982335,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 325.1625,
@@ -5406,7 +5406,7 @@
           "spikes_class1_per_trial": 157.8000030517578,
           "spikes_class0_probe_window": 0.616406261920929,
           "spikes_class1_probe_window": 0.616406261920929,
-          "wall_seconds": 1.0908193749492057,
+          "wall_seconds": 4.322806457988918,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 157.8,
@@ -5484,7 +5484,7 @@
           "spikes_class1_per_trial": 301.625,
           "spikes_class0_probe_window": 1.045507788658142,
           "spikes_class1_probe_window": 1.17822265625,
-          "wall_seconds": 1.179472541960422,
+          "wall_seconds": 3.603854916000273,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 284.6375,
@@ -5569,7 +5569,7 @@
           "spikes_class1_per_trial": 170.64999389648438,
           "spikes_class0_probe_window": 0.6666015386581421,
           "spikes_class1_probe_window": 0.6666015386581421,
-          "wall_seconds": 0.9273555839899927,
+          "wall_seconds": 2.897361541981809,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 170.65,
@@ -5647,7 +5647,7 @@
           "spikes_class1_per_trial": 133.47500610351562,
           "spikes_class0_probe_window": 0.6666015386581421,
           "spikes_class1_probe_window": 0.5213867425918579,
-          "wall_seconds": 0.9381177499890327,
+          "wall_seconds": 2.909147124970332,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 152.0625,
@@ -5725,7 +5725,7 @@
           "spikes_class1_per_trial": 234.14999389648438,
           "spikes_class0_probe_window": 0.9146484136581421,
           "spikes_class1_probe_window": 0.9146484136581421,
-          "wall_seconds": 0.9336047499673441,
+          "wall_seconds": 3.198880417039618,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 234.15,
@@ -5803,7 +5803,7 @@
           "spikes_class1_per_trial": 309.79998779296875,
           "spikes_class0_probe_window": 1.26611328125,
           "spikes_class1_probe_window": 1.2101562023162842,
-          "wall_seconds": 1.082812374981586,
+          "wall_seconds": 5.280398375005461,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 316.9625,
@@ -5881,7 +5881,7 @@
           "spikes_class1_per_trial": 209.0,
           "spikes_class0_probe_window": 0.81640625,
           "spikes_class1_probe_window": 0.81640625,
-          "wall_seconds": 0.9626709580188617,
+          "wall_seconds": 5.37585841701366,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 209.0,
@@ -5959,7 +5959,7 @@
           "spikes_class1_per_trial": 360.79998779296875,
           "spikes_class0_probe_window": 1.408300757408142,
           "spikes_class1_probe_window": 1.4093749523162842,
-          "wall_seconds": 1.131048082956113,
+          "wall_seconds": 6.8386429999955,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 360.6625,
@@ -6037,7 +6037,7 @@
           "spikes_class1_per_trial": 188.4499969482422,
           "spikes_class0_probe_window": 0.736132800579071,
           "spikes_class1_probe_window": 0.736132800579071,
-          "wall_seconds": 1.060577625001315,
+          "wall_seconds": 4.339380832971074,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 188.45,
@@ -6115,7 +6115,7 @@
           "spikes_class1_per_trial": 372.4750061035156,
           "spikes_class0_probe_window": 1.366601586341858,
           "spikes_class1_probe_window": 1.454980492591858,
-          "wall_seconds": 1.2170423749485053,
+          "wall_seconds": 5.171105750021525,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 361.1625,
@@ -6193,7 +6193,7 @@
           "spikes_class1_per_trial": 172.02499389648438,
           "spikes_class0_probe_window": 0.6719726324081421,
           "spikes_class1_probe_window": 0.6719726324081421,
-          "wall_seconds": 1.1767333329771645,
+          "wall_seconds": 4.141114208032377,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 172.025,
@@ -6271,7 +6271,7 @@
           "spikes_class1_per_trial": 341.8500061035156,
           "spikes_class0_probe_window": 1.221582055091858,
           "spikes_class1_probe_window": 1.335351586341858,
-          "wall_seconds": 1.3121584169566631,
+          "wall_seconds": 3.7576238340116106,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 327.2875,
@@ -6349,7 +6349,7 @@
           "spikes_class1_per_trial": 158.85000610351562,
           "spikes_class0_probe_window": 0.6205078363418579,
           "spikes_class1_probe_window": 0.6205078363418579,
-          "wall_seconds": 1.450344834011048,
+          "wall_seconds": 3.6392485000542365,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 158.85,
@@ -6427,7 +6427,7 @@
           "spikes_class1_per_trial": 303.57501220703125,
           "spikes_class0_probe_window": 1.0568358898162842,
           "spikes_class1_probe_window": 1.1858398914337158,
-          "wall_seconds": 1.4351116250036284,
+          "wall_seconds": 3.211967959010508,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 287.0625,
@@ -6512,7 +6512,7 @@
           "spikes_class1_per_trial": 351.8999938964844,
           "spikes_class0_probe_window": 1.374609351158142,
           "spikes_class1_probe_window": 1.374609351158142,
-          "wall_seconds": 1.067513250047341,
+          "wall_seconds": 4.637858166999649,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 351.9,
@@ -6542,15 +6542,15 @@
             "trials_with_spikes": 40,
             "trials_with_spikes_frac": 1.0,
             "active_neurons_probe_mean": 106.65,
-            "v_dend_absmax": 25.873628616333008,
-            "rate_clamp_hits": 80
+            "v_dend_absmax": 31.20275115966797,
+            "rate_clamp_hits": 0
           },
           "spikes_total_per_trial": 347.2,
           "spikes_total_sum": 13888,
           "rate_per_neuron_per_ms": 0.022604166666666668,
           "trials_with_spikes_frac": 1.0,
-          "v_dend_absmax": 25.873628616333008,
-          "rate_clamp_hits": 80,
+          "v_dend_absmax": 31.20275115966797,
+          "rate_clamp_hits": 0,
           "test_n_trials": 40,
           "test_spikes_total_per_trial": 347.2,
           "test_spikes_total_sum": 13888,
@@ -6563,8 +6563,8 @@
           "test_trials_with_spikes": 40,
           "test_trials_with_spikes_frac": 1.0,
           "test_active_neurons_probe_mean": 106.65,
-          "test_v_dend_absmax": 25.873628616333008,
-          "test_rate_clamp_hits": 80,
+          "test_v_dend_absmax": 31.20275115966797,
+          "test_rate_clamp_hits": 0,
           "train_n_trials": 80,
           "train_spikes_total_per_trial": 351.9,
           "train_spikes_total_sum": 28152,
@@ -6587,25 +6587,25 @@
           "beta": 0.0,
           "n_params_readout": 512,
           "spikes_class0_per_trial": 351.8999938964844,
-          "spikes_class1_per_trial": 353.6000061035156,
+          "spikes_class1_per_trial": 353.57501220703125,
           "spikes_class0_probe_window": 1.374609351158142,
-          "spikes_class1_probe_window": 1.381250023841858,
-          "wall_seconds": 0.9057315000100061,
+          "spikes_class1_probe_window": 1.3811523914337158,
+          "wall_seconds": 3.181480625004042,
           "train_stats": {
             "n_trials": 80,
-            "spikes_total_per_trial": 352.75,
-            "spikes_total_sum": 28220,
+            "spikes_total_per_trial": 352.7375,
+            "spikes_total_sum": 28219,
             "spikes_per_phase_mean": [
-              70.25,
-              150.5625,
-              131.9375
+              70.2375,
+              150.575,
+              131.925
             ],
-            "rate_per_neuron_per_ms": 0.022965494791666666,
+            "rate_per_neuron_per_ms": 0.022964680989583333,
             "trials_with_spikes": 80,
             "trials_with_spikes_frac": 1.0,
             "active_neurons_probe_mean": 116.675,
             "v_dend_absmax": 25.335628509521484,
-            "rate_clamp_hits": 20
+            "rate_clamp_hits": 0
           },
           "test_stats": {
             "n_trials": 40,
@@ -6620,15 +6620,15 @@
             "trials_with_spikes": 40,
             "trials_with_spikes_frac": 1.0,
             "active_neurons_probe_mean": 116.5,
-            "v_dend_absmax": 25.873628616333008,
-            "rate_clamp_hits": 140
+            "v_dend_absmax": 31.20275115966797,
+            "rate_clamp_hits": 0
           },
           "spikes_total_per_trial": 352.425,
           "spikes_total_sum": 14097,
           "rate_per_neuron_per_ms": 0.0229443359375,
           "trials_with_spikes_frac": 1.0,
-          "v_dend_absmax": 25.873628616333008,
-          "rate_clamp_hits": 160,
+          "v_dend_absmax": 31.20275115966797,
+          "rate_clamp_hits": 0,
           "test_n_trials": 40,
           "test_spikes_total_per_trial": 352.425,
           "test_spikes_total_sum": 14097,
@@ -6641,22 +6641,22 @@
           "test_trials_with_spikes": 40,
           "test_trials_with_spikes_frac": 1.0,
           "test_active_neurons_probe_mean": 116.5,
-          "test_v_dend_absmax": 25.873628616333008,
-          "test_rate_clamp_hits": 140,
+          "test_v_dend_absmax": 31.20275115966797,
+          "test_rate_clamp_hits": 0,
           "train_n_trials": 80,
-          "train_spikes_total_per_trial": 352.75,
-          "train_spikes_total_sum": 28220,
+          "train_spikes_total_per_trial": 352.7375,
+          "train_spikes_total_sum": 28219,
           "train_spikes_per_phase_mean": [
-            70.25,
-            150.5625,
-            131.9375
+            70.2375,
+            150.575,
+            131.925
           ],
-          "train_rate_per_neuron_per_ms": 0.022965494791666666,
+          "train_rate_per_neuron_per_ms": 0.022964680989583333,
           "train_trials_with_spikes": 80,
           "train_trials_with_spikes_frac": 1.0,
           "train_active_neurons_probe_mean": 116.675,
           "train_v_dend_absmax": 25.335628509521484,
-          "train_rate_clamp_hits": 20
+          "train_rate_clamp_hits": 0
         },
         "ref_per_neuron_b0.5": {
           "accuracy": 0.5,
@@ -6668,7 +6668,7 @@
           "spikes_class1_per_trial": 172.60000610351562,
           "spikes_class0_probe_window": 0.6742187738418579,
           "spikes_class1_probe_window": 0.6742187738418579,
-          "wall_seconds": 1.0000194160384126,
+          "wall_seconds": 3.5852514999569394,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 172.6,
@@ -6746,7 +6746,7 @@
           "spikes_class1_per_trial": 369.2749938964844,
           "spikes_class0_probe_window": 1.3932616710662842,
           "spikes_class1_probe_window": 1.442480444908142,
-          "wall_seconds": 1.1192629580036737,
+          "wall_seconds": 4.180065166030545,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 362.975,
@@ -6824,7 +6824,7 @@
           "spikes_class1_per_trial": 158.5749969482422,
           "spikes_class0_probe_window": 0.619433581829071,
           "spikes_class1_probe_window": 0.619433581829071,
-          "wall_seconds": 0.9386668750084937,
+          "wall_seconds": 3.1036535419989377,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 158.575,
@@ -6902,7 +6902,7 @@
           "spikes_class1_per_trial": 344.07501220703125,
           "spikes_class0_probe_window": 1.2639648914337158,
           "spikes_class1_probe_window": 1.3440430164337158,
-          "wall_seconds": 1.1121433329535648,
+          "wall_seconds": 4.760785708960611,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 333.825,
@@ -6980,7 +6980,7 @@
           "spikes_class1_per_trial": 148.6750030517578,
           "spikes_class0_probe_window": 0.580761730670929,
           "spikes_class1_probe_window": 0.580761730670929,
-          "wall_seconds": 0.8715954580111429,
+          "wall_seconds": 3.321979124972131,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 148.675,
@@ -7058,7 +7058,7 @@
           "spikes_class1_per_trial": 305.0249938964844,
           "spikes_class0_probe_window": 1.087792992591858,
           "spikes_class1_probe_window": 1.191503882408142,
-          "wall_seconds": 0.8774578330339864,
+          "wall_seconds": 3.9254378330078907,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 291.75,
@@ -7136,7 +7136,7 @@
           "spikes_class1_per_trial": 142.52499389648438,
           "spikes_class0_probe_window": 0.5567382574081421,
           "spikes_class1_probe_window": 0.5567382574081421,
-          "wall_seconds": 0.6749617079622112,
+          "wall_seconds": 2.673094250028953,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 142.525,
@@ -7214,7 +7214,7 @@
           "spikes_class1_per_trial": 261.4750061035156,
           "spikes_class0_probe_window": 0.9034179449081421,
           "spikes_class1_probe_window": 1.021386742591858,
-          "wall_seconds": 0.6376530840061605,
+          "wall_seconds": 2.8782342500053346,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 246.375,
@@ -7292,7 +7292,7 @@
           "spikes_class1_per_trial": 138.0500030517578,
           "spikes_class0_probe_window": 0.539257824420929,
           "spikes_class1_probe_window": 0.539257824420929,
-          "wall_seconds": 0.5312530829687603,
+          "wall_seconds": 2.6521262919995934,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 138.05,
@@ -7370,7 +7370,7 @@
           "spikes_class1_per_trial": 221.375,
           "spikes_class0_probe_window": 0.7547851800918579,
           "spikes_class1_probe_window": 0.86474609375,
-          "wall_seconds": 0.5698258749907836,
+          "wall_seconds": 3.6719230419839732,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 207.3,
@@ -7455,7 +7455,7 @@
           "spikes_class1_per_trial": 354.04998779296875,
           "spikes_class0_probe_window": 1.3830077648162842,
           "spikes_class1_probe_window": 1.3830077648162842,
-          "wall_seconds": 0.4923045830219053,
+          "wall_seconds": 4.031188375025522,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 354.05,
@@ -7469,45 +7469,45 @@
             "trials_with_spikes": 80,
             "trials_with_spikes_frac": 1.0,
             "active_neurons_probe_mean": 107.875,
-            "v_dend_absmax": 25.873628616333008,
-            "rate_clamp_hits": 160
+            "v_dend_absmax": 30.418102264404297,
+            "rate_clamp_hits": 0
           },
           "test_stats": {
             "n_trials": 40,
-            "spikes_total_per_trial": 358.1,
-            "spikes_total_sum": 14324,
+            "spikes_total_per_trial": 358.05,
+            "spikes_total_sum": 14322,
             "spikes_per_phase_mean": [
-              70.15,
+              70.1,
               149.75,
               138.2
             ],
-            "rate_per_neuron_per_ms": 0.023313802083333335,
+            "rate_per_neuron_per_ms": 0.023310546875,
             "trials_with_spikes": 40,
             "trials_with_spikes_frac": 1.0,
-            "active_neurons_probe_mean": 108.85,
-            "v_dend_absmax": 25.873628616333008,
-            "rate_clamp_hits": 160
+            "active_neurons_probe_mean": 108.8,
+            "v_dend_absmax": 30.665142059326172,
+            "rate_clamp_hits": 0
           },
-          "spikes_total_per_trial": 358.1,
-          "spikes_total_sum": 14324,
-          "rate_per_neuron_per_ms": 0.023313802083333335,
+          "spikes_total_per_trial": 358.05,
+          "spikes_total_sum": 14322,
+          "rate_per_neuron_per_ms": 0.023310546875,
           "trials_with_spikes_frac": 1.0,
-          "v_dend_absmax": 25.873628616333008,
-          "rate_clamp_hits": 320,
+          "v_dend_absmax": 30.665142059326172,
+          "rate_clamp_hits": 0,
           "test_n_trials": 40,
-          "test_spikes_total_per_trial": 358.1,
-          "test_spikes_total_sum": 14324,
+          "test_spikes_total_per_trial": 358.05,
+          "test_spikes_total_sum": 14322,
           "test_spikes_per_phase_mean": [
-            70.15,
+            70.1,
             149.75,
             138.2
           ],
-          "test_rate_per_neuron_per_ms": 0.023313802083333335,
+          "test_rate_per_neuron_per_ms": 0.023310546875,
           "test_trials_with_spikes": 40,
           "test_trials_with_spikes_frac": 1.0,
-          "test_active_neurons_probe_mean": 108.85,
-          "test_v_dend_absmax": 25.873628616333008,
-          "test_rate_clamp_hits": 160,
+          "test_active_neurons_probe_mean": 108.8,
+          "test_v_dend_absmax": 30.665142059326172,
+          "test_rate_clamp_hits": 0,
           "train_n_trials": 80,
           "train_spikes_total_per_trial": 354.05,
           "train_spikes_total_sum": 28324,
@@ -7520,8 +7520,8 @@
           "train_trials_with_spikes": 80,
           "train_trials_with_spikes_frac": 1.0,
           "train_active_neurons_probe_mean": 107.875,
-          "train_v_dend_absmax": 25.873628616333008,
-          "train_rate_clamp_hits": 160
+          "train_v_dend_absmax": 30.418102264404297,
+          "train_rate_clamp_hits": 0
         },
         "structured_substrate": {
           "accuracy": 1.0,
@@ -7530,76 +7530,76 @@
           "beta": 0.0,
           "n_params_readout": 512,
           "spikes_class0_per_trial": 354.04998779296875,
-          "spikes_class1_per_trial": 345.07501220703125,
+          "spikes_class1_per_trial": 345.04998779296875,
           "spikes_class0_probe_window": 1.3830077648162842,
-          "spikes_class1_probe_window": 1.3479492664337158,
-          "wall_seconds": 0.5044937919592485,
+          "spikes_class1_probe_window": 1.3478515148162842,
+          "wall_seconds": 3.5724924589740112,
           "train_stats": {
             "n_trials": 80,
-            "spikes_total_per_trial": 349.5625,
-            "spikes_total_sum": 27965,
+            "spikes_total_per_trial": 349.55,
+            "spikes_total_sum": 27964,
             "spikes_per_phase_mean": [
               70.175,
               150.325,
-              129.0625
+              129.05
             ],
-            "rate_per_neuron_per_ms": 0.022757975260416667,
+            "rate_per_neuron_per_ms": 0.022757161458333335,
             "trials_with_spikes": 80,
             "trials_with_spikes_frac": 1.0,
             "active_neurons_probe_mean": 115.5,
-            "v_dend_absmax": 25.873628616333008,
-            "rate_clamp_hits": 160
+            "v_dend_absmax": 30.418102264404297,
+            "rate_clamp_hits": 0
           },
           "test_stats": {
             "n_trials": 40,
-            "spikes_total_per_trial": 353.975,
-            "spikes_total_sum": 14159,
+            "spikes_total_per_trial": 353.95,
+            "spikes_total_sum": 14158,
             "spikes_per_phase_mean": [
-              71.575,
-              151.75,
+              71.525,
+              151.775,
               130.65
             ],
-            "rate_per_neuron_per_ms": 0.023045247395833333,
+            "rate_per_neuron_per_ms": 0.023043619791666668,
             "trials_with_spikes": 40,
             "trials_with_spikes_frac": 1.0,
-            "active_neurons_probe_mean": 116.475,
-            "v_dend_absmax": 25.873628616333008,
-            "rate_clamp_hits": 160
+            "active_neurons_probe_mean": 116.45,
+            "v_dend_absmax": 30.665142059326172,
+            "rate_clamp_hits": 0
           },
-          "spikes_total_per_trial": 353.975,
-          "spikes_total_sum": 14159,
-          "rate_per_neuron_per_ms": 0.023045247395833333,
+          "spikes_total_per_trial": 353.95,
+          "spikes_total_sum": 14158,
+          "rate_per_neuron_per_ms": 0.023043619791666668,
           "trials_with_spikes_frac": 1.0,
-          "v_dend_absmax": 25.873628616333008,
-          "rate_clamp_hits": 320,
+          "v_dend_absmax": 30.665142059326172,
+          "rate_clamp_hits": 0,
           "test_n_trials": 40,
-          "test_spikes_total_per_trial": 353.975,
-          "test_spikes_total_sum": 14159,
+          "test_spikes_total_per_trial": 353.95,
+          "test_spikes_total_sum": 14158,
           "test_spikes_per_phase_mean": [
-            71.575,
-            151.75,
+            71.525,
+            151.775,
             130.65
           ],
-          "test_rate_per_neuron_per_ms": 0.023045247395833333,
+          "test_rate_per_neuron_per_ms": 0.023043619791666668,
           "test_trials_with_spikes": 40,
           "test_trials_with_spikes_frac": 1.0,
-          "test_active_neurons_probe_mean": 116.475,
-          "test_v_dend_absmax": 25.873628616333008,
-          "test_rate_clamp_hits": 160,
+          "test_active_neurons_probe_mean": 116.45,
+          "test_v_dend_absmax": 30.665142059326172,
+          "test_rate_clamp_hits": 0,
           "train_n_trials": 80,
-          "train_spikes_total_per_trial": 349.5625,
-          "train_spikes_total_sum": 27965,
+          "train_spikes_total_per_trial": 349.55,
+          "train_spikes_total_sum": 27964,
           "train_spikes_per_phase_mean": [
             70.175,
             150.325,
-            129.0625
+            129.05
           ],
-          "train_rate_per_neuron_per_ms": 0.022757975260416667,
+          "train_rate_per_neuron_per_ms": 0.022757161458333335,
           "train_trials_with_spikes": 80,
           "train_trials_with_spikes_frac": 1.0,
           "train_active_neurons_probe_mean": 115.5,
-          "train_v_dend_absmax": 25.873628616333008,
-          "train_rate_clamp_hits": 160
+          "train_v_dend_absmax": 30.418102264404297,
+          "train_rate_clamp_hits": 0
         },
         "ref_per_neuron_b0.5": {
           "accuracy": 0.5,
@@ -7611,7 +7611,7 @@
           "spikes_class1_per_trial": 171.0500030517578,
           "spikes_class0_probe_window": 0.668164074420929,
           "spikes_class1_probe_window": 0.668164074420929,
-          "wall_seconds": 0.5364057499682531,
+          "wall_seconds": 2.641158999991603,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 171.05,
@@ -7689,7 +7689,7 @@
           "spikes_class1_per_trial": 368.04998779296875,
           "spikes_class0_probe_window": 1.388769507408142,
           "spikes_class1_probe_window": 1.4376952648162842,
-          "wall_seconds": 0.5706135830259882,
+          "wall_seconds": 3.441444457974285,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 361.7875,
@@ -7767,7 +7767,7 @@
           "spikes_class1_per_trial": 158.9499969482422,
           "spikes_class0_probe_window": 0.620898425579071,
           "spikes_class1_probe_window": 0.620898425579071,
-          "wall_seconds": 0.5052680000080727,
+          "wall_seconds": 3.28406899998663,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 158.95,
@@ -7845,7 +7845,7 @@
           "spikes_class1_per_trial": 342.70001220703125,
           "spikes_class0_probe_window": 1.2561523914337158,
           "spikes_class1_probe_window": 1.3386719226837158,
-          "wall_seconds": 0.5703733330010436,
+          "wall_seconds": 3.7631084169843234,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 332.1375,
@@ -7923,7 +7923,7 @@
           "spikes_class1_per_trial": 149.97500610351562,
           "spikes_class0_probe_window": 0.5858398675918579,
           "spikes_class1_probe_window": 0.5858398675918579,
-          "wall_seconds": 0.5271696660201997,
+          "wall_seconds": 3.2166192500153556,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 149.975,
@@ -8001,7 +8001,7 @@
           "spikes_class1_per_trial": 301.8500061035156,
           "spikes_class0_probe_window": 1.083105444908142,
           "spikes_class1_probe_window": 1.179101586341858,
-          "wall_seconds": 0.5761902089579962,
+          "wall_seconds": 3.7171408330323175,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 289.5625,
@@ -8079,7 +8079,7 @@
           "spikes_class1_per_trial": 143.8000030517578,
           "spikes_class0_probe_window": 0.561718761920929,
           "spikes_class1_probe_window": 0.561718761920929,
-          "wall_seconds": 0.48813116701785475,
+          "wall_seconds": 2.941177833999973,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 143.8,
@@ -8157,7 +8157,7 @@
           "spikes_class1_per_trial": 260.57501220703125,
           "spikes_class0_probe_window": 0.904589831829071,
           "spikes_class1_probe_window": 1.0178711414337158,
-          "wall_seconds": 0.5693606669665314,
+          "wall_seconds": 4.213343958952464,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 246.075,
@@ -8235,7 +8235,7 @@
           "spikes_class1_per_trial": 139.625,
           "spikes_class0_probe_window": 0.54541015625,
           "spikes_class1_probe_window": 0.54541015625,
-          "wall_seconds": 0.5280041670193896,
+          "wall_seconds": 3.1816787920542993,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 139.625,
@@ -8313,7 +8313,7 @@
           "spikes_class1_per_trial": 222.0749969482422,
           "spikes_class0_probe_window": 0.7562500238418579,
           "spikes_class1_probe_window": 0.867480456829071,
-          "wall_seconds": 0.6399684170028195,
+          "wall_seconds": 3.239869292010553,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 207.8375,
@@ -8398,7 +8398,7 @@
           "spikes_class1_per_trial": 356.625,
           "spikes_class0_probe_window": 1.39306640625,
           "spikes_class1_probe_window": 1.39306640625,
-          "wall_seconds": 0.5881581249996088,
+          "wall_seconds": 2.7676742909825407,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 356.625,
@@ -8412,8 +8412,8 @@
             "trials_with_spikes": 80,
             "trials_with_spikes_frac": 1.0,
             "active_neurons_probe_mean": 108.375,
-            "v_dend_absmax": 25.873628616333008,
-            "rate_clamp_hits": 80
+            "v_dend_absmax": 27.073928833007812,
+            "rate_clamp_hits": 0
           },
           "test_stats": {
             "n_trials": 40,
@@ -8428,15 +8428,15 @@
             "trials_with_spikes": 40,
             "trials_with_spikes_frac": 1.0,
             "active_neurons_probe_mean": 109.05,
-            "v_dend_absmax": 25.873628616333008,
-            "rate_clamp_hits": 240
+            "v_dend_absmax": 26.911865234375,
+            "rate_clamp_hits": 0
           },
           "spikes_total_per_trial": 359.15,
           "spikes_total_sum": 14366,
           "rate_per_neuron_per_ms": 0.02338216145833333,
           "trials_with_spikes_frac": 1.0,
-          "v_dend_absmax": 25.873628616333008,
-          "rate_clamp_hits": 320,
+          "v_dend_absmax": 26.911865234375,
+          "rate_clamp_hits": 0,
           "test_n_trials": 40,
           "test_spikes_total_per_trial": 359.15,
           "test_spikes_total_sum": 14366,
@@ -8449,8 +8449,8 @@
           "test_trials_with_spikes": 40,
           "test_trials_with_spikes_frac": 1.0,
           "test_active_neurons_probe_mean": 109.05,
-          "test_v_dend_absmax": 25.873628616333008,
-          "test_rate_clamp_hits": 240,
+          "test_v_dend_absmax": 26.911865234375,
+          "test_rate_clamp_hits": 0,
           "train_n_trials": 80,
           "train_spikes_total_per_trial": 356.625,
           "train_spikes_total_sum": 28530,
@@ -8463,8 +8463,8 @@
           "train_trials_with_spikes": 80,
           "train_trials_with_spikes_frac": 1.0,
           "train_active_neurons_probe_mean": 108.375,
-          "train_v_dend_absmax": 25.873628616333008,
-          "train_rate_clamp_hits": 80
+          "train_v_dend_absmax": 27.073928833007812,
+          "train_rate_clamp_hits": 0
         },
         "structured_substrate": {
           "accuracy": 1.0,
@@ -8476,7 +8476,7 @@
           "spikes_class1_per_trial": 340.3500061035156,
           "spikes_class0_probe_window": 1.39306640625,
           "spikes_class1_probe_window": 1.329492211341858,
-          "wall_seconds": 0.5784262910019606,
+          "wall_seconds": 3.1481481670052744,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 348.4875,
@@ -8490,45 +8490,45 @@
             "trials_with_spikes": 80,
             "trials_with_spikes_frac": 1.0,
             "active_neurons_probe_mean": 115.5625,
-            "v_dend_absmax": 25.873628616333008,
-            "rate_clamp_hits": 100
+            "v_dend_absmax": 27.073928833007812,
+            "rate_clamp_hits": 0
           },
           "test_stats": {
             "n_trials": 40,
-            "spikes_total_per_trial": 351.9,
-            "spikes_total_sum": 14076,
+            "spikes_total_per_trial": 351.85,
+            "spikes_total_sum": 14074,
             "spikes_per_phase_mean": [
-              70.425,
+              70.4,
               150.875,
-              130.6
+              130.575
             ],
-            "rate_per_neuron_per_ms": 0.02291015625,
+            "rate_per_neuron_per_ms": 0.022906901041666667,
             "trials_with_spikes": 40,
             "trials_with_spikes_frac": 1.0,
             "active_neurons_probe_mean": 115.55,
-            "v_dend_absmax": 25.873628616333008,
-            "rate_clamp_hits": 220
+            "v_dend_absmax": 26.911865234375,
+            "rate_clamp_hits": 0
           },
-          "spikes_total_per_trial": 351.9,
-          "spikes_total_sum": 14076,
-          "rate_per_neuron_per_ms": 0.02291015625,
+          "spikes_total_per_trial": 351.85,
+          "spikes_total_sum": 14074,
+          "rate_per_neuron_per_ms": 0.022906901041666667,
           "trials_with_spikes_frac": 1.0,
-          "v_dend_absmax": 25.873628616333008,
-          "rate_clamp_hits": 320,
+          "v_dend_absmax": 26.911865234375,
+          "rate_clamp_hits": 0,
           "test_n_trials": 40,
-          "test_spikes_total_per_trial": 351.9,
-          "test_spikes_total_sum": 14076,
+          "test_spikes_total_per_trial": 351.85,
+          "test_spikes_total_sum": 14074,
           "test_spikes_per_phase_mean": [
-            70.425,
+            70.4,
             150.875,
-            130.6
+            130.575
           ],
-          "test_rate_per_neuron_per_ms": 0.02291015625,
+          "test_rate_per_neuron_per_ms": 0.022906901041666667,
           "test_trials_with_spikes": 40,
           "test_trials_with_spikes_frac": 1.0,
           "test_active_neurons_probe_mean": 115.55,
-          "test_v_dend_absmax": 25.873628616333008,
-          "test_rate_clamp_hits": 220,
+          "test_v_dend_absmax": 26.911865234375,
+          "test_rate_clamp_hits": 0,
           "train_n_trials": 80,
           "train_spikes_total_per_trial": 348.4875,
           "train_spikes_total_sum": 27879,
@@ -8541,8 +8541,8 @@
           "train_trials_with_spikes": 80,
           "train_trials_with_spikes_frac": 1.0,
           "train_active_neurons_probe_mean": 115.5625,
-          "train_v_dend_absmax": 25.873628616333008,
-          "train_rate_clamp_hits": 100
+          "train_v_dend_absmax": 27.073928833007812,
+          "train_rate_clamp_hits": 0
         },
         "ref_per_neuron_b0.5": {
           "accuracy": 0.5,
@@ -8554,7 +8554,7 @@
           "spikes_class1_per_trial": 173.0,
           "spikes_class0_probe_window": 0.67578125,
           "spikes_class1_probe_window": 0.67578125,
-          "wall_seconds": 0.5869587080087513,
+          "wall_seconds": 3.8706097500398755,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 173.0,
@@ -8632,7 +8632,7 @@
           "spikes_class1_per_trial": 369.9750061035156,
           "spikes_class0_probe_window": 1.3922851085662842,
           "spikes_class1_probe_window": 1.445214867591858,
-          "wall_seconds": 0.6598645410267636,
+          "wall_seconds": 3.40136070799781,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 363.2,
@@ -8710,7 +8710,7 @@
           "spikes_class1_per_trial": 160.25,
           "spikes_class0_probe_window": 0.6259765625,
           "spikes_class1_probe_window": 0.6259765625,
-          "wall_seconds": 0.6363722919486463,
+          "wall_seconds": 3.38187837501755,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 160.25,
@@ -8788,7 +8788,7 @@
           "spikes_class1_per_trial": 344.3500061035156,
           "spikes_class0_probe_window": 1.2615234851837158,
           "spikes_class1_probe_window": 1.345117211341858,
-          "wall_seconds": 0.6516345409909263,
+          "wall_seconds": 3.7704160420107655,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 333.65,
@@ -8866,7 +8866,7 @@
           "spikes_class1_per_trial": 151.25,
           "spikes_class0_probe_window": 0.5908203125,
           "spikes_class1_probe_window": 0.5908203125,
-          "wall_seconds": 0.5754022080218419,
+          "wall_seconds": 3.4328821250237525,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 151.25,
@@ -8944,7 +8944,7 @@
           "spikes_class1_per_trial": 305.5,
           "spikes_class0_probe_window": 1.090917944908142,
           "spikes_class1_probe_window": 1.193359375,
-          "wall_seconds": 0.6575936659937724,
+          "wall_seconds": 6.309355792007409,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 292.3875,
@@ -9022,7 +9022,7 @@
           "spikes_class1_per_trial": 143.625,
           "spikes_class0_probe_window": 0.56103515625,
           "spikes_class1_probe_window": 0.56103515625,
-          "wall_seconds": 0.6287614169996232,
+          "wall_seconds": 6.187731540994719,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 143.625,
@@ -9100,7 +9100,7 @@
           "spikes_class1_per_trial": 262.6000061035156,
           "spikes_class0_probe_window": 0.908398449420929,
           "spikes_class1_probe_window": 1.025781273841858,
-          "wall_seconds": 0.7378761669970118,
+          "wall_seconds": 7.39920520898886,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 247.575,
@@ -9178,7 +9178,7 @@
           "spikes_class1_per_trial": 138.3249969482422,
           "spikes_class0_probe_window": 0.540332019329071,
           "spikes_class1_probe_window": 0.540332019329071,
-          "wall_seconds": 0.6579922499950044,
+          "wall_seconds": 4.955162041995209,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 138.325,
@@ -9256,7 +9256,7 @@
           "spikes_class1_per_trial": 222.52499389648438,
           "spikes_class0_probe_window": 0.756542980670929,
           "spikes_class1_probe_window": 0.8692382574081421,
-          "wall_seconds": 0.7909463330288418,
+          "wall_seconds": 4.265062583028339,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 208.1,
@@ -9337,77 +9337,77 @@
           "mode": "substrate",
           "beta": 0.0,
           "n_params_readout": 512,
-          "spikes_class0_per_trial": 369.3999938964844,
-          "spikes_class1_per_trial": 369.3999938964844,
-          "spikes_class0_probe_window": 1.442968726158142,
-          "spikes_class1_probe_window": 1.442968726158142,
-          "wall_seconds": 0.6419839590089396,
+          "spikes_class0_per_trial": 364.7749938964844,
+          "spikes_class1_per_trial": 364.7749938964844,
+          "spikes_class0_probe_window": 1.424902319908142,
+          "spikes_class1_probe_window": 1.424902319908142,
+          "wall_seconds": 5.4123619589954615,
           "train_stats": {
             "n_trials": 80,
-            "spikes_total_per_trial": 369.4,
-            "spikes_total_sum": 29552,
+            "spikes_total_per_trial": 364.775,
+            "spikes_total_sum": 29182,
             "spikes_per_phase_mean": [
-              96.875,
-              157.65,
-              114.875
+              91.25,
+              158.525,
+              115.0
             ],
-            "rate_per_neuron_per_ms": 0.024049479166666665,
+            "rate_per_neuron_per_ms": 0.02374837239583333,
             "trials_with_spikes": 80,
             "trials_with_spikes_frac": 1.0,
-            "active_neurons_probe_mean": 117.925,
-            "v_dend_absmax": 25.873628616333008,
-            "rate_clamp_hits": 49200
+            "active_neurons_probe_mean": 113.25,
+            "v_dend_absmax": 50.67125701904297,
+            "rate_clamp_hits": 0
           },
           "test_stats": {
             "n_trials": 40,
-            "spikes_total_per_trial": 365.4,
-            "spikes_total_sum": 14616,
+            "spikes_total_per_trial": 361.5,
+            "spikes_total_sum": 14460,
             "spikes_per_phase_mean": [
-              94.75,
-              158.7,
-              111.95
+              90.0,
+              159.35,
+              112.15
             ],
-            "rate_per_neuron_per_ms": 0.0237890625,
+            "rate_per_neuron_per_ms": 0.02353515625,
             "trials_with_spikes": 40,
             "trials_with_spikes_frac": 1.0,
-            "active_neurons_probe_mean": 116.8,
-            "v_dend_absmax": 25.873628616333008,
-            "rate_clamp_hits": 22960
+            "active_neurons_probe_mean": 112.95,
+            "v_dend_absmax": 62.40550231933594,
+            "rate_clamp_hits": 0
           },
-          "spikes_total_per_trial": 365.4,
-          "spikes_total_sum": 14616,
-          "rate_per_neuron_per_ms": 0.0237890625,
+          "spikes_total_per_trial": 361.5,
+          "spikes_total_sum": 14460,
+          "rate_per_neuron_per_ms": 0.02353515625,
           "trials_with_spikes_frac": 1.0,
-          "v_dend_absmax": 25.873628616333008,
-          "rate_clamp_hits": 72160,
+          "v_dend_absmax": 62.40550231933594,
+          "rate_clamp_hits": 0,
           "test_n_trials": 40,
-          "test_spikes_total_per_trial": 365.4,
-          "test_spikes_total_sum": 14616,
+          "test_spikes_total_per_trial": 361.5,
+          "test_spikes_total_sum": 14460,
           "test_spikes_per_phase_mean": [
-            94.75,
-            158.7,
-            111.95
+            90.0,
+            159.35,
+            112.15
           ],
-          "test_rate_per_neuron_per_ms": 0.0237890625,
+          "test_rate_per_neuron_per_ms": 0.02353515625,
           "test_trials_with_spikes": 40,
           "test_trials_with_spikes_frac": 1.0,
-          "test_active_neurons_probe_mean": 116.8,
-          "test_v_dend_absmax": 25.873628616333008,
-          "test_rate_clamp_hits": 22960,
+          "test_active_neurons_probe_mean": 112.95,
+          "test_v_dend_absmax": 62.40550231933594,
+          "test_rate_clamp_hits": 0,
           "train_n_trials": 80,
-          "train_spikes_total_per_trial": 369.4,
-          "train_spikes_total_sum": 29552,
+          "train_spikes_total_per_trial": 364.775,
+          "train_spikes_total_sum": 29182,
           "train_spikes_per_phase_mean": [
-            96.875,
-            157.65,
-            114.875
+            91.25,
+            158.525,
+            115.0
           ],
-          "train_rate_per_neuron_per_ms": 0.024049479166666665,
+          "train_rate_per_neuron_per_ms": 0.02374837239583333,
           "train_trials_with_spikes": 80,
           "train_trials_with_spikes_frac": 1.0,
-          "train_active_neurons_probe_mean": 117.925,
-          "train_v_dend_absmax": 25.873628616333008,
-          "train_rate_clamp_hits": 49200
+          "train_active_neurons_probe_mean": 113.25,
+          "train_v_dend_absmax": 50.67125701904297,
+          "train_rate_clamp_hits": 0
         },
         "structured_substrate": {
           "accuracy": 1.0,
@@ -9415,77 +9415,77 @@
           "mode": "substrate",
           "beta": 0.0,
           "n_params_readout": 512,
-          "spikes_class0_per_trial": 369.3999938964844,
-          "spikes_class1_per_trial": 392.95001220703125,
-          "spikes_class0_probe_window": 1.442968726158142,
-          "spikes_class1_probe_window": 1.5349609851837158,
-          "wall_seconds": 0.5968573749996722,
+          "spikes_class0_per_trial": 364.7749938964844,
+          "spikes_class1_per_trial": 381.9750061035156,
+          "spikes_class0_probe_window": 1.424902319908142,
+          "spikes_class1_probe_window": 1.492089867591858,
+          "wall_seconds": 3.1569754170486704,
           "train_stats": {
             "n_trials": 80,
-            "spikes_total_per_trial": 381.175,
-            "spikes_total_sum": 30494,
+            "spikes_total_per_trial": 373.375,
+            "spikes_total_sum": 29870,
             "spikes_per_phase_mean": [
-              98.9,
-              158.8625,
-              123.4125
+              92.575,
+              159.55,
+              121.25
             ],
-            "rate_per_neuron_per_ms": 0.024816080729166665,
+            "rate_per_neuron_per_ms": 0.024308268229166666,
             "trials_with_spikes": 80,
             "trials_with_spikes_frac": 1.0,
-            "active_neurons_probe_mean": 129.6,
-            "v_dend_absmax": 25.873628616333008,
-            "rate_clamp_hits": 49320
+            "active_neurons_probe_mean": 125.1875,
+            "v_dend_absmax": 50.67125701904297,
+            "rate_clamp_hits": 0
           },
           "test_stats": {
             "n_trials": 40,
-            "spikes_total_per_trial": 380.675,
-            "spikes_total_sum": 15227,
+            "spikes_total_per_trial": 373.55,
+            "spikes_total_sum": 14942,
             "spikes_per_phase_mean": [
-              98.0,
-              159.15,
-              123.525
+              92.2,
+              159.85,
+              121.5
             ],
-            "rate_per_neuron_per_ms": 0.024783528645833334,
+            "rate_per_neuron_per_ms": 0.024319661458333332,
             "trials_with_spikes": 40,
             "trials_with_spikes_frac": 1.0,
-            "active_neurons_probe_mean": 129.725,
-            "v_dend_absmax": 25.873628616333008,
-            "rate_clamp_hits": 23680
+            "active_neurons_probe_mean": 125.85,
+            "v_dend_absmax": 62.40550231933594,
+            "rate_clamp_hits": 0
           },
-          "spikes_total_per_trial": 380.675,
-          "spikes_total_sum": 15227,
-          "rate_per_neuron_per_ms": 0.024783528645833334,
+          "spikes_total_per_trial": 373.55,
+          "spikes_total_sum": 14942,
+          "rate_per_neuron_per_ms": 0.024319661458333332,
           "trials_with_spikes_frac": 1.0,
-          "v_dend_absmax": 25.873628616333008,
-          "rate_clamp_hits": 73000,
+          "v_dend_absmax": 62.40550231933594,
+          "rate_clamp_hits": 0,
           "test_n_trials": 40,
-          "test_spikes_total_per_trial": 380.675,
-          "test_spikes_total_sum": 15227,
+          "test_spikes_total_per_trial": 373.55,
+          "test_spikes_total_sum": 14942,
           "test_spikes_per_phase_mean": [
-            98.0,
-            159.15,
-            123.525
+            92.2,
+            159.85,
+            121.5
           ],
-          "test_rate_per_neuron_per_ms": 0.024783528645833334,
+          "test_rate_per_neuron_per_ms": 0.024319661458333332,
           "test_trials_with_spikes": 40,
           "test_trials_with_spikes_frac": 1.0,
-          "test_active_neurons_probe_mean": 129.725,
-          "test_v_dend_absmax": 25.873628616333008,
-          "test_rate_clamp_hits": 23680,
+          "test_active_neurons_probe_mean": 125.85,
+          "test_v_dend_absmax": 62.40550231933594,
+          "test_rate_clamp_hits": 0,
           "train_n_trials": 80,
-          "train_spikes_total_per_trial": 381.175,
-          "train_spikes_total_sum": 30494,
+          "train_spikes_total_per_trial": 373.375,
+          "train_spikes_total_sum": 29870,
           "train_spikes_per_phase_mean": [
-            98.9,
-            158.8625,
-            123.4125
+            92.575,
+            159.55,
+            121.25
           ],
-          "train_rate_per_neuron_per_ms": 0.024816080729166665,
+          "train_rate_per_neuron_per_ms": 0.024308268229166666,
           "train_trials_with_spikes": 80,
           "train_trials_with_spikes_frac": 1.0,
-          "train_active_neurons_probe_mean": 129.6,
-          "train_v_dend_absmax": 25.873628616333008,
-          "train_rate_clamp_hits": 49320
+          "train_active_neurons_probe_mean": 125.1875,
+          "train_v_dend_absmax": 50.67125701904297,
+          "train_rate_clamp_hits": 0
         },
         "ref_per_neuron_b0.5": {
           "accuracy": 0.5,
@@ -9497,7 +9497,7 @@
           "spikes_class1_per_trial": 148.1750030517578,
           "spikes_class0_probe_window": 0.578808605670929,
           "spikes_class1_probe_window": 0.578808605670929,
-          "wall_seconds": 0.6283311669831164,
+          "wall_seconds": 2.770807499997318,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 148.175,
@@ -9575,7 +9575,7 @@
           "spikes_class1_per_trial": 303.75,
           "spikes_class0_probe_window": 1.1233398914337158,
           "spikes_class1_probe_window": 1.1865234375,
-          "wall_seconds": 0.6736450830358081,
+          "wall_seconds": 3.0126392079982907,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 295.6625,
@@ -9653,7 +9653,7 @@
           "spikes_class1_per_trial": 142.4250030517578,
           "spikes_class0_probe_window": 0.556347668170929,
           "spikes_class1_probe_window": 0.556347668170929,
-          "wall_seconds": 0.604731332976371,
+          "wall_seconds": 2.6915684579871595,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 142.425,
@@ -9731,7 +9731,7 @@
           "spikes_class1_per_trial": 270.8500061035156,
           "spikes_class0_probe_window": 0.9784179925918579,
           "spikes_class1_probe_window": 1.058007836341858,
-          "wall_seconds": 0.6861350830295123,
+          "wall_seconds": 4.455774708010722,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 260.6625,
@@ -9809,7 +9809,7 @@
           "spikes_class1_per_trial": 137.97500610351562,
           "spikes_class0_probe_window": 0.5389648675918579,
           "spikes_class1_probe_window": 0.5389648675918579,
-          "wall_seconds": 0.8915143340127543,
+          "wall_seconds": 6.120258542010561,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 137.975,
@@ -9887,7 +9887,7 @@
           "spikes_class1_per_trial": 233.5749969482422,
           "spikes_class0_probe_window": 0.830761730670929,
           "spikes_class1_probe_window": 0.912402331829071,
-          "wall_seconds": 1.058876249997411,
+          "wall_seconds": 6.578666207962669,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 223.125,
@@ -9965,7 +9965,7 @@
           "spikes_class1_per_trial": 135.02499389648438,
           "spikes_class0_probe_window": 0.5274413824081421,
           "spikes_class1_probe_window": 0.5274413824081421,
-          "wall_seconds": 0.7351605420117266,
+          "wall_seconds": 6.130363834032323,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 135.025,
@@ -10043,7 +10043,7 @@
           "spikes_class1_per_trial": 202.0,
           "spikes_class0_probe_window": 0.713085949420929,
           "spikes_class1_probe_window": 0.7890625,
-          "wall_seconds": 0.838877624948509,
+          "wall_seconds": 6.374017291003838,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 192.275,
@@ -10121,7 +10121,7 @@
           "spikes_class1_per_trial": 133.02499389648438,
           "spikes_class0_probe_window": 0.5196288824081421,
           "spikes_class1_probe_window": 0.5196288824081421,
-          "wall_seconds": 0.784190625010524,
+          "wall_seconds": 4.939941750024445,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 133.025,
@@ -10199,7 +10199,7 @@
           "spikes_class1_per_trial": 176.9499969482422,
           "spikes_class0_probe_window": 0.626660168170929,
           "spikes_class1_probe_window": 0.691210925579071,
-          "wall_seconds": 0.9810376659734175,
+          "wall_seconds": 4.105765999993309,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 168.6875,
@@ -10280,77 +10280,77 @@
           "mode": "substrate",
           "beta": 0.0,
           "n_params_readout": 512,
-          "spikes_class0_per_trial": 367.32501220703125,
-          "spikes_class1_per_trial": 367.32501220703125,
-          "spikes_class0_probe_window": 1.4348633289337158,
-          "spikes_class1_probe_window": 1.4348633289337158,
-          "wall_seconds": 1.0187258750083856,
+          "spikes_class0_per_trial": 362.57501220703125,
+          "spikes_class1_per_trial": 362.57501220703125,
+          "spikes_class0_probe_window": 1.4163086414337158,
+          "spikes_class1_probe_window": 1.4163086414337158,
+          "wall_seconds": 2.910426041984465,
           "train_stats": {
             "n_trials": 80,
-            "spikes_total_per_trial": 367.325,
-            "spikes_total_sum": 29386,
+            "spikes_total_per_trial": 362.575,
+            "spikes_total_sum": 29006,
             "spikes_per_phase_mean": [
-              97.575,
-              156.525,
-              113.225
+              91.9,
+              157.35,
+              113.325
             ],
-            "rate_per_neuron_per_ms": 0.023914388020833333,
+            "rate_per_neuron_per_ms": 0.023605143229166667,
             "trials_with_spikes": 80,
             "trials_with_spikes_frac": 1.0,
-            "active_neurons_probe_mean": 117.825,
-            "v_dend_absmax": 25.873628616333008,
-            "rate_clamp_hits": 52560
+            "active_neurons_probe_mean": 113.225,
+            "v_dend_absmax": 60.836204528808594,
+            "rate_clamp_hits": 0
           },
           "test_stats": {
             "n_trials": 40,
-            "spikes_total_per_trial": 370.8,
-            "spikes_total_sum": 14832,
+            "spikes_total_per_trial": 366.1,
+            "spikes_total_sum": 14644,
             "spikes_per_phase_mean": [
-              98.15,
-              159.1,
-              113.55
+              92.15,
+              160.0,
+              113.95
             ],
-            "rate_per_neuron_per_ms": 0.024140625,
+            "rate_per_neuron_per_ms": 0.023834635416666666,
             "trials_with_spikes": 40,
             "trials_with_spikes_frac": 1.0,
-            "active_neurons_probe_mean": 119.25,
-            "v_dend_absmax": 25.873628616333008,
-            "rate_clamp_hits": 24640
+            "active_neurons_probe_mean": 114.5,
+            "v_dend_absmax": 61.330284118652344,
+            "rate_clamp_hits": 0
           },
-          "spikes_total_per_trial": 370.8,
-          "spikes_total_sum": 14832,
-          "rate_per_neuron_per_ms": 0.024140625,
+          "spikes_total_per_trial": 366.1,
+          "spikes_total_sum": 14644,
+          "rate_per_neuron_per_ms": 0.023834635416666666,
           "trials_with_spikes_frac": 1.0,
-          "v_dend_absmax": 25.873628616333008,
-          "rate_clamp_hits": 77200,
+          "v_dend_absmax": 61.330284118652344,
+          "rate_clamp_hits": 0,
           "test_n_trials": 40,
-          "test_spikes_total_per_trial": 370.8,
-          "test_spikes_total_sum": 14832,
+          "test_spikes_total_per_trial": 366.1,
+          "test_spikes_total_sum": 14644,
           "test_spikes_per_phase_mean": [
-            98.15,
-            159.1,
-            113.55
+            92.15,
+            160.0,
+            113.95
           ],
-          "test_rate_per_neuron_per_ms": 0.024140625,
+          "test_rate_per_neuron_per_ms": 0.023834635416666666,
           "test_trials_with_spikes": 40,
           "test_trials_with_spikes_frac": 1.0,
-          "test_active_neurons_probe_mean": 119.25,
-          "test_v_dend_absmax": 25.873628616333008,
-          "test_rate_clamp_hits": 24640,
+          "test_active_neurons_probe_mean": 114.5,
+          "test_v_dend_absmax": 61.330284118652344,
+          "test_rate_clamp_hits": 0,
           "train_n_trials": 80,
-          "train_spikes_total_per_trial": 367.325,
-          "train_spikes_total_sum": 29386,
+          "train_spikes_total_per_trial": 362.575,
+          "train_spikes_total_sum": 29006,
           "train_spikes_per_phase_mean": [
-            97.575,
-            156.525,
-            113.225
+            91.9,
+            157.35,
+            113.325
           ],
-          "train_rate_per_neuron_per_ms": 0.023914388020833333,
+          "train_rate_per_neuron_per_ms": 0.023605143229166667,
           "train_trials_with_spikes": 80,
           "train_trials_with_spikes_frac": 1.0,
-          "train_active_neurons_probe_mean": 117.825,
-          "train_v_dend_absmax": 25.873628616333008,
-          "train_rate_clamp_hits": 52560
+          "train_active_neurons_probe_mean": 113.225,
+          "train_v_dend_absmax": 60.836204528808594,
+          "train_rate_clamp_hits": 0
         },
         "structured_substrate": {
           "accuracy": 1.0,
@@ -10358,77 +10358,77 @@
           "mode": "substrate",
           "beta": 0.0,
           "n_params_readout": 512,
-          "spikes_class0_per_trial": 367.32501220703125,
-          "spikes_class1_per_trial": 384.9750061035156,
-          "spikes_class0_probe_window": 1.4348633289337158,
-          "spikes_class1_probe_window": 1.503808617591858,
-          "wall_seconds": 0.8965316249523312,
+          "spikes_class0_per_trial": 362.57501220703125,
+          "spikes_class1_per_trial": 374.8999938964844,
+          "spikes_class0_probe_window": 1.4163086414337158,
+          "spikes_class1_probe_window": 1.464453101158142,
+          "wall_seconds": 2.8642750839935616,
           "train_stats": {
             "n_trials": 80,
-            "spikes_total_per_trial": 376.15,
-            "spikes_total_sum": 30092,
+            "spikes_total_per_trial": 368.7375,
+            "spikes_total_sum": 29499,
             "spikes_per_phase_mean": [
-              98.2625,
-              157.1375,
-              120.75
+              92.2375,
+              158.025,
+              118.475
             ],
-            "rate_per_neuron_per_ms": 0.024488932291666668,
+            "rate_per_neuron_per_ms": 0.02400634765625,
             "trials_with_spikes": 80,
             "trials_with_spikes_frac": 1.0,
-            "active_neurons_probe_mean": 128.25,
-            "v_dend_absmax": 25.873628616333008,
-            "rate_clamp_hits": 52180
+            "active_neurons_probe_mean": 123.95,
+            "v_dend_absmax": 60.836204528808594,
+            "rate_clamp_hits": 0
           },
           "test_stats": {
             "n_trials": 40,
-            "spikes_total_per_trial": 379.0,
-            "spikes_total_sum": 15160,
+            "spikes_total_per_trial": 371.15,
+            "spikes_total_sum": 14846,
             "spikes_per_phase_mean": [
-              98.725,
-              158.05,
-              122.225
+              92.375,
+              158.875,
+              119.9
             ],
-            "rate_per_neuron_per_ms": 0.024674479166666666,
+            "rate_per_neuron_per_ms": 0.024163411458333332,
             "trials_with_spikes": 40,
             "trials_with_spikes_frac": 1.0,
-            "active_neurons_probe_mean": 129.475,
-            "v_dend_absmax": 25.873628616333008,
-            "rate_clamp_hits": 25160
+            "active_neurons_probe_mean": 125.05,
+            "v_dend_absmax": 61.330284118652344,
+            "rate_clamp_hits": 0
           },
-          "spikes_total_per_trial": 379.0,
-          "spikes_total_sum": 15160,
-          "rate_per_neuron_per_ms": 0.024674479166666666,
+          "spikes_total_per_trial": 371.15,
+          "spikes_total_sum": 14846,
+          "rate_per_neuron_per_ms": 0.024163411458333332,
           "trials_with_spikes_frac": 1.0,
-          "v_dend_absmax": 25.873628616333008,
-          "rate_clamp_hits": 77340,
+          "v_dend_absmax": 61.330284118652344,
+          "rate_clamp_hits": 0,
           "test_n_trials": 40,
-          "test_spikes_total_per_trial": 379.0,
-          "test_spikes_total_sum": 15160,
+          "test_spikes_total_per_trial": 371.15,
+          "test_spikes_total_sum": 14846,
           "test_spikes_per_phase_mean": [
-            98.725,
-            158.05,
-            122.225
+            92.375,
+            158.875,
+            119.9
           ],
-          "test_rate_per_neuron_per_ms": 0.024674479166666666,
+          "test_rate_per_neuron_per_ms": 0.024163411458333332,
           "test_trials_with_spikes": 40,
           "test_trials_with_spikes_frac": 1.0,
-          "test_active_neurons_probe_mean": 129.475,
-          "test_v_dend_absmax": 25.873628616333008,
-          "test_rate_clamp_hits": 25160,
+          "test_active_neurons_probe_mean": 125.05,
+          "test_v_dend_absmax": 61.330284118652344,
+          "test_rate_clamp_hits": 0,
           "train_n_trials": 80,
-          "train_spikes_total_per_trial": 376.15,
-          "train_spikes_total_sum": 30092,
+          "train_spikes_total_per_trial": 368.7375,
+          "train_spikes_total_sum": 29499,
           "train_spikes_per_phase_mean": [
-            98.2625,
-            157.1375,
-            120.75
+            92.2375,
+            158.025,
+            118.475
           ],
-          "train_rate_per_neuron_per_ms": 0.024488932291666668,
+          "train_rate_per_neuron_per_ms": 0.02400634765625,
           "train_trials_with_spikes": 80,
           "train_trials_with_spikes_frac": 1.0,
-          "train_active_neurons_probe_mean": 128.25,
-          "train_v_dend_absmax": 25.873628616333008,
-          "train_rate_clamp_hits": 52180
+          "train_active_neurons_probe_mean": 123.95,
+          "train_v_dend_absmax": 60.836204528808594,
+          "train_rate_clamp_hits": 0
         },
         "ref_per_neuron_b0.5": {
           "accuracy": 0.5,
@@ -10440,7 +10440,7 @@
           "spikes_class1_per_trial": 149.25,
           "spikes_class0_probe_window": 0.5830078125,
           "spikes_class1_probe_window": 0.5830078125,
-          "wall_seconds": 0.7011475000181235,
+          "wall_seconds": 3.344684874988161,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 149.25,
@@ -10518,7 +10518,7 @@
           "spikes_class1_per_trial": 300.5,
           "spikes_class0_probe_window": 1.111230492591858,
           "spikes_class1_probe_window": 1.173828125,
-          "wall_seconds": 0.7978811250068247,
+          "wall_seconds": 3.572491541970521,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 292.4875,
@@ -10596,7 +10596,7 @@
           "spikes_class1_per_trial": 143.75,
           "spikes_class0_probe_window": 0.5615234375,
           "spikes_class1_probe_window": 0.5615234375,
-          "wall_seconds": 0.6876472499570809,
+          "wall_seconds": 3.346612458000891,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 143.75,
@@ -10674,7 +10674,7 @@
           "spikes_class1_per_trial": 268.07501220703125,
           "spikes_class0_probe_window": 0.9681640863418579,
           "spikes_class1_probe_window": 1.0471680164337158,
-          "wall_seconds": 0.7900840000365861,
+          "wall_seconds": 5.39103066700045,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 257.9625,
@@ -10752,7 +10752,7 @@
           "spikes_class1_per_trial": 139.47500610351562,
           "spikes_class0_probe_window": 0.5448242425918579,
           "spikes_class1_probe_window": 0.5448242425918579,
-          "wall_seconds": 0.7457721669925377,
+          "wall_seconds": 3.84387554199202,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 139.475,
@@ -10830,7 +10830,7 @@
           "spikes_class1_per_trial": 233.39999389648438,
           "spikes_class0_probe_window": 0.8304687738418579,
           "spikes_class1_probe_window": 0.9117187261581421,
-          "wall_seconds": 0.8598882920341566,
+          "wall_seconds": 3.321845124999527,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 223.0,
@@ -10908,7 +10908,7 @@
           "spikes_class1_per_trial": 136.60000610351562,
           "spikes_class0_probe_window": 0.5335937738418579,
           "spikes_class1_probe_window": 0.5335937738418579,
-          "wall_seconds": 0.717108582961373,
+          "wall_seconds": 2.875044499989599,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 136.6,
@@ -10986,7 +10986,7 @@
           "spikes_class1_per_trial": 202.5500030517578,
           "spikes_class0_probe_window": 0.7158203125,
           "spikes_class1_probe_window": 0.791210949420929,
-          "wall_seconds": 0.849889708973933,
+          "wall_seconds": 3.4806354580214247,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 192.9,
@@ -11064,7 +11064,7 @@
           "spikes_class1_per_trial": 134.64999389648438,
           "spikes_class0_probe_window": 0.5259765386581421,
           "spikes_class1_probe_window": 0.5259765386581421,
-          "wall_seconds": 0.7687888750224374,
+          "wall_seconds": 3.1619909169967286,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 134.65,
@@ -11142,7 +11142,7 @@
           "spikes_class1_per_trial": 177.64999389648438,
           "spikes_class0_probe_window": 0.632617175579071,
           "spikes_class1_probe_window": 0.6939452886581421,
-          "wall_seconds": 0.8572506670025177,
+          "wall_seconds": 2.9135409579612315,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 169.8,
@@ -11223,77 +11223,77 @@
           "mode": "substrate",
           "beta": 0.0,
           "n_params_readout": 512,
-          "spikes_class0_per_trial": 370.2250061035156,
-          "spikes_class1_per_trial": 370.2250061035156,
-          "spikes_class0_probe_window": 1.446191430091858,
-          "spikes_class1_probe_window": 1.446191430091858,
-          "wall_seconds": 0.7549444580217823,
+          "spikes_class0_per_trial": 365.17498779296875,
+          "spikes_class1_per_trial": 365.17498779296875,
+          "spikes_class0_probe_window": 1.4264647960662842,
+          "spikes_class1_probe_window": 1.4264647960662842,
+          "wall_seconds": 2.6943619590019807,
           "train_stats": {
             "n_trials": 80,
-            "spikes_total_per_trial": 370.225,
-            "spikes_total_sum": 29618,
+            "spikes_total_per_trial": 365.175,
+            "spikes_total_sum": 29214,
             "spikes_per_phase_mean": [
-              97.775,
-              158.95,
-              113.5
+              91.975,
+              159.35,
+              113.85
             ],
-            "rate_per_neuron_per_ms": 0.02410319010416667,
+            "rate_per_neuron_per_ms": 0.0237744140625,
             "trials_with_spikes": 80,
             "trials_with_spikes_frac": 1.0,
-            "active_neurons_probe_mean": 118.475,
-            "v_dend_absmax": 25.873628616333008,
-            "rate_clamp_hits": 46000
+            "active_neurons_probe_mean": 113.45,
+            "v_dend_absmax": 54.147857666015625,
+            "rate_clamp_hits": 0
           },
           "test_stats": {
             "n_trials": 40,
-            "spikes_total_per_trial": 371.8,
-            "spikes_total_sum": 14872,
+            "spikes_total_per_trial": 367.75,
+            "spikes_total_sum": 14710,
             "spikes_per_phase_mean": [
-              98.2,
-              159.45,
-              114.15
+              92.7,
+              160.7,
+              114.35
             ],
-            "rate_per_neuron_per_ms": 0.024205729166666665,
+            "rate_per_neuron_per_ms": 0.023942057291666666,
             "trials_with_spikes": 40,
             "trials_with_spikes_frac": 1.0,
-            "active_neurons_probe_mean": 119.6,
-            "v_dend_absmax": 25.873628616333008,
-            "rate_clamp_hits": 25520
+            "active_neurons_probe_mean": 115.45,
+            "v_dend_absmax": 53.82373046875,
+            "rate_clamp_hits": 0
           },
-          "spikes_total_per_trial": 371.8,
-          "spikes_total_sum": 14872,
-          "rate_per_neuron_per_ms": 0.024205729166666665,
+          "spikes_total_per_trial": 367.75,
+          "spikes_total_sum": 14710,
+          "rate_per_neuron_per_ms": 0.023942057291666666,
           "trials_with_spikes_frac": 1.0,
-          "v_dend_absmax": 25.873628616333008,
-          "rate_clamp_hits": 71520,
+          "v_dend_absmax": 53.82373046875,
+          "rate_clamp_hits": 0,
           "test_n_trials": 40,
-          "test_spikes_total_per_trial": 371.8,
-          "test_spikes_total_sum": 14872,
+          "test_spikes_total_per_trial": 367.75,
+          "test_spikes_total_sum": 14710,
           "test_spikes_per_phase_mean": [
-            98.2,
-            159.45,
-            114.15
+            92.7,
+            160.7,
+            114.35
           ],
-          "test_rate_per_neuron_per_ms": 0.024205729166666665,
+          "test_rate_per_neuron_per_ms": 0.023942057291666666,
           "test_trials_with_spikes": 40,
           "test_trials_with_spikes_frac": 1.0,
-          "test_active_neurons_probe_mean": 119.6,
-          "test_v_dend_absmax": 25.873628616333008,
-          "test_rate_clamp_hits": 25520,
+          "test_active_neurons_probe_mean": 115.45,
+          "test_v_dend_absmax": 53.82373046875,
+          "test_rate_clamp_hits": 0,
           "train_n_trials": 80,
-          "train_spikes_total_per_trial": 370.225,
-          "train_spikes_total_sum": 29618,
+          "train_spikes_total_per_trial": 365.175,
+          "train_spikes_total_sum": 29214,
           "train_spikes_per_phase_mean": [
-            97.775,
-            158.95,
-            113.5
+            91.975,
+            159.35,
+            113.85
           ],
-          "train_rate_per_neuron_per_ms": 0.02410319010416667,
+          "train_rate_per_neuron_per_ms": 0.0237744140625,
           "train_trials_with_spikes": 80,
           "train_trials_with_spikes_frac": 1.0,
-          "train_active_neurons_probe_mean": 118.475,
-          "train_v_dend_absmax": 25.873628616333008,
-          "train_rate_clamp_hits": 46000
+          "train_active_neurons_probe_mean": 113.45,
+          "train_v_dend_absmax": 54.147857666015625,
+          "train_rate_clamp_hits": 0
         },
         "structured_substrate": {
           "accuracy": 1.0,
@@ -11301,77 +11301,77 @@
           "mode": "substrate",
           "beta": 0.0,
           "n_params_readout": 512,
-          "spikes_class0_per_trial": 370.2250061035156,
-          "spikes_class1_per_trial": 384.29998779296875,
-          "spikes_class0_probe_window": 1.446191430091858,
-          "spikes_class1_probe_window": 1.5011718273162842,
-          "wall_seconds": 0.8337562090018764,
+          "spikes_class0_per_trial": 365.17498779296875,
+          "spikes_class1_per_trial": 373.8500061035156,
+          "spikes_class0_probe_window": 1.4264647960662842,
+          "spikes_class1_probe_window": 1.460351586341858,
+          "wall_seconds": 2.9073477500351146,
           "train_stats": {
             "n_trials": 80,
-            "spikes_total_per_trial": 377.2625,
-            "spikes_total_sum": 30181,
+            "spikes_total_per_trial": 369.5125,
+            "spikes_total_sum": 29561,
             "spikes_per_phase_mean": [
-              97.55,
-              157.35,
-              122.3625
+              91.3875,
+              158.1375,
+              119.9875
             ],
-            "rate_per_neuron_per_ms": 0.024561360677083335,
+            "rate_per_neuron_per_ms": 0.024056803385416665,
             "trials_with_spikes": 80,
             "trials_with_spikes_frac": 1.0,
-            "active_neurons_probe_mean": 129.35,
-            "v_dend_absmax": 25.873628616333008,
-            "rate_clamp_hits": 46880
+            "active_neurons_probe_mean": 124.8125,
+            "v_dend_absmax": 54.147857666015625,
+            "rate_clamp_hits": 0
           },
           "test_stats": {
             "n_trials": 40,
-            "spikes_total_per_trial": 379.3,
-            "spikes_total_sum": 15172,
+            "spikes_total_per_trial": 371.975,
+            "spikes_total_sum": 14879,
             "spikes_per_phase_mean": [
-              98.125,
-              159.35,
-              121.825
+              92.15,
+              160.275,
+              119.55
             ],
-            "rate_per_neuron_per_ms": 0.024694010416666665,
+            "rate_per_neuron_per_ms": 0.024217122395833332,
             "trials_with_spikes": 40,
             "trials_with_spikes_frac": 1.0,
-            "active_neurons_probe_mean": 129.4,
-            "v_dend_absmax": 25.873628616333008,
-            "rate_clamp_hits": 25180
+            "active_neurons_probe_mean": 125.525,
+            "v_dend_absmax": 53.82373046875,
+            "rate_clamp_hits": 0
           },
-          "spikes_total_per_trial": 379.3,
-          "spikes_total_sum": 15172,
-          "rate_per_neuron_per_ms": 0.024694010416666665,
+          "spikes_total_per_trial": 371.975,
+          "spikes_total_sum": 14879,
+          "rate_per_neuron_per_ms": 0.024217122395833332,
           "trials_with_spikes_frac": 1.0,
-          "v_dend_absmax": 25.873628616333008,
-          "rate_clamp_hits": 72060,
+          "v_dend_absmax": 53.82373046875,
+          "rate_clamp_hits": 0,
           "test_n_trials": 40,
-          "test_spikes_total_per_trial": 379.3,
-          "test_spikes_total_sum": 15172,
+          "test_spikes_total_per_trial": 371.975,
+          "test_spikes_total_sum": 14879,
           "test_spikes_per_phase_mean": [
-            98.125,
-            159.35,
-            121.825
+            92.15,
+            160.275,
+            119.55
           ],
-          "test_rate_per_neuron_per_ms": 0.024694010416666665,
+          "test_rate_per_neuron_per_ms": 0.024217122395833332,
           "test_trials_with_spikes": 40,
           "test_trials_with_spikes_frac": 1.0,
-          "test_active_neurons_probe_mean": 129.4,
-          "test_v_dend_absmax": 25.873628616333008,
-          "test_rate_clamp_hits": 25180,
+          "test_active_neurons_probe_mean": 125.525,
+          "test_v_dend_absmax": 53.82373046875,
+          "test_rate_clamp_hits": 0,
           "train_n_trials": 80,
-          "train_spikes_total_per_trial": 377.2625,
-          "train_spikes_total_sum": 30181,
+          "train_spikes_total_per_trial": 369.5125,
+          "train_spikes_total_sum": 29561,
           "train_spikes_per_phase_mean": [
-            97.55,
-            157.35,
-            122.3625
+            91.3875,
+            158.1375,
+            119.9875
           ],
-          "train_rate_per_neuron_per_ms": 0.024561360677083335,
+          "train_rate_per_neuron_per_ms": 0.024056803385416665,
           "train_trials_with_spikes": 80,
           "train_trials_with_spikes_frac": 1.0,
-          "train_active_neurons_probe_mean": 129.35,
-          "train_v_dend_absmax": 25.873628616333008,
-          "train_rate_clamp_hits": 46880
+          "train_active_neurons_probe_mean": 124.8125,
+          "train_v_dend_absmax": 54.147857666015625,
+          "train_rate_clamp_hits": 0
         },
         "ref_per_neuron_b0.5": {
           "accuracy": 0.5,
@@ -11383,7 +11383,7 @@
           "spikes_class1_per_trial": 150.5749969482422,
           "spikes_class0_probe_window": 0.588183581829071,
           "spikes_class1_probe_window": 0.588183581829071,
-          "wall_seconds": 0.8501061249990016,
+          "wall_seconds": 3.0271732499822974,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 150.575,
@@ -11461,7 +11461,7 @@
           "spikes_class1_per_trial": 302.32501220703125,
           "spikes_class0_probe_window": 1.1208007335662842,
           "spikes_class1_probe_window": 1.1809570789337158,
-          "wall_seconds": 0.9671225000056438,
+          "wall_seconds": 3.101096166006755,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 294.625,
@@ -11539,7 +11539,7 @@
           "spikes_class1_per_trial": 143.625,
           "spikes_class0_probe_window": 0.56103515625,
           "spikes_class1_probe_window": 0.56103515625,
-          "wall_seconds": 0.8814002089784481,
+          "wall_seconds": 2.748956332972739,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 143.625,
@@ -11617,7 +11617,7 @@
           "spikes_class1_per_trial": 270.125,
           "spikes_class0_probe_window": 0.9795898199081421,
           "spikes_class1_probe_window": 1.05517578125,
-          "wall_seconds": 1.0104052500100806,
+          "wall_seconds": 3.327393374987878,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 260.45,
@@ -11695,7 +11695,7 @@
           "spikes_class1_per_trial": 138.3000030517578,
           "spikes_class0_probe_window": 0.540234386920929,
           "spikes_class1_probe_window": 0.540234386920929,
-          "wall_seconds": 0.852030707988888,
+          "wall_seconds": 3.0423586249817163,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 138.3,
@@ -11773,7 +11773,7 @@
           "spikes_class1_per_trial": 234.39999389648438,
           "spikes_class0_probe_window": 0.833984375,
           "spikes_class1_probe_window": 0.9156249761581421,
-          "wall_seconds": 1.008708374982234,
+          "wall_seconds": 3.2975418340065517,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 223.95,
@@ -11851,7 +11851,7 @@
           "spikes_class1_per_trial": 135.39999389648438,
           "spikes_class0_probe_window": 0.5289062261581421,
           "spikes_class1_probe_window": 0.5289062261581421,
-          "wall_seconds": 0.9078557079774328,
+          "wall_seconds": 2.965684249997139,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 135.4,
@@ -11929,7 +11929,7 @@
           "spikes_class1_per_trial": 202.52499389648438,
           "spikes_class0_probe_window": 0.7164062261581421,
           "spikes_class1_probe_window": 0.7911132574081421,
-          "wall_seconds": 1.044994666997809,
+          "wall_seconds": 3.62787099997513,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 192.9625,
@@ -12007,7 +12007,7 @@
           "spikes_class1_per_trial": 133.3249969482422,
           "spikes_class0_probe_window": 0.520800769329071,
           "spikes_class1_probe_window": 0.520800769329071,
-          "wall_seconds": 0.8855742079904303,
+          "wall_seconds": 4.91015441599302,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 133.325,
@@ -12085,7 +12085,7 @@
           "spikes_class1_per_trial": 176.8000030517578,
           "spikes_class0_probe_window": 0.627246081829071,
           "spikes_class1_probe_window": 0.690625011920929,
-          "wall_seconds": 0.994048832973931,
+          "wall_seconds": 4.016696875041816,
           "train_stats": {
             "n_trials": 80,
             "spikes_total_per_trial": 168.6875,
@@ -12157,14 +12157,14 @@
     }
   ],
   "run": {
-    "wall_seconds": 255.64181670901598,
+    "wall_seconds": 629.0057349170092,
     "n_sweep_points": 12,
     "n_trials_per_arm_per_point": 120,
     "backend": "numpy",
     "python": "3.14.3",
     "numpy": "2.4.1",
     "mlx_available": true,
-    "results_path": "experiments/results/trace_locus.json",
+    "results_path": "/Users/richie/Documents/github/human-brain/experiments/results/trace_locus.json",
     "mlx_version": "0.31.0",
     "mlx_device": "Device(gpu, 0)"
   }
