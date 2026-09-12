@@ -78,6 +78,19 @@ class CortexConfig:
     #: already scoring positive receives exactly zero error and stops learning.
     #: ``"delta"`` is the graded rule the docstring always claimed to implement.
     readout_rule: str = "delta"
+    #: Clip applied to the standardised code. Bounds the graded-error update;
+    #: see ``_normalise`` for why an unclipped code diverges.
+    code_clip: float = 8.0
+    #: Normalise the readout update by the squared norm of the code (NLMS).
+    #: Required for the graded ``delta`` rule to be stable. Without it the
+    #: update is a positive feedback loop -- larger W gives a larger error,
+    #: which gives a larger update -- and W diverges to nan within one task at
+    #: any usable learning rate. Stability of the raw rule needs
+    #: lr < 2 / ||code||^2, which is ~4e-5 here against a default lr of 0.05.
+    #: Dividing by ||code||^2 makes the effective step size independent of the
+    #: code magnitude, and is the standard normalised-LMS fix. It is also
+    #: biologically defensible as divisive normalisation / synaptic scaling.
+    readout_nlms: bool = True
     #: Reset the network between samples. Without this the adaptation state
     #: (tau ~100 ms) carries across ~7 samples, so every code is partly a
     #: function of the *previous* image - a leak that contaminated every
@@ -174,10 +187,24 @@ class CortexClassifier:
         return counts
 
     def _normalise(self, c: np.ndarray) -> np.ndarray:
+        """Standardise the code, then clip.
+
+        The clip is not cosmetic. This divides by a PER-NEURON running standard
+        deviation, and a neuron that is almost always silent has a near-zero
+        sd, so its standardised value explodes. With the original binarised
+        error that was survivable because the error was bounded to [-1, 1];
+        with the graded error rule the unbounded code fed an unbounded update
+        and the readout diverged (|W| 1.7e-1 -> 1.2e6 -> 2.3e13 -> nan within
+        a single task). Clipping at ``code_clip`` bounds the update. The floor
+        on sd is relative to the typical scale rather than an absolute 1e-6,
+        for the same reason.
+        """
         if not self.cfg.normalize_code:
             return c
         sd = np.sqrt(self._m2 / max(1, self._n_seen - 1)) if self._n_seen > 1 else 1.0
-        return (c - self._mean) / (sd + 1e-6)
+        scale = max(float(np.median(sd)), 1e-6)
+        z = (c - self._mean) / np.maximum(sd, 0.01 * scale)
+        return np.clip(z, -self.cfg.code_clip, self.cfg.code_clip)
 
     def _update_running_stats(self, c: np.ndarray) -> None:
         self._n_seen += 1
@@ -215,7 +242,12 @@ class CortexClassifier:
                         # the output means a class that already scores positive
                         # gets zero error and stops learning entirely.
                         err = target - (out > 0.0).astype(np.float32)
-                    self.W += cfg.readout_lr * np.outer(cn, err).astype(np.float32)
+                    update = cfg.readout_lr * np.outer(cn, err).astype(np.float32)
+                    if cfg.readout_nlms:
+                        # ||cn||^2, so the step is scale-free in the code.
+                        denom = float(cn.astype(np.float64) @ cn.astype(np.float64))
+                        update = update / max(denom, 1e-6)
+                    self.W += update
                     self.readout_updates += 1
                     info["updates"] += 1
         return info
