@@ -4,12 +4,10 @@
     "numpy": "2.4.1",
     "platform": "macOS-27.0-arm64-arm-64bit-Mach-O",
     "backend": "numpy",
-    "wall_seconds_total": 1527.7959597500158,
-    "generated": "2026-09-12T15:24:58",
+    "wall_seconds_total": 734.8531793750008,
+    "generated": "2026-09-12T15:43:11",
     "quick": false,
-    "host_note": "The host ran under heavy external load throughout; wall-clock figures are indicative only and no throughput claim is made from them.",
-    "last_stage": "primary",
-    "partial": true
+    "host_note": "The host ran under heavy external load throughout; wall-clock figures are indicative only and no throughput claim is made from them."
   },
   "design": {
     "task": "8-way time-since-event: event pulse (40 ms) -> silent gap d_c -> silent readout window (40 ms); the readout sees only window spikes",
@@ -8037,7 +8035,7 @@
               "stimulus_spikes": 825600,
               "window_spikes": 360711,
               "bio_ms": 630,
-              "wall_seconds": 55.70749370899284,
+              "wall_seconds": 56.64559799997369,
               "synops_active": 0,
               "k_out": 0,
               "dend_mode": "dcaap",
@@ -8087,7 +8085,7 @@
               "stimulus_spikes": 825600,
               "window_spikes": 360690,
               "bio_ms": 630,
-              "wall_seconds": 49.76123295800062,
+              "wall_seconds": 53.03694025002187,
               "synops_active": 0,
               "k_out": 0,
               "dend_mode": "dcaap",
@@ -8137,7 +8135,7 @@
               "stimulus_spikes": 825600,
               "window_spikes": 360661,
               "bio_ms": 630,
-              "wall_seconds": 100.93420108297141,
+              "wall_seconds": 63.533751417009626,
               "synops_active": 0,
               "k_out": 0,
               "dend_mode": "dcaap",
@@ -8189,7 +8187,7 @@
               "stimulus_spikes": 825600,
               "window_spikes": 614187,
               "bio_ms": 630,
-              "wall_seconds": 55.70749370899284,
+              "wall_seconds": 56.64559799997369,
               "synops_active": 0,
               "k_out": 0,
               "dend_mode": "dcaap",
@@ -8239,7 +8237,7 @@
               "stimulus_spikes": 825600,
               "window_spikes": 614286,
               "bio_ms": 630,
-              "wall_seconds": 49.76123295800062,
+              "wall_seconds": 53.03694025002187,
               "synops_active": 0,
               "k_out": 0,
               "dend_mode": "dcaap",
@@ -8289,7 +8287,7 @@
               "stimulus_spikes": 825600,
               "window_spikes": 614339,
               "bio_ms": 630,
-              "wall_seconds": 100.93420108297141,
+              "wall_seconds": 63.533751417009626,
               "synops_active": 0,
               "k_out": 0,
               "dend_mode": "dcaap",
@@ -8341,7 +8339,7 @@
               "stimulus_spikes": 825600,
               "window_spikes": 844070,
               "bio_ms": 630,
-              "wall_seconds": 55.70749370899284,
+              "wall_seconds": 56.64559799997369,
               "synops_active": 0,
               "k_out": 0,
               "dend_mode": "dcaap",
@@ -8391,7 +8389,7 @@
               "stimulus_spikes": 825600,
               "window_spikes": 844221,
               "bio_ms": 630,
-              "wall_seconds": 49.76123295800062,
+              "wall_seconds": 53.03694025002187,
               "synops_active": 0,
               "k_out": 0,
               "dend_mode": "dcaap",
@@ -8441,7 +8439,7 @@
               "stimulus_spikes": 825600,
               "window_spikes": 844365,
               "bio_ms": 630,
-              "wall_seconds": 100.93420108297141,
+              "wall_seconds": 63.533751417009626,
               "synops_active": 0,
               "k_out": 0,
               "dend_mode": "dcaap",
@@ -8493,7 +8491,7 @@
               "stimulus_spikes": 825600,
               "window_spikes": 1136408,
               "bio_ms": 630,
-              "wall_seconds": 55.70749370899284,
+              "wall_seconds": 56.64559799997369,
               "synops_active": 0,
               "k_out": 0,
               "dend_mode": "dcaap",
@@ -8543,7 +8541,7 @@
               "stimulus_spikes": 825600,
               "window_spikes": 1136490,
               "bio_ms": 630,
-              "wall_seconds": 49.76123295800062,
+              "wall_seconds": 53.03694025002187,
               "synops_active": 0,
               "k_out": 0,
               "dend_mode": "dcaap",
@@ -8593,7 +8591,7 @@
               "stimulus_spikes": 825600,
               "window_spikes": 1136476,
               "bio_ms": 630,
-              "wall_seconds": 100.93420108297141,
+              "wall_seconds": 63.533751417009626,
               "synops_active": 0,
               "k_out": 0,
               "dend_mode": "dcaap",
@@ -8645,7 +8643,7 @@
               "stimulus_spikes": 928800,
               "window_spikes": 615603,
               "bio_ms": 630,
-              "wall_seconds": 55.70749370899284,
+              "wall_seconds": 56.64559799997369,
               "synops_active": 0,
               "k_out": 0,
               "dend_mode": "dcaap",
@@ -8695,7 +8693,7 @@
               "stimulus_spikes": 928800,
               "window_spikes": 615566,
               "bio_ms": 630,
-              "wall_seconds": 49.76123295800062,
+              "wall_seconds": 53.03694025002187,
               "synops_active": 0,
               "k_out": 0,
               "dend_mode": "dcaap",
@@ -8745,7 +8743,7 @@
               "stimulus_spikes": 928800,
               "window_spikes": 615502,
               "bio_ms": 630,
-              "wall_seconds": 100.93420108297141,
+              "wall_seconds": 63.533751417009626,
               "synops_active": 0,
               "k_out": 0,
               "dend_mode": "dcaap",
@@ -8797,7 +8795,7 @@
               "stimulus_spikes": 918828,
               "window_spikes": 614141,
               "bio_ms": 630,
-              "wall_seconds": 55.70749370899284,
+              "wall_seconds": 56.64559799997369,
               "synops_active": 0,
               "k_out": 0,
               "dend_mode": "dcaap",
@@ -8847,7 +8845,7 @@
               "stimulus_spikes": 916234,
               "window_spikes": 623196,
               "bio_ms": 630,
-              "wall_seconds": 49.76123295800062,
+              "wall_seconds": 53.03694025002187,
               "synops_active": 0,
               "k_out": 0,
               "dend_mode": "dcaap",
@@ -8897,7 +8895,7 @@
               "stimulus_spikes": 926881,
               "window_spikes": 611427,
               "bio_ms": 630,
-              "wall_seconds": 100.93420108297141,
+              "wall_seconds": 63.533751417009626,
               "synops_active": 0,
               "k_out": 0,
               "dend_mode": "dcaap",
@@ -8949,7 +8947,7 @@
               "stimulus_spikes": 1238400,
               "window_spikes": 0,
               "bio_ms": 630,
-              "wall_seconds": 55.70749370899284,
+              "wall_seconds": 56.64559799997369,
               "synops_active": 0,
               "k_out": 0,
               "dend_mode": "dcaap",
@@ -8999,7 +8997,7 @@
               "stimulus_spikes": 1238400,
               "window_spikes": 0,
               "bio_ms": 630,
-              "wall_seconds": 49.76123295800062,
+              "wall_seconds": 53.03694025002187,
               "synops_active": 0,
               "k_out": 0,
               "dend_mode": "dcaap",
@@ -9049,7 +9047,7 @@
               "stimulus_spikes": 1238400,
               "window_spikes": 0,
               "bio_ms": 630,
-              "wall_seconds": 100.93420108297141,
+              "wall_seconds": 63.533751417009626,
               "synops_active": 0,
               "k_out": 0,
               "dend_mode": "dcaap",
@@ -9095,7 +9093,7 @@
           "1200:2": 0
         }
       },
-      "wall_seconds": 206.40292774996487,
+      "wall_seconds": 173.21628966700519,
       "feature_counts": [
         1200
       ],
@@ -9133,11 +9131,317 @@
         "no_memory": false
       }
     },
-    "linear_dend": {
-      "tag": "linear_dend",
+    "linear_control": {
+      "tag": "linear",
       "per_seed": {
+        "8": {
+          "linear_multiscale": {
+            "0": {
+              "test_acc": 0.85,
+              "train_acc": 0.8571428571428571,
+              "val_acc": 0.859375,
+              "ridge": 0.0001,
+              "ridge_sweep": [
+                {
+                  "ridge": 0.0001,
+                  "val_acc": 0.859375
+                },
+                {
+                  "ridge": 0.001,
+                  "val_acc": 0.859375
+                },
+                {
+                  "ridge": 0.01,
+                  "val_acc": 0.859375
+                },
+                {
+                  "ridge": 0.1,
+                  "val_acc": 0.859375
+                },
+                {
+                  "ridge": 1.0,
+                  "val_acc": 0.859375
+                },
+                {
+                  "ridge": 10.0,
+                  "val_acc": 0.625
+                }
+              ],
+              "n_train": 20,
+              "n_val": 8,
+              "n_test": 120,
+              "n_features": 8,
+              "readout_params": 64,
+              "n_dead_features": 1,
+              "mean_feature_value": 0.8789970874786377,
+              "raw_input_control_test_acc": 0.125,
+              "population_neurons": 5504,
+              "population_spikes": 35088,
+              "stimulus_spikes": 3096,
+              "window_spikes": 2419,
+              "bio_ms": 630,
+              "wall_seconds": 0.1572618330246769,
+              "synops_active": 0,
+              "k_out": 0,
+              "dend_mode": "linear",
+              "dend_gain": 2.5
+            },
+            "1": {
+              "test_acc": 0.7833333333333333,
+              "train_acc": 0.7678571428571429,
+              "val_acc": 0.78125,
+              "ridge": 0.0001,
+              "ridge_sweep": [
+                {
+                  "ridge": 0.0001,
+                  "val_acc": 0.78125
+                },
+                {
+                  "ridge": 0.001,
+                  "val_acc": 0.78125
+                },
+                {
+                  "ridge": 0.01,
+                  "val_acc": 0.78125
+                },
+                {
+                  "ridge": 0.1,
+                  "val_acc": 0.703125
+                },
+                {
+                  "ridge": 1.0,
+                  "val_acc": 0.703125
+                },
+                {
+                  "ridge": 10.0,
+                  "val_acc": 0.625
+                }
+              ],
+              "n_train": 20,
+              "n_val": 8,
+              "n_test": 120,
+              "n_features": 8,
+              "readout_params": 64,
+              "n_dead_features": 0,
+              "mean_feature_value": 0.7725290656089783,
+              "raw_input_control_test_acc": 0.125,
+              "population_neurons": 5504,
+              "population_spikes": 30502,
+              "stimulus_spikes": 3653,
+              "window_spikes": 2126,
+              "bio_ms": 630,
+              "wall_seconds": 0.15261354198446497,
+              "synops_active": 0,
+              "k_out": 0,
+              "dend_mode": "linear",
+              "dend_gain": 2.5
+            },
+            "2": {
+              "test_acc": 0.8666666666666667,
+              "train_acc": 0.875,
+              "val_acc": 0.875,
+              "ridge": 0.0001,
+              "ridge_sweep": [
+                {
+                  "ridge": 0.0001,
+                  "val_acc": 0.875
+                },
+                {
+                  "ridge": 0.001,
+                  "val_acc": 0.875
+                },
+                {
+                  "ridge": 0.01,
+                  "val_acc": 0.875
+                },
+                {
+                  "ridge": 0.1,
+                  "val_acc": 0.875
+                },
+                {
+                  "ridge": 1.0,
+                  "val_acc": 0.734375
+                },
+                {
+                  "ridge": 10.0,
+                  "val_acc": 0.625
+                }
+              ],
+              "n_train": 20,
+              "n_val": 8,
+              "n_test": 120,
+              "n_features": 8,
+              "readout_params": 64,
+              "n_dead_features": 0,
+              "mean_feature_value": 0.819767415523529,
+              "raw_input_control_test_acc": 0.125,
+              "population_neurons": 5504,
+              "population_spikes": 34997,
+              "stimulus_spikes": 4128,
+              "window_spikes": 2256,
+              "bio_ms": 630,
+              "wall_seconds": 0.15695229195989668,
+              "synops_active": 0,
+              "k_out": 0,
+              "dend_mode": "linear",
+              "dend_gain": 2.5
+            }
+          },
+          "linear_no_memory": {
+            "0": {
+              "test_acc": 0.125,
+              "train_acc": 0.125,
+              "val_acc": 0.125,
+              "ridge": 0.0001,
+              "ridge_sweep": [
+                {
+                  "ridge": 0.0001,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 0.001,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 0.01,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 0.1,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 1.0,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 10.0,
+                  "val_acc": 0.125
+                }
+              ],
+              "n_train": 20,
+              "n_val": 8,
+              "n_test": 120,
+              "n_features": 8,
+              "readout_params": 64,
+              "n_dead_features": 8,
+              "mean_feature_value": 0.0,
+              "raw_input_control_test_acc": 0.125,
+              "population_neurons": 5504,
+              "population_spikes": 35088,
+              "stimulus_spikes": 9288,
+              "window_spikes": 0,
+              "bio_ms": 630,
+              "wall_seconds": 0.1572618330246769,
+              "synops_active": 0,
+              "k_out": 0,
+              "dend_mode": "linear",
+              "dend_gain": 2.5
+            },
+            "1": {
+              "test_acc": 0.125,
+              "train_acc": 0.125,
+              "val_acc": 0.125,
+              "ridge": 0.0001,
+              "ridge_sweep": [
+                {
+                  "ridge": 0.0001,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 0.001,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 0.01,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 0.1,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 1.0,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 10.0,
+                  "val_acc": 0.125
+                }
+              ],
+              "n_train": 20,
+              "n_val": 8,
+              "n_test": 120,
+              "n_features": 8,
+              "readout_params": 64,
+              "n_dead_features": 8,
+              "mean_feature_value": 0.0,
+              "raw_input_control_test_acc": 0.125,
+              "population_neurons": 5504,
+              "population_spikes": 30502,
+              "stimulus_spikes": 8256,
+              "window_spikes": 0,
+              "bio_ms": 630,
+              "wall_seconds": 0.15261354198446497,
+              "synops_active": 0,
+              "k_out": 0,
+              "dend_mode": "linear",
+              "dend_gain": 2.5
+            },
+            "2": {
+              "test_acc": 0.125,
+              "train_acc": 0.125,
+              "val_acc": 0.125,
+              "ridge": 0.0001,
+              "ridge_sweep": [
+                {
+                  "ridge": 0.0001,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 0.001,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 0.01,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 0.1,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 1.0,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 10.0,
+                  "val_acc": 0.125
+                }
+              ],
+              "n_train": 20,
+              "n_val": 8,
+              "n_test": 120,
+              "n_features": 8,
+              "readout_params": 64,
+              "n_dead_features": 8,
+              "mean_feature_value": 0.0,
+              "raw_input_control_test_acc": 0.13333333333333333,
+              "population_neurons": 5504,
+              "population_spikes": 34997,
+              "stimulus_spikes": 9197,
+              "window_spikes": 0,
+              "bio_ms": 630,
+              "wall_seconds": 0.15695229195989668,
+              "synops_active": 0,
+              "k_out": 0,
+              "dend_mode": "linear",
+              "dend_gain": 2.5
+            }
+          }
+        },
         "16": {
-          "multiscale_linear": {
+          "linear_multiscale": {
             "0": {
               "test_acc": 1.0,
               "train_acc": 1.0,
@@ -9166,7 +9470,7 @@
                 },
                 {
                   "ridge": 10.0,
-                  "val_acc": 0.6875
+                  "val_acc": 0.5625
                 }
               ],
               "n_train": 20,
@@ -9175,44 +9479,44 @@
               "n_features": 16,
               "readout_params": 128,
               "n_dead_features": 1,
-              "mean_feature_value": 0.9573037624359131,
+              "mean_feature_value": 0.9582121968269348,
               "raw_input_control_test_acc": 0.125,
-              "population_neurons": 5504,
-              "population_spikes": 59166,
+              "population_neurons": 11008,
+              "population_spikes": 77054,
               "stimulus_spikes": 8944,
-              "window_spikes": 5269,
+              "window_spikes": 5274,
               "bio_ms": 630,
-              "wall_seconds": 0.24296504200901836,
+              "wall_seconds": 0.3077192080090754,
               "synops_active": 0,
               "k_out": 0,
               "dend_mode": "linear",
               "dend_gain": 2.5
             },
             "1": {
-              "test_acc": 0.9916666666666667,
-              "train_acc": 1.0,
-              "val_acc": 0.921875,
+              "test_acc": 0.95,
+              "train_acc": 0.9732142857142857,
+              "val_acc": 0.96875,
               "ridge": 0.0001,
               "ridge_sweep": [
                 {
                   "ridge": 0.0001,
-                  "val_acc": 0.921875
+                  "val_acc": 0.96875
                 },
                 {
                   "ridge": 0.001,
-                  "val_acc": 0.921875
+                  "val_acc": 0.96875
                 },
                 {
                   "ridge": 0.01,
-                  "val_acc": 0.921875
+                  "val_acc": 0.96875
                 },
                 {
                   "ridge": 0.1,
-                  "val_acc": 0.890625
+                  "val_acc": 0.96875
                 },
                 {
                   "ridge": 1.0,
-                  "val_acc": 0.890625
+                  "val_acc": 0.875
                 },
                 {
                   "ridge": 10.0,
@@ -9225,48 +9529,48 @@
               "n_features": 16,
               "readout_params": 128,
               "n_dead_features": 1,
-              "mean_feature_value": 1.005268931388855,
-              "raw_input_control_test_acc": 0.13333333333333333,
-              "population_neurons": 5504,
-              "population_spikes": 62052,
-              "stimulus_spikes": 8951,
-              "window_spikes": 5533,
+              "mean_feature_value": 1.003633737564087,
+              "raw_input_control_test_acc": 0.125,
+              "population_neurons": 11008,
+              "population_spikes": 80994,
+              "stimulus_spikes": 8954,
+              "window_spikes": 5524,
               "bio_ms": 630,
-              "wall_seconds": 0.25454762496519834,
+              "wall_seconds": 0.29093820904381573,
               "synops_active": 0,
               "k_out": 0,
               "dend_mode": "linear",
               "dend_gain": 2.5
             },
             "2": {
-              "test_acc": 1.0,
-              "train_acc": 0.96875,
-              "val_acc": 0.953125,
-              "ridge": 0.1,
+              "test_acc": 0.9833333333333333,
+              "train_acc": 0.9732142857142857,
+              "val_acc": 0.875,
+              "ridge": 0.0001,
               "ridge_sweep": [
                 {
                   "ridge": 0.0001,
-                  "val_acc": 0.921875
+                  "val_acc": 0.875
                 },
                 {
                   "ridge": 0.001,
-                  "val_acc": 0.921875
+                  "val_acc": 0.875
                 },
                 {
                   "ridge": 0.01,
-                  "val_acc": 0.921875
+                  "val_acc": 0.875
                 },
                 {
                   "ridge": 0.1,
-                  "val_acc": 0.953125
+                  "val_acc": 0.875
                 },
                 {
                   "ridge": 1.0,
-                  "val_acc": 0.953125
+                  "val_acc": 0.875
                 },
                 {
                   "ridge": 10.0,
-                  "val_acc": 0.71875
+                  "val_acc": 0.734375
                 }
               ],
               "n_train": 20,
@@ -9275,14 +9579,778 @@
               "n_features": 16,
               "readout_params": 128,
               "n_dead_features": 1,
-              "mean_feature_value": 0.9609375,
-              "raw_input_control_test_acc": 0.11666666666666667,
-              "population_neurons": 5504,
-              "population_spikes": 59235,
-              "stimulus_spikes": 8671,
-              "window_spikes": 5289,
+              "mean_feature_value": 0.9629360437393188,
+              "raw_input_control_test_acc": 0.125,
+              "population_neurons": 11008,
+              "population_spikes": 75742,
+              "stimulus_spikes": 8693,
+              "window_spikes": 5300,
               "bio_ms": 630,
-              "wall_seconds": 0.26099116599652916,
+              "wall_seconds": 0.29121183400275186,
+              "synops_active": 0,
+              "k_out": 0,
+              "dend_mode": "linear",
+              "dend_gain": 2.5
+            }
+          },
+          "linear_no_memory": {
+            "0": {
+              "test_acc": 0.125,
+              "train_acc": 0.125,
+              "val_acc": 0.125,
+              "ridge": 0.0001,
+              "ridge_sweep": [
+                {
+                  "ridge": 0.0001,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 0.001,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 0.01,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 0.1,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 1.0,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 10.0,
+                  "val_acc": 0.125
+                }
+              ],
+              "n_train": 20,
+              "n_val": 8,
+              "n_test": 120,
+              "n_features": 16,
+              "readout_params": 128,
+              "n_dead_features": 16,
+              "mean_feature_value": 0.0,
+              "raw_input_control_test_acc": 0.125,
+              "population_neurons": 11008,
+              "population_spikes": 77054,
+              "stimulus_spikes": 17887,
+              "window_spikes": 0,
+              "bio_ms": 630,
+              "wall_seconds": 0.3077192080090754,
+              "synops_active": 0,
+              "k_out": 0,
+              "dend_mode": "linear",
+              "dend_gain": 2.5
+            },
+            "1": {
+              "test_acc": 0.125,
+              "train_acc": 0.125,
+              "val_acc": 0.125,
+              "ridge": 0.0001,
+              "ridge_sweep": [
+                {
+                  "ridge": 0.0001,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 0.001,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 0.01,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 0.1,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 1.0,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 10.0,
+                  "val_acc": 0.125
+                }
+              ],
+              "n_train": 20,
+              "n_val": 8,
+              "n_test": 120,
+              "n_features": 16,
+              "readout_params": 128,
+              "n_dead_features": 16,
+              "mean_feature_value": 0.0,
+              "raw_input_control_test_acc": 0.125,
+              "population_neurons": 11008,
+              "population_spikes": 80994,
+              "stimulus_spikes": 18920,
+              "window_spikes": 0,
+              "bio_ms": 630,
+              "wall_seconds": 0.29093820904381573,
+              "synops_active": 0,
+              "k_out": 0,
+              "dend_mode": "linear",
+              "dend_gain": 2.5
+            },
+            "2": {
+              "test_acc": 0.125,
+              "train_acc": 0.125,
+              "val_acc": 0.125,
+              "ridge": 0.0001,
+              "ridge_sweep": [
+                {
+                  "ridge": 0.0001,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 0.001,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 0.01,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 0.1,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 1.0,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 10.0,
+                  "val_acc": 0.125
+                }
+              ],
+              "n_train": 20,
+              "n_val": 8,
+              "n_test": 120,
+              "n_features": 16,
+              "readout_params": 128,
+              "n_dead_features": 16,
+              "mean_feature_value": 0.0,
+              "raw_input_control_test_acc": 0.125,
+              "population_neurons": 11008,
+              "population_spikes": 75742,
+              "stimulus_spikes": 16511,
+              "window_spikes": 0,
+              "bio_ms": 630,
+              "wall_seconds": 0.29121183400275186,
+              "synops_active": 0,
+              "k_out": 0,
+              "dend_mode": "linear",
+              "dend_gain": 2.5
+            }
+          }
+        },
+        "32": {
+          "linear_multiscale": {
+            "0": {
+              "test_acc": 1.0,
+              "train_acc": 1.0,
+              "val_acc": 1.0,
+              "ridge": 0.0001,
+              "ridge_sweep": [
+                {
+                  "ridge": 0.0001,
+                  "val_acc": 1.0
+                },
+                {
+                  "ridge": 0.001,
+                  "val_acc": 1.0
+                },
+                {
+                  "ridge": 0.01,
+                  "val_acc": 1.0
+                },
+                {
+                  "ridge": 0.1,
+                  "val_acc": 1.0
+                },
+                {
+                  "ridge": 1.0,
+                  "val_acc": 1.0
+                },
+                {
+                  "ridge": 10.0,
+                  "val_acc": 0.75
+                }
+              ],
+              "n_train": 20,
+              "n_val": 8,
+              "n_test": 120,
+              "n_features": 32,
+              "readout_params": 256,
+              "n_dead_features": 0,
+              "mean_feature_value": 0.8500181436538696,
+              "raw_input_control_test_acc": 0.11666666666666667,
+              "population_neurons": 22016,
+              "population_spikes": 132759,
+              "stimulus_spikes": 15837,
+              "window_spikes": 9357,
+              "bio_ms": 630,
+              "wall_seconds": 0.5374887500074692,
+              "synops_active": 0,
+              "k_out": 0,
+              "dend_mode": "linear",
+              "dend_gain": 2.5
+            },
+            "1": {
+              "test_acc": 1.0,
+              "train_acc": 0.9866071428571429,
+              "val_acc": 0.984375,
+              "ridge": 0.0001,
+              "ridge_sweep": [
+                {
+                  "ridge": 0.0001,
+                  "val_acc": 0.984375
+                },
+                {
+                  "ridge": 0.001,
+                  "val_acc": 0.984375
+                },
+                {
+                  "ridge": 0.01,
+                  "val_acc": 0.984375
+                },
+                {
+                  "ridge": 0.1,
+                  "val_acc": 0.984375
+                },
+                {
+                  "ridge": 1.0,
+                  "val_acc": 0.984375
+                },
+                {
+                  "ridge": 10.0,
+                  "val_acc": 0.625
+                }
+              ],
+              "n_train": 20,
+              "n_val": 8,
+              "n_test": 120,
+              "n_features": 32,
+              "readout_params": 256,
+              "n_dead_features": 3,
+              "mean_feature_value": 0.7854287624359131,
+              "raw_input_control_test_acc": 0.11666666666666667,
+              "population_neurons": 22016,
+              "population_spikes": 130444,
+              "stimulus_spikes": 14813,
+              "window_spikes": 8646,
+              "bio_ms": 630,
+              "wall_seconds": 0.5399193749763072,
+              "synops_active": 0,
+              "k_out": 0,
+              "dend_mode": "linear",
+              "dend_gain": 2.5
+            },
+            "2": {
+              "test_acc": 1.0,
+              "train_acc": 0.9955357142857143,
+              "val_acc": 1.0,
+              "ridge": 0.0001,
+              "ridge_sweep": [
+                {
+                  "ridge": 0.0001,
+                  "val_acc": 1.0
+                },
+                {
+                  "ridge": 0.001,
+                  "val_acc": 1.0
+                },
+                {
+                  "ridge": 0.01,
+                  "val_acc": 1.0
+                },
+                {
+                  "ridge": 0.1,
+                  "val_acc": 1.0
+                },
+                {
+                  "ridge": 1.0,
+                  "val_acc": 1.0
+                },
+                {
+                  "ridge": 10.0,
+                  "val_acc": 0.625
+                }
+              ],
+              "n_train": 20,
+              "n_val": 8,
+              "n_test": 120,
+              "n_features": 32,
+              "readout_params": 256,
+              "n_dead_features": 2,
+              "mean_feature_value": 0.8420239686965942,
+              "raw_input_control_test_acc": 0.125,
+              "population_neurons": 22016,
+              "population_spikes": 132387,
+              "stimulus_spikes": 15582,
+              "window_spikes": 9269,
+              "bio_ms": 630,
+              "wall_seconds": 0.5398886249749921,
+              "synops_active": 0,
+              "k_out": 0,
+              "dend_mode": "linear",
+              "dend_gain": 2.5
+            }
+          },
+          "linear_no_memory": {
+            "0": {
+              "test_acc": 0.125,
+              "train_acc": 0.125,
+              "val_acc": 0.125,
+              "ridge": 0.0001,
+              "ridge_sweep": [
+                {
+                  "ridge": 0.0001,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 0.001,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 0.01,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 0.1,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 1.0,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 10.0,
+                  "val_acc": 0.125
+                }
+              ],
+              "n_train": 20,
+              "n_val": 8,
+              "n_test": 120,
+              "n_features": 32,
+              "readout_params": 256,
+              "n_dead_features": 32,
+              "mean_feature_value": 0.0,
+              "raw_input_control_test_acc": 0.125,
+              "population_neurons": 22016,
+              "population_spikes": 132759,
+              "stimulus_spikes": 35888,
+              "window_spikes": 0,
+              "bio_ms": 630,
+              "wall_seconds": 0.5374887500074692,
+              "synops_active": 0,
+              "k_out": 0,
+              "dend_mode": "linear",
+              "dend_gain": 2.5
+            },
+            "1": {
+              "test_acc": 0.125,
+              "train_acc": 0.125,
+              "val_acc": 0.125,
+              "ridge": 0.0001,
+              "ridge_sweep": [
+                {
+                  "ridge": 0.0001,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 0.001,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 0.01,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 0.1,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 1.0,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 10.0,
+                  "val_acc": 0.125
+                }
+              ],
+              "n_train": 20,
+              "n_val": 8,
+              "n_test": 120,
+              "n_features": 32,
+              "readout_params": 256,
+              "n_dead_features": 32,
+              "mean_feature_value": 0.0,
+              "raw_input_control_test_acc": 0.15,
+              "population_neurons": 22016,
+              "population_spikes": 130444,
+              "stimulus_spikes": 34473,
+              "window_spikes": 0,
+              "bio_ms": 630,
+              "wall_seconds": 0.5399193749763072,
+              "synops_active": 0,
+              "k_out": 0,
+              "dend_mode": "linear",
+              "dend_gain": 2.5
+            },
+            "2": {
+              "test_acc": 0.125,
+              "train_acc": 0.125,
+              "val_acc": 0.125,
+              "ridge": 0.0001,
+              "ridge_sweep": [
+                {
+                  "ridge": 0.0001,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 0.001,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 0.01,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 0.1,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 1.0,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 10.0,
+                  "val_acc": 0.125
+                }
+              ],
+              "n_train": 20,
+              "n_val": 8,
+              "n_test": 120,
+              "n_features": 32,
+              "readout_params": 256,
+              "n_dead_features": 32,
+              "mean_feature_value": 0.0,
+              "raw_input_control_test_acc": 0.125,
+              "population_neurons": 22016,
+              "population_spikes": 132387,
+              "stimulus_spikes": 36464,
+              "window_spikes": 0,
+              "bio_ms": 630,
+              "wall_seconds": 0.5398886249749921,
+              "synops_active": 0,
+              "k_out": 0,
+              "dend_mode": "linear",
+              "dend_gain": 2.5
+            }
+          }
+        },
+        "64": {
+          "linear_multiscale": {
+            "0": {
+              "test_acc": 1.0,
+              "train_acc": 1.0,
+              "val_acc": 1.0,
+              "ridge": 0.0001,
+              "ridge_sweep": [
+                {
+                  "ridge": 0.0001,
+                  "val_acc": 1.0
+                },
+                {
+                  "ridge": 0.001,
+                  "val_acc": 1.0
+                },
+                {
+                  "ridge": 0.01,
+                  "val_acc": 1.0
+                },
+                {
+                  "ridge": 0.1,
+                  "val_acc": 1.0
+                },
+                {
+                  "ridge": 1.0,
+                  "val_acc": 0.984375
+                },
+                {
+                  "ridge": 10.0,
+                  "val_acc": 0.890625
+                }
+              ],
+              "n_train": 20,
+              "n_val": 8,
+              "n_test": 120,
+              "n_features": 64,
+              "readout_params": 512,
+              "n_dead_features": 7,
+              "mean_feature_value": 0.8614189624786377,
+              "raw_input_control_test_acc": 0.125,
+              "population_neurons": 44032,
+              "population_spikes": 278879,
+              "stimulus_spikes": 30269,
+              "window_spikes": 18965,
+              "bio_ms": 630,
+              "wall_seconds": 0.9626633750158362,
+              "synops_active": 0,
+              "k_out": 0,
+              "dend_mode": "linear",
+              "dend_gain": 2.5
+            },
+            "1": {
+              "test_acc": 1.0,
+              "train_acc": 1.0,
+              "val_acc": 1.0,
+              "ridge": 0.0001,
+              "ridge_sweep": [
+                {
+                  "ridge": 0.0001,
+                  "val_acc": 1.0
+                },
+                {
+                  "ridge": 0.001,
+                  "val_acc": 1.0
+                },
+                {
+                  "ridge": 0.01,
+                  "val_acc": 1.0
+                },
+                {
+                  "ridge": 0.1,
+                  "val_acc": 1.0
+                },
+                {
+                  "ridge": 1.0,
+                  "val_acc": 1.0
+                },
+                {
+                  "ridge": 10.0,
+                  "val_acc": 1.0
+                }
+              ],
+              "n_train": 20,
+              "n_val": 8,
+              "n_test": 120,
+              "n_features": 64,
+              "readout_params": 512,
+              "n_dead_features": 5,
+              "mean_feature_value": 0.8850381374359131,
+              "raw_input_control_test_acc": 0.125,
+              "population_neurons": 44032,
+              "population_spikes": 286180,
+              "stimulus_spikes": 32593,
+              "window_spikes": 19485,
+              "bio_ms": 630,
+              "wall_seconds": 0.9338667080155574,
+              "synops_active": 0,
+              "k_out": 0,
+              "dend_mode": "linear",
+              "dend_gain": 2.5
+            },
+            "2": {
+              "test_acc": 1.0,
+              "train_acc": 1.0,
+              "val_acc": 1.0,
+              "ridge": 0.0001,
+              "ridge_sweep": [
+                {
+                  "ridge": 0.0001,
+                  "val_acc": 1.0
+                },
+                {
+                  "ridge": 0.001,
+                  "val_acc": 1.0
+                },
+                {
+                  "ridge": 0.01,
+                  "val_acc": 1.0
+                },
+                {
+                  "ridge": 0.1,
+                  "val_acc": 1.0
+                },
+                {
+                  "ridge": 1.0,
+                  "val_acc": 1.0
+                },
+                {
+                  "ridge": 10.0,
+                  "val_acc": 0.875
+                }
+              ],
+              "n_train": 20,
+              "n_val": 8,
+              "n_test": 120,
+              "n_features": 64,
+              "readout_params": 512,
+              "n_dead_features": 7,
+              "mean_feature_value": 0.8815861344337463,
+              "raw_input_control_test_acc": 0.10833333333333334,
+              "population_neurons": 44032,
+              "population_spikes": 280155,
+              "stimulus_spikes": 31190,
+              "window_spikes": 19409,
+              "bio_ms": 630,
+              "wall_seconds": 0.9045325829647481,
+              "synops_active": 0,
+              "k_out": 0,
+              "dend_mode": "linear",
+              "dend_gain": 2.5
+            }
+          },
+          "linear_no_memory": {
+            "0": {
+              "test_acc": 0.125,
+              "train_acc": 0.125,
+              "val_acc": 0.125,
+              "ridge": 0.0001,
+              "ridge_sweep": [
+                {
+                  "ridge": 0.0001,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 0.001,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 0.01,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 0.1,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 1.0,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 10.0,
+                  "val_acc": 0.125
+                }
+              ],
+              "n_train": 20,
+              "n_val": 8,
+              "n_test": 120,
+              "n_features": 64,
+              "readout_params": 512,
+              "n_dead_features": 64,
+              "mean_feature_value": 0.0,
+              "raw_input_control_test_acc": 0.10833333333333334,
+              "population_neurons": 44032,
+              "population_spikes": 278879,
+              "stimulus_spikes": 76218,
+              "window_spikes": 0,
+              "bio_ms": 630,
+              "wall_seconds": 0.9626633750158362,
+              "synops_active": 0,
+              "k_out": 0,
+              "dend_mode": "linear",
+              "dend_gain": 2.5
+            },
+            "1": {
+              "test_acc": 0.125,
+              "train_acc": 0.125,
+              "val_acc": 0.125,
+              "ridge": 0.0001,
+              "ridge_sweep": [
+                {
+                  "ridge": 0.0001,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 0.001,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 0.01,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 0.1,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 1.0,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 10.0,
+                  "val_acc": 0.125
+                }
+              ],
+              "n_train": 20,
+              "n_val": 8,
+              "n_test": 120,
+              "n_features": 64,
+              "readout_params": 512,
+              "n_dead_features": 64,
+              "mean_feature_value": 0.0,
+              "raw_input_control_test_acc": 0.10833333333333334,
+              "population_neurons": 44032,
+              "population_spikes": 286180,
+              "stimulus_spikes": 73195,
+              "window_spikes": 0,
+              "bio_ms": 630,
+              "wall_seconds": 0.9338667080155574,
+              "synops_active": 0,
+              "k_out": 0,
+              "dend_mode": "linear",
+              "dend_gain": 2.5
+            },
+            "2": {
+              "test_acc": 0.125,
+              "train_acc": 0.125,
+              "val_acc": 0.125,
+              "ridge": 0.0001,
+              "ridge_sweep": [
+                {
+                  "ridge": 0.0001,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 0.001,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 0.01,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 0.1,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 1.0,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 10.0,
+                  "val_acc": 0.125
+                }
+              ],
+              "n_train": 20,
+              "n_val": 8,
+              "n_test": 120,
+              "n_features": 64,
+              "readout_params": 512,
+              "n_dead_features": 64,
+              "mean_feature_value": 0.0,
+              "raw_input_control_test_acc": 0.11666666666666667,
+              "population_neurons": 44032,
+              "population_spikes": 280155,
+              "stimulus_spikes": 71740,
+              "window_spikes": 0,
+              "bio_ms": 630,
+              "wall_seconds": 0.9045325829647481,
               "synops_active": 0,
               "k_out": 0,
               "dend_mode": "linear",
@@ -9291,7 +10359,7 @@
           }
         },
         "128": {
-          "multiscale_linear": {
+          "linear_multiscale": {
             "0": {
               "test_acc": 1.0,
               "train_acc": 1.0,
@@ -9329,14 +10397,14 @@
               "n_features": 128,
               "readout_params": 1024,
               "n_dead_features": 10,
-              "mean_feature_value": 0.867732584476471,
-              "raw_input_control_test_acc": 0.1,
-              "population_neurons": 44032,
-              "population_spikes": 415754,
-              "stimulus_spikes": 63477,
-              "window_spikes": 38208,
+              "mean_feature_value": 0.8673691749572754,
+              "raw_input_control_test_acc": 0.125,
+              "population_neurons": 88064,
+              "population_spikes": 557078,
+              "stimulus_spikes": 63503,
+              "window_spikes": 38192,
               "bio_ms": 630,
-              "wall_seconds": 1.6360298749641515,
+              "wall_seconds": 1.7623869589879178,
               "synops_active": 0,
               "k_out": 0,
               "dend_mode": "linear",
@@ -9370,7 +10438,7 @@
                 },
                 {
                   "ridge": 10.0,
-                  "val_acc": 0.921875
+                  "val_acc": 0.9375
                 }
               ],
               "n_train": 20,
@@ -9379,14 +10447,320 @@
               "n_features": 128,
               "readout_params": 1024,
               "n_dead_features": 8,
-              "mean_feature_value": 0.8250817656517029,
-              "raw_input_control_test_acc": 0.10833333333333334,
-              "population_neurons": 44032,
-              "population_spikes": 396581,
-              "stimulus_spikes": 63320,
-              "window_spikes": 36330,
+              "mean_feature_value": 0.8245366811752319,
+              "raw_input_control_test_acc": 0.09166666666666666,
+              "population_neurons": 88064,
+              "population_spikes": 538566,
+              "stimulus_spikes": 63325,
+              "window_spikes": 36306,
               "bio_ms": 630,
-              "wall_seconds": 1.523433499969542,
+              "wall_seconds": 1.6213962499750778,
+              "synops_active": 0,
+              "k_out": 0,
+              "dend_mode": "linear",
+              "dend_gain": 2.5
+            },
+            "2": {
+              "test_acc": 0.9916666666666667,
+              "train_acc": 1.0,
+              "val_acc": 1.0,
+              "ridge": 0.0001,
+              "ridge_sweep": [
+                {
+                  "ridge": 0.0001,
+                  "val_acc": 1.0
+                },
+                {
+                  "ridge": 0.001,
+                  "val_acc": 1.0
+                },
+                {
+                  "ridge": 0.01,
+                  "val_acc": 1.0
+                },
+                {
+                  "ridge": 0.1,
+                  "val_acc": 1.0
+                },
+                {
+                  "ridge": 1.0,
+                  "val_acc": 1.0
+                },
+                {
+                  "ridge": 10.0,
+                  "val_acc": 1.0
+                }
+              ],
+              "n_train": 20,
+              "n_val": 8,
+              "n_test": 120,
+              "n_features": 128,
+              "readout_params": 1024,
+              "n_dead_features": 10,
+              "mean_feature_value": 0.893009603023529,
+              "raw_input_control_test_acc": 0.125,
+              "population_neurons": 88064,
+              "population_spikes": 582891,
+              "stimulus_spikes": 68112,
+              "window_spikes": 39321,
+              "bio_ms": 630,
+              "wall_seconds": 1.4989403749932535,
+              "synops_active": 0,
+              "k_out": 0,
+              "dend_mode": "linear",
+              "dend_gain": 2.5
+            }
+          },
+          "linear_no_memory": {
+            "0": {
+              "test_acc": 0.125,
+              "train_acc": 0.125,
+              "val_acc": 0.125,
+              "ridge": 0.0001,
+              "ridge_sweep": [
+                {
+                  "ridge": 0.0001,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 0.001,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 0.01,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 0.1,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 1.0,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 10.0,
+                  "val_acc": 0.125
+                }
+              ],
+              "n_train": 20,
+              "n_val": 8,
+              "n_test": 120,
+              "n_features": 128,
+              "readout_params": 1024,
+              "n_dead_features": 128,
+              "mean_feature_value": 0.0,
+              "raw_input_control_test_acc": 0.13333333333333333,
+              "population_neurons": 88064,
+              "population_spikes": 557078,
+              "stimulus_spikes": 141245,
+              "window_spikes": 0,
+              "bio_ms": 630,
+              "wall_seconds": 1.7623869589879178,
+              "synops_active": 0,
+              "k_out": 0,
+              "dend_mode": "linear",
+              "dend_gain": 2.5
+            },
+            "1": {
+              "test_acc": 0.125,
+              "train_acc": 0.125,
+              "val_acc": 0.125,
+              "ridge": 0.0001,
+              "ridge_sweep": [
+                {
+                  "ridge": 0.0001,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 0.001,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 0.01,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 0.1,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 1.0,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 10.0,
+                  "val_acc": 0.125
+                }
+              ],
+              "n_train": 20,
+              "n_val": 8,
+              "n_test": 120,
+              "n_features": 128,
+              "readout_params": 1024,
+              "n_dead_features": 128,
+              "mean_feature_value": 0.0,
+              "raw_input_control_test_acc": 0.11666666666666667,
+              "population_neurons": 88064,
+              "population_spikes": 538566,
+              "stimulus_spikes": 141981,
+              "window_spikes": 0,
+              "bio_ms": 630,
+              "wall_seconds": 1.6213962499750778,
+              "synops_active": 0,
+              "k_out": 0,
+              "dend_mode": "linear",
+              "dend_gain": 2.5
+            },
+            "2": {
+              "test_acc": 0.125,
+              "train_acc": 0.125,
+              "val_acc": 0.125,
+              "ridge": 0.0001,
+              "ridge_sweep": [
+                {
+                  "ridge": 0.0001,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 0.001,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 0.01,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 0.1,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 1.0,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 10.0,
+                  "val_acc": 0.125
+                }
+              ],
+              "n_train": 20,
+              "n_val": 8,
+              "n_test": 120,
+              "n_features": 128,
+              "readout_params": 1024,
+              "n_dead_features": 128,
+              "mean_feature_value": 0.0,
+              "raw_input_control_test_acc": 0.1,
+              "population_neurons": 88064,
+              "population_spikes": 582891,
+              "stimulus_spikes": 145713,
+              "window_spikes": 0,
+              "bio_ms": 630,
+              "wall_seconds": 1.4989403749932535,
+              "synops_active": 0,
+              "k_out": 0,
+              "dend_mode": "linear",
+              "dend_gain": 2.5
+            }
+          }
+        },
+        "300": {
+          "linear_multiscale": {
+            "0": {
+              "test_acc": 1.0,
+              "train_acc": 1.0,
+              "val_acc": 1.0,
+              "ridge": 0.0001,
+              "ridge_sweep": [
+                {
+                  "ridge": 0.0001,
+                  "val_acc": 1.0
+                },
+                {
+                  "ridge": 0.001,
+                  "val_acc": 1.0
+                },
+                {
+                  "ridge": 0.01,
+                  "val_acc": 1.0
+                },
+                {
+                  "ridge": 0.1,
+                  "val_acc": 1.0
+                },
+                {
+                  "ridge": 1.0,
+                  "val_acc": 1.0
+                },
+                {
+                  "ridge": 10.0,
+                  "val_acc": 1.0
+                }
+              ],
+              "n_train": 20,
+              "n_val": 8,
+              "n_test": 120,
+              "n_features": 300,
+              "readout_params": 2400,
+              "n_dead_features": 26,
+              "mean_feature_value": 0.8600678443908691,
+              "raw_input_control_test_acc": 0.13333333333333333,
+              "population_neurons": 206400,
+              "population_spikes": 1310684,
+              "stimulus_spikes": 151165,
+              "window_spikes": 88759,
+              "bio_ms": 630,
+              "wall_seconds": 2.935983249975834,
+              "synops_active": 0,
+              "k_out": 0,
+              "dend_mode": "linear",
+              "dend_gain": 2.5
+            },
+            "1": {
+              "test_acc": 1.0,
+              "train_acc": 1.0,
+              "val_acc": 1.0,
+              "ridge": 0.0001,
+              "ridge_sweep": [
+                {
+                  "ridge": 0.0001,
+                  "val_acc": 1.0
+                },
+                {
+                  "ridge": 0.001,
+                  "val_acc": 1.0
+                },
+                {
+                  "ridge": 0.01,
+                  "val_acc": 1.0
+                },
+                {
+                  "ridge": 0.1,
+                  "val_acc": 1.0
+                },
+                {
+                  "ridge": 1.0,
+                  "val_acc": 1.0
+                },
+                {
+                  "ridge": 10.0,
+                  "val_acc": 1.0
+                }
+              ],
+              "n_train": 20,
+              "n_val": 8,
+              "n_test": 120,
+              "n_features": 300,
+              "readout_params": 2400,
+              "n_dead_features": 38,
+              "mean_feature_value": 0.8573546409606934,
+              "raw_input_control_test_acc": 0.08333333333333333,
+              "population_neurons": 206400,
+              "population_spikes": 1301370,
+              "stimulus_spikes": 149408,
+              "window_spikes": 88479,
+              "bio_ms": 630,
+              "wall_seconds": 3.184336959035136,
               "synops_active": 0,
               "k_out": 0,
               "dend_mode": "linear",
@@ -9420,23 +10794,175 @@
                 },
                 {
                   "ridge": 10.0,
-                  "val_acc": 0.96875
+                  "val_acc": 1.0
                 }
               ],
               "n_train": 20,
               "n_val": 8,
               "n_test": 120,
-              "n_features": 128,
-              "readout_params": 1024,
-              "n_dead_features": 11,
-              "mean_feature_value": 0.8934865593910217,
-              "raw_input_control_test_acc": 0.125,
-              "population_neurons": 44032,
-              "population_spikes": 437172,
-              "stimulus_spikes": 68111,
-              "window_spikes": 39342,
+              "n_features": 300,
+              "readout_params": 2400,
+              "n_dead_features": 26,
+              "mean_feature_value": 0.8777519464492798,
+              "raw_input_control_test_acc": 0.16666666666666666,
+              "population_neurons": 206400,
+              "population_spikes": 1319240,
+              "stimulus_spikes": 150364,
+              "window_spikes": 90584,
               "bio_ms": 630,
-              "wall_seconds": 1.7654206659644842,
+              "wall_seconds": 3.2828668750007637,
+              "synops_active": 0,
+              "k_out": 0,
+              "dend_mode": "linear",
+              "dend_gain": 2.5
+            }
+          },
+          "linear_no_memory": {
+            "0": {
+              "test_acc": 0.125,
+              "train_acc": 0.125,
+              "val_acc": 0.125,
+              "ridge": 0.0001,
+              "ridge_sweep": [
+                {
+                  "ridge": 0.0001,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 0.001,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 0.01,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 0.1,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 1.0,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 10.0,
+                  "val_acc": 0.125
+                }
+              ],
+              "n_train": 20,
+              "n_val": 8,
+              "n_test": 120,
+              "n_features": 300,
+              "readout_params": 2400,
+              "n_dead_features": 300,
+              "mean_feature_value": 0.0,
+              "raw_input_control_test_acc": 0.08333333333333333,
+              "population_neurons": 206400,
+              "population_spikes": 1310684,
+              "stimulus_spikes": 337783,
+              "window_spikes": 0,
+              "bio_ms": 630,
+              "wall_seconds": 2.935983249975834,
+              "synops_active": 0,
+              "k_out": 0,
+              "dend_mode": "linear",
+              "dend_gain": 2.5
+            },
+            "1": {
+              "test_acc": 0.125,
+              "train_acc": 0.125,
+              "val_acc": 0.125,
+              "ridge": 0.0001,
+              "ridge_sweep": [
+                {
+                  "ridge": 0.0001,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 0.001,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 0.01,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 0.1,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 1.0,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 10.0,
+                  "val_acc": 0.125
+                }
+              ],
+              "n_train": 20,
+              "n_val": 8,
+              "n_test": 120,
+              "n_features": 300,
+              "readout_params": 2400,
+              "n_dead_features": 300,
+              "mean_feature_value": 0.0,
+              "raw_input_control_test_acc": 0.13333333333333333,
+              "population_neurons": 206400,
+              "population_spikes": 1301370,
+              "stimulus_spikes": 332917,
+              "window_spikes": 0,
+              "bio_ms": 630,
+              "wall_seconds": 3.184336959035136,
+              "synops_active": 0,
+              "k_out": 0,
+              "dend_mode": "linear",
+              "dend_gain": 2.5
+            },
+            "2": {
+              "test_acc": 0.125,
+              "train_acc": 0.125,
+              "val_acc": 0.125,
+              "ridge": 0.0001,
+              "ridge_sweep": [
+                {
+                  "ridge": 0.0001,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 0.001,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 0.01,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 0.1,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 1.0,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 10.0,
+                  "val_acc": 0.125
+                }
+              ],
+              "n_train": 20,
+              "n_val": 8,
+              "n_test": 120,
+              "n_features": 300,
+              "readout_params": 2400,
+              "n_dead_features": 300,
+              "mean_feature_value": 0.0,
+              "raw_input_control_test_acc": 0.08333333333333333,
+              "population_neurons": 206400,
+              "population_spikes": 1319240,
+              "stimulus_spikes": 332670,
+              "window_spikes": 0,
+              "bio_ms": 630,
+              "wall_seconds": 3.2828668750007637,
               "synops_active": 0,
               "k_out": 0,
               "dend_mode": "linear",
@@ -9445,7 +10971,7 @@
           }
         },
         "1200": {
-          "multiscale_linear": {
+          "linear_multiscale": {
             "0": {
               "test_acc": 1.0,
               "train_acc": 1.0,
@@ -9482,15 +11008,15 @@
               "n_test": 120,
               "n_features": 1200,
               "readout_params": 9600,
-              "n_dead_features": 88,
-              "mean_feature_value": 0.8728633522987366,
-              "raw_input_control_test_acc": 0.06666666666666667,
-              "population_neurons": 412800,
-              "population_spikes": 3946105,
-              "stimulus_spikes": 603513,
-              "window_spikes": 360318,
+              "n_dead_features": 89,
+              "mean_feature_value": 0.8731419444084167,
+              "raw_input_control_test_acc": 0.15833333333333333,
+              "population_neurons": 825600,
+              "population_spikes": 5278134,
+              "stimulus_spikes": 603427,
+              "window_spikes": 360433,
               "bio_ms": 630,
-              "wall_seconds": 15.897739583975635,
+              "wall_seconds": 13.157203999988269,
               "synops_active": 0,
               "k_out": 0,
               "dend_mode": "linear",
@@ -9532,15 +11058,15 @@
               "n_test": 120,
               "n_features": 1200,
               "readout_params": 9600,
-              "n_dead_features": 109,
-              "mean_feature_value": 0.8808599710464478,
-              "raw_input_control_test_acc": 0.08333333333333333,
-              "population_neurons": 412800,
-              "population_spikes": 4007469,
-              "stimulus_spikes": 623436,
-              "window_spikes": 363619,
+              "n_dead_features": 110,
+              "mean_feature_value": 0.8808624148368835,
+              "raw_input_control_test_acc": 0.14166666666666666,
+              "population_neurons": 825600,
+              "population_spikes": 5356808,
+              "stimulus_spikes": 623412,
+              "window_spikes": 363620,
               "bio_ms": 630,
-              "wall_seconds": 16.345060834020842,
+              "wall_seconds": 14.22862000000896,
               "synops_active": 0,
               "k_out": 0,
               "dend_mode": "linear",
@@ -9582,15 +11108,167 @@
               "n_test": 120,
               "n_features": 1200,
               "readout_params": 9600,
-              "n_dead_features": 89,
-              "mean_feature_value": 0.8845615386962891,
-              "raw_input_control_test_acc": 0.075,
-              "population_neurons": 412800,
-              "population_spikes": 4011639,
-              "stimulus_spikes": 621022,
-              "window_spikes": 365147,
+              "n_dead_features": 88,
+              "mean_feature_value": 0.8846220970153809,
+              "raw_input_control_test_acc": 0.08333333333333333,
+              "population_neurons": 825600,
+              "population_spikes": 5347915,
+              "stimulus_spikes": 620988,
+              "window_spikes": 365172,
               "bio_ms": 630,
-              "wall_seconds": 23.59007966698846,
+              "wall_seconds": 14.499928959005047,
+              "synops_active": 0,
+              "k_out": 0,
+              "dend_mode": "linear",
+              "dend_gain": 2.5
+            }
+          },
+          "linear_no_memory": {
+            "0": {
+              "test_acc": 0.125,
+              "train_acc": 0.125,
+              "val_acc": 0.125,
+              "ridge": 0.0001,
+              "ridge_sweep": [
+                {
+                  "ridge": 0.0001,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 0.001,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 0.01,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 0.1,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 1.0,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 10.0,
+                  "val_acc": 0.125
+                }
+              ],
+              "n_train": 20,
+              "n_val": 8,
+              "n_test": 120,
+              "n_features": 1200,
+              "readout_params": 9600,
+              "n_dead_features": 1200,
+              "mean_feature_value": 0.0,
+              "raw_input_control_test_acc": 0.125,
+              "population_neurons": 825600,
+              "population_spikes": 5278134,
+              "stimulus_spikes": 1331886,
+              "window_spikes": 0,
+              "bio_ms": 630,
+              "wall_seconds": 13.157203999988269,
+              "synops_active": 0,
+              "k_out": 0,
+              "dend_mode": "linear",
+              "dend_gain": 2.5
+            },
+            "1": {
+              "test_acc": 0.125,
+              "train_acc": 0.125,
+              "val_acc": 0.125,
+              "ridge": 0.0001,
+              "ridge_sweep": [
+                {
+                  "ridge": 0.0001,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 0.001,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 0.01,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 0.1,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 1.0,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 10.0,
+                  "val_acc": 0.125
+                }
+              ],
+              "n_train": 20,
+              "n_val": 8,
+              "n_test": 120,
+              "n_features": 1200,
+              "readout_params": 9600,
+              "n_dead_features": 1200,
+              "mean_feature_value": 0.0,
+              "raw_input_control_test_acc": 0.15833333333333333,
+              "population_neurons": 825600,
+              "population_spikes": 5356808,
+              "stimulus_spikes": 1349419,
+              "window_spikes": 0,
+              "bio_ms": 630,
+              "wall_seconds": 14.22862000000896,
+              "synops_active": 0,
+              "k_out": 0,
+              "dend_mode": "linear",
+              "dend_gain": 2.5
+            },
+            "2": {
+              "test_acc": 0.125,
+              "train_acc": 0.125,
+              "val_acc": 0.125,
+              "ridge": 0.0001,
+              "ridge_sweep": [
+                {
+                  "ridge": 0.0001,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 0.001,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 0.01,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 0.1,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 1.0,
+                  "val_acc": 0.125
+                },
+                {
+                  "ridge": 10.0,
+                  "val_acc": 0.125
+                }
+              ],
+              "n_train": 20,
+              "n_val": 8,
+              "n_test": 120,
+              "n_features": 1200,
+              "readout_params": 9600,
+              "n_dead_features": 1200,
+              "mean_feature_value": 0.0,
+              "raw_input_control_test_acc": 0.08333333333333333,
+              "population_neurons": 825600,
+              "population_spikes": 5347915,
+              "stimulus_spikes": 1336059,
+              "window_spikes": 0,
+              "bio_ms": 630,
+              "wall_seconds": 14.499928959005047,
               "synops_active": 0,
               "k_out": 0,
               "dend_mode": "linear",
@@ -9600,22 +11278,61 @@
         }
       },
       "spikes_by_arm": {
-        "multiscale_linear": {
-          "16:0": 5269,
-          "16:1": 5533,
-          "16:2": 5289,
-          "128:0": 38208,
-          "128:1": 36330,
-          "128:2": 39342,
-          "1200:0": 360318,
-          "1200:1": 363619,
-          "1200:2": 365147
+        "linear_multiscale": {
+          "8:0": 2419,
+          "8:1": 2126,
+          "8:2": 2256,
+          "16:0": 5274,
+          "16:1": 5524,
+          "16:2": 5300,
+          "32:0": 9357,
+          "32:1": 8646,
+          "32:2": 9269,
+          "64:0": 18965,
+          "64:1": 19485,
+          "64:2": 19409,
+          "128:0": 38192,
+          "128:1": 36306,
+          "128:2": 39321,
+          "300:0": 88759,
+          "300:1": 88479,
+          "300:2": 90584,
+          "1200:0": 360433,
+          "1200:1": 363620,
+          "1200:2": 365172
+        },
+        "linear_no_memory": {
+          "8:0": 0,
+          "8:1": 0,
+          "8:2": 0,
+          "16:0": 0,
+          "16:1": 0,
+          "16:2": 0,
+          "32:0": 0,
+          "32:1": 0,
+          "32:2": 0,
+          "64:0": 0,
+          "64:1": 0,
+          "64:2": 0,
+          "128:0": 0,
+          "128:1": 0,
+          "128:2": 0,
+          "300:0": 0,
+          "300:1": 0,
+          "300:2": 0,
+          "1200:0": 0,
+          "1200:1": 0,
+          "1200:2": 0
         }
       },
-      "wall_seconds": 61.51626795885386,
+      "wall_seconds": 61.94671996094985,
       "feature_counts": [
+        8,
         16,
+        32,
+        64,
         128,
+        300,
         1200
       ],
       "seeds": [
@@ -9624,7 +11341,8 @@
         2
       ],
       "arms": [
-        "multiscale_linear"
+        "linear_multiscale",
+        "linear_no_memory"
       ],
       "delays_ms": [
         0,
@@ -9637,7 +11355,8 @@
         550
       ],
       "window_spikes_expected": {
-        "multiscale_linear": true
+        "linear_multiscale": true,
+        "linear_no_memory": false
       }
     },
     "recurrent_kout32": {
@@ -9689,7 +11408,7 @@
               "stimulus_spikes": 24666,
               "window_spikes": 15513,
               "bio_ms": 630,
-              "wall_seconds": 0.8086530420114286,
+              "wall_seconds": 0.3087022919789888,
               "synops_active": 6149248,
               "k_out": 32,
               "dend_mode": "dcaap",
@@ -9739,7 +11458,7 @@
               "stimulus_spikes": 25182,
               "window_spikes": 16051,
               "bio_ms": 630,
-              "wall_seconds": 0.8355398330022581,
+              "wall_seconds": 0.29902199999196455,
               "synops_active": 6339872,
               "k_out": 32,
               "dend_mode": "dcaap",
@@ -9789,7 +11508,7 @@
               "stimulus_spikes": 25029,
               "window_spikes": 16223,
               "bio_ms": 630,
-              "wall_seconds": 0.7034337919903919,
+              "wall_seconds": 0.29184529097983614,
               "synops_active": 6431872,
               "k_out": 32,
               "dend_mode": "dcaap",
@@ -9805,7 +11524,7 @@
           "32:2": 16223
         }
       },
-      "wall_seconds": 2.3476266670040786,
+      "wall_seconds": 0.8995695829507895,
       "feature_counts": [
         32
       ],
@@ -9880,7 +11599,7 @@
               "stimulus_spikes": 49367,
               "window_spikes": 8977,
               "bio_ms": 1730,
-              "wall_seconds": 24.65554804203566,
+              "wall_seconds": 7.5668217920465395,
               "synops_active": 0,
               "k_out": 0,
               "dend_mode": "dcaap",
@@ -9930,7 +11649,7 @@
               "stimulus_spikes": 50221,
               "window_spikes": 8812,
               "bio_ms": 1730,
-              "wall_seconds": 24.966728125000373,
+              "wall_seconds": 5.680566083989106,
               "synops_active": 0,
               "k_out": 0,
               "dend_mode": "dcaap",
@@ -9980,7 +11699,7 @@
               "stimulus_spikes": 49532,
               "window_spikes": 8910,
               "bio_ms": 1730,
-              "wall_seconds": 26.864605957991444,
+              "wall_seconds": 5.679531665984541,
               "synops_active": 0,
               "k_out": 0,
               "dend_mode": "dcaap",
@@ -10032,7 +11751,7 @@
               "stimulus_spikes": 46049,
               "window_spikes": 15676,
               "bio_ms": 1730,
-              "wall_seconds": 24.65554804203566,
+              "wall_seconds": 7.5668217920465395,
               "synops_active": 0,
               "k_out": 0,
               "dend_mode": "dcaap",
@@ -10082,7 +11801,7 @@
               "stimulus_spikes": 45090,
               "window_spikes": 15368,
               "bio_ms": 1730,
-              "wall_seconds": 24.966728125000373,
+              "wall_seconds": 5.680566083989106,
               "synops_active": 0,
               "k_out": 0,
               "dend_mode": "dcaap",
@@ -10132,7 +11851,7 @@
               "stimulus_spikes": 45400,
               "window_spikes": 15258,
               "bio_ms": 1730,
-              "wall_seconds": 26.864605957991444,
+              "wall_seconds": 5.679531665984541,
               "synops_active": 0,
               "k_out": 0,
               "dend_mode": "dcaap",
@@ -10184,7 +11903,7 @@
               "stimulus_spikes": 43688,
               "window_spikes": 23369,
               "bio_ms": 1730,
-              "wall_seconds": 24.65554804203566,
+              "wall_seconds": 7.5668217920465395,
               "synops_active": 0,
               "k_out": 0,
               "dend_mode": "dcaap",
@@ -10234,7 +11953,7 @@
               "stimulus_spikes": 43348,
               "window_spikes": 24326,
               "bio_ms": 1730,
-              "wall_seconds": 24.966728125000373,
+              "wall_seconds": 5.680566083989106,
               "synops_active": 0,
               "k_out": 0,
               "dend_mode": "dcaap",
@@ -10284,7 +12003,7 @@
               "stimulus_spikes": 44376,
               "window_spikes": 24283,
               "bio_ms": 1730,
-              "wall_seconds": 26.864605957991444,
+              "wall_seconds": 5.679531665984541,
               "synops_active": 0,
               "k_out": 0,
               "dend_mode": "dcaap",
@@ -10336,7 +12055,7 @@
               "stimulus_spikes": 44203,
               "window_spikes": 34583,
               "bio_ms": 1730,
-              "wall_seconds": 24.65554804203566,
+              "wall_seconds": 7.5668217920465395,
               "synops_active": 0,
               "k_out": 0,
               "dend_mode": "dcaap",
@@ -10386,7 +12105,7 @@
               "stimulus_spikes": 44032,
               "window_spikes": 34905,
               "bio_ms": 1730,
-              "wall_seconds": 24.966728125000373,
+              "wall_seconds": 5.680566083989106,
               "synops_active": 0,
               "k_out": 0,
               "dend_mode": "dcaap",
@@ -10436,7 +12155,7 @@
               "stimulus_spikes": 43344,
               "window_spikes": 33778,
               "bio_ms": 1730,
-              "wall_seconds": 26.864605957991444,
+              "wall_seconds": 5.679531665984541,
               "synops_active": 0,
               "k_out": 0,
               "dend_mode": "dcaap",
@@ -10488,7 +12207,7 @@
               "stimulus_spikes": 49610,
               "window_spikes": 19890,
               "bio_ms": 1730,
-              "wall_seconds": 24.65554804203566,
+              "wall_seconds": 7.5668217920465395,
               "synops_active": 0,
               "k_out": 0,
               "dend_mode": "dcaap",
@@ -10538,7 +12257,7 @@
               "stimulus_spikes": 48294,
               "window_spikes": 20341,
               "bio_ms": 1730,
-              "wall_seconds": 24.966728125000373,
+              "wall_seconds": 5.680566083989106,
               "synops_active": 0,
               "k_out": 0,
               "dend_mode": "dcaap",
@@ -10588,7 +12307,7 @@
               "stimulus_spikes": 49385,
               "window_spikes": 20139,
               "bio_ms": 1730,
-              "wall_seconds": 26.864605957991444,
+              "wall_seconds": 5.679531665984541,
               "synops_active": 0,
               "k_out": 0,
               "dend_mode": "dcaap",
@@ -10640,7 +12359,7 @@
               "stimulus_spikes": 49552,
               "window_spikes": 18359,
               "bio_ms": 1730,
-              "wall_seconds": 24.65554804203566,
+              "wall_seconds": 7.5668217920465395,
               "synops_active": 0,
               "k_out": 0,
               "dend_mode": "dcaap",
@@ -10690,7 +12409,7 @@
               "stimulus_spikes": 51644,
               "window_spikes": 17891,
               "bio_ms": 1730,
-              "wall_seconds": 24.966728125000373,
+              "wall_seconds": 5.680566083989106,
               "synops_active": 0,
               "k_out": 0,
               "dend_mode": "dcaap",
@@ -10740,7 +12459,7 @@
               "stimulus_spikes": 48542,
               "window_spikes": 20852,
               "bio_ms": 1730,
-              "wall_seconds": 26.864605957991444,
+              "wall_seconds": 5.679531665984541,
               "synops_active": 0,
               "k_out": 0,
               "dend_mode": "dcaap",
@@ -10792,7 +12511,7 @@
               "stimulus_spikes": 66048,
               "window_spikes": 0,
               "bio_ms": 1730,
-              "wall_seconds": 24.65554804203566,
+              "wall_seconds": 7.5668217920465395,
               "synops_active": 0,
               "k_out": 0,
               "dend_mode": "dcaap",
@@ -10842,7 +12561,7 @@
               "stimulus_spikes": 66048,
               "window_spikes": 0,
               "bio_ms": 1730,
-              "wall_seconds": 24.966728125000373,
+              "wall_seconds": 5.680566083989106,
               "synops_active": 0,
               "k_out": 0,
               "dend_mode": "dcaap",
@@ -10892,7 +12611,7 @@
               "stimulus_spikes": 66048,
               "window_spikes": 0,
               "bio_ms": 1730,
-              "wall_seconds": 26.864605957991444,
+              "wall_seconds": 5.679531665984541,
               "synops_active": 0,
               "k_out": 0,
               "dend_mode": "dcaap",
@@ -10946,7 +12665,7 @@
               "stimulus_spikes": 230108,
               "window_spikes": 42260,
               "bio_ms": 1730,
-              "wall_seconds": 160.12219904200174,
+              "wall_seconds": 25.826790791994426,
               "synops_active": 0,
               "k_out": 0,
               "dend_mode": "dcaap",
@@ -10996,7 +12715,7 @@
               "stimulus_spikes": 233374,
               "window_spikes": 41496,
               "bio_ms": 1730,
-              "wall_seconds": 164.21994045795873,
+              "wall_seconds": 24.774552707967814,
               "synops_active": 0,
               "k_out": 0,
               "dend_mode": "dcaap",
@@ -11046,7 +12765,7 @@
               "stimulus_spikes": 233564,
               "window_spikes": 42418,
               "bio_ms": 1730,
-              "wall_seconds": 161.48186141700717,
+              "wall_seconds": 25.325609958032146,
               "synops_active": 0,
               "k_out": 0,
               "dend_mode": "dcaap",
@@ -11098,7 +12817,7 @@
               "stimulus_spikes": 212478,
               "window_spikes": 70515,
               "bio_ms": 1730,
-              "wall_seconds": 160.12219904200174,
+              "wall_seconds": 25.826790791994426,
               "synops_active": 0,
               "k_out": 0,
               "dend_mode": "dcaap",
@@ -11148,7 +12867,7 @@
               "stimulus_spikes": 211534,
               "window_spikes": 70983,
               "bio_ms": 1730,
-              "wall_seconds": 164.21994045795873,
+              "wall_seconds": 24.774552707967814,
               "synops_active": 0,
               "k_out": 0,
               "dend_mode": "dcaap",
@@ -11198,7 +12917,7 @@
               "stimulus_spikes": 213804,
               "window_spikes": 70051,
               "bio_ms": 1730,
-              "wall_seconds": 161.48186141700717,
+              "wall_seconds": 25.325609958032146,
               "synops_active": 0,
               "k_out": 0,
               "dend_mode": "dcaap",
@@ -11250,7 +12969,7 @@
               "stimulus_spikes": 206621,
               "window_spikes": 112844,
               "bio_ms": 1730,
-              "wall_seconds": 160.12219904200174,
+              "wall_seconds": 25.826790791994426,
               "synops_active": 0,
               "k_out": 0,
               "dend_mode": "dcaap",
@@ -11300,7 +13019,7 @@
               "stimulus_spikes": 208292,
               "window_spikes": 112580,
               "bio_ms": 1730,
-              "wall_seconds": 164.21994045795873,
+              "wall_seconds": 24.774552707967814,
               "synops_active": 0,
               "k_out": 0,
               "dend_mode": "dcaap",
@@ -11350,7 +13069,7 @@
               "stimulus_spikes": 206933,
               "window_spikes": 113140,
               "bio_ms": 1730,
-              "wall_seconds": 161.48186141700717,
+              "wall_seconds": 25.325609958032146,
               "synops_active": 0,
               "k_out": 0,
               "dend_mode": "dcaap",
@@ -11402,7 +13121,7 @@
               "stimulus_spikes": 206691,
               "window_spikes": 162984,
               "bio_ms": 1730,
-              "wall_seconds": 160.12219904200174,
+              "wall_seconds": 25.826790791994426,
               "synops_active": 0,
               "k_out": 0,
               "dend_mode": "dcaap",
@@ -11452,7 +13171,7 @@
               "stimulus_spikes": 205768,
               "window_spikes": 162464,
               "bio_ms": 1730,
-              "wall_seconds": 164.21994045795873,
+              "wall_seconds": 24.774552707967814,
               "synops_active": 0,
               "k_out": 0,
               "dend_mode": "dcaap",
@@ -11502,7 +13221,7 @@
               "stimulus_spikes": 206743,
               "window_spikes": 161489,
               "bio_ms": 1730,
-              "wall_seconds": 161.48186141700717,
+              "wall_seconds": 25.325609958032146,
               "synops_active": 0,
               "k_out": 0,
               "dend_mode": "dcaap",
@@ -11554,7 +13273,7 @@
               "stimulus_spikes": 233998,
               "window_spikes": 93722,
               "bio_ms": 1730,
-              "wall_seconds": 160.12219904200174,
+              "wall_seconds": 25.826790791994426,
               "synops_active": 0,
               "k_out": 0,
               "dend_mode": "dcaap",
@@ -11604,7 +13323,7 @@
               "stimulus_spikes": 233717,
               "window_spikes": 95076,
               "bio_ms": 1730,
-              "wall_seconds": 164.21994045795873,
+              "wall_seconds": 24.774552707967814,
               "synops_active": 0,
               "k_out": 0,
               "dend_mode": "dcaap",
@@ -11654,7 +13373,7 @@
               "stimulus_spikes": 235277,
               "window_spikes": 94794,
               "bio_ms": 1730,
-              "wall_seconds": 161.48186141700717,
+              "wall_seconds": 25.325609958032146,
               "synops_active": 0,
               "k_out": 0,
               "dend_mode": "dcaap",
@@ -11706,7 +13425,7 @@
               "stimulus_spikes": 234795,
               "window_spikes": 84739,
               "bio_ms": 1730,
-              "wall_seconds": 160.12219904200174,
+              "wall_seconds": 25.826790791994426,
               "synops_active": 0,
               "k_out": 0,
               "dend_mode": "dcaap",
@@ -11756,7 +13475,7 @@
               "stimulus_spikes": 231793,
               "window_spikes": 92523,
               "bio_ms": 1730,
-              "wall_seconds": 164.21994045795873,
+              "wall_seconds": 24.774552707967814,
               "synops_active": 0,
               "k_out": 0,
               "dend_mode": "dcaap",
@@ -11806,7 +13525,7 @@
               "stimulus_spikes": 229437,
               "window_spikes": 91003,
               "bio_ms": 1730,
-              "wall_seconds": 161.48186141700717,
+              "wall_seconds": 25.325609958032146,
               "synops_active": 0,
               "k_out": 0,
               "dend_mode": "dcaap",
@@ -11858,7 +13577,7 @@
               "stimulus_spikes": 309600,
               "window_spikes": 0,
               "bio_ms": 1730,
-              "wall_seconds": 160.12219904200174,
+              "wall_seconds": 25.826790791994426,
               "synops_active": 0,
               "k_out": 0,
               "dend_mode": "dcaap",
@@ -11908,7 +13627,7 @@
               "stimulus_spikes": 309600,
               "window_spikes": 0,
               "bio_ms": 1730,
-              "wall_seconds": 164.21994045795873,
+              "wall_seconds": 24.774552707967814,
               "synops_active": 0,
               "k_out": 0,
               "dend_mode": "dcaap",
@@ -11958,7 +13677,7 @@
               "stimulus_spikes": 309600,
               "window_spikes": 0,
               "bio_ms": 1730,
-              "wall_seconds": 161.48186141700717,
+              "wall_seconds": 25.325609958032146,
               "synops_active": 0,
               "k_out": 0,
               "dend_mode": "dcaap",
@@ -12025,7 +13744,7 @@
           "300:2": 0
         }
       },
-      "wall_seconds": 562.3108830419951,
+      "wall_seconds": 94.85387300001457,
       "feature_counts": [
         64,
         300
@@ -14960,6 +16679,330 @@
       }
     }
   },
+  "linear_control": {
+    "feature_counts": [
+      8,
+      16,
+      32,
+      64,
+      128,
+      300,
+      1200
+    ],
+    "summary": {
+      "8": {
+        "linear_multiscale": {
+          "mean": 0.8333333333333334,
+          "ci95": 0.04989915756729693,
+          "n": 3,
+          "values": [
+            0.85,
+            0.7833333333333333,
+            0.8666666666666667
+          ]
+        },
+        "linear_no_memory": {
+          "mean": 0.125,
+          "ci95": 0.0,
+          "n": 3,
+          "values": [
+            0.125,
+            0.125,
+            0.125
+          ]
+        }
+      },
+      "16": {
+        "linear_multiscale": {
+          "mean": 0.9777777777777777,
+          "ci95": 0.028809292053814453,
+          "n": 3,
+          "values": [
+            1.0,
+            0.95,
+            0.9833333333333333
+          ]
+        },
+        "linear_no_memory": {
+          "mean": 0.125,
+          "ci95": 0.0,
+          "n": 3,
+          "values": [
+            0.125,
+            0.125,
+            0.125
+          ]
+        }
+      },
+      "32": {
+        "linear_multiscale": {
+          "mean": 1.0,
+          "ci95": 0.0,
+          "n": 3,
+          "values": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "linear_no_memory": {
+          "mean": 0.125,
+          "ci95": 0.0,
+          "n": 3,
+          "values": [
+            0.125,
+            0.125,
+            0.125
+          ]
+        }
+      },
+      "64": {
+        "linear_multiscale": {
+          "mean": 1.0,
+          "ci95": 0.0,
+          "n": 3,
+          "values": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "linear_no_memory": {
+          "mean": 0.125,
+          "ci95": 0.0,
+          "n": 3,
+          "values": [
+            0.125,
+            0.125,
+            0.125
+          ]
+        }
+      },
+      "128": {
+        "linear_multiscale": {
+          "mean": 0.9972222222222222,
+          "ci95": 0.005444444444444425,
+          "n": 3,
+          "values": [
+            1.0,
+            1.0,
+            0.9916666666666667
+          ]
+        },
+        "linear_no_memory": {
+          "mean": 0.125,
+          "ci95": 0.0,
+          "n": 3,
+          "values": [
+            0.125,
+            0.125,
+            0.125
+          ]
+        }
+      },
+      "300": {
+        "linear_multiscale": {
+          "mean": 1.0,
+          "ci95": 0.0,
+          "n": 3,
+          "values": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "linear_no_memory": {
+          "mean": 0.125,
+          "ci95": 0.0,
+          "n": 3,
+          "values": [
+            0.125,
+            0.125,
+            0.125
+          ]
+        }
+      },
+      "1200": {
+        "linear_multiscale": {
+          "mean": 1.0,
+          "ci95": 0.0,
+          "n": 3,
+          "values": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "linear_no_memory": {
+          "mean": 0.125,
+          "ci95": 0.0,
+          "n": 3,
+          "values": [
+            0.125,
+            0.125,
+            0.125
+          ]
+        }
+      }
+    },
+    "window_spikes": {
+      "8": {
+        "linear_multiscale": {
+          "mean": 2267.0,
+          "ci95": 166.13047563085266,
+          "n": 3,
+          "values": [
+            2419.0,
+            2126.0,
+            2256.0
+          ]
+        },
+        "linear_no_memory": {
+          "mean": 0.0,
+          "ci95": 0.0,
+          "n": 3,
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      },
+      "16": {
+        "linear_multiscale": {
+          "mean": 5366.0,
+          "ci95": 155.53724870053904,
+          "n": 3,
+          "values": [
+            5274.0,
+            5524.0,
+            5300.0
+          ]
+        },
+        "linear_no_memory": {
+          "mean": 0.0,
+          "ci95": 0.0,
+          "n": 3,
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      },
+      "32": {
+        "linear_multiscale": {
+          "mean": 9090.666666666666,
+          "ci95": 438.608607505345,
+          "n": 3,
+          "values": [
+            9357.0,
+            8646.0,
+            9269.0
+          ]
+        },
+        "linear_no_memory": {
+          "mean": 0.0,
+          "ci95": 0.0,
+          "n": 3,
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      },
+      "64": {
+        "linear_multiscale": {
+          "mean": 19286.333333333332,
+          "ci95": 317.8290402786449,
+          "n": 3,
+          "values": [
+            18965.0,
+            19485.0,
+            19409.0
+          ]
+        },
+        "linear_no_memory": {
+          "mean": 0.0,
+          "ci95": 0.0,
+          "n": 3,
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      },
+      "128": {
+        "linear_multiscale": {
+          "mean": 37939.666666666664,
+          "ci95": 1723.7269869417,
+          "n": 3,
+          "values": [
+            38192.0,
+            36306.0,
+            39321.0
+          ]
+        },
+        "linear_no_memory": {
+          "mean": 0.0,
+          "ci95": 0.0,
+          "n": 3,
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      },
+      "300": {
+        "linear_multiscale": {
+          "mean": 89274.0,
+          "ci95": 1293.5381298335717,
+          "n": 3,
+          "values": [
+            88759.0,
+            88479.0,
+            90584.0
+          ]
+        },
+        "linear_no_memory": {
+          "mean": 0.0,
+          "ci95": 0.0,
+          "n": 3,
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      },
+      "1200": {
+        "linear_multiscale": {
+          "mean": 363075.0,
+          "ci95": 2734.0182783100286,
+          "n": 3,
+          "values": [
+            360433.0,
+            363620.0,
+            365172.0
+          ]
+        },
+        "linear_no_memory": {
+          "mean": 0.0,
+          "ci95": 0.0,
+          "n": 3,
+          "values": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      }
+    },
+    "note": "linear_multiscale = dCaAP replaced by a linear transfer on the same tau ladder; linear_no_memory = same linear transfer with tau_dend = 1 ms, i.e. the raw input with no dendritic memory. Both are feature-count matched to every other arm."
+  },
   "confounded_replication": {
     "8_vs_32": {
       "matched_gain_multiscale_minus_single_best": 0.01388888888888884,
@@ -15040,7 +17083,9 @@
       ],
       "delta": 0.101
     },
-    "text": "1200 matched features: multiscale=1.000 vs single_best(single_400)=1.000, paired delta=+0.000 (95% CI [+0.000, +0.000]); random-tau=1.000, no-memory=0.125, raw-input-control=0.122, chance=0.125. REFUTED: no multiscale advantage once feature count is matched. Ratio 1.000x.",
+    "text": "1200 matched features: multiscale=1.000 vs single_best(single_400)=1.000, paired delta=+0.000 (95% CI [+0.000, +0.000]); random-tau=1.000, no-memory=0.125, raw-input-control=0.122, chance=0.125. REFUTED: no multiscale advantage once feature count is matched. Ratio 1.000x. Linear-transfer controls at 1200 features: linear_multiscale=1.000, linear_no_memory=0.125.",
+    "linear_control_mean_at_primary": 1.0,
+    "linear_no_memory_mean_at_primary": 0.125,
     "extended_delay_scope": {
       "delays_ms": [
         0,

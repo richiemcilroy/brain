@@ -148,3 +148,152 @@ reported from a 6-way task and is not the same measurement.
 - Single seed for the stimulus set; the delay sweep is the controlled variable.
 - The task is a 6-way identification, not full delayed match-to-sample with
   distractors. Distractor resistance is untested and is the obvious next test.
+
+
+## Multiscale retest (feature-count matched)
+
+**Verdict: the original claim is REFUTED.** The recorded result that a
+multiscale `tau_dend` set scores **0.388** against **0.287** for a single
+`tau_dend` on 8-way time-since-event decoding compared 1200 features against
+300. At matched feature count, on the documented delay set, the difference is
+**exactly zero: 1.0000 vs 1.0000** at 1200 features (paired delta +0.0000, 95%
+CI [+0.0000, +0.0000]). The +0.101 was the feature count.
+
+Script: `experiments/multiscale_fair.py` (runs from the repo root, exits 0).
+Artifacts: `experiments/results/multiscale_fair.json`. Wall time 734.9 s.
+
+### The matched comparison (documented delays, 8 classes, chance 0.125)
+
+Every arm gets the same feature count and therefore the same readout parameter
+count (`features x 8`). Three seeds; mean test accuracy, and the paired
+multiscale-minus-single-best difference with its 95% CI across seeds.
+
+| features | multiscale | single (best) | random tau | no memory | linear (same ladder) | raw input | delta ms-best | 95% CI |
+|---|---|---|---|---|---|---|---|---|
+| 8 | 0.9389 | 0.9222 | 0.7778 | 0.1250 | 0.8333 | 0.1333 | +0.0167 | [-0.0733, +0.1066] |
+| 16 | **0.9944** | 0.9611 | 0.9806 | 0.1250 | 0.9778 | 0.1389 | +0.0333 | [-0.0327, +0.0993] |
+| 32 | **1.0000** | 0.9861 | 1.0000 | 0.1250 | 1.0000 | 0.1361 | +0.0139 | [-0.0005, +0.0283] |
+| 64 | **1.0000** | 0.9972 | 0.9972 | 0.1250 | 1.0000 | 0.1222 | +0.0028 | [-0.0027, +0.0082] |
+| 128 | 0.9944 | **0.9972** | 1.0000 | 0.1250 | 0.9972 | 0.1361 | -0.0028 | [-0.0172, +0.0116] |
+| 300 | 1.0000 | 1.0000 | 1.0000 | 0.1250 | 1.0000 | 0.1667 | +0.0000 | [+0.0000, +0.0000] |
+| 1200 | **1.0000** | **1.0000** | 1.0000 | 0.1250 | 1.0000 | 0.1222 | +0.0000 | [+0.0000, +0.0000] |
+
+`single_best` picks, at each feature count, the single-tau arm (50/100/200/400 ms)
+with the best **validation** accuracy; `single_400` wins at every width. The
+single-tau control therefore gets its best shot, and multiscale still has no
+advantage at any matched width: every paired CI includes zero.
+
+### What this does and does not overturn
+
+* **Refuted:** "multiscale beats a single `tau_dend` on 8-way time-since-event
+  decoding", as stated. At the width the claim was made (1200), the two arms are
+  identical, and at every other matched width the difference is inside noise.
+* **Refuted as an explanation of that gap:** the +0.101 is reproducible as a
+  *feature-count* effect. Comparing a 4x-wider multiscale arm against a
+  narrow single-tau arm recovers a spurious gain (+0.0778 for 8 features vs 32;
+  +0.0389 for 16 vs 64), while the matched comparison at the same widths gives
+  +0.0139 and +0.0028. Both arms gain roughly equally from extra features
+  (`single_best_gain_from_width_alone` 0.0639 for 8->32, 0.0361 for 16->64),
+  which is exactly why the confounded comparison flattered multiscale.
+* **Not established, and previously overstated:** at 8 features multiscale
+  (0.9389) is above a random spread of time constants (0.7778) by +0.1611, but
+  the paired 95% CI is **[-0.0159, +0.3381] - it includes zero**. With 3 seeds
+  this is a *direction*, not a bounded effect. It should not be published as a
+  measured sample-efficiency win; the earlier reading of that number as "real"
+  is corrected here.
+* **The pre-gap input carries nothing:** the raw-input control (same probe, same
+  population, stimulus-window counts, class-independent by construction) sits at
+  0.1222-0.1667 - chance - at every width, and `no_memory` (1 ms dendrite) is at
+  exactly 0.1250 everywhere. Class information exists only in the post-gap
+  state, so the decoding above is genuinely reading memory.
+* **The tuning curve is not load-bearing on this task:** a *linear* dendritic
+  transfer on the same ladder reaches 0.8333 / 0.9778 / 1.0000 at 8 / 16 / 1200
+  features, i.e. essentially the same place. At these delays a slowly decaying
+  state is readable whether the transfer is tuned or monotonic.
+
+### A real effect exists, but on a harder task
+
+Where the documented delays saturate a single tau, the identical comparison was
+repeated with the gap set stretched 3x (0/75/150/300/525/825/1200/1650 ms), at
+64 and 300 matched features. **Exploratory, not pre-registered**, so it is a
+scope probe rather than the verdict:
+
+| features | multiscale | single (best, 400 ms) | random tau | delta ms-best | 95% CI | delta ms-random | 95% CI |
+|---|---|---|---|---|---|---|---|
+| 64 | 0.9917 | 0.7472 | 0.9083 | **+0.2444** | [+0.2390, +0.2499] | **+0.0833** | [+0.0173, +0.1493] |
+| 300 | 1.0000 | 0.7500 | 0.9944 | **+0.2500** | [+0.2500, +0.2500] | +0.0056 | [-0.0053, +0.0164] |
+
+When a single time constant genuinely cannot span the task, the multiscale set
+beats the best single tau by ~0.25 with a CI that excludes zero, and at 64
+features it also beats a random spread. That is a real mechanism effect - but it
+belongs to a 1.65 s delay range, not to the documented 550 ms one, and the
+claim being retested was about the documented task.
+
+### Controls that make this trustworthy
+
+* **Zero-spike trap reproduced and asserted against.** At `dend_scale=1.0`,
+  `dend_gain=1.0`, drive 6.0 a 200 ms population emits **0 spikes in 400 ms** -
+  the documented silent failure. The script asserts that this trap reproduces
+  and that its own operating point spikes (455 spikes / 400 ms). A third check
+  is reported honestly: at this experiment's gain of 2.5 the unit-scale point
+  emits 431 spikes, so the trap is gain-dependent, and calibration (not gain
+  alone) is what guarantees the peak.
+* **Every arm asserts non-zero measured spikes** before any accuracy is trusted.
+  Arms expected to carry memory must emit window spikes; the memoryless control
+  must instead emit *stimulus* spikes, so "no memory" cannot be confused with a
+  dead population. Both checks abort with `SystemExit` (verified by injecting
+  zeros into each path).
+* **Determinism.** Same seed gives bit-identical features (MLX laziness would
+  break this, so it is asserted). Two independent full runs produced identical
+  per-seed accuracies in the primary and extended sweeps.
+* **One fixed population per arm.** Per-neuron `tau_dend` and stimulus amplitude
+  are drawn once per arm and reused across every trial and class, as in a real
+  recording; only the substrate's own somatic noise differs between trials.
+
+### Limits
+
+* Three seeds. Enough to refute a +0.101 claim and to resolve the ~0.25
+  extended-range effect; not enough to bound the low-feature direction above.
+* The readout is a closed-form ridge probe, not a biologically plausible rule.
+  The claim is about **where information is**, not how a neuron learns to use it.
+* The primary sweep runs at `k_out=0` (no recurrent synapses) because recurrence
+  was already measured inert here. An auxiliary arm with recurrence present
+  (`k_out=32`, 32 features) scores 0.9389 vs 1.0000 without, so recurrence does
+  not rescue the claim either.
+* The task saturates: from 32 features every memory-bearing arm is at or near
+  1.000, so above that the design cannot rank arms. The 1200-feature "identical"
+  result is a ceiling tie, which is why the extended-range probe was added.
+* See `docs/MULTISCALE.md` for the companion write-up; this section supersedes
+  its statistical reading, since that document correctly flagged that paired
+  confidence intervals were unavailable from the partial run it was based on.
+  They are available here and are reported above.
+
+### A degeneracy control that cuts the other way (reported because it is real)
+
+The `no_jitter` auxiliary arm (per-neuron stimulus amplitude jitter removed;
+1200 matched features, 3 seeds) is a trap that this document should not walk
+into. There, multiscale scores 1.0000 and the best single tau (400 ms) collapses
+to 0.2778, a difference of +0.7222 (95% CI [+0.7078, +0.7366]) that excludes
+zero. **That difference is not a multiscale memory advantage and must not be
+quoted as one.** With a single time constant and no per-neuron heterogeneity,
+every neuron in the population is identical and receives an identical drive, so
+the whole population is a rank-2 code - the measured window-count matrix has
+rank 2 (of a possible 24) with only 5 distinct rows
+across the 24 trial x class rows, versus rank 7 / 8 distinct
+rows with jitter on. A degenerate rank-2 code cannot be linearly decoded, which
+is why the single-tau arm falls to chance. `random_tau` scores exactly the same
+as multiscale (1.0000 vs 1.0000, delta 0.0000) in that condition, which is the
+tell: the effect is "the neurons are not identical", not "the time constants are
+laddered".
+
+Two consequences, both worth keeping:
+
+* The *pre-registered* comparison runs with jitter on, precisely so that every
+  arm is a non-degenerate population and the single-tau arm is not
+  handicapped by an artefact of the simulation. The primary numbers and the
+  extended-range numbers above are from that condition.
+* Per-neuron heterogeneity is doing real work in this substrate, and this is the
+  clearest evidence of it so far: identical neurons give a rank-2 representation
+  that discards the memory, while a heterogeneous population makes the same
+  memory linearly readable. That is a statement about the *code*, not about the
+  time constants.
