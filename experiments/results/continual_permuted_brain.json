@@ -1,0 +1,111 @@
+{
+  "config": {
+    "tasks": 5,
+    "seeds": 1,
+    "epochs": 1,
+    "permute": true,
+    "neurons": 800,
+    "k_out": 64,
+    "hidden": 128,
+    "lr": 0.01,
+    "batch_size": 64,
+    "inhibition": "kwta",
+    "k_wta": 64,
+    "arms": [
+      "brain"
+    ],
+    "train_per_task": 200,
+    "test_per_task": 100,
+    "verbose": false
+  },
+  "summary": {
+    "brain": {
+      "status": "ok",
+      "n_seeds": 1,
+      "final_average": 0.1,
+      "final_average_ci95": 0.0,
+      "backward_transfer": 0.008000000000000002,
+      "forgetting": 0.0,
+      "diagonal_mean": 0.092,
+      "n_params": 8000,
+      "synops_per_sample": 5696.0,
+      "wall_seconds": 99.62803291698219
+    },
+    "brain_nodend": {
+      "status": "failed",
+      "error": "not run"
+    },
+    "brain_noplast": {
+      "status": "failed",
+      "error": "not run"
+    },
+    "mlp": {
+      "status": "failed",
+      "error": "not run"
+    },
+    "mlp_replay": {
+      "status": "failed",
+      "error": "not run"
+    },
+    "frozen": {
+      "status": "failed",
+      "error": "not run"
+    },
+    "shuffled": {
+      "status": "failed",
+      "error": "not run"
+    }
+  },
+  "runs": [
+    {
+      "arm": "brain",
+      "seed": 0,
+      "acc_matrix": [
+        [
+          0.06,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.1,
+          0.1,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.1,
+          0.1,
+          0.1,
+          0.0,
+          0.0
+        ],
+        [
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.0
+        ],
+        [
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1
+        ]
+      ],
+      "final_average": 0.1,
+      "backward_transfer": 0.008000000000000002,
+      "forgetting": 0.0,
+      "n_params": 8000,
+      "synops_per_sample": 5696.0,
+      "wall_seconds": 99.62803291698219,
+      "diagonal_mean": 0.092,
+      "n_updates": 0,
+      "error": null
+    }
+  ]
+}
