@@ -2,7 +2,7 @@
   "experiment": "threefactor_hidden",
   "question": "Can error-modulated three-factor plasticity (no backward pass, no weight transport) shape a hidden layer?",
   "meta": {
-    "generated": "2026-09-12T15:34:19",
+    "generated": "2026-09-12T15:41:43",
     "python": "3.14.3",
     "platform": "macOS-27.0-arm64-arm-64bit-Mach-O",
     "numpy": "2.4.1",
@@ -19,7 +19,7 @@
     "readout_lr": 0.05,
     "readout_lr_source": "CortexConfig default, NOT retuned in any arm",
     "readout_rule": "graded delta + NLMS (CortexConfig defaults)",
-    "git_rev": "3083e1e"
+    "git_rev": "9160900"
   },
   "pre_registered_criterion": {
     "statement": "mean(acc_plastic) - mean(acc_frozen_hidden) > 2 * sd_seed, sd_seed = sqrt((var_plastic + var_frozen)/2), ddof=1",
@@ -56,9 +56,10 @@
       "weight_drift_sigma_mean": 0.0,
       "feedback_alignment_mean": NaN,
       "positive_modulator_frac_mean": NaN,
+      "hidden_lr_used": 0.02,
       "k_wta_matched_mean": 0.0,
       "synops_per_sample_mean": 7525.44,
-      "wall_seconds_mean": 17.44196362500467,
+      "wall_seconds_mean": 6.012509222006581,
       "per_seed": [
         {
           "seed": 0,
@@ -71,7 +72,7 @@
           "feedback_alignment": NaN,
           "positive_modulator_frac": NaN,
           "k_wta_matched": 0,
-          "wall_seconds": 17.714754957996774
+          "wall_seconds": 6.026851708011236
         },
         {
           "seed": 1,
@@ -84,7 +85,7 @@
           "feedback_alignment": NaN,
           "positive_modulator_frac": NaN,
           "k_wta_matched": 0,
-          "wall_seconds": 17.31264962500427
+          "wall_seconds": 5.973956542031374
         },
         {
           "seed": 2,
@@ -97,7 +98,7 @@
           "feedback_alignment": NaN,
           "positive_modulator_frac": NaN,
           "k_wta_matched": 0,
-          "wall_seconds": 17.298486292012967
+          "wall_seconds": 6.036719415977132
         }
       ]
     },
@@ -122,9 +123,10 @@
       "weight_drift_sigma_mean": 0.7976276278495789,
       "feedback_alignment_mean": 0.08719111581802082,
       "positive_modulator_frac_mean": 0.6583333333333333,
+      "hidden_lr_used": 0.0,
       "k_wta_matched_mean": 0.0,
       "synops_per_sample_mean": 8032.6755555555565,
-      "wall_seconds_mean": 77.48969830566784,
+      "wall_seconds_mean": 20.70749094434238,
       "per_seed": [
         {
           "seed": 0,
@@ -137,7 +139,7 @@
           "feedback_alignment": 0.08414028707144543,
           "positive_modulator_frac": 0.6466666666666666,
           "k_wta_matched": 0,
-          "wall_seconds": 77.26719966699602
+          "wall_seconds": 20.556750958028715
         },
         {
           "seed": 1,
@@ -150,7 +152,7 @@
           "feedback_alignment": 0.10873800852915341,
           "positive_modulator_frac": 0.675,
           "k_wta_matched": 0,
-          "wall_seconds": 77.75012375001097
+          "wall_seconds": 20.78867487498792
         },
         {
           "seed": 2,
@@ -163,7 +165,7 @@
           "feedback_alignment": 0.06869505185346364,
           "positive_modulator_frac": 0.6533333333333333,
           "k_wta_matched": 0,
-          "wall_seconds": 77.45177149999654
+          "wall_seconds": 20.777047000010498
         }
       ]
     },
@@ -188,9 +190,10 @@
       "weight_drift_sigma_mean": 0.7976670861244202,
       "feedback_alignment_mean": 0.053076712912226424,
       "positive_modulator_frac_mean": 0.5727777777777777,
+      "hidden_lr_used": 0.02,
       "k_wta_matched_mean": 0.0,
       "synops_per_sample_mean": 5258.702222222222,
-      "wall_seconds_mean": 115.18787444433353,
+      "wall_seconds_mean": 29.93482237466378,
       "per_seed": [
         {
           "seed": 0,
@@ -203,7 +206,7 @@
           "feedback_alignment": 0.04346507530928866,
           "positive_modulator_frac": 0.5583333333333333,
           "k_wta_matched": 0,
-          "wall_seconds": 117.0229054170195
+          "wall_seconds": 30.456821332976688
         },
         {
           "seed": 1,
@@ -216,7 +219,7 @@
           "feedback_alignment": 0.06813671858304758,
           "positive_modulator_frac": 0.595,
           "k_wta_matched": 0,
-          "wall_seconds": 114.54755866597407
+          "wall_seconds": 29.754705208004452
         },
         {
           "seed": 2,
@@ -229,7 +232,7 @@
           "feedback_alignment": 0.047628344844343036,
           "positive_modulator_frac": 0.565,
           "k_wta_matched": 0,
-          "wall_seconds": 113.99315925000701
+          "wall_seconds": 29.592940583010204
         }
       ]
     },
@@ -254,9 +257,10 @@
       "weight_drift_sigma_mean": 0.8006314833958944,
       "feedback_alignment_mean": -0.000583043368579489,
       "positive_modulator_frac_mean": NaN,
+      "hidden_lr_used": 0.02,
       "k_wta_matched_mean": 0.0,
       "synops_per_sample_mean": 6971.448888888889,
-      "wall_seconds_mean": 130.8947019863214,
+      "wall_seconds_mean": 35.7923149446724,
       "per_seed": [
         {
           "seed": 0,
@@ -269,7 +273,7 @@
           "feedback_alignment": 0.001216237274047519,
           "positive_modulator_frac": NaN,
           "k_wta_matched": 0,
-          "wall_seconds": 131.19024116697256
+          "wall_seconds": 29.66427379200468
         },
         {
           "seed": 1,
@@ -282,7 +286,7 @@
           "feedback_alignment": -0.003556515815062176,
           "positive_modulator_frac": NaN,
           "k_wta_matched": 0,
-          "wall_seconds": 129.16493662499124
+          "wall_seconds": 38.829171624965966
         },
         {
           "seed": 2,
@@ -295,7 +299,7 @@
           "feedback_alignment": 0.0005911484352761901,
           "positive_modulator_frac": NaN,
           "k_wta_matched": 0,
-          "wall_seconds": 132.3289281670004
+          "wall_seconds": 38.88349941704655
         }
       ]
     },
@@ -320,9 +324,10 @@
       "weight_drift_sigma_mean": 0.0,
       "feedback_alignment_mean": NaN,
       "positive_modulator_frac_mean": NaN,
+      "hidden_lr_used": 0.02,
       "k_wta_matched_mean": 128.0,
       "synops_per_sample_mean": 0.0,
-      "wall_seconds_mean": 3.0397884026557827,
+      "wall_seconds_mean": 4.399804346981303,
       "per_seed": [
         {
           "seed": 0,
@@ -335,7 +340,7 @@
           "feedback_alignment": NaN,
           "positive_modulator_frac": NaN,
           "k_wta_matched": 126,
-          "wall_seconds": 2.70259358297335
+          "wall_seconds": 4.60494154097978
         },
         {
           "seed": 1,
@@ -348,7 +353,7 @@
           "feedback_alignment": NaN,
           "positive_modulator_frac": NaN,
           "k_wta_matched": 128,
-          "wall_seconds": 3.129176667018328
+          "wall_seconds": 4.814930666994769
         },
         {
           "seed": 2,
@@ -361,7 +366,7 @@
           "feedback_alignment": NaN,
           "positive_modulator_frac": NaN,
           "k_wta_matched": 130,
-          "wall_seconds": 3.2875949579756707
+          "wall_seconds": 3.77954083296936
         }
       ]
     },
@@ -386,9 +391,10 @@
       "weight_drift_sigma_mean": 0.7976840734481812,
       "feedback_alignment_mean": 1.0000000111634118,
       "positive_modulator_frac_mean": NaN,
+      "hidden_lr_used": 0.02,
       "k_wta_matched_mean": 0.0,
       "synops_per_sample_mean": 2788.2666666666664,
-      "wall_seconds_mean": 179.9543177083057,
+      "wall_seconds_mean": 30.631540458338957,
       "per_seed": [
         {
           "seed": 0,
@@ -401,7 +407,7 @@
           "feedback_alignment": 1.0000000099673318,
           "positive_modulator_frac": NaN,
           "k_wta_matched": 0,
-          "wall_seconds": 179.01573954196647
+          "wall_seconds": 35.93658241600497
         },
         {
           "seed": 1,
@@ -414,7 +420,7 @@
           "feedback_alignment": 1.0000000141536114,
           "positive_modulator_frac": NaN,
           "k_wta_matched": 0,
-          "wall_seconds": 180.46271770796739
+          "wall_seconds": 33.84738654200919
         },
         {
           "seed": 2,
@@ -427,7 +433,7 @@
           "feedback_alignment": 1.000000009369292,
           "positive_modulator_frac": NaN,
           "k_wta_matched": 0,
-          "wall_seconds": 180.38449587498326
+          "wall_seconds": 22.11065241700271
         }
       ]
     }
@@ -572,47 +578,62 @@
     "scalar": [
       {
         "hidden_lr": 0.005,
+        "seed": 0,
         "accuracy": 0.7266666666666667,
-        "error": null,
-        "wall_seconds": 159.94087549997494
+        "spikes_per_sample": 95.94,
+        "weight_drift_sigma": 0.7980196475982666,
+        "error": null
       },
       {
         "hidden_lr": 0.05,
+        "seed": 0,
         "accuracy": 0.24,
-        "error": null,
-        "wall_seconds": 147.69368679099716
+        "spikes_per_sample": 113.15666666666667,
+        "weight_drift_sigma": 0.8135549426078796,
+        "error": null
       },
       {
         "hidden_lr": 0.2,
+        "seed": 0,
         "accuracy": 0.15666666666666668,
-        "error": null,
-        "wall_seconds": 125.08518658298999
+        "spikes_per_sample": 56.288333333333334,
+        "weight_drift_sigma": 0.8631752729415894,
+        "error": null
       }
     ],
     "dfa": [
       {
         "hidden_lr": 0.005,
+        "seed": 0,
         "accuracy": 0.7633333333333333,
-        "error": null,
-        "wall_seconds": 107.37723675003508
+        "spikes_per_sample": 146.2,
+        "weight_drift_sigma": 0.7983186841011047,
+        "error": null
       },
       {
         "hidden_lr": 0.05,
+        "seed": 0,
         "accuracy": 0.45,
-        "error": null,
-        "wall_seconds": 133.48437508399365
+        "spikes_per_sample": 61.32666666666667,
+        "weight_drift_sigma": 0.8093664646148682,
+        "error": null
       },
       {
         "hidden_lr": 0.2,
+        "seed": 0,
         "accuracy": 0.16666666666666666,
-        "error": null,
-        "wall_seconds": 112.77053533296566
+        "spikes_per_sample": 16.388333333333332,
+        "weight_drift_sigma": 0.8189260363578796,
+        "error": null
       }
     ],
     "frozen_hidden": [
       {
         "hidden_lr": 0.0,
+        "seed": 0,
         "accuracy": 0.7733333333333333,
+        "spikes_per_sample": 127.84333333333333,
+        "weight_drift_sigma": 0.797980546951294,
         "error": null
       }
     ]
@@ -718,5 +739,5 @@
     "raw_pixels_ridge": 0.67,
     "note": "900 neurons, 800 train / 400 held-out, ridge probe; not the same readout as this experiment, quoted as an absolute reference point only."
   },
-  "wall_seconds": 1304.5600580829778
+  "wall_seconds": 162.998855791986
 }

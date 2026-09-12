@@ -127,12 +127,14 @@ Two sub-findings that a reader should not have to rediscover:
   from 68% to 12% — silence, not learning. The homeostatic per-neuron
   rescaling in `HiddenThreeFactor.apply` (column L2 norm preserved, applied
   identically to every arm) bounds the *drift* — with it, `mean|W_aff|/σ₀`
-  stays at 0.80–0.87 across every arm at every rate, instead of growing without
-  limit — but it does **not** by itself restore activity at a large rate:
-  measured at `hidden_lr = 1.0` *with* the rescaling, activity was still
-  12–23 spikes/sample against a frozen 129 and accuracy 13.5–19.5% against a
-  frozen 68.0%. It is the activity-based rate selection below, not the
-  rescaling, that keeps the population inside its operating range.
+  stays ≤ 0.87 across every arm at every rate tested, against 1.04–1.43 at
+  `hidden_lr = 1.0` without it (both still inside the hard 4σ clip, which is
+  what stops either variant diverging outright) — but it does **not** by itself
+  restore activity at a large rate: measured at `hidden_lr = 1.0` *with* the
+  rescaling, activity was still 12–23 spikes/sample against a frozen 129 and
+  accuracy 13.5–19.5% against a frozen 68.0%. It is the activity-based rate
+  selection below, not the rescaling, that keeps the population inside its
+  operating range.
 
 ### 3. Learning rate does not rescue it — the whole sweep fails
 
