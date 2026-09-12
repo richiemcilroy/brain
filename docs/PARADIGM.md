@@ -127,6 +127,47 @@ pass without replay — the thing an LLM cannot do.
 > twice the seed standard deviation. See `experiments/threefactor_hidden.py`
 > and `docs/THREEFACTOR.md`.
 
+> ### RESULT: FALSIFIED
+>
+> That experiment has now been run, with the criterion pre-registered in the
+> artifact before any number was looked at. **Mechanism 3.3 does not work on
+> this substrate.**
+>
+> | arm | accuracy (3 seeds) | vs its own frozen ablation |
+> |---|---|---|
+> | `frozen_hidden` (control, `hidden_lr = 0`) | **74.89% ± 2.14** | - |
+> | `scalar` (broadcast scalar third factor) | 68.11% ± 1.02 | **-6.78 pts** |
+> | `dfa` (direct feedback alignment) | 64.44% ± 2.34 | **-10.44 pts** |
+>
+> The criterion was `mean(plastic) - mean(frozen) > 2 * sd_seed`. Neither arm
+> came close: both moved the **wrong way**, and both were negative on **every
+> seed**. Scalar per-seed deltas -0.103, -0.050, -0.050 against a threshold of
+> 0.0336; DFA deltas -0.127, -0.120, -0.067 against 0.0449. The artifact
+> records an empty `passing_arms` list and `verdict = "FALSIFIED"`.
+>
+> This is not a null result or a power failure. Adding error-modulated
+> plasticity to the hidden layer made the model **reliably worse** than leaving
+> that layer frozen, and it held for both a broadcast scalar and a
+> direct-feedback-alignment vector, so it is not specific to how the third
+> factor is shaped.
+>
+> **The control is what makes this conclusive.** `frozen_hidden` runs the
+> identical plasticity code path with the write skipped, and the artifact
+> verifies the ablation actually did nothing: mean abs(W_aff)/sigma0 stayed at
+> 0.79798 / 0.79736 / 0.79754 against the theoretical E|N(0,1)| = 0.7979 for a
+> freshly drawn random projection. The plastic arms were separately confirmed
+> to have made updates, so they were not silently frozen. And spikes were
+> non-zero on every spiking arm (minimum 59.58 per sample), so the documented
+> zero-spike trap did not silently compare silence to silence.
+>
+> **The absolute reference is unflattering in a second way.** A static random
+> ReLU projection with k-WTA, matched to the substrate's *own measured* active
+> fraction on each seed (14.0/14.2/14.4%, not the 29% figure used earlier),
+> reaches **80.22% ± 3.36** - beating both the substrate's frozen arm (74.89%)
+> and its plastic arm (68.11%) while doing no spiking at all.
+>
+> See `docs/THREEFACTOR.md` and `experiments/results/threefactor_hidden.json`.
+
 ## 4. The paradigm
 
 > **A sparse, dendritically-expanded, locally-plastic cortical substrate used as
