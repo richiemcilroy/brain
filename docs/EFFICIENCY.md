@@ -178,3 +178,51 @@ python3 experiments/llm_tuned.py A_attention C_gated_banks4   # floors printed
 Artifacts: `experiments/llm_efficiency.py`, `experiments/llm_tuned.py`,
 `experiments/cost_model.py`, `experiments/llm_context_scaling.py`.
 Raw runs: `/Volumes/T9/human-brain/scratch/{curve.log,curve_ab.log}`.
+
+---
+
+## 9. Addendum: the FLOP advantage IS realisable, and here is the measured crossover
+
+Section 5 said the FLOP advantage might not be realisable in wall clock,
+because attention's context term is a dense matmul near peak FLOPs while the
+scan is elementwise, bandwidth-bound, and stores `O(log C)` levels. **Measured:
+it is realisable, and the crossover is between `T=2048` and `T=4096`.**
+
+Pure forward pass, `d=512`, 8 heads, warmup discarded, `mx.eval` called every
+iteration (`experiments/long_context_bench.py`):
+
+| T | attn us/tok | mem1 us/tok | A/M1 | A/M4 |
+|---|---|---|---|---|
+| 512 | 3.114 | 6.803 | **0.46x** | 0.37x |
+| 1024 | 2.569 | 3.029 | 0.85x | 0.29x |
+| 2048 | 2.549 | 2.788 | 0.91x | 0.26x |
+| 4096 | 8.134 | 2.584 | **3.15x** | 0.70x |
+| 8192 | 12.487 | 3.403 | 3.67x | 1.21x |
+| 16384 | 23.864 | 6.139 | 3.89x | 0.97x |
+| 32768 | 44.897 | 2.762 | **16.26x** | 3.61x |
+
+Two things are worth noting. First, the memory arm's per-token cost is
+**roughly flat** (2.6-6.8 us/tok) while attention's grows by 14x over the same
+range — that is the `O(T)` versus `O(T^2)` signature showing up in wall clock,
+not just in a cost model. Second, single-bank memory crosses over at `T~4096`
+and reaches 16x at `T=32768`; four banks only cross at `T~8192` and reach 3.6x,
+because the bank dimension multiplies the projection cost that dominates at
+short `T`.
+
+**What this does and does not establish.** It establishes that on this hardware
+a diagonal gated recurrence is materially faster than dense causal attention
+past a few thousand tokens, which is the regime where long-context inference
+actually lives. It does **not** establish novelty: this is the measurement
+Mamba, RWKV and Griffin already publish, and their fused kernels start from a
+better constant than this scan does. The value of this table is that it is ours,
+it was measured rather than assumed, and it survived a falsification attempt
+that killed the original claim.
+
+**The honest summary of the whole efficiency episode:**
+
+- the "26% better loss at half the parameters" claim: **retracted, artifact**
+- the "30% fewer FLOPs at short context": **wrong at realistic width** (1.14x
+  at `d=1024, T=512`, and *worse* than attention with 4 banks)
+- the "4x slower wall clock": **implementation artifact**, fixed by the scan
+- the long-context wall-clock advantage: **real, measured, 3.1x at T=4096 and
+  16.3x at T=32768, and not novel**
