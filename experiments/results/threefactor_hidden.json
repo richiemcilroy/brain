@@ -1,0 +1,722 @@
+{
+  "experiment": "threefactor_hidden",
+  "question": "Can error-modulated three-factor plasticity (no backward pass, no weight transport) shape a hidden layer?",
+  "meta": {
+    "generated": "2026-09-12T15:34:19",
+    "python": "3.14.3",
+    "platform": "macOS-27.0-arm64-arm-64bit-Mach-O",
+    "numpy": "2.4.1",
+    "backend": "numpy",
+    "n_neurons": 900,
+    "k_out": 64,
+    "gain": 2.2,
+    "t_ms": 15,
+    "seeds": 3,
+    "n_train": 600,
+    "n_test": 300,
+    "hidden_lr": 0.02,
+    "hidden_lr_source": "pre-declared before running, from a step-size scale argument; see module docstring",
+    "readout_lr": 0.05,
+    "readout_lr_source": "CortexConfig default, NOT retuned in any arm",
+    "readout_rule": "graded delta + NLMS (CortexConfig defaults)",
+    "git_rev": "3083e1e"
+  },
+  "pre_registered_criterion": {
+    "statement": "mean(acc_plastic) - mean(acc_frozen_hidden) > 2 * sd_seed, sd_seed = sqrt((var_plastic + var_frozen)/2), ddof=1",
+    "registered_before_running": true,
+    "prediction_before_running": "scalar likely fails (one bit cannot tell a synapse what to change); dfa likely learns one task and then forgets under permutation"
+  },
+  "arms_in_order": {
+    "1_readout_only": "unmodified current model: identity wiring, frozen input, readout learns",
+    "2_frozen_hidden": "afferent projection + full hidden plasticity code path, hidden_lr = 0",
+    "3_scalar": "hidden plasticity, scalar broadcast third factor (+1 correct / -1 incorrect)",
+    "4_dfa": "hidden plasticity, fixed-random-feedback third factor (KNOWN method, not novel)",
+    "5_static_relu": "fixed random ReLU projection + k-WTA at matched sparsity, same readout",
+    "6_feedback_true_weights": "DIAGNOSTIC ONLY: DFA with the readout's own weights instead of a random matrix (weight transport, not local, not the gradient). Also run at hidden_lr = 0 as a second frozen control that exercises the identical code path."
+  },
+  "summary": {
+    "readout_only": {
+      "status": "ok",
+      "errors": [],
+      "n_seeds": 3,
+      "accuracy_mean": 0.79,
+      "accuracy_sd": 0.020816659994661344,
+      "per_seed_accuracy": [
+        0.8133333333333334,
+        0.7733333333333333,
+        0.7833333333333333
+      ],
+      "accuracy_mean_pct": 79.0,
+      "accuracy_sd_pct": 2.0816659994661344,
+      "spikes_per_sample_mean": 117.585,
+      "active_frac_mean": 0.13757407407407407,
+      "eligible_neurons_mean": 404.6666666666667,
+      "hidden_updates_mean": 0.0,
+      "mean_abs_dw_mean": 0.0,
+      "weight_drift_sigma_mean": 0.0,
+      "feedback_alignment_mean": NaN,
+      "positive_modulator_frac_mean": NaN,
+      "k_wta_matched_mean": 0.0,
+      "synops_per_sample_mean": 7525.44,
+      "wall_seconds_mean": 17.44196362500467,
+      "per_seed": [
+        {
+          "seed": 0,
+          "accuracy": 0.8133333333333334,
+          "spikes_per_sample": 118.59,
+          "active_frac": 0.13305555555555557,
+          "hidden_updates": 0,
+          "mean_abs_dw": 0.0,
+          "weight_drift_sigma": 0.0,
+          "feedback_alignment": NaN,
+          "positive_modulator_frac": NaN,
+          "k_wta_matched": 0,
+          "wall_seconds": 17.714754957996774
+        },
+        {
+          "seed": 1,
+          "accuracy": 0.7733333333333333,
+          "spikes_per_sample": 116.99833333333333,
+          "active_frac": 0.14472222222222222,
+          "hidden_updates": 0,
+          "mean_abs_dw": 0.0,
+          "weight_drift_sigma": 0.0,
+          "feedback_alignment": NaN,
+          "positive_modulator_frac": NaN,
+          "k_wta_matched": 0,
+          "wall_seconds": 17.31264962500427
+        },
+        {
+          "seed": 2,
+          "accuracy": 0.7833333333333333,
+          "spikes_per_sample": 117.16666666666667,
+          "active_frac": 0.13494444444444445,
+          "hidden_updates": 0,
+          "mean_abs_dw": 0.0,
+          "weight_drift_sigma": 0.0,
+          "feedback_alignment": NaN,
+          "positive_modulator_frac": NaN,
+          "k_wta_matched": 0,
+          "wall_seconds": 17.298486292012967
+        }
+      ]
+    },
+    "frozen_hidden": {
+      "status": "ok",
+      "errors": [],
+      "n_seeds": 3,
+      "accuracy_mean": 0.7488888888888888,
+      "accuracy_sd": 0.0214303350244288,
+      "per_seed_accuracy": [
+        0.7733333333333333,
+        0.74,
+        0.7333333333333333
+      ],
+      "accuracy_mean_pct": 74.88888888888889,
+      "accuracy_sd_pct": 2.14303350244288,
+      "spikes_per_sample_mean": 125.51055555555557,
+      "active_frac_mean": 0.14246296296296299,
+      "eligible_neurons_mean": 593.3333333333334,
+      "hidden_updates_mean": 0.0,
+      "mean_abs_dw_mean": 0.0,
+      "weight_drift_sigma_mean": 0.7976276278495789,
+      "feedback_alignment_mean": 0.08719111581802082,
+      "positive_modulator_frac_mean": 0.6583333333333333,
+      "k_wta_matched_mean": 0.0,
+      "synops_per_sample_mean": 8032.6755555555565,
+      "wall_seconds_mean": 77.48969830566784,
+      "per_seed": [
+        {
+          "seed": 0,
+          "accuracy": 0.7733333333333333,
+          "spikes_per_sample": 127.84333333333333,
+          "active_frac": 0.14033333333333334,
+          "hidden_updates": 0,
+          "mean_abs_dw": 0.0,
+          "weight_drift_sigma": 0.797980546951294,
+          "feedback_alignment": 0.08414028707144543,
+          "positive_modulator_frac": 0.6466666666666666,
+          "k_wta_matched": 0,
+          "wall_seconds": 77.26719966699602
+        },
+        {
+          "seed": 1,
+          "accuracy": 0.74,
+          "spikes_per_sample": 120.38833333333334,
+          "active_frac": 0.14227777777777778,
+          "hidden_updates": 0,
+          "mean_abs_dw": 0.0,
+          "weight_drift_sigma": 0.7973636984825134,
+          "feedback_alignment": 0.10873800852915341,
+          "positive_modulator_frac": 0.675,
+          "k_wta_matched": 0,
+          "wall_seconds": 77.75012375001097
+        },
+        {
+          "seed": 2,
+          "accuracy": 0.7333333333333333,
+          "spikes_per_sample": 128.3,
+          "active_frac": 0.14477777777777778,
+          "hidden_updates": 0,
+          "mean_abs_dw": 0.0,
+          "weight_drift_sigma": 0.7975386381149292,
+          "feedback_alignment": 0.06869505185346364,
+          "positive_modulator_frac": 0.6533333333333333,
+          "k_wta_matched": 0,
+          "wall_seconds": 77.45177149999654
+        }
+      ]
+    },
+    "scalar": {
+      "status": "ok",
+      "errors": [],
+      "n_seeds": 3,
+      "accuracy_mean": 0.681111111111111,
+      "accuracy_sd": 0.010183501544346267,
+      "per_seed_accuracy": [
+        0.67,
+        0.69,
+        0.6833333333333333
+      ],
+      "accuracy_mean_pct": 68.1111111111111,
+      "accuracy_sd_pct": 1.0183501544346267,
+      "spikes_per_sample_mean": 82.16722222222222,
+      "active_frac_mean": 0.03598148148148148,
+      "eligible_neurons_mean": 357.6666666666667,
+      "hidden_updates_mean": 600.0,
+      "mean_abs_dw_mean": 8.75914308077578e-06,
+      "weight_drift_sigma_mean": 0.7976670861244202,
+      "feedback_alignment_mean": 0.053076712912226424,
+      "positive_modulator_frac_mean": 0.5727777777777777,
+      "k_wta_matched_mean": 0.0,
+      "synops_per_sample_mean": 5258.702222222222,
+      "wall_seconds_mean": 115.18787444433353,
+      "per_seed": [
+        {
+          "seed": 0,
+          "accuracy": 0.67,
+          "spikes_per_sample": 107.06,
+          "active_frac": 0.04088888888888889,
+          "hidden_updates": 600,
+          "mean_abs_dw": 1.0532217856962234e-05,
+          "weight_drift_sigma": 0.7981038689613342,
+          "feedback_alignment": 0.04346507530928866,
+          "positive_modulator_frac": 0.5583333333333333,
+          "k_wta_matched": 0,
+          "wall_seconds": 117.0229054170195
+        },
+        {
+          "seed": 1,
+          "accuracy": 0.69,
+          "spikes_per_sample": 59.58,
+          "active_frac": 0.027944444444444445,
+          "hidden_updates": 600,
+          "mean_abs_dw": 5.9493459048098885e-06,
+          "weight_drift_sigma": 0.7973846197128296,
+          "feedback_alignment": 0.06813671858304758,
+          "positive_modulator_frac": 0.595,
+          "k_wta_matched": 0,
+          "wall_seconds": 114.54755866597407
+        },
+        {
+          "seed": 2,
+          "accuracy": 0.6833333333333333,
+          "spikes_per_sample": 79.86166666666666,
+          "active_frac": 0.03911111111111111,
+          "hidden_updates": 600,
+          "mean_abs_dw": 9.795865480555221e-06,
+          "weight_drift_sigma": 0.7975127696990967,
+          "feedback_alignment": 0.047628344844343036,
+          "positive_modulator_frac": 0.565,
+          "k_wta_matched": 0,
+          "wall_seconds": 113.99315925000701
+        }
+      ]
+    },
+    "dfa": {
+      "status": "ok",
+      "errors": [],
+      "n_seeds": 3,
+      "accuracy_mean": 0.6444444444444444,
+      "accuracy_sd": 0.02341256389522829,
+      "per_seed_accuracy": [
+        0.6466666666666666,
+        0.62,
+        0.6666666666666666
+      ],
+      "accuracy_mean_pct": 64.44444444444444,
+      "accuracy_sd_pct": 2.341256389522829,
+      "spikes_per_sample_mean": 108.92888888888889,
+      "active_frac_mean": 0.08624074074074073,
+      "eligible_neurons_mean": 426.3333333333333,
+      "hidden_updates_mean": 600.0,
+      "mean_abs_dw_mean": 4.0238729222134374e-05,
+      "weight_drift_sigma_mean": 0.8006314833958944,
+      "feedback_alignment_mean": -0.000583043368579489,
+      "positive_modulator_frac_mean": NaN,
+      "k_wta_matched_mean": 0.0,
+      "synops_per_sample_mean": 6971.448888888889,
+      "wall_seconds_mean": 130.8947019863214,
+      "per_seed": [
+        {
+          "seed": 0,
+          "accuracy": 0.6466666666666666,
+          "spikes_per_sample": 108.17833333333333,
+          "active_frac": 0.08044444444444444,
+          "hidden_updates": 600,
+          "mean_abs_dw": 3.8573747588088736e-05,
+          "weight_drift_sigma": 0.8009110689163208,
+          "feedback_alignment": 0.001216237274047519,
+          "positive_modulator_frac": NaN,
+          "k_wta_matched": 0,
+          "wall_seconds": 131.19024116697256
+        },
+        {
+          "seed": 1,
+          "accuracy": 0.62,
+          "spikes_per_sample": 109.305,
+          "active_frac": 0.08416666666666667,
+          "hidden_updates": 600,
+          "mean_abs_dw": 3.8505713746417314e-05,
+          "weight_drift_sigma": 0.8004527688026428,
+          "feedback_alignment": -0.003556515815062176,
+          "positive_modulator_frac": NaN,
+          "k_wta_matched": 0,
+          "wall_seconds": 129.16493662499124
+        },
+        {
+          "seed": 2,
+          "accuracy": 0.6666666666666666,
+          "spikes_per_sample": 109.30333333333333,
+          "active_frac": 0.09411111111111112,
+          "hidden_updates": 600,
+          "mean_abs_dw": 4.363672633189708e-05,
+          "weight_drift_sigma": 0.8005306124687195,
+          "feedback_alignment": 0.0005911484352761901,
+          "positive_modulator_frac": NaN,
+          "k_wta_matched": 0,
+          "wall_seconds": 132.3289281670004
+        }
+      ]
+    },
+    "static_relu": {
+      "status": "ok",
+      "errors": [],
+      "n_seeds": 3,
+      "accuracy_mean": 0.8022222222222223,
+      "accuracy_sd": 0.03355481971231443,
+      "per_seed_accuracy": [
+        0.8333333333333334,
+        0.7666666666666667,
+        0.8066666666666666
+      ],
+      "accuracy_mean_pct": 80.22222222222223,
+      "accuracy_sd_pct": 3.355481971231443,
+      "spikes_per_sample_mean": 0.0,
+      "active_frac_mean": 0.0,
+      "eligible_neurons_mean": 0.0,
+      "hidden_updates_mean": 0.0,
+      "mean_abs_dw_mean": 0.0,
+      "weight_drift_sigma_mean": 0.0,
+      "feedback_alignment_mean": NaN,
+      "positive_modulator_frac_mean": NaN,
+      "k_wta_matched_mean": 128.0,
+      "synops_per_sample_mean": 0.0,
+      "wall_seconds_mean": 3.0397884026557827,
+      "per_seed": [
+        {
+          "seed": 0,
+          "accuracy": 0.8333333333333334,
+          "spikes_per_sample": 0.0,
+          "active_frac": 0.0,
+          "hidden_updates": 0,
+          "mean_abs_dw": 0.0,
+          "weight_drift_sigma": 0.0,
+          "feedback_alignment": NaN,
+          "positive_modulator_frac": NaN,
+          "k_wta_matched": 126,
+          "wall_seconds": 2.70259358297335
+        },
+        {
+          "seed": 1,
+          "accuracy": 0.7666666666666667,
+          "spikes_per_sample": 0.0,
+          "active_frac": 0.0,
+          "hidden_updates": 0,
+          "mean_abs_dw": 0.0,
+          "weight_drift_sigma": 0.0,
+          "feedback_alignment": NaN,
+          "positive_modulator_frac": NaN,
+          "k_wta_matched": 128,
+          "wall_seconds": 3.129176667018328
+        },
+        {
+          "seed": 2,
+          "accuracy": 0.8066666666666666,
+          "spikes_per_sample": 0.0,
+          "active_frac": 0.0,
+          "hidden_updates": 0,
+          "mean_abs_dw": 0.0,
+          "weight_drift_sigma": 0.0,
+          "feedback_alignment": NaN,
+          "positive_modulator_frac": NaN,
+          "k_wta_matched": 130,
+          "wall_seconds": 3.2875949579756707
+        }
+      ]
+    },
+    "feedback_true_weights": {
+      "status": "ok",
+      "errors": [],
+      "n_seeds": 3,
+      "accuracy_mean": 0.6,
+      "accuracy_sd": 0.07218802609235901,
+      "per_seed_accuracy": [
+        0.6433333333333333,
+        0.64,
+        0.5166666666666667
+      ],
+      "accuracy_mean_pct": 60.0,
+      "accuracy_sd_pct": 7.218802609235901,
+      "spikes_per_sample_mean": 43.56666666666666,
+      "active_frac_mean": 0.017888888888888888,
+      "eligible_neurons_mean": 205.0,
+      "hidden_updates_mean": 600.0,
+      "mean_abs_dw_mean": 8.375850939046359e-06,
+      "weight_drift_sigma_mean": 0.7976840734481812,
+      "feedback_alignment_mean": 1.0000000111634118,
+      "positive_modulator_frac_mean": NaN,
+      "k_wta_matched_mean": 0.0,
+      "synops_per_sample_mean": 2788.2666666666664,
+      "wall_seconds_mean": 179.9543177083057,
+      "per_seed": [
+        {
+          "seed": 0,
+          "accuracy": 0.6433333333333333,
+          "spikes_per_sample": 40.89,
+          "active_frac": 0.018333333333333333,
+          "hidden_updates": 600,
+          "mean_abs_dw": 6.454945378209231e-06,
+          "weight_drift_sigma": 0.7980556488037109,
+          "feedback_alignment": 1.0000000099673318,
+          "positive_modulator_frac": NaN,
+          "k_wta_matched": 0,
+          "wall_seconds": 179.01573954196647
+        },
+        {
+          "seed": 1,
+          "accuracy": 0.64,
+          "spikes_per_sample": 41.89833333333333,
+          "active_frac": 0.018944444444444444,
+          "hidden_updates": 600,
+          "mean_abs_dw": 8.054916179389693e-06,
+          "weight_drift_sigma": 0.7974579334259033,
+          "feedback_alignment": 1.0000000141536114,
+          "positive_modulator_frac": NaN,
+          "k_wta_matched": 0,
+          "wall_seconds": 180.46271770796739
+        },
+        {
+          "seed": 2,
+          "accuracy": 0.5166666666666667,
+          "spikes_per_sample": 47.91166666666667,
+          "active_frac": 0.01638888888888889,
+          "hidden_updates": 600,
+          "mean_abs_dw": 1.0617691259540152e-05,
+          "weight_drift_sigma": 0.7975386381149292,
+          "feedback_alignment": 1.000000009369292,
+          "positive_modulator_frac": NaN,
+          "k_wta_matched": 0,
+          "wall_seconds": 180.38449587498326
+        }
+      ]
+    }
+  },
+  "checks": {
+    "spikes_nonzero_all_spiking_arms": {
+      "ok": true,
+      "min_spikes_per_sample": 59.58,
+      "note": "A zero-spike population would make every comparison silence vs silence."
+    },
+    "frozen_ablation_made_no_updates": {
+      "ok": true,
+      "note": "hidden_lr=0 must skip the weight write entirely."
+    },
+    "frozen_ablation_weights_unchanged": {
+      "ok": true,
+      "observed": [
+        0.797980546951294,
+        0.7973636984825134,
+        0.7975386381149292
+      ],
+      "note": "Mean|W_aff|/sigma0 for the freshly drawn dense projection is ~0.798 (E|N(0,1)|=0.7979). A frozen arm leaving that value means no hidden weight was written."
+    },
+    "plastic_arms_made_updates": {
+      "ok": true,
+      "note": "A plastic arm with zero writes would silently be a second frozen arm."
+    },
+    "plastic_dw_stayed_bounded": {
+      "ok": true,
+      "drift_sigma": [
+        0.7981038689613342,
+        0.7973846197128296,
+        0.7975127696990967,
+        0.8009110689163208,
+        0.8004527688026428,
+        0.8005306124687195
+      ],
+      "note": "A runaway Hebbian rule would show drift >> 1 sigma."
+    },
+    "relu_kwta_matched_active_fraction": {
+      "seed0": {
+        "k_wta": 126,
+        "k_wta_frac": 0.14,
+        "substrate_active_frac": 0.14033333333333334,
+        "abs_diff": 0.0003333333333333244
+      },
+      "seed1": {
+        "k_wta": 128,
+        "k_wta_frac": 0.14222222222222222,
+        "substrate_active_frac": 0.14227777777777778,
+        "abs_diff": 5.555555555555869e-05
+      },
+      "seed2": {
+        "k_wta": 130,
+        "k_wta_frac": 0.14444444444444443,
+        "substrate_active_frac": 0.14477777777777778,
+        "abs_diff": 0.00033333333333335213
+      },
+      "ok": true,
+      "note": "The ReLU control is set to the substrate's own measured active fraction on the same seed (tolerance 2 points), because a sparsity-mismatched control is not a matched control (docs/PARADIGM.md section 5)."
+    },
+    "true_weights_feedback_alignment_is_one": {
+      "ok": true,
+      "observed": [
+        1.0000000099673318,
+        1.0000000141536114,
+        1.000000009369292
+      ],
+      "note": "This arm's third factor IS the readout direction, so its alignment diagnostic must be 1.0. It is a check on the diagnostic itself: 1.0 alignment is NOT sufficient for learning here, because the readout direction ignores the derivative of the spiking code w.r.t. the projection. Measured: this arm can score below the frozen ablation."
+    },
+    "all_arms_completed": {
+      "ok": true,
+      "errors": []
+    },
+    "eligibility_rank": {
+      "n_samples": 3,
+      "per_sample": [
+        {
+          "sample": 0,
+          "rank_at_99pct_energy": 1,
+          "top1_energy_frac": 0.9925766360998309,
+          "top2_energy_frac": 1.0,
+          "signed_fraction": 0.08555555555555555
+        },
+        {
+          "sample": 1,
+          "rank_at_99pct_energy": 1,
+          "top1_energy_frac": 0.9932256046775807,
+          "top2_energy_frac": 1.0,
+          "signed_fraction": 0.16333333333333333
+        },
+        {
+          "sample": 2,
+          "rank_at_99pct_energy": 1,
+          "top1_energy_frac": 0.9927212064434057,
+          "top2_energy_frac": 1.0,
+          "signed_fraction": 0.15666666666666668
+        }
+      ],
+      "max_rank_at_99pct_energy": 1,
+      "note": "rank does not grow with the number of hidden neurons, so this is not a small-network artefact; it is a property of driving a static input through a fixed projection."
+    }
+  },
+  "criterion": {
+    "criterion": "mean(plastic) - mean(frozen_hidden) > 2 * sd_seed",
+    "sd_definition": "sqrt((var(plastic) + var(frozen_hidden))/2), ddof=1",
+    "per_arm": {
+      "scalar": {
+        "status": "ok",
+        "mean_plastic": 0.681111111111111,
+        "mean_frozen": 0.7488888888888888,
+        "delta": -0.06777777777777783,
+        "sd_seed": 0.016777409856157215,
+        "threshold_2sd": 0.03355481971231443,
+        "passed": false,
+        "per_seed_delta": [
+          -0.10333333333333328,
+          -0.050000000000000044,
+          -0.04999999999999993
+        ]
+      },
+      "dfa": {
+        "status": "ok",
+        "mean_plastic": 0.6444444444444444,
+        "mean_frozen": 0.7488888888888888,
+        "delta": -0.10444444444444445,
+        "sd_seed": 0.02244334430747128,
+        "threshold_2sd": 0.04488668861494256,
+        "passed": false,
+        "per_seed_delta": [
+          -0.1266666666666667,
+          -0.12,
+          -0.06666666666666665
+        ]
+      }
+    },
+    "passed": false,
+    "passing_arms": [],
+    "verdict": "FALSIFIED"
+  },
+  "lr_sweep": {
+    "scalar": [
+      {
+        "hidden_lr": 0.005,
+        "accuracy": 0.7266666666666667,
+        "error": null,
+        "wall_seconds": 159.94087549997494
+      },
+      {
+        "hidden_lr": 0.05,
+        "accuracy": 0.24,
+        "error": null,
+        "wall_seconds": 147.69368679099716
+      },
+      {
+        "hidden_lr": 0.2,
+        "accuracy": 0.15666666666666668,
+        "error": null,
+        "wall_seconds": 125.08518658298999
+      }
+    ],
+    "dfa": [
+      {
+        "hidden_lr": 0.005,
+        "accuracy": 0.7633333333333333,
+        "error": null,
+        "wall_seconds": 107.37723675003508
+      },
+      {
+        "hidden_lr": 0.05,
+        "accuracy": 0.45,
+        "error": null,
+        "wall_seconds": 133.48437508399365
+      },
+      {
+        "hidden_lr": 0.2,
+        "accuracy": 0.16666666666666666,
+        "error": null,
+        "wall_seconds": 112.77053533296566
+      }
+    ],
+    "frozen_hidden": [
+      {
+        "hidden_lr": 0.0,
+        "accuracy": 0.7733333333333333,
+        "error": null
+      }
+    ]
+  },
+  "energy_proxy": {
+    "units": "multiply-accumulates or active synaptic operations per sample",
+    "caveat": "These are operation COUNTS, not energy. A biological synapse costs ~1-100 fJ while a neuromorphic SynOp on Loihi costs ~23.6 pJ, so 'spiking is cheap' is not entailed. Reported because it is the honest hardware-independent proxy.",
+    "arms": {
+      "readout_only": {
+        "afferent_projection_macs_per_sample": 705600,
+        "recurrent_synops_active_per_sample": 7525.44,
+        "readout_macs_per_sample": 9000,
+        "total_ops_per_sample": 722125.44,
+        "dense_equivalent_macs_per_sample": 714600.0,
+        "recurrent_ops_vs_dense_900x900": 107.63490241102183
+      },
+      "frozen_hidden": {
+        "afferent_projection_macs_per_sample": 705600,
+        "recurrent_synops_active_per_sample": 8032.6755555555565,
+        "readout_macs_per_sample": 9000,
+        "total_ops_per_sample": 722632.6755555555,
+        "dense_equivalent_macs_per_sample": 714600.0,
+        "recurrent_ops_vs_dense_900x900": 100.83813225093948
+      },
+      "scalar": {
+        "afferent_projection_macs_per_sample": 705600,
+        "recurrent_synops_active_per_sample": 5258.702222222222,
+        "readout_macs_per_sample": 9000,
+        "total_ops_per_sample": 719858.7022222222,
+        "dense_equivalent_macs_per_sample": 714600.0,
+        "recurrent_ops_vs_dense_900x900": 154.03039871265239
+      },
+      "dfa": {
+        "afferent_projection_macs_per_sample": 705600,
+        "recurrent_synops_active_per_sample": 6971.448888888889,
+        "readout_macs_per_sample": 9000,
+        "total_ops_per_sample": 721571.4488888889,
+        "dense_equivalent_macs_per_sample": 714600.0,
+        "recurrent_ops_vs_dense_900x900": 116.1881859724999
+      },
+      "feedback_true_weights": {
+        "afferent_projection_macs_per_sample": 705600,
+        "recurrent_synops_active_per_sample": 2788.2666666666664,
+        "readout_macs_per_sample": 9000,
+        "total_ops_per_sample": 717388.2666666667,
+        "dense_equivalent_macs_per_sample": 714600.0,
+        "recurrent_ops_vs_dense_900x900": 290.50306044376435
+      },
+      "static_relu": {
+        "afferent_projection_macs_per_sample": 705600,
+        "readout_macs_per_sample": 9000,
+        "total_ops_per_sample": 714600.0,
+        "recurrent_ops_vs_dense_900x900": null
+      }
+    },
+    "mlp_dense_reference": {
+      "hidden": 128,
+      "macs_per_sample": 101632,
+      "n_params": 101632
+    },
+    "recurrent_dense_reference_macs_per_sample": 810000.0
+  },
+  "continual": {
+    "ran": false,
+    "criterion_passed": false,
+    "reason": "Neither plastic arm beat its own frozen ablation by more than twice the seed standard deviation, so the thesis is falsified at step 1. Permuted-MNIST was deliberately NOT run: a model that cannot learn a single task has no continual-learning claim to test.",
+    "measured": {
+      "scalar": {
+        "status": "ok",
+        "mean_plastic": 0.681111111111111,
+        "mean_frozen": 0.7488888888888888,
+        "delta": -0.06777777777777783,
+        "sd_seed": 0.016777409856157215,
+        "threshold_2sd": 0.03355481971231443,
+        "passed": false,
+        "per_seed_delta": [
+          -0.10333333333333328,
+          -0.050000000000000044,
+          -0.04999999999999993
+        ]
+      },
+      "dfa": {
+        "status": "ok",
+        "mean_plastic": 0.6444444444444444,
+        "mean_frozen": 0.7488888888888888,
+        "delta": -0.10444444444444445,
+        "sd_seed": 0.02244334430747128,
+        "threshold_2sd": 0.04488668861494256,
+        "passed": false,
+        "per_seed_delta": [
+          -0.1266666666666667,
+          -0.12,
+          -0.06666666666666665
+        ]
+      }
+    }
+  },
+  "documented_references": {
+    "source": "docs/SUBSTRATE_CONTRIBUTION.md",
+    "random_projection_relu_dense": 0.803,
+    "random_projection_relu_kwta_29pct": 0.765,
+    "spiking_substrate_29pct_active": 0.702,
+    "raw_pixels_ridge": 0.67,
+    "note": "900 neurons, 800 train / 400 held-out, ridge probe; not the same readout as this experiment, quoted as an absolute reference point only."
+  },
+  "wall_seconds": 1304.5600580829778
+}
