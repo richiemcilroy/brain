@@ -129,6 +129,13 @@ The ceiling still holds — no arm reaches 300 ms, and 600 ms is at or below
 chance everywhere. A passive decaying trace has a hard limit, and the limit is
 of order `tau_dend`, i.e. a few hundred milliseconds at most.
 
+**Superseded in part.** A later feature-count-matched retest across four
+different `tau_dend` values (50/100/200/400 ms) and a random-tau control found
+that the *ordering above does not survive matching feature counts*: at 1200
+features, multiscale and single-tau are identical. See `docs/MULTISCALE.md` for
+the matched result and its limits. The memory-window finding in this document is
+reported from a 6-way task and is not the same measurement.
+
 ## Caveats
 
 - Six stimuli, 240 trials, held-out half. Enough to establish the ordering and

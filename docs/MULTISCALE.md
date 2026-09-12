@@ -1,9 +1,18 @@
 # The multiscale `tau_dend` advantage is a feature-count confound
 
-**Verdict: REFUTED as originally stated.** The claim recorded in
-`docs/WORKING_MEMORY.md` — that a multiscale set of dendritic time constants
-scores 0.388 against 0.287 for a single time constant — compared **1200 features
-against 300**. At matched feature count the difference is **exactly zero**.
+**Verdict: REFUTED as originally stated.** The claim under test — that a
+multiscale set of dendritic time constants scores 0.388 against 0.287 for a
+single time constant on 8-way time-since-event decoding — compared **1200
+features against 300**. At matched feature count the difference is **exactly
+zero**.
+
+**Source note.** That 0.388 vs 0.287 figure is not recorded in any committed
+document; it came from an earlier session's working notes and was flagged there
+as confounded. The task definition it refers to *is* in
+`docs/WORKING_MEMORY.md` (the 6-way version), but the number itself has no
+committed artifact behind it. It is treated here as an unverified claim being
+retested, not as a published result being corrected, and the retest stands on
+its own data regardless of what the original number was.
 
 There is a smaller real effect underneath, and it is worth stating precisely
 because it is not the one originally claimed.
@@ -100,10 +109,17 @@ ones.
 - The readout is a closed-form ridge probe, not a biologically plausible rule.
   The claim is about **where information is**, not how a neuron learns to use it.
 - Nothing is trained; these are the dynamics of a fixed network.
-- The sweep is **partial** in the committed JSON (`meta.partial = true`); the
-  high-feature-count cells completed, and the auxiliary arms listed in the
-  script (`raw_input`, `linear_dend`, `recurrent_kout32`) are defined but were
-  not all run. They are controls for future work, not results.
+- The sweep is **partial** in the committed JSON (`meta.partial = true`). The
+  script builds a richer `verdict` block with paired confidence intervals, but
+  that block is only written on completion, so it is **absent from the committed
+  JSON**. Every number in this document was therefore derived by reading the
+  `sweep.per_seed` data directly, not taken from the script's own summary. The
+  auxiliary arms (`raw_input`, `linear_dend`, `recurrent_kout32`) are defined but
+  were not all run; they are controls for future work, not results.
+- **The paired CIs the script would have printed are not available.** The
+  differences reported here are means over 3 seeds with no interval attached, so
+  the "+0.161 at 8 features" figure in particular should be treated as a
+  direction, not a bounded effect size.
 
 ## Reproduce
 
