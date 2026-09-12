@@ -1485,6 +1485,14 @@ def main(argv: list[str] | None = None) -> int:
     print(f"\n[2/3] running arms (identical cached codes for every readout)")
     rows, ceil_rows = run_all(data, spec, quad_dim=args.quad_dim,
                               ladder=not args.no_ladder, verbose=args.verbose)
+    # cap_rows is consumed by report_and_write below. It was previously only
+    # ever bound inside that function's own scope, so a fresh (non-reanalyse)
+    # run raised NameError at the return statement AFTER all arms had finished
+    # and wrote no JSON at all. Bind it here.
+    cap_rows: list[dict[str, Any]] = []
+    if args.reanalyse:
+        cap_rows = [r for r in (data.get("capacity_scaling") or [])
+                    if not r.get("error")]
     print(f"    {len(rows)} continual arms, {len(ceil_rows)} ceiling arms, "
           f"{sum(1 for r in rows if r.get('error'))} failed")
 
