@@ -68,19 +68,29 @@ sampled validation and got -0.1249. The 5-seed deterministic rerun gives
 -0.1237. **The number barely moved**, which is the point of redoing it properly:
 the earlier figure was not an artifact of sampling or seed count.
 
-### 2. Matched steps against the 4-layer baseline
+### 2. Half the parameters — also confirmed at 5 seeds
 
-| arm | params | bpc @1500 steps | bpc @5000 steps (best) |
-|---|---|---|---|
-| `A_attention` (4 layers) | 875,520 | 2.2554 | 2.2290 @ step 2250 |
-| `depth2_mem` (2 layers) | **445,440** | **2.1883** | **2.1700 @ step 3750** |
+The 4-layer attention baseline is a **strong** baseline, not a straw man: at
+matched seeds, 2-layer attention is *worse* than 4-layer attention
+(+0.05476 bpc, CI [+0.03788, +0.07164], 5/5 seeds), so depth genuinely helps
+attention here and the 4-layer model is the better model.
 
-At 1500 matched steps, memory is 0.0671 bpc better with **50.9% of the
-parameters**. Comparing best-observed validation over the full run, the gap is
-0.0590 bpc. Note the depth is not matched in this comparison (2 vs 4), so it is
-reported second and should not be the headline.
+Against that stronger baseline, on the same deterministic 217-window validation
+and the same 5 seeds:
 
-### 3. Matched parameters, 3 seeds, 3000 steps
+| arm | params | bpc | paired vs `A_attention` | CI | sign |
+|---|---|---|---|---|---|
+| `depth2_mem` | **445,440** | **2.2092** | **-0.06892** | [-0.08758, -0.05026] | **5/5** |
+| `A_attention` | 875,520 | 2.2781 | — | — | — |
+
+**A 2-layer gated-memory model with 50.9% of the parameters beats the 4-layer
+attention baseline by 0.0689 bpc, with the 95% interval excluding zero and all
+five seeds agreeing.** Depth is not matched in this comparison (2 vs 4), so it is
+reported second, but note the direction: the memory arm wins *while being
+shallower and smaller*, and depth is something the attention arm actively
+benefits from.
+
+### 3. Matched parameters, 3 seeds, 3000 steps (earlier run, sampled validation)
 
 | arm | params | FLOPs/tok | bpc | tok/s |
 |---|---|---|---|---|
@@ -121,6 +131,21 @@ validation degrades from its 2.2290 best to **2.4048**, ending *worse than where
 it started improving*. `depth2_mem` is far more stable: train 1.6666, val 2.1969,
 best 2.1700 at step 3750, with validation flat within ±0.02 over the last 2500
 steps. The gap is therefore not a training-budget artifact.
+
+## Summary of the three paired comparisons
+
+All on **5 seeds** with **deterministic validation over all 217 non-overlapping
+512-token windows**, intervals are 95% paired t-intervals:
+
+| comparison | mean diff (bpc) | 95% CI | sign | verdict |
+|---|---|---|---|---|
+| `depth2_mem` - `depth2_attn` | **-0.1237** | [-0.1382, -0.1092] | 5/5 | memory better, excludes 0 |
+| `depth2_mem` - `A_attention` | **-0.0689** | [-0.0876, -0.0503] | 5/5 | memory better, excludes 0 |
+| `depth2_attn` - `A_attention` | +0.0548 | [+0.0379, +0.0716] | 5/5 | attention better, excludes 0 |
+
+The third row is what makes the first two meaningful: the 4-layer attention
+baseline is genuinely better than 2-layer attention, so it is a fair opponent,
+and gated memory still beats it with half the parameters.
 
 ## What this does NOT establish
 
