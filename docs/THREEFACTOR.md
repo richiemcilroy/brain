@@ -257,3 +257,21 @@ input vector at the same time.
 Per the acceptance criteria, the permuted-MNIST stage is therefore reported as
 not run, the falsification is stated as such, and the criterion was honoured
 rather than renegotiated after seeing the numbers.
+
+## Withdrawn: the rank-1 eligibility explanation
+
+An earlier version of this document explained the result by observing that the
+eligibility matrix is rank 1 (top singular value carrying 99.3% of energy), so a
+third factor can only rescale a fixed input direction.
+
+**That explanation is withdrawn.** The per-sample weight gradient of *any* dense
+layer under backprop is also rank 1 — it is the outer product of the error vector
+and the input vector — so rank-1 eligibility is equally true of exact gradient
+descent and cannot explain why the rule lost to its own frozen ablation. An
+independent adversarial check caught this.
+
+**The falsification measurement itself stands unchanged.** Only the mechanism
+paragraph is withdrawn. The better-supported candidate is already recorded above:
+the LTD term shifts every weight of neuron `j` by the same amount, changing each
+neuron's total drive, and the drive measurements show that pushes these onset
+detectors off their operating point.
