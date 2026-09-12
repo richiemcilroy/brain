@@ -110,7 +110,8 @@ except ImportError:  # pragma: no cover - direct execution
     from brain.plasticity import PlasticityConfig
     from brain.simulator import Brain, SimConfig
 
-__all__ = ["StackConfig", "CorticalStack", "READOUT_AVAILABLE"]
+__all__ = ["StackConfig", "CorticalStack", "build_readout",
+           "READOUT_AVAILABLE"]
 
 # brain/readout.py is written in parallel with this module. Import it if it is
 # there; otherwise fall back to a local implementation of the same contract so
@@ -429,22 +430,33 @@ class _FallbackReadout:
         return float(np.mean(self.predict(X) == y))
 
 
-def _make_readout(cfg: StackConfig, n_features: int, seed: int,
-                  kind: str | None = None) -> Any:
-    """Build the readout, preferring ``brain.readout`` and falling back locally."""
-    kind = kind or cfg.readout_kind
+def build_readout(*, n_features: int, n_classes: int, seed: int,
+                  kind: str = "local_delta", lr: float = 1e-2,
+                  epochs: int = 1, ridge: float = 1e-2, quad_dim: int = 2048,
+                  normalize: bool = False) -> Any:
+    """Construct a readout from the frozen ``brain.readout`` contract.
+
+    Preferences ``brain.readout`` (written in parallel with this module) and
+    falls back to the local implementation only if that import failed, so this
+    experiment runs either way without ever editing the sibling module.
+
+    ``normalize=False`` by default: callers of this function hand in
+    already-standardised features (see :meth:`CorticalStack._standardise`), and
+    letting the readout's *drifting* normaliser run on top of that is what makes
+    ``lambda_max`` explode and the delta rule diverge.
+    """
     if READOUT_AVAILABLE:
         return Readout(ReadoutConfig(
-            kind=kind, n_features=int(n_features), n_classes=int(cfg.n_classes),
-            lr=cfg.readout_lr, ridge=1e-2, epochs=cfg.readout_epochs,
-            normalize=False, quad_dim=cfg.quad_dim, quad_seed=seed,
-            w_init=0.0, shuffle=True, seed=seed,
+            kind=kind, n_features=int(n_features), n_classes=int(n_classes),
+            lr=float(lr), ridge=float(ridge), epochs=int(epochs),
+            normalize=bool(normalize), quad_dim=int(quad_dim), quad_seed=int(seed),
+            w_init=0.0, shuffle=True, seed=int(seed),
         ))
     return _FallbackReadout(_FallbackReadoutConfig(
-        kind=kind, n_features=int(n_features), n_classes=int(cfg.n_classes),
-        lr=cfg.readout_lr, ridge=1.0, epochs=cfg.readout_epochs,
-        normalize=False, quad_dim=cfg.quad_dim, quad_seed=seed,
-        w_init=0.0, shuffle=True, seed=seed,
+        kind=kind, n_features=int(n_features), n_classes=int(n_classes),
+        lr=float(lr), ridge=float(ridge), epochs=int(epochs),
+        normalize=bool(normalize), quad_dim=int(quad_dim), quad_seed=int(seed),
+        w_init=0.0, shuffle=True, seed=int(seed),
     ))
 
 
@@ -478,7 +490,12 @@ class CorticalStack:
         ]
         self._calibrated = False
 
-        self.readout = _make_readout(cfg, cfg.layer_neurons, cfg.seed + 77)
+        self.readout = build_readout(
+            n_features=cfg.layer_neurons, n_classes=cfg.n_classes,
+            seed=cfg.seed + 77, kind=cfg.readout_kind, lr=cfg.readout_lr,
+            epochs=cfg.readout_epochs, ridge=1e-2, quad_dim=cfg.quad_dim,
+            normalize=False,
+        )
         self._last_layer_synops = 0.0
         self._last_layer_spikes = 0.0
         self._last_layer_active = 0.0
