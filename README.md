@@ -255,6 +255,19 @@ repo does not make it.
 - `docs/PARADIGM.md` — the paradigm, novelty claim, and falsification criteria
 - `docs/DECISIONS.md` — decision record, including bugs found and claims overridden
 - `docs/SCALING.md` — measured scaling and the gap to 86e9 neurons
+- `docs/EFFICIENCY.md` — **retraction**: the claimed win over a transformer on
+  efficiency was a training-budget artifact (the baseline was at the bigram
+  floor). Read this before believing any language-model number in this repo.
+- `docs/WORKING_MEMORY.md` — working memory is a dendritic trace, not recurrence
+- `docs/NEURON_OPERATING_POINT.md` — the dCaAP neuron is an onset detector, with
+  a fragile operating point that silently produced zero spikes
+- `docs/SUBSTRATE_CONTRIBUTION.md` — ablation showing self-organisation contributes ~nothing
+- `docs/REVIEW.md` — independent adversarial adjudication of every published claim
+- `docs/READOUT.md` — the readout rule, not the code, is the bottleneck
+- `docs/AFFERENTS.md` — projection polarity, not convergence, drives the input-path gain
+- `docs/TRACE_LOCUS.md` — whether the dendritic trace is per-neuron or per-synapse
+- `docs/THREEFACTOR.md` — the thesis experiment (error signal reaching a hidden layer)
+- `EXIT.md` — consolidated honest status: what is established, what is retracted
 
 ## References
 
