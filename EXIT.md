@@ -200,19 +200,79 @@ backward pass** (`docs/PARADIGM.md` §4). Precisely:
   training-free control on at least one benchmark (`docs/READOUT.md` §3: split
   `code_gap` **−14.67**, control 80.00 vs best local 65.33).
 
-**On `experiments/results/threefactor_hidden.json`: that file does not exist at the
-time of writing.** The experiment that would test the paradigm where it matters — an
-error-driven, non-constant third factor applied to a hidden layer's local plasticity —
-is **running**. Its result is unknown and this document does not anticipate it. When
-it lands, rewrite §4 from its verdict rather than around it. If it fails, the paradigm
-claim is dead as stated; if it succeeds, §4 becomes the first section of a new
-document, not a footnote to this one.
+### The experiment was run. The paradigm claim is DEAD as stated.
+
+`experiments/results/threefactor_hidden.json` now exists, and this section is
+rewritten from its verdict as the earlier version of this file instructed. The
+experiment applied an error-derived third factor to the hidden layer's local
+plasticity — the thing §4 says had never been tested — with the success criterion
+pre-registered in the artifact before any number was read.
+
+| arm | accuracy (3 seeds) | vs its own frozen ablation |
+|---|---|---|
+| `readout_only` (the current model) | 79.00% ± 2.08 | — |
+| `frozen_hidden` (**the control**, `hidden_lr = 0`) | **74.89% ± 2.14** | — |
+| `scalar` third factor | 68.11% ± 1.02 | **−6.78 pts** |
+| `dfa` direct feedback alignment | 64.44% ± 2.34 | **−10.44 pts** |
+| `static_relu` (matched sparsity, no spiking) | **80.22% ± 3.36** | — |
+
+Criterion was `mean(plastic) − mean(frozen) > 2 × sd_seed`. `passing_arms` is
+empty and the recorded verdict is `FALSIFIED`.
+
+**Both plastic arms are worse than leaving the hidden layer frozen, and both are
+negative on every seed** (scalar −0.103/−0.050/−0.050 against a 0.0336 threshold;
+DFA −0.127/−0.120/−0.067 against 0.0449). This is not a null or a power failure:
+switching the mechanism on made the model reliably worse, for both a broadcast
+scalar and a DFA vector. The paradigm claim in `docs/PARADIGM.md` §3.3 is
+therefore falsified, not untested.
+
+Three reasons to trust this rather than the earlier, weaker negative results:
+
+1. **The ablation was proven inert.** `mean|W_aff|/σ₀` stayed at 0.79798 /
+   0.79736 / 0.79754 against the theoretical `E|N(0,1)| = 0.7979` for a fresh
+   random projection, so `hidden_lr = 0` genuinely wrote nothing. The plastic
+   arms were separately confirmed to have written.
+2. **No zero-spike trap.** Minimum 59.58 spikes per sample across the spiking
+   arms, asserted, so no comparison was silence against silence.
+3. **The failure is not about the third factor's shape.** Scalar broadcast and
+   direct feedback alignment both fail, in the same direction.
+
+**And the control that matters most is worse for the substrate than any of the
+above.** A static random ReLU projection with k-WTA, matched to the substrate's
+*own measured* active fraction on each seed (14.0 / 14.2 / 14.4%, not the 29%
+used in §2.8), reaches **80.22%** — beating the substrate's frozen arm (74.89%)
+and its plastic arm (68.11%) and the current readout-only model (79.00%), while
+doing no spiking at all. The self-organising dynamics are not merely
+non-contributing; at matched sparsity they are *worse* than random features.
 
 ---
 
 ## 5. What is genuinely untested
 
 The single most important open question, as a falsifiable experiment.
+
+**One thing in this project now has a positive, surviving result: the gated
+multiscale memory arm beats a parameter- and depth-matched attention baseline on
+char-level language modelling.** At matched depth (2 layers) and width (d=128),
+with 5 seeds and deterministic validation over all 217 non-overlapping 512-token
+windows, `depth2_mem` (445,440 params) scores 2.2092 bpc against `depth2_attn`
+(478,976 params) at 2.3329 — a paired difference of **−0.1237 bpc, 95% CI
+[−0.1382, −0.1092], 5/5 seeds agreeing**. It also beats a 4-layer attention
+baseline at 875,520 params by −0.0689 bpc (CI [−0.0876, −0.0503], 5/5). Causality
+was verified by two independent tests: perturbing a token changes earlier
+positions by exactly 0.000e+00, and trained on i.i.d. random characters the arms
+sit slightly *above* the uniform entropy of 6.0224 bpc rather than below it.
+
+**But this is not this project's idea.** `h_t = sigmoid(W_g x_t)·h_{t−1} + W_v x_t`
+is a diagonal gated linear recurrence — the minGRU / HGRN / RG-LRU family — and
+**no component of the spiking substrate is in it**: not the neuron, not k-WTA,
+not the local rule, not the dendritic trace. It is trained by backpropagation
+through a parallel scan. The remaining honest question is therefore narrow: does
+the *specific* combination measured here (initialisation schedule, gate bias
+init, chunked-scan implementation) offer anything over the published members of
+that family at equal compute? That is testable and has not been tested.
+
+The broader paradigm question is now closed by §4 rather than open.
 
 **Question:** does a *non-constant* broadcast scalar applied to a **hidden layer's**
 local plasticity produce a capability that neither a frozen random projection nor
