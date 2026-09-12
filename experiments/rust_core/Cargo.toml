@@ -1,0 +1,17 @@
+[package]
+name = "rust_core"
+version = "0.1.0"
+edition = "2021"
+description = "Event-driven spiking core prototype for the human-brain substrate"
+
+[[bin]]
+name = "rust_core"
+path = "src/main.rs"
+
+[dependencies]
+rayon = "1.12"
+
+[profile.release]
+opt-level = 3
+codegen-units = 1
+lto = "thin"

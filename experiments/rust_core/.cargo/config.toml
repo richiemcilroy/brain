@@ -1,0 +1,4 @@
+# Build artifacts MUST NOT land on the internal disk (~4 GB free).
+# Override with the CARGO_TARGET_DIR env var if the external SSD is elsewhere.
+[build]
+target-dir = "/Volumes/T9/human-brain/scratch/rust_target"

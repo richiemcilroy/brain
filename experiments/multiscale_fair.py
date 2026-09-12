@@ -188,6 +188,14 @@ PRIMARY_ARMS: tuple[ArmSpec, ...] = tuple(
     ]
 )
 SINGLE_ARM_NAMES = tuple(s.name for s in PRIMARY_ARMS if s.in_single_best)
+#: Auxiliary population with the dCaAP nonlinearity replaced by a *linear*
+#: dendritic transfer. ``linear_nomem`` (tau_dend = 1 ms) is the feature-count
+#: matched linear control with no dendritic memory at all: the same linear
+#: readout, on the same input, with the memory mechanism removed.
+LINEAR_ARMS: tuple[ArmSpec, ...] = (
+    ArmSpec("linear_multiscale", "ladder", True),
+    ArmSpec("linear_no_memory", "nomem", False),
+)
 
 
 # ------------------------------------------------------------------ helpers
@@ -618,11 +626,9 @@ def main(argv=None) -> int:
         print("[aux]   no amplitude jitter, primary arms")
         aux["no_jitter"] = evaluate_sweep(args, PRIMARY_ARMS, (primary_fc,), seeds,
                                           tag="no_jitter", amp_jitter=0.0)
-        print("[aux]   linear dendritic transfer, multiscale ladder")
-        aux_fcs = (16,) if args.quick else (16, 128, 1200)
-        aux["linear_dend"] = evaluate_sweep(
-            args, (ArmSpec("multiscale_linear", "ladder", True),), aux_fcs,
-            seeds, tag="linear_dend", dend_mode="linear")
+        print("[aux]   linear dendritic transfer population (ladder + no-memory)")
+        aux["linear_control"] = evaluate_sweep(
+            args, LINEAR_ARMS, fcs, seeds, tag="linear", dend_mode="linear")
         print("[aux]   recurrence present (k_out=32), multiscale only")
         aux["recurrent_kout32"] = evaluate_sweep(
             args, (ArmSpec("multiscale", "ladder", True),), (32,), seeds,
@@ -744,6 +750,33 @@ def main(argv=None) -> int:
     if ratio is not None:
         verdict["text"] += f" Ratio {ratio:.3f}x."
 
+    # ------------------------------ linear (no-dendritic-memory) control arms
+    linear_summary = None
+    if "linear_control" in aux:
+        lc = aux["linear_control"]
+        linear_summary = {
+            "feature_counts": lc["feature_counts"],
+            "summary": {str(fc): {a: arm_metric(lc, fc, a, lc["seeds"], "test_acc")
+                                  for a in lc["arms"]} for fc in lc["feature_counts"]},
+            "window_spikes": {str(fc): {a: arm_metric(lc, fc, a, lc["seeds"],
+                                                      "window_spikes")
+                                        for a in lc["arms"]}
+                              for fc in lc["feature_counts"]},
+            "note": ("linear_multiscale = dCaAP replaced by a linear transfer on the same "
+                     "tau ladder; linear_no_memory = same linear transfer with "
+                     "tau_dend = 1 ms, i.e. the raw input with no dendritic memory. "
+                     "Both are feature-count matched to every other arm."),
+        }
+        verdict["linear_control_mean_at_primary"] = (
+            linear_summary["summary"][k]["linear_multiscale"]["mean"])
+        verdict["linear_no_memory_mean_at_primary"] = (
+            linear_summary["summary"][k]["linear_no_memory"]["mean"])
+        verdict["text"] += (
+            f" Linear-transfer controls at {primary_fc} features: linear_multiscale="
+            f"{linear_summary['summary'][k]['linear_multiscale']['mean']:.3f}, "
+            f"linear_no_memory="
+            f"{linear_summary['summary'][k]['linear_no_memory']['mean']:.3f}.")
+
     # ------------------------------ extended-range scope probe (auxiliary)
     extended = None
     if "extended_delay_range" in aux:
@@ -833,6 +866,7 @@ def main(argv=None) -> int:
         "single_best": single_best,
         "deltas": deltas,
         "extended_delay_range": extended,
+        "linear_control": linear_summary,
         "confounded_replication": confound,
         "verdict": verdict,
         "caveats": [
