@@ -1,54 +1,61 @@
 {
  "complete": false,
- "note": "partial results are valid; `complete` is true only after the final phase has finished every declared arm/seed pair",
- "phase": "selection",
- "started_utc": "2026-09-12T15:06:55.008058+00:00",
- "config": {
-  "ctx": 512,
-  "steps": 20000,
-  "bs": 16,
-  "arms": [
-   "depth2_mem",
-   "depth2_attn"
-  ],
-  "seeds": [
-   0,
-   1,
-   2,
-   3,
-   4
-  ],
-  "selection_seed": 0,
-  "eval_frac": 1.0,
-  "d": 128,
-  "depth": 2,
-  "optimizer": "AdamW lr*(min(1,step/100)), wd=0.01, grad clip 1.0"
- },
- "grid": {
-  "predeclared": {
-   "depth2_mem": {
-    "lr": [
-     0.0003,
-     0.001,
-     0.003
-    ]
-   },
-   "depth2_attn": {
-    "lr": [
-     0.0003,
-     0.001,
-     0.003
-    ]
-   }
-  },
-  "n_arm_configs": 6,
-  "note": "selection uses the VALIDATION split only; TEST is never consulted before the final phase"
- },
+ "n_final_runs": 0,
+ "n_final_expected": 20,
+ "note": "partial results are valid; `complete` becomes true only when every declared arm/dropout/seed pair has finished",
+ "planned_final_jobs": [
+  "depth2_mem_p0.0_lr0.001_s0_st3000_final",
+  "depth2_attn_p0.0_lr0.001_s0_st3000_final",
+  "depth2_mem_p0.0_lr0.001_s1_st3000_final",
+  "depth2_attn_p0.0_lr0.001_s1_st3000_final",
+  "depth2_mem_p0.0_lr0.001_s2_st3000_final",
+  "depth2_attn_p0.0_lr0.001_s2_st3000_final",
+  "depth2_mem_p0.0_lr0.001_s3_st3000_final",
+  "depth2_attn_p0.0_lr0.001_s3_st3000_final",
+  "depth2_mem_p0.0_lr0.001_s4_st3000_final",
+  "depth2_attn_p0.0_lr0.001_s4_st3000_final",
+  "depth2_mem_p0.2_lr0.001_s0_st3000_final",
+  "depth2_attn_p0.2_lr0.001_s0_st3000_final",
+  "depth2_mem_p0.2_lr0.001_s1_st3000_final",
+  "depth2_attn_p0.2_lr0.001_s1_st3000_final",
+  "depth2_mem_p0.2_lr0.001_s2_st3000_final",
+  "depth2_attn_p0.2_lr0.001_s2_st3000_final",
+  "depth2_mem_p0.2_lr0.001_s3_st3000_final",
+  "depth2_attn_p0.2_lr0.001_s3_st3000_final",
+  "depth2_mem_p0.2_lr0.001_s4_st3000_final",
+  "depth2_attn_p0.2_lr0.001_s4_st3000_final"
+ ],
+ "missing_final_jobs": [
+  "depth2_mem_p0.0_lr0.001_s0_st3000_final",
+  "depth2_attn_p0.0_lr0.001_s0_st3000_final",
+  "depth2_mem_p0.0_lr0.001_s1_st3000_final",
+  "depth2_attn_p0.0_lr0.001_s1_st3000_final",
+  "depth2_mem_p0.0_lr0.001_s2_st3000_final",
+  "depth2_attn_p0.0_lr0.001_s2_st3000_final",
+  "depth2_mem_p0.0_lr0.001_s3_st3000_final",
+  "depth2_attn_p0.0_lr0.001_s3_st3000_final",
+  "depth2_mem_p0.0_lr0.001_s4_st3000_final",
+  "depth2_attn_p0.0_lr0.001_s4_st3000_final",
+  "depth2_mem_p0.2_lr0.001_s0_st3000_final",
+  "depth2_attn_p0.2_lr0.001_s0_st3000_final",
+  "depth2_mem_p0.2_lr0.001_s1_st3000_final",
+  "depth2_attn_p0.2_lr0.001_s1_st3000_final",
+  "depth2_mem_p0.2_lr0.001_s2_st3000_final",
+  "depth2_attn_p0.2_lr0.001_s2_st3000_final",
+  "depth2_mem_p0.2_lr0.001_s3_st3000_final",
+  "depth2_attn_p0.2_lr0.001_s3_st3000_final",
+  "depth2_mem_p0.2_lr0.001_s4_st3000_final",
+  "depth2_attn_p0.2_lr0.001_s4_st3000_final"
+ ],
+ "updated_utc": "2026-09-13T13:04:53.933939+00:00",
  "corpus": {
-  "path": "/Volumes/T9/human-brain/scratch/enwik8_extract/enwik8",
+  "path": "/Users/richie/zbrain/data/enwik8",
   "bytes": 100000000,
   "sha256": "2b49720ec4d78c3c9fabaee6e4179a5e997302b3a70029f30f2d582218c024a8",
   "vocab_size": 241,
+  "source": "enwik8 (standard 100 MB char-level bpc benchmark)",
+  "subset": null,
+  "subset_note": "full corpus used; nothing truncated or subset",
   "split_chars": {
    "train": 90000000,
    "val": 5000000,
@@ -86,21 +93,264 @@
    "n_tokens": 5000000
   }
  },
+ "floors_note": "unigram and add-1 bigram, counts from the train split, evaluated per split. bpc is NOT comparable across corpora: enwik8's bigram floor (~3.89) is far below TinyShakespeare's 3.5806.",
  "eval_windows": {
-  "total": {
-   "train": 175781,
-   "val": 9765,
-   "test": 9765
+  "train": {
+   "total": 175781,
+   "evaluated": 2000
   },
-  "evaluated": {
-   "train": 2000,
-   "val": 9765,
-   "test": 9765
+  "val": {
+   "total": 9765,
+   "evaluated": 9765
   },
-  "note": "val and test use every non-overlapping window of their split; windows do not overlap and do not cross split boundaries"
+  "test": {
+   "total": 9765,
+   "evaluated": 9765
+  }
  },
- "runs": [],
+ "config": {
+  "ctx": 512,
+  "d": 128,
+  "depth": 2,
+  "n_head": 4,
+  "bs": 16,
+  "arms": [
+   "depth2_mem",
+   "depth2_attn"
+  ],
+  "dropouts": [
+   0.0,
+   0.1,
+   0.2
+  ],
+  "seeds": [
+   0,
+   1,
+   2,
+   3,
+   4
+  ],
+  "final_steps": 3000,
+  "selection_steps": 3000,
+  "curve_every": 750,
+  "curve_windows": 1500,
+  "session_dropouts": [
+   0.0,
+   0.2
+  ],
+  "optimizer": "AdamW, lr*min(1,step/100) warmup, weight_decay=0.01, grad clip 1.0",
+  "dropout_placement": "on both residual branches (after memory/attention and after the MLP), as in nanoGPT"
+ },
+ "selection": {
+  "lr_grid": [
+   0.0003,
+   0.001,
+   0.003
+  ],
+  "n_configs_tried": 6,
+  "selection_steps": 3000,
+  "selection_seed": 0,
+  "split_used": "validation only; TEST never consulted",
+  "note": "selection optimism applies to any configuration chosen after seeing a validation table. The TEST number is reported separately and was computed once, after selection finished.",
+  "val_mean_by_lr": {
+   "0.0003": 2.58323,
+   "0.001": 2.16712,
+   "0.003": 2.16033
+  },
+  "selected_lr": 0.003,
+  "criterion": "lowest mean validation bpc across both arms"
+ },
+ "dropout_note": "dropout is a pre-declared manipulation, not a tuning knob: all levels are reported for both arms and nothing was selected by which level favoured an arm",
+ "preregistered_prediction": "attention's best-of-curve validation bpc improves by 0.05-0.1 bpc at dropout 0.2 vs 0.0, and the paired gap against depth2_mem shrinks toward zero or reverses",
+ "runs": [
+  {
+   "arm": "depth2_attn",
+   "seed": 0,
+   "phase": "selection",
+   "dropout": 0.0,
+   "lr": 0.0003,
+   "params": 524032,
+   "steps": 3000,
+   "bs": 16,
+   "ctx": 512,
+   "d": 128,
+   "depth": 2,
+   "val_bpc": 2.8375451495310737,
+   "test_bpc": null,
+   "train_bpc": 2.8326696366795465,
+   "best_val_bpc": null,
+   "best_val_step": null,
+   "final_val_bpc": null,
+   "train_bpc_last_batch": 2.8565544386383634,
+   "n_windows": {
+    "train": 2000,
+    "val": 9765
+   },
+   "curve": [],
+   "train_wall_s": 243.4,
+   "eval_wall_s": 7.2,
+   "tok_s": 100980.8,
+   "tokens_seen": 24576000,
+   "corpus_sha256": "2b49720ec4d78c3c9fabaee6e4179a5e997302b3a70029f30f2d582218c024a8",
+   "finished_utc": "2026-09-13T12:35:55.685819+00:00"
+  },
+  {
+   "arm": "depth2_attn",
+   "seed": 0,
+   "phase": "selection",
+   "dropout": 0.0,
+   "lr": 0.001,
+   "params": 524032,
+   "steps": 3000,
+   "bs": 16,
+   "ctx": 512,
+   "d": 128,
+   "depth": 2,
+   "val_bpc": 2.174949509783209,
+   "test_bpc": null,
+   "train_bpc": 2.170690609864579,
+   "best_val_bpc": null,
+   "best_val_step": null,
+   "final_val_bpc": null,
+   "train_bpc_last_batch": 2.192511881426671,
+   "n_windows": {
+    "train": 2000,
+    "val": 9765
+   },
+   "curve": [],
+   "train_wall_s": 325.5,
+   "eval_wall_s": 17.6,
+   "tok_s": 75505.0,
+   "tokens_seen": 24576000,
+   "corpus_sha256": "2b49720ec4d78c3c9fabaee6e4179a5e997302b3a70029f30f2d582218c024a8",
+   "finished_utc": "2026-09-13T12:41:36.775538+00:00"
+  },
+  {
+   "arm": "depth2_attn",
+   "seed": 0,
+   "phase": "selection",
+   "dropout": 0.0,
+   "lr": 0.003,
+   "params": 524032,
+   "steps": 3000,
+   "bs": 16,
+   "ctx": 512,
+   "d": 128,
+   "depth": 2,
+   "val_bpc": 2.1527666015538967,
+   "test_bpc": null,
+   "train_bpc": 2.1484738249847837,
+   "best_val_bpc": null,
+   "best_val_step": null,
+   "final_val_bpc": null,
+   "train_bpc_last_batch": 2.158655892725771,
+   "n_windows": {
+    "train": 2000,
+    "val": 9765
+   },
+   "curve": [],
+   "train_wall_s": 329.7,
+   "eval_wall_s": 14.2,
+   "tok_s": 74545.4,
+   "tokens_seen": 24576000,
+   "corpus_sha256": "2b49720ec4d78c3c9fabaee6e4179a5e997302b3a70029f30f2d582218c024a8",
+   "finished_utc": "2026-09-13T12:41:44.982130+00:00"
+  },
+  {
+   "arm": "depth2_mem",
+   "seed": 0,
+   "phase": "selection",
+   "dropout": 0.0,
+   "lr": 0.0003,
+   "params": 490496,
+   "steps": 3000,
+   "bs": 16,
+   "ctx": 512,
+   "d": 128,
+   "depth": 2,
+   "val_bpc": 2.328915389739619,
+   "test_bpc": null,
+   "train_bpc": 2.327951551316976,
+   "best_val_bpc": null,
+   "best_val_step": null,
+   "final_val_bpc": null,
+   "train_bpc_last_batch": 2.366712764520308,
+   "n_windows": {
+    "train": 2000,
+    "val": 9765
+   },
+   "curve": [],
+   "train_wall_s": 233.8,
+   "eval_wall_s": 9.7,
+   "tok_s": 105129.4,
+   "tokens_seen": 24576000,
+   "corpus_sha256": "2b49720ec4d78c3c9fabaee6e4179a5e997302b3a70029f30f2d582218c024a8",
+   "finished_utc": "2026-09-13T12:35:48.666850+00:00"
+  },
+  {
+   "arm": "depth2_mem",
+   "seed": 0,
+   "phase": "selection",
+   "dropout": 0.0,
+   "lr": 0.001,
+   "params": 490496,
+   "steps": 3000,
+   "bs": 16,
+   "ctx": 512,
+   "d": 128,
+   "depth": 2,
+   "val_bpc": 2.159289407648634,
+   "test_bpc": null,
+   "train_bpc": 2.152753504558469,
+   "best_val_bpc": null,
+   "best_val_step": null,
+   "final_val_bpc": null,
+   "train_bpc_last_batch": 2.1983629031916747,
+   "n_windows": {
+    "train": 2000,
+    "val": 9765
+   },
+   "curve": [],
+   "train_wall_s": 234.8,
+   "eval_wall_s": 9.7,
+   "tok_s": 104647.3,
+   "tokens_seen": 24576000,
+   "corpus_sha256": "2b49720ec4d78c3c9fabaee6e4179a5e997302b3a70029f30f2d582218c024a8",
+   "finished_utc": "2026-09-13T12:35:49.735437+00:00"
+  },
+  {
+   "arm": "depth2_mem",
+   "seed": 0,
+   "phase": "selection",
+   "dropout": 0.0,
+   "lr": 0.003,
+   "params": 490496,
+   "steps": 3000,
+   "bs": 16,
+   "ctx": 512,
+   "d": 128,
+   "depth": 2,
+   "val_bpc": 2.1678877890687747,
+   "test_bpc": null,
+   "train_bpc": 2.1578634049257626,
+   "best_val_bpc": null,
+   "best_val_step": null,
+   "final_val_bpc": null,
+   "train_bpc_last_batch": 2.186196506504338,
+   "n_windows": {
+    "train": 2000,
+    "val": 9765
+   },
+   "curve": [],
+   "train_wall_s": 300.0,
+   "eval_wall_s": 18.1,
+   "tok_s": 81908.0,
+   "tokens_seen": 24576000,
+   "corpus_sha256": "2b49720ec4d78c3c9fabaee6e4179a5e997302b3a70029f30f2d582218c024a8",
+   "finished_utc": "2026-09-13T12:41:11.882170+00:00"
+  }
+ ],
+ "summary": {},
  "paired": {},
- "wall_time_s": 4.0,
- "updated_utc": "2026-09-12T15:06:55.008679+00:00"
+ "wall_time_s": null
 }

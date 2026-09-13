@@ -6,50 +6,21 @@
  "zero_ppl": 24.104393610665852,
  "val_tokens": 3000,
  "decays": [
-  0.3,
-  0.4,
-  0.5,
   0.6,
   0.7,
   0.8,
   0.9,
+  0.99,
   1.0
  ],
  "arms": {
   "transfer": {
    "rows": [
     {
-     "decay": 0.3,
-     "banks": 1,
-     "ppl": 23.816608411353663,
-     "select_ppl": 26.618159241032725,
-     "horizon": 1.4285714285714286,
-     "beats_teacher": false,
-     "beats_zero": true
-    },
-    {
-     "decay": 0.4,
-     "banks": 1,
-     "ppl": 23.564364158274167,
-     "select_ppl": 26.29491564884511,
-     "horizon": 1.6666666666666667,
-     "beats_teacher": false,
-     "beats_zero": true
-    },
-    {
-     "decay": 0.5,
-     "banks": 1,
-     "ppl": 23.308024182370392,
-     "select_ppl": 26.00280337308661,
-     "horizon": 2.0,
-     "beats_teacher": false,
-     "beats_zero": true
-    },
-    {
      "decay": 0.6,
      "banks": 1,
-     "ppl": 23.096036320198397,
-     "select_ppl": 25.76735723664699,
+     "ppl": 23.03571141254805,
+     "select_ppl": 25.629599549654166,
      "horizon": 2.5,
      "beats_teacher": false,
      "beats_zero": true
@@ -57,8 +28,8 @@
     {
      "decay": 0.7,
      "banks": 1,
-     "ppl": 22.874355654495368,
-     "select_ppl": 25.583327670509377,
+     "ppl": 22.913140574272127,
+     "select_ppl": 25.698059207300453,
      "horizon": 3.333333333333333,
      "beats_teacher": false,
      "beats_zero": true
@@ -66,8 +37,8 @@
     {
      "decay": 0.8,
      "banks": 1,
-     "ppl": 22.77911604917742,
-     "select_ppl": 25.610831615647935,
+     "ppl": 22.791221923815666,
+     "select_ppl": 25.629599549654166,
      "horizon": 5.000000000000001,
      "beats_teacher": false,
      "beats_zero": true
@@ -75,28 +46,37 @@
     {
      "decay": 0.9,
      "banks": 1,
-     "ppl": 23.001930603788786,
-     "select_ppl": 26.02149419168543,
+     "ppl": 22.974344252319334,
+     "select_ppl": 25.904537317855315,
      "horizon": 10.000000000000002,
      "beats_teacher": false,
      "beats_zero": true
     },
     {
+     "decay": 0.99,
+     "banks": 1,
+     "ppl": 24.298066977539698,
+     "select_ppl": 27.690988508989673,
+     "horizon": 99.99999999999991,
+     "beats_teacher": false,
+     "beats_zero": false
+    },
+    {
      "decay": 1.0,
      "banks": 1,
-     "ppl": 23.91683022793458,
-     "select_ppl": 27.119774088254328,
+     "ppl": 23.912263962190316,
+     "select_ppl": 27.178715394618074,
      "horizon": Infinity,
      "beats_teacher": false,
      "beats_zero": true
     }
    ],
    "best": {
-    "decay": 0.7,
+    "decay": 0.6,
     "banks": 1,
-    "ppl": 22.874355654495368,
-    "select_ppl": 25.583327670509377,
-    "horizon": 3.333333333333333,
+    "ppl": 23.03571141254805,
+    "select_ppl": 25.629599549654166,
+    "horizon": 2.5,
     "beats_teacher": false,
     "beats_zero": true
    },
@@ -105,37 +85,10 @@
   "random_matched": {
    "rows": [
     {
-     "decay": 0.3,
-     "banks": 1,
-     "ppl": 27.09808721677482,
-     "select_ppl": 30.744152142891686,
-     "horizon": 1.4285714285714286,
-     "beats_teacher": false,
-     "beats_zero": false
-    },
-    {
-     "decay": 0.4,
-     "banks": 1,
-     "ppl": 27.23228853204111,
-     "select_ppl": 30.907654038894307,
-     "horizon": 1.6666666666666667,
-     "beats_teacher": false,
-     "beats_zero": false
-    },
-    {
-     "decay": 0.5,
-     "banks": 1,
-     "ppl": 27.361803607336263,
-     "select_ppl": 31.0501050395592,
-     "horizon": 2.0,
-     "beats_teacher": false,
-     "beats_zero": false
-    },
-    {
      "decay": 0.6,
      "banks": 1,
-     "ppl": 27.51848844409282,
-     "select_ppl": 31.227854665276297,
+     "ppl": 27.543647382273395,
+     "select_ppl": 31.222751662520665,
      "horizon": 2.5,
      "beats_teacher": false,
      "beats_zero": false
@@ -143,8 +96,8 @@
     {
      "decay": 0.7,
      "banks": 1,
-     "ppl": 27.704623313442948,
-     "select_ppl": 31.401850064219047,
+     "ppl": 27.764954377615112,
+     "select_ppl": 31.473619431078436,
      "horizon": 3.333333333333333,
      "beats_teacher": false,
      "beats_zero": false
@@ -152,8 +105,8 @@
     {
      "decay": 0.8,
      "banks": 1,
-     "ppl": 27.91453602548932,
-     "select_ppl": 31.56147483856219,
+     "ppl": 27.839117817725587,
+     "select_ppl": 31.726502865583317,
      "horizon": 5.000000000000001,
      "beats_teacher": false,
      "beats_zero": false
@@ -161,17 +114,26 @@
     {
      "decay": 0.9,
      "banks": 1,
-     "ppl": 28.18219200654563,
-     "select_ppl": 31.64794717438663,
+     "ppl": 28.137757868915823,
+     "select_ppl": 31.641983427482156,
      "horizon": 10.000000000000002,
+     "beats_teacher": false,
+     "beats_zero": false
+    },
+    {
+     "decay": 0.99,
+     "banks": 1,
+     "ppl": 27.839117817725587,
+     "select_ppl": 30.891369034301512,
+     "horizon": 99.99999999999991,
      "beats_teacher": false,
      "beats_zero": false
     },
     {
      "decay": 1.0,
      "banks": 1,
-     "ppl": 25.248054449881806,
-     "select_ppl": 28.11001382101129,
+     "ppl": 25.222654552852823,
+     "select_ppl": 28.212917110749004,
      "horizon": Infinity,
      "beats_teacher": false,
      "beats_zero": false
@@ -180,97 +142,11 @@
    "best": {
     "decay": 1.0,
     "banks": 1,
-    "ppl": 25.248054449881806,
-    "select_ppl": 28.11001382101129,
+    "ppl": 25.222654552852823,
+    "select_ppl": 28.212917110749004,
     "horizon": Infinity,
     "beats_teacher": false,
     "beats_zero": false
-   },
-   "best_selection": "select"
-  },
-  "banks_multi": {
-   "rows": [
-    {
-     "decay": 0.3,
-     "banks": 3,
-     "ppl": 23.662251208834036,
-     "select_ppl": 26.422492395535706,
-     "horizon": 1.4285714285714286,
-     "beats_teacher": false,
-     "beats_zero": true
-    },
-    {
-     "decay": 0.4,
-     "banks": 3,
-     "ppl": 23.427939851353,
-     "select_ppl": 26.148869360806426,
-     "horizon": 1.6666666666666667,
-     "beats_teacher": false,
-     "beats_zero": true
-    },
-    {
-     "decay": 0.5,
-     "banks": 3,
-     "ppl": 23.203363453063353,
-     "select_ppl": 25.895559520156485,
-     "horizon": 2.0,
-     "beats_teacher": false,
-     "beats_zero": true
-    },
-    {
-     "decay": 0.6,
-     "banks": 3,
-     "ppl": 23.014520231914144,
-     "select_ppl": 25.71167343420856,
-     "horizon": 2.5,
-     "beats_teacher": false,
-     "beats_zero": true
-    },
-    {
-     "decay": 0.7,
-     "banks": 3,
-     "ppl": 22.866938089498174,
-     "select_ppl": 25.62637516313934,
-     "horizon": 3.333333333333333,
-     "beats_teacher": false,
-     "beats_zero": true
-    },
-    {
-     "decay": 0.8,
-     "banks": 3,
-     "ppl": 22.84002680905918,
-     "select_ppl": 25.699361516989377,
-     "horizon": 5.000000000000001,
-     "beats_teacher": false,
-     "beats_zero": true
-    },
-    {
-     "decay": 0.9,
-     "banks": 3,
-     "ppl": 23.13797525843962,
-     "select_ppl": 26.162851271824053,
-     "horizon": 10.000000000000002,
-     "beats_teacher": false,
-     "beats_zero": true
-    },
-    {
-     "decay": 1.0,
-     "banks": 3,
-     "ppl": 23.916825360421,
-     "select_ppl": 27.119776296003206,
-     "horizon": Infinity,
-     "beats_teacher": false,
-     "beats_zero": true
-    }
-   ],
-   "best": {
-    "decay": 0.7,
-    "banks": 3,
-    "ppl": 22.866938089498174,
-    "select_ppl": 25.62637516313934,
-    "horizon": 3.333333333333333,
-    "beats_teacher": false,
-    "beats_zero": true
    },
    "best_selection": "select"
   }
@@ -285,36 +161,28 @@
   "teacher": 20.375600125475536,
   "zero": 24.104393610665852,
   "transfer_best": {
-   "decay": 0.7,
+   "decay": 0.6,
    "banks": 1,
-   "ppl": 22.874355654495368,
-   "select_ppl": 25.583327670509377,
-   "horizon": 3.333333333333333,
+   "ppl": 23.03571141254805,
+   "select_ppl": 25.629599549654166,
+   "horizon": 2.5,
    "beats_teacher": false,
    "beats_zero": true
   },
   "best_control": {
    "decay": 1.0,
    "banks": 1,
-   "ppl": 25.248054449881806,
-   "select_ppl": 28.11001382101129,
+   "ppl": 25.222654552852823,
+   "select_ppl": 28.212917110749004,
    "horizon": Infinity,
    "beats_teacher": false,
    "beats_zero": false
   },
-  "best_treatment_variant": {
-   "decay": 0.7,
-   "banks": 3,
-   "ppl": 22.866938089498174,
-   "select_ppl": 25.62637516313934,
-   "horizon": 3.333333333333333,
-   "beats_teacher": false,
-   "beats_zero": true
-  },
+  "best_treatment_variant": null,
   "transfer_beats_best_control": true,
   "transfer_beats_zero_at_best": true,
-  "transfer_recovery_frac": 0.32987559140934936,
-  "control_recovery_frac": -0.30671069442655985,
+  "transfer_recovery_frac": 0.28660267788020366,
+  "control_recovery_frac": -0.2998988671881076,
   "note": "Each arm is swept over the same decay grid and the decay is chosen on the SELECT split, so this separates 'the weights know the right time constant' from 'the right time constant helps everyone'. If the optima coincide the transplant carries no information about the decay. `banks_multi` is a treatment variant, not a control."
  }
 }

@@ -84,20 +84,23 @@ class Injection(nn.Module):
     any failure is unambiguous. `inner` is the untouched attention.
     """
 
-    def __init__(self, inner, mem, d):
+    def __init__(self, inner, mem, d, branch_scale: float = 1.0):
         super().__init__()
         self.inner = inner
         self.mem = mem
         self.out = nn.Linear(d, d, bias=False)
         self.out.weight = mx.zeros((d, d), dtype=mx.float32)
+        self.branch_scale = float(branch_scale)
         self._d = d
 
     def __call__(self, x, *args, **kwargs):
         base = self.inner(x, *args, **kwargs)
+        # the fixed normaliser puts the branch at attention's output scale; the
+        # learned projection then only has to find a DIRECTION, not a magnitude
+        branch = self.out(self.mem(x) * self.branch_scale)
         # cast to the residual's dtype or the sum silently promotes the whole
         # stream from bfloat16 to float32 -- which alone moved perplexity by
         # 0.23 and made a mathematical no-op look like an effect
-        branch = self.out(self.mem(x))
         if branch.dtype != base.dtype:
             branch = branch.astype(base.dtype)
         return base + branch
@@ -105,9 +108,24 @@ class Injection(nn.Module):
 
 def train_injection(model, module, train_ids, *, steps, bs, ctx, lr, seed=0,
                     log=print, eval_every=100, select_ids=None):
-    """Train ONLY the injection projection; everything else stays frozen."""
+    """Train ONLY the injection projection; everything else stays frozen.
+
+    THE TRAP, which cost a whole run: `module.unfreeze()` unfreezes the module
+    RECURSIVELY, and our wrapper holds the attention module as a submodule. So
+    freezing the model then unfreezing the wrapper re-enabled gradients on the
+    pretrained attention weights too -- the run trained the whole layer, drove
+    perplexity to 1889, and left the model corrupted for every later arm (the
+    next arm's identity check then failed at 4.3e10, which is how it surfaced).
+
+    So unfreeze ONLY the output projection, and then ASSERT the trainable set is
+    exactly that one tensor. A silent over-training here would look like a
+    result.
+    """
     model.freeze()
-    module.unfreeze()
+    module.out.unfreeze()
+    trainable = [k for k, v in nn.utils.tree_flatten(module.trainable_parameters())]
+    assert trainable == ["out.weight"], (
+        f"expected only the injection projection to be trainable, got {trainable}")
     mx.eval(model.parameters())
     opt = optim.AdamW(learning_rate=lr, weight_decay=0.0)
     rng = np.random.default_rng(seed)
@@ -177,7 +195,7 @@ def main():
     steps = int(os.environ.get("INJ_STEPS", "300"))
     bs = int(os.environ.get("INJ_BS", "2"))
     ctx = int(os.environ.get("INJ_CTX", "128"))
-    lr = float(os.environ.get("INJ_LR", "1e-2"))
+    lr = float(os.environ.get("INJ_LR", "3e-4"))
     decay = float(os.environ.get("INJ_DECAY", "0.7"))
 
     out = dict(teacher=TEACHER, layer=LAYER, n_layers=len(model.model.layers),
@@ -191,6 +209,9 @@ def main():
                             "teacher -- asserted, not assumed",
                    selection="no hyperparameter chosen on val",
                    eval="fixed 3000-token val window, no sampling -> exact"))
+
+    lrs = [float(x) for x in os.environ.get("INJ_LRS", "1e-5,3e-5").split(",")]
+    lr = lrs[0]
 
     arms = os.environ.get("INJ_ARMS", "transfer,random").split(",")
     for arm in arms:
@@ -216,7 +237,25 @@ def main():
                     rng.normal(0, s_native, mem.o.weight.shape).astype(np.float32))
                 rec["control"] = "random W_v/W_o at matched weight scale"
 
+        # NORMALISE the branch to attention's own output rms before the learned
+        # projection. Without this the memory output is ~64x attention's rms
+        # (measured: 3.23 vs 0.0505), so the learning problem is badly
+        # conditioned and Adam -- whose step is ABSOLUTE, not relative -- blows
+        # the projection up within ~100 steps. With it, gain-normalised means
+        # "as much output power as the attention beside it", and the swept
+        # scalar multiplies a well-scaled signal.
+        setattr(layer, attr, original)
+        ref = original(probe_h, None, None)
+        mx.eval(ref)
+        r_ref = float(mx.sqrt(mx.mean(ref.astype(mx.float32) ** 2)))
+        raw = mem(probe_h)
+        mx.eval(raw)
+        r_mem = float(mx.sqrt(mx.mean(raw.astype(mx.float32) ** 2)))
+        branch_scale = (r_ref / r_mem) if r_mem > 0 else 1.0
+
         module = Injection(original, mem, d)
+        module.out.weight = mx.zeros_like(module.out.weight)
+        module.branch_scale = float(branch_scale)   # fixed float, not a parameter
         setattr(layer, attr, module)
         mx.eval(model.parameters())
         before_val = perplexity(model, val)["ppl"]

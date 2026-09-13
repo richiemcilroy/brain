@@ -2,51 +2,9 @@
  "schema_version": 1,
  "experiment": "recall_decomp",
  "complete": false,
- "reason": "reproduction gate FAILED - no slice result is reported",
- "gate": {
-  "n_seeds": 2,
-  "internal_consistency_max_delta": 1.75793e-07,
-  "internal_consistency_ok": true,
-  "mem_bpc": 4.840614,
-  "mem_ref": 2.2092,
-  "mem_delta": 2.631414,
-  "attn_bpc": 4.157386,
-  "attn_ref": 2.3329,
-  "attn_delta": 1.824486,
-  "diff_bpc": 0.68323,
-  "diff_ref": -0.1237,
-  "diff_delta": 0.80693,
-  "diff_ci95": [
-   0.37329,
-   0.99317
-  ],
-  "diff_ref_ci": [
-   -0.1382,
-   -0.1092
-  ],
-  "per_seed_diff": [
-   0.70762,
-   0.65883
-  ],
-  "per_seed_ref": [
-   -0.1069,
-   -0.134,
-   -0.1177,
-   -0.1346,
-   -0.1252
-  ],
-  "slice_reconstruction_max_residual_nats": 3.39759e-07,
-  "slice_reconstruction_ok": true,
-  "mask_causality_ok": true,
-  "harness_equivalence_max_delta_bpc": 0.0,
-  "determinism_delta_bpc": 0.0,
-  "tolerances": {
-   "internal_nats": 1e-06,
-   "arm_bpc": 0.05,
-   "diff_bpc": 0.02
-  },
-  "ok": false
- },
+ "checkpoint": true,
+ "stage": "after depth2_attn/seed2",
+ "note": "partial run in progress; this is not a result",
  "unit_tests": {
   "brute_force_cases": 84,
   "brute_force_mismatches": 0,
@@ -56,65 +14,59 @@
   "trigram_subset_bigram_ok": true,
   "determinism_ok": true
  },
- "corpus": {
-  "chars": 1115394,
-  "vocab": 65,
-  "unigram_bpc": 4.829177,
-  "bigram_bpc": 3.580577
- },
  "runs": [
   {
    "arm": "depth2_mem",
    "seed": 0,
    "params": 445440,
-   "steps": 20,
-   "val_nats": 3.35587,
-   "val_bpc": 4.841497,
-   "train_bpc": 4.773934,
-   "wall_s": 1.78,
-   "tok_s": 92015.4,
+   "steps": 1500,
+   "val_nats": 1.529881,
+   "val_bpc": 2.207151,
+   "train_bpc": 1.97345,
+   "wall_s": 163.79,
+   "tok_s": 75023.5,
    "n_val_tokens": 111104,
-   "internal_consistency_delta": 1.75793e-07,
+   "internal_consistency_delta": 0.0,
    "slices": {
     "A_bigram": {
-     "hit": 3.356645,
-     "nonhit": 3.355095,
-     "scorable": 3.355982
+     "hit": 1.609138,
+     "nonhit": 1.419115,
+     "scorable": 1.527889
     },
     "A_trigram": {
-     "hit": 3.444043,
-     "nonhit": 3.322709,
-     "scorable": 3.356273
+     "hit": 1.621515,
+     "nonhit": 1.490336,
+     "scorable": 1.526624
     },
     "A_bigram_disjoint": {
-     "hit": 3.356645,
-     "nonhit": 3.355095,
-     "scorable": 3.355982
+     "hit": 1.609138,
+     "nonhit": 1.419115,
+     "scorable": 1.527889
     },
     "A_trigram_disjoint": {
-     "hit": 3.444043,
-     "nonhit": 3.322709,
-     "scorable": 3.356273
+     "hit": 1.621515,
+     "nonhit": 1.490336,
+     "scorable": 1.526624
     },
     "A_bigram_gap1": {
-     "hit": 3.356645,
-     "nonhit": 3.355095,
-     "scorable": 3.355982
+     "hit": 1.609138,
+     "nonhit": 1.419115,
+     "scorable": 1.527889
     },
     "A_trigram_gap1": {
-     "hit": 3.444043,
-     "nonhit": 3.322709,
-     "scorable": 3.356273
+     "hit": 1.621515,
+     "nonhit": 1.490336,
+     "scorable": 1.526624
     },
     "B_bigram": {
-     "hit": 3.139387,
-     "nonhit": 3.646096,
-     "scorable": 3.356041
+     "hit": 1.324046,
+     "nonhit": 1.804816,
+     "scorable": 1.529609
     },
     "B_trigram": {
-     "hit": 3.18325,
-     "nonhit": 3.422272,
-     "scorable": 3.356153
+     "hit": 1.107877,
+     "nonhit": 1.688124,
+     "scorable": 1.527613
     }
    },
    "slice_n": {
@@ -127,70 +79,70 @@
     "B_bigram": 63475,
     "B_trigram": 30614
    },
-   "slice_recon_residual_nats": 1.08907e-07,
+   "slice_recon_residual_nats": 1.82559e-07,
    "slice_recon": {
-    "A_bigram": 8.6967e-08,
-    "A_trigram": -4.2763e-08,
-    "A_bigram_disjoint": 8.6967e-08,
-    "A_trigram_disjoint": -4.2763e-08,
-    "A_bigram_gap1": 8.6967e-08,
-    "A_trigram_gap1": -4.2763e-08,
-    "B_bigram": -1.08907e-07,
-    "B_trigram": -7.9611e-08
+    "A_bigram": -2.4407e-08,
+    "A_trigram": 2.4309e-08,
+    "A_bigram_disjoint": -2.4407e-08,
+    "A_trigram_disjoint": 2.4309e-08,
+    "A_bigram_gap1": -2.4407e-08,
+    "A_trigram_gap1": 2.4309e-08,
+    "B_bigram": -1.82559e-07,
+    "B_trigram": 1.79321e-07
    }
   },
   {
    "arm": "depth2_mem",
    "seed": 1,
    "params": 445440,
-   "steps": 20,
-   "val_nats": 3.354646,
-   "val_bpc": 4.839731,
-   "train_bpc": 4.761317,
-   "wall_s": 1.72,
-   "tok_s": 95215.9,
+   "steps": 1500,
+   "val_nats": 1.526011,
+   "val_bpc": 2.201568,
+   "train_bpc": 1.894968,
+   "wall_s": 202.82,
+   "tok_s": 60586.0,
    "n_val_tokens": 111104,
-   "internal_consistency_delta": 1.40634e-07,
+   "internal_consistency_delta": 5.2738e-08,
    "slices": {
     "A_bigram": {
-     "hit": 3.353671,
-     "nonhit": 3.356194,
-     "scorable": 3.35475
+     "hit": 1.607241,
+     "nonhit": 1.412294,
+     "scorable": 1.523888
     },
     "A_trigram": {
-     "hit": 3.438548,
-     "nonhit": 3.323109,
-     "scorable": 3.355042
+     "hit": 1.616285,
+     "nonhit": 1.48667,
+     "scorable": 1.522525
     },
     "A_bigram_disjoint": {
-     "hit": 3.353671,
-     "nonhit": 3.356194,
-     "scorable": 3.35475
+     "hit": 1.607241,
+     "nonhit": 1.412294,
+     "scorable": 1.523888
     },
     "A_trigram_disjoint": {
-     "hit": 3.438548,
-     "nonhit": 3.323109,
-     "scorable": 3.355042
+     "hit": 1.616285,
+     "nonhit": 1.48667,
+     "scorable": 1.522525
     },
     "A_bigram_gap1": {
-     "hit": 3.353671,
-     "nonhit": 3.356194,
-     "scorable": 3.35475
+     "hit": 1.607241,
+     "nonhit": 1.412294,
+     "scorable": 1.523888
     },
     "A_trigram_gap1": {
-     "hit": 3.438548,
-     "nonhit": 3.323109,
-     "scorable": 3.355042
+     "hit": 1.616285,
+     "nonhit": 1.48667,
+     "scorable": 1.522525
     },
     "B_bigram": {
-     "hit": 3.140817,
-     "nonhit": 3.641252,
-     "scorable": 3.354788
+     "hit": 1.317317,
+     "nonhit": 1.804815,
+     "scorable": 1.525757
     },
     "B_trigram": {
-     "hit": 3.178148,
-     "nonhit": 3.422482,
-     "scorable": 3.354893
+     "hit": 1.09318,
+     "nonhit": 1.688236,
+     "scorable": 1.523629
     }
    },
    "slice_n": {
@@ -203,70 +155,298 @@
     "B_bigram": 63475,
     "B_trigram": 30614
    },
-   "slice_recon_residual_nats": 2.66364e-07,
+   "slice_recon_residual_nats": 1.02535e-07,
    "slice_recon": {
-    "A_bigram": -5.33e-09,
-    "A_trigram": 2.66364e-07,
-    "A_bigram_disjoint": -5.33e-09,
-    "A_trigram_disjoint": 2.66364e-07,
-    "A_bigram_gap1": -5.33e-09,
-    "A_trigram_gap1": 2.66364e-07,
-    "B_bigram": -9.5293e-08,
-    "B_trigram": 8.8801e-08
+    "A_bigram": 6.8179e-08,
+    "A_trigram": -2.0169e-08,
+    "A_bigram_disjoint": 6.8179e-08,
+    "A_trigram_disjoint": -2.0169e-08,
+    "A_bigram_gap1": 6.8179e-08,
+    "A_trigram_gap1": -2.0169e-08,
+    "B_bigram": 1.4536e-08,
+    "B_trigram": -1.02535e-07
+   }
+  },
+  {
+   "arm": "depth2_mem",
+   "seed": 2,
+   "params": 445440,
+   "steps": 1500,
+   "val_nats": 1.536589,
+   "val_bpc": 2.216829,
+   "train_bpc": 1.871461,
+   "wall_s": 419.64,
+   "tok_s": 29282.3,
+   "n_val_tokens": 111104,
+   "internal_consistency_delta": 5.2738e-08,
+   "slices": {
+    "A_bigram": {
+     "hit": 1.619558,
+     "nonhit": 1.420374,
+     "scorable": 1.534392
+    },
+    "A_trigram": {
+     "hit": 1.631172,
+     "nonhit": 1.495836,
+     "scorable": 1.533273
+    },
+    "A_bigram_disjoint": {
+     "hit": 1.619558,
+     "nonhit": 1.420374,
+     "scorable": 1.534392
+    },
+    "A_trigram_disjoint": {
+     "hit": 1.631172,
+     "nonhit": 1.495836,
+     "scorable": 1.533273
+    },
+    "A_bigram_gap1": {
+     "hit": 1.619558,
+     "nonhit": 1.420374,
+     "scorable": 1.534392
+    },
+    "A_trigram_gap1": {
+     "hit": 1.631172,
+     "nonhit": 1.495836,
+     "scorable": 1.533273
+    },
+    "B_bigram": {
+     "hit": 1.32639,
+     "nonhit": 1.817211,
+     "scorable": 1.536251
+    },
+    "B_trigram": {
+     "hit": 1.109956,
+     "nonhit": 1.696226,
+     "scorable": 1.534049
+    }
+   },
+   "slice_n": {
+    "A_bigram": 63475,
+    "A_trigram": 30614,
+    "A_bigram_disjoint": 63475,
+    "A_trigram_disjoint": 30614,
+    "A_bigram_gap1": 63475,
+    "A_trigram_gap1": 30614,
+    "B_bigram": 63475,
+    "B_trigram": 30614
+   },
+   "slice_recon_residual_nats": 1.47435e-07,
+   "slice_recon": {
+    "A_bigram": 5.2078e-08,
+    "A_trigram": -7.5539e-08,
+    "A_bigram_disjoint": 5.2078e-08,
+    "A_trigram_disjoint": -7.5539e-08,
+    "A_bigram_gap1": 5.2078e-08,
+    "A_trigram_gap1": -7.5539e-08,
+    "B_bigram": -1.27576e-07,
+    "B_trigram": 1.47435e-07
+   }
+  },
+  {
+   "arm": "depth2_mem",
+   "seed": 3,
+   "params": 445440,
+   "steps": 1500,
+   "val_nats": 1.531871,
+   "val_bpc": 2.210022,
+   "train_bpc": 1.933709,
+   "wall_s": 455.32,
+   "tok_s": 26987.7,
+   "n_val_tokens": 111104,
+   "internal_consistency_delta": 3.5159e-08,
+   "slices": {
+    "A_bigram": {
+     "hit": 1.612874,
+     "nonhit": 1.418745,
+     "scorable": 1.52987
+    },
+    "A_trigram": {
+     "hit": 1.623936,
+     "nonhit": 1.492328,
+     "scorable": 1.528734
+    },
+    "A_bigram_disjoint": {
+     "hit": 1.612874,
+     "nonhit": 1.418745,
+     "scorable": 1.52987
+    },
+    "A_trigram_disjoint": {
+     "hit": 1.623936,
+     "nonhit": 1.492328,
+     "scorable": 1.528734
+    },
+    "A_bigram_gap1": {
+     "hit": 1.612874,
+     "nonhit": 1.418745,
+     "scorable": 1.52987
+    },
+    "A_trigram_gap1": {
+     "hit": 1.623936,
+     "nonhit": 1.492328,
+     "scorable": 1.528734
+    },
+    "B_bigram": {
+     "hit": 1.319573,
+     "nonhit": 1.815459,
+     "scorable": 1.531599
+    },
+    "B_trigram": {
+     "hit": 1.102599,
+     "nonhit": 1.69288,
+     "scorable": 1.529594
+    }
+   },
+   "slice_n": {
+    "A_bigram": 63475,
+    "A_trigram": 30614,
+    "A_bigram_disjoint": 63475,
+    "A_trigram_disjoint": 30614,
+    "A_bigram_gap1": 63475,
+    "A_trigram_gap1": 30614,
+    "B_bigram": 63475,
+    "B_trigram": 30614
+   },
+   "slice_recon_residual_nats": 1.00468e-07,
+   "slice_recon": {
+    "A_bigram": 1.00468e-07,
+    "A_trigram": -5.9869e-08,
+    "A_bigram_disjoint": 1.00468e-07,
+    "A_trigram_disjoint": -5.9869e-08,
+    "A_bigram_gap1": 1.00468e-07,
+    "A_trigram_gap1": -5.9869e-08,
+    "B_bigram": 4.6433e-08,
+    "B_trigram": -6.0528e-08
+   }
+  },
+  {
+   "arm": "depth2_mem",
+   "seed": 4,
+   "params": 445440,
+   "steps": 1500,
+   "val_nats": 1.532136,
+   "val_bpc": 2.210405,
+   "train_bpc": 1.816035,
+   "wall_s": 271.84,
+   "tok_s": 45202.3,
+   "n_val_tokens": 111104,
+   "internal_consistency_delta": 1.7579e-08,
+   "slices": {
+    "A_bigram": {
+     "hit": 1.612583,
+     "nonhit": 1.419753,
+     "scorable": 1.530135
+    },
+    "A_trigram": {
+     "hit": 1.62345,
+     "nonhit": 1.492853,
+     "scorable": 1.528979
+    },
+    "A_bigram_disjoint": {
+     "hit": 1.612583,
+     "nonhit": 1.419753,
+     "scorable": 1.530135
+    },
+    "A_trigram_disjoint": {
+     "hit": 1.62345,
+     "nonhit": 1.492853,
+     "scorable": 1.528979
+    },
+    "A_bigram_gap1": {
+     "hit": 1.612583,
+     "nonhit": 1.419753,
+     "scorable": 1.530135
+    },
+    "A_trigram_gap1": {
+     "hit": 1.62345,
+     "nonhit": 1.492853,
+     "scorable": 1.528979
+    },
+    "B_bigram": {
+     "hit": 1.328816,
+     "nonhit": 1.803685,
+     "scorable": 1.531856
+    },
+    "B_trigram": {
+     "hit": 1.103707,
+     "nonhit": 1.692811,
+     "scorable": 1.529851
+    }
+   },
+   "slice_n": {
+    "A_bigram": 63475,
+    "A_trigram": 30614,
+    "A_bigram_disjoint": 63475,
+    "A_trigram_disjoint": 30614,
+    "A_bigram_gap1": 63475,
+    "A_trigram_gap1": 30614,
+    "B_bigram": 63475,
+    "B_trigram": 30614
+   },
+   "slice_recon_residual_nats": 8.2762e-08,
+   "slice_recon": {
+    "A_bigram": 7.7482e-08,
+    "A_trigram": 1.284e-08,
+    "A_bigram_disjoint": 7.7482e-08,
+    "A_trigram_disjoint": 1.284e-08,
+    "A_bigram_gap1": 7.7482e-08,
+    "A_trigram_gap1": 1.284e-08,
+    "B_bigram": -8.2762e-08,
+    "B_trigram": 1.3512e-08
    }
   },
   {
    "arm": "depth2_attn",
    "seed": 0,
    "params": 478976,
-   "steps": 20,
-   "val_nats": 2.865385,
-   "val_bpc": 4.133876,
-   "train_bpc": 4.097972,
-   "wall_s": 1.98,
-   "tok_s": 82945.1,
+   "steps": 1500,
+   "val_nats": 1.603944,
+   "val_bpc": 2.314002,
+   "train_bpc": 2.09891,
+   "wall_s": 216.5,
+   "tok_s": 56758.8,
    "n_val_tokens": 111104,
-   "internal_consistency_delta": 1.05476e-07,
+   "internal_consistency_delta": 1.40634e-07,
    "slices": {
     "A_bigram": {
-     "hit": 2.849325,
-     "nonhit": 2.88598,
-     "scorable": 2.864997
+     "hit": 1.68192,
+     "nonhit": 1.495298,
+     "scorable": 1.602126
     },
     "A_trigram": {
-     "hit": 2.90974,
-     "nonhit": 2.847776,
-     "scorable": 2.864917
+     "hit": 1.683008,
+     "nonhit": 1.569746,
+     "scorable": 1.601077
     },
     "A_bigram_disjoint": {
-     "hit": 2.849325,
-     "nonhit": 2.88598,
-     "scorable": 2.864997
+     "hit": 1.68192,
+     "nonhit": 1.495298,
+     "scorable": 1.602126
     },
     "A_trigram_disjoint": {
-     "hit": 2.90974,
-     "nonhit": 2.847776,
-     "scorable": 2.864917
+     "hit": 1.683008,
+     "nonhit": 1.569746,
+     "scorable": 1.601077
     },
     "A_bigram_gap1": {
-     "hit": 2.849325,
-     "nonhit": 2.88598,
-     "scorable": 2.864997
+     "hit": 1.68192,
+     "nonhit": 1.495298,
+     "scorable": 1.602126
     },
     "A_trigram_gap1": {
-     "hit": 2.90974,
-     "nonhit": 2.847776,
-     "scorable": 2.864917
+     "hit": 1.683008,
+     "nonhit": 1.569746,
+     "scorable": 1.601077
     },
     "B_bigram": {
-     "hit": 2.484862,
-     "nonhit": 3.375754,
-     "scorable": 2.865781
+     "hit": 1.379404,
+     "nonhit": 1.904246,
+     "scorable": 1.603811
     },
     "B_trigram": {
-     "hit": 2.491771,
-     "nonhit": 3.00827,
-     "scorable": 2.865394
+     "hit": 1.143809,
+     "nonhit": 1.7772,
+     "scorable": 1.601989
     }
    },
    "slice_n": {
@@ -279,70 +459,70 @@
     "B_bigram": 63475,
     "B_trigram": 30614
    },
-   "slice_recon_residual_nats": 1.90545e-07,
+   "slice_recon_residual_nats": 1.42263e-07,
    "slice_recon": {
-    "A_bigram": 2.4397e-08,
-    "A_trigram": 1.90545e-07,
-    "A_bigram_disjoint": 2.4397e-08,
-    "A_trigram_disjoint": 1.90545e-07,
-    "A_bigram_gap1": 2.4397e-08,
-    "A_trigram_gap1": 1.90545e-07,
-    "B_bigram": 2.2544e-08,
-    "B_trigram": -1.8307e-07
+    "A_bigram": -1.42263e-07,
+    "A_trigram": -6.952e-08,
+    "A_bigram_disjoint": -1.42263e-07,
+    "A_trigram_disjoint": -6.952e-08,
+    "A_bigram_gap1": -1.42263e-07,
+    "A_trigram_gap1": -6.952e-08,
+    "B_bigram": -2.1289e-08,
+    "B_trigram": -6.301e-09
    }
   },
   {
    "arm": "depth2_attn",
    "seed": 1,
    "params": 478976,
-   "steps": 20,
-   "val_nats": 2.897977,
-   "val_bpc": 4.180896,
-   "train_bpc": 4.161046,
-   "wall_s": 1.98,
-   "tok_s": 82596.9,
+   "steps": 1500,
+   "val_nats": 1.618935,
+   "val_bpc": 2.335629,
+   "train_bpc": 2.042763,
+   "wall_s": 269.0,
+   "tok_s": 45680.4,
    "n_val_tokens": 111104,
-   "internal_consistency_delta": 3.5159e-08,
+   "internal_consistency_delta": 1.05476e-07,
    "slices": {
     "A_bigram": {
-     "hit": 2.880981,
-     "nonhit": 2.91904,
-     "scorable": 2.897254
+     "hit": 1.702636,
+     "nonhit": 1.502187,
+     "scorable": 1.61693
     },
     "A_trigram": {
-     "hit": 2.924976,
-     "nonhit": 2.886489,
-     "scorable": 2.897135
+     "hit": 1.708497,
+     "nonhit": 1.580573,
+     "scorable": 1.61596
     },
     "A_bigram_disjoint": {
-     "hit": 2.880981,
-     "nonhit": 2.91904,
-     "scorable": 2.897254
+     "hit": 1.702636,
+     "nonhit": 1.502187,
+     "scorable": 1.61693
     },
     "A_trigram_disjoint": {
-     "hit": 2.924976,
-     "nonhit": 2.886489,
-     "scorable": 2.897135
+     "hit": 1.708497,
+     "nonhit": 1.580573,
+     "scorable": 1.61596
     },
     "A_bigram_gap1": {
-     "hit": 2.880981,
-     "nonhit": 2.91904,
-     "scorable": 2.897254
+     "hit": 1.702636,
+     "nonhit": 1.502187,
+     "scorable": 1.61693
     },
     "A_trigram_gap1": {
-     "hit": 2.924976,
-     "nonhit": 2.886489,
-     "scorable": 2.897135
+     "hit": 1.708497,
+     "nonhit": 1.580573,
+     "scorable": 1.61596
     },
     "B_bigram": {
-     "hit": 2.521621,
-     "nonhit": 3.402736,
-     "scorable": 2.898359
+     "hit": 1.399199,
+     "nonhit": 1.912252,
+     "scorable": 1.618566
     },
     "B_trigram": {
-     "hit": 2.536304,
-     "nonhit": 3.035812,
-     "scorable": 2.897636
+     "hit": 1.169296,
+     "nonhit": 1.787592,
+     "scorable": 1.616556
     }
    },
    "slice_n": {
@@ -355,16 +535,92 @@
     "B_bigram": 63475,
     "B_trigram": 30614
    },
-   "slice_recon_residual_nats": 3.39759e-07,
+   "slice_recon_residual_nats": 1.74584e-07,
    "slice_recon": {
-    "A_bigram": 8.2775e-08,
-    "A_trigram": 2.12442e-07,
-    "A_bigram_disjoint": 8.2775e-08,
-    "A_trigram_disjoint": 2.12442e-07,
-    "A_bigram_gap1": 8.2775e-08,
-    "A_trigram_gap1": 2.12442e-07,
-    "B_bigram": 3.39759e-07,
-    "B_trigram": 9.7483e-08
+    "A_bigram": -4.4692e-08,
+    "A_trigram": -8.8594e-08,
+    "A_bigram_disjoint": -4.4692e-08,
+    "A_trigram_disjoint": -8.8594e-08,
+    "A_bigram_gap1": -4.4692e-08,
+    "A_trigram_gap1": -8.8594e-08,
+    "B_bigram": -1.74584e-07,
+    "B_trigram": -3.5856e-08
+   }
+  },
+  {
+   "arm": "depth2_attn",
+   "seed": 2,
+   "params": 478976,
+   "steps": 1500,
+   "val_nats": 1.617923,
+   "val_bpc": 2.33417,
+   "train_bpc": 2.030262,
+   "wall_s": 250.61,
+   "tok_s": 49031.9,
+   "n_val_tokens": 111104,
+   "internal_consistency_delta": 0.0,
+   "slices": {
+    "A_bigram": {
+     "hit": 1.699379,
+     "nonhit": 1.504577,
+     "scorable": 1.616087
+    },
+    "A_trigram": {
+     "hit": 1.700534,
+     "nonhit": 1.582307,
+     "scorable": 1.615011
+    },
+    "A_bigram_disjoint": {
+     "hit": 1.699379,
+     "nonhit": 1.504577,
+     "scorable": 1.616087
+    },
+    "A_trigram_disjoint": {
+     "hit": 1.700534,
+     "nonhit": 1.582307,
+     "scorable": 1.615011
+    },
+    "A_bigram_gap1": {
+     "hit": 1.699379,
+     "nonhit": 1.504577,
+     "scorable": 1.616087
+    },
+    "A_trigram_gap1": {
+     "hit": 1.700534,
+     "nonhit": 1.582307,
+     "scorable": 1.615011
+    },
+    "B_bigram": {
+     "hit": 1.388456,
+     "nonhit": 1.924695,
+     "scorable": 1.617736
+    },
+    "B_trigram": {
+     "hit": 1.153408,
+     "nonhit": 1.792755,
+     "scorable": 1.615896
+    }
+   },
+   "slice_n": {
+    "A_bigram": 63475,
+    "A_trigram": 30614,
+    "A_bigram_disjoint": 63475,
+    "A_trigram_disjoint": 30614,
+    "A_bigram_gap1": 63475,
+    "A_trigram_gap1": 30614,
+    "B_bigram": 63475,
+    "B_trigram": 30614
+   },
+   "slice_recon_residual_nats": 1.53997e-07,
+   "slice_recon": {
+    "A_bigram": 7.658e-08,
+    "A_trigram": -1.53997e-07,
+    "A_bigram_disjoint": 7.658e-08,
+    "A_trigram_disjoint": -1.53997e-07,
+    "A_bigram_gap1": 7.658e-08,
+    "A_trigram_gap1": -1.53997e-07,
+    "B_bigram": -5.3339e-08,
+    "B_trigram": 4.2373e-08
    }
   }
  ]

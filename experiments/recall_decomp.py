@@ -421,6 +421,27 @@ def slice_means(loss: np.ndarray, pred: dict) -> dict:
     return out
 
 
+def checkpoint(runs, unit, gate_stage: str) -> None:
+    """Persist completed runs as soon as they exist.
+
+    Two server restarts and one silent process kill happened during this
+    experiment, and the script originally wrote its JSON only after the last
+    training run - so a kill lost everything. Now every completed run is
+    flushed to disk immediately with complete=false. The final successful write
+    overwrites it with complete=true. A checkpoint is never a result.
+    """
+    payload = dict(
+        schema_version=1, experiment="recall_decomp", complete=False,
+        checkpoint=True, stage=gate_stage,
+        note="partial run in progress; this is not a result",
+        unit_tests=unit, runs=runs,
+    )
+    os.makedirs(os.path.dirname(OUT), exist_ok=True)
+    tmp = OUT + ".tmp"
+    json.dump(payload, open(tmp, "w"), indent=1)
+    os.replace(tmp, OUT)
+
+
 def render_results_markdown(payload: dict) -> str:
     """Results block in the exact form docs/RECALL.md's 'Results' section asks
     for. Emitted into the JSON rather than written into RECALL.md, because
@@ -653,6 +674,7 @@ def main() -> int:
                 slice_recon=({k: round(v, 12) for k, v in recon.items()}),
             )
             runs.append(rec)
+            checkpoint(runs, unit, gate_stage=f"after {arm}/seed{seed}")
             if internal > GATE_INTERNAL_NATS:
                 broken.append(f"{arm}/seed{seed}: evaluate={ev:.9f} "
                               f"token-mean={per_tok:.9f} delta={internal:.2e}")

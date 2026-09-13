@@ -133,7 +133,8 @@ DROPOUTS = [0.0, 0.1, 0.2]
 SEEDS = [int(x) for x in os.environ.get("BRAIN_SEEDS_LIST", "0,1,2,3,4").split(",")]
 ARMS = ["depth2_mem", "depth2_attn"]
 # learning-rate grid, evaluated on VALIDATION only, at the selection budget
-LR_GRID = [3e-4, 1e-3, 3e-3]
+LR_GRID = [float(x) for x in
+           os.environ.get("BRAIN_LR_GRID", "3e-4,1e-3,3e-3").split(",")]
 SELECTION_STEPS = 3000
 SELECTION_SEED = 0
 SKIP_SELECTION = os.environ.get("BRAIN_SKIP_SELECTION", "0") == "1"

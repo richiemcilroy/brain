@@ -58,6 +58,7 @@ Outputs: experiments/results/scan_bench.json
 from __future__ import annotations
 
 import json
+import math
 import os
 import sys
 import time
@@ -785,6 +786,22 @@ def short_context_sweep(seed=0, Ts=(64, 128, 256, 512, 2048), reps=1, **kw):
         first["ratio_reps"] = ratios
         first["ratio_median_over_reps"] = ratios[len(ratios) // 2]
         first["ratio_min_over_reps"] = ratios[0]
+        # Paired CI on the ratio. The reps are paired (each rep measures both
+        # blocks round-robin under the same contention), so the per-rep log
+        # ratio is the right statistic; a CI on it says whether the sign of the
+        # difference is actually resolved rather than merely lucky.
+        logs = [math.log(x) for x in ratios]
+        n = len(logs)
+        mean = sum(logs) / n
+        var = (sum((x - mean) ** 2 for x in logs) / (n - 1)) if n > 1 else 0.0
+        se = math.sqrt(var / n) if n > 1 else float("inf")
+        # 95% interval, t-approximated by 1.96 for the rep counts used here
+        lo, hi = math.exp(mean - 1.96 * se), math.exp(mean + 1.96 * se)
+        first["ratio_ci95_low"] = lo
+        first["ratio_ci95_high"] = hi
+        first["ratio_ci95_excludes_1"] = bool(lo > 1.0 or hi < 1.0)
+        first["ratio_geomean"] = math.exp(mean)
+
         first["ratio_max_over_reps"] = ratios[-1]
         first["mem_faster_reps"] = sum(
             1 for r in reps_out if r["mem_faster_than_attn_after"])
@@ -792,6 +809,8 @@ def short_context_sweep(seed=0, Ts=(64, 128, 256, 512, 2048), reps=1, **kw):
             first["mem_faster_reps"] in (0, reps))
         first["median_rep_mem_faster"] = bool(
             first["ratio_median_over_reps"] < 1.0)
+        first["mem_faster_resolved"] = bool(
+            first["ratio_ci95_excludes_1"] and first["ratio_geomean"] < 1.0)
         # comparison against UNMASKED attention, on the same rep distribution,
         # so the two verdicts are computed the same way
         ratio_nm = sorted(r["mem_over_attn_after_vs_nomask"] for r in reps_out)
@@ -799,6 +818,20 @@ def short_context_sweep(seed=0, Ts=(64, 128, 256, 512, 2048), reps=1, **kw):
         first["ratio_nomask_median_over_reps"] = ratio_nm[len(ratio_nm) // 2]
         first["median_rep_mem_faster_vs_nomask"] = bool(
             first["ratio_nomask_median_over_reps"] < 1.0)
+        logs_nm = [math.log(x) for x in ratio_nm]
+        n_nm = len(logs_nm)
+        mean_nm = sum(logs_nm) / n_nm
+        var_nm = (sum((x - mean_nm) ** 2 for x in logs_nm) / (n_nm - 1)
+                  if n_nm > 1 else 0.0)
+        se_nm = math.sqrt(var_nm / n_nm) if n_nm > 1 else float("inf")
+        first["ratio_nomask_ci95_low"] = math.exp(mean_nm - 1.96 * se_nm)
+        first["ratio_nomask_ci95_high"] = math.exp(mean_nm + 1.96 * se_nm)
+        first["ratio_nomask_ci95_excludes_1"] = bool(
+            first["ratio_nomask_ci95_low"] > 1.0
+            or first["ratio_nomask_ci95_high"] < 1.0)
+        first["mem_faster_resolved_vs_nomask"] = bool(
+            first["ratio_nomask_ci95_excludes_1"]
+            and math.exp(mean_nm) < 1.0)
         first["nomask_faster_reps"] = sum(
             1 for r in reps_out
             if r["mem_faster_than_attn_after_vs_nomask"])
@@ -810,25 +843,31 @@ def short_context_sweep(seed=0, Ts=(64, 128, 256, 512, 2048), reps=1, **kw):
     # Where reps disagree the difference is smaller than this machine's
     # measurement noise, and calling it either way would be reporting noise.
     # Those T are TIES and are excluded from the crossover.
-    stable = [r for r in rows if r["sign_stable"]]
-    ties = [r["T"] for r in rows if not r["sign_stable"]]
-    slower = [r["T"] for r in stable if r["median_rep_mem_faster"] is False]
-    faster = [r["T"] for r in stable if r["median_rep_mem_faster"] is True]
-    nomask_slower = [r["T"] for r in rows
-                     if r["median_rep_mem_faster_vs_nomask"] is False]
+    # A crossover claim needs the CI to exclude 1.0, not just a majority of
+    # reps to fall on one side. Sign-stability alone is too weak at low rep
+    # counts, which is exactly the regime short T sits in.
+    ties = [r["T"] for r in rows if not r["ratio_ci95_excludes_1"]]
+    slower = [r["T"] for r in rows if r["ratio_ci95_excludes_1"]
+              and not r["mem_faster_resolved"]]
+    faster = [r["T"] for r in rows if r["mem_faster_resolved"]]
+    nomask_slower = [r["T"] for r in rows if r["ratio_nomask_ci95_excludes_1"]
+                     and not r["mem_faster_resolved_vs_nomask"]]
+    nomask_ties = [r["T"] for r in rows
+                   if not r["ratio_nomask_ci95_excludes_1"]]
     return dict(
         seed=seed, Ts=list(Ts), B=rows[0]["B"], d=rows[0]["d"],
         n_head=rows[0]["n_head"], reps=reps, rows=rows,
         tie_Ts=ties,
-        resolved_Ts=[r["T"] for r in stable],
+        resolved_Ts=sorted(faster + slower),
         mem_slower_at=sorted(slower), mem_faster_at=sorted(faster),
         # the resolution limit: below this T the two blocks are
         # indistinguishable on this machine, whichever way individual reps fall
         # the smallest T at which the memory block's win was sign-stable;
         # if the smallest tested T is already stable, no limit was found
         resolution_limit_T=(
-            min(r["T"] for r in stable if r["median_rep_mem_faster"])
-            if any(r["median_rep_mem_faster"] for r in stable) else None),
+            min(r["T"] for r in rows if r["mem_faster_resolved"])
+            if any(r["mem_faster_resolved"] for r in rows) else None),
+        nomask_tie_Ts=nomask_ties,
         mem_slower_at_vs_nomask=sorted(nomask_slower),
         crossover_T_interval=(
             [max(slower), min(faster)] if slower and faster else None),
@@ -1167,23 +1206,24 @@ def main():
     report["short_context_sweep"] = sweep
     print(f"  min-of-N ms, {SHORT_REPS} independent reps per T; ratio is "
           f"mem_block_after/attn_block (min_ms within a rep)")
-    print(f"  {'T':>6}{'mem bef':>9}{'mem aft':>9}{'attn':>9}"
-          f"{'ratio':>8}{'ratio med':>10}{'rng':>16}{'mem win':>9}"
-          f"{'scan bef':>10}{'scan aft':>10}{'floor':>8}{'a/m MAC':>9}")
+    print(f"  {'T':>6}{'mem aft':>9}{'attn':>9}{'ratio':>8}{'95% CI':>17}"
+          f"{'mem win':>9}{'scan aft':>10}{'floor':>8}{'a/m MAC':>9}  verdict")
     for r in sweep["rows"]:
-        rng = f"{r['ratio_min_over_reps']:.2f}-{r['ratio_max_over_reps']:.2f}"
-        print(f"  {r['T']:>6}{r['mem_block_before_ms']:>9.3f}"
-              f"{r['mem_block_after_ms']:>9.3f}{r['attn_block_masked_ms']:>9.3f}"
-              f"{r['mem_over_attn_after']:>8.2f}"
-              f"{r['ratio_median_over_reps']:>10.2f}{rng:>16}"
+        ci = f"{r['ratio_ci95_low']:.2f}-{r['ratio_ci95_high']:.2f}"
+        v = ("mem faster" if (r["ratio_ci95_excludes_1"]
+                              and r["median_rep_mem_faster"])
+             else "ATTN faster" if r["ratio_ci95_excludes_1"]
+             else "tie (CI spans 1)")
+        print(f"  {r['T']:>6}{r['mem_block_after_ms']:>9.3f}"
+              f"{r['attn_block_masked_ms']:>9.3f}"
+              f"{r['ratio_median_over_reps']:>8.2f}{ci:>17}"
               f"{r['mem_faster_reps']:>5}/{SHORT_REPS:<3}"
-              f"{r['scan_before_ms']:>10.3f}"
               f"{r['scan_after_ms']:>10.3f}{r['dispatch_floor_ms']:>8.3f}"
-              f"{r['mac_ratio_attn_over_mem']:>9.2f}")
+              f"{r['mac_ratio_attn_over_mem']:>9.2f}  {v}")
     ci = sweep["crossover_T_interval"]
     if sweep["tie_Ts"]:
-        print(f"  [tie] sign NOT stable across reps at T={sweep['tie_Ts']}: "
-              f"the difference there is smaller than this machine's noise.")
+        print(f"  [tie] 95% CI on the ratio SPANS 1.0 at T={sweep['tie_Ts']}: "
+              f"the two blocks are not distinguishable there on this machine.")
     if sweep["mem_always_faster"]:
         print(f"  [crossover] no T in {list(SHORT_TS)} where attention beats "
               f"the memory block in every rep. The memory block is never "
@@ -1194,10 +1234,14 @@ def main():
     else:
         print(f"  [crossover] memory block loses at T<={ci[0]} and wins from "
               f"T>={ci[1]}.")
-    print(f"  [resolution] sign-stable memory WIN at T={sweep['mem_faster_at']}")
+    print(f"  [resolution] memory WIN, CI excludes 1.0, at T="
+          f"{sweep['mem_faster_at']}")
     if sweep["mem_slower_at"]:
-        print(f"  [resolution] sign-stable attention WIN at T="
+        print(f"  [resolution] ATTENTION WIN, CI excludes 1.0, at T="
               f"{sweep['mem_slower_at']}")
+    if sweep["nomask_tie_Ts"]:
+        print(f"  [resolution] vs UNMASKED attention, tie at T="
+              f"{sweep['nomask_tie_Ts']}")
     if sweep["tie_Ts"]:
         print(f"  [resolution] TIE (no stable sign) at T={sweep['tie_Ts']}: "
               f"the two blocks are within this machine's measurement noise "

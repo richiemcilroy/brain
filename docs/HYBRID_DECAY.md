@@ -73,16 +73,18 @@ deleted) **24.1044**:
 
 | decay | horizon | `transfer` | `random_matched` |
 |---|---|---|---|
-| 0.30 | 1 | 23.8166 | 27.0981 |
-| 0.40 | 2 | 23.5644 | 27.2323 |
-| 0.50 | 2 | 23.3080 | 27.3618 |
-| 0.60 | 2 | 23.0960 | 27.5185 |
-| 0.70 | 3 | **22.8744** | 27.7046 |
-| 0.80 | 5 | 22.7791 | 27.9145 |
-| 0.90 | 10 | 23.0019 | 28.1822 |
-| 0.999 | 1000 | 23.9974 | 25.6703 |
-| **0.99 (the committed default)** | 100 | **24.3495** | 27.8538 |
-| 1.00 | ∞ | 23.9168 | 25.2481 |
+| 0.60 | 2 | **23.0357** | 27.5436 |
+| 0.70 | 3 | 22.9131 | 27.7650 |
+| 0.80 | 5 | **22.7912** | 27.8391 |
+| 0.90 | 10 | 22.9743 | 28.1378 |
+| **0.99 (the committed default)** | 100 | **24.2981** | 27.8391 |
+| 1.00 | ∞ | 23.9123 | 25.2227 |
+
+(This table is the re-measurement *after* the dtype fix in `docs/DTYPE_BUG.md`,
+so the absolute values shifted slightly from the first sweep. Every qualitative
+feature below is unchanged, and the committed 0.99 is still near transfer's
+worst point. The `select`-chosen optimum moved from 0.70 to 0.60; both are
+interior, and the curve is flat between 0.7 and 0.9.)
 
 Reading it:
 
@@ -96,20 +98,20 @@ Reading it:
   transplanted weights encode real temporal structure that random weights do not.
   A random matrix prefers "never forget" — an unweighted running mean — because
   it has no temporal information to preserve.
-- **`transfer` beats the best `random_matched` setting by 2.37 ppl** at their
-  respective optima (22.8744 vs 25.2481), against a total zero-gap of 3.7288.
-  That is **33.0% recovery vs 0.0% for the control** (the control recovers
+- **`transfer` beats the best `random_matched` setting by 2.19 ppl** at their
+  respective optima (23.0357 vs 25.2227), against a total zero-gap of 3.7288.
+  That is **28.7% recovery vs 0.0% for the control** (the control recovers
   nothing at any decay: its best is worse than deleting attention).
 
 ## What this changes about the claims
 
 **Strengthened.** The weight transplant is a real effect, and a stronger one than
-previously reported: 33% recovery instead of 10%, and the control is worse than
+previously reported: ~29% recovery instead of 10%, and the control is worse than
 deletion at *every* point on the grid, not just at one setting. The
 "weights carry temporal structure" claim now has a mechanism, not just a margin.
 
-**Weakened.** The committed headline was reported at a decay setting that is
-near-worst, and the `random_output_matched` figure of 74.7101 in `HYBRID.md` came
+**Weakened, and then partially repaired.** The committed headline was reported
+at a decay setting that is near-worst (0.99 -> 24.2981 vs 0.70 -> 22.9131), and the `random_output_matched` figure of 74.7101 in `HYBRID.md` came
 from a different normalisation; the two controls are not comparable and the
 earlier 3.2x-worse claim should be read only within its own table.
 
