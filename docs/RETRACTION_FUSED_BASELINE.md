@@ -58,6 +58,36 @@ the earlier result.
 
 ## What survives
 
+**A defect found in this file's own harness, then fixed.** The first version of
+`width_crossover_fair.py` passed `mask=None` to
+`mx.fast.scaled_dot_product_attention`. **In MLX, `mask=None` is UNMASKED** -- it
+attends to future tokens -- while the hand-rolled arm and the memory block are
+both causal by construction. So the "fair" baseline was silently solving an
+*easier* problem than the thing it was compared against, and every ratio in the
+table below was computed across two different functions. Measured directly
+(prefix-perturbation: add 7.0 to the last token, watch position 0):
+
+| arm | leak into position 0 |
+|---|---|
+| `sdpa(mask=None)` | **0.1029** |
+| `sdpa(mask="causal")` | **0.0000** |
+
+This is the fourth instance of the same failure class in this project, after the
+FLOP/MAC unit error, the bigram-floor baseline, and the hand-rolled baseline --
+and it is the most instructive, because it was introduced *by the retraction
+itself*, in the course of fixing the previous instance. The harness now calls
+`verify_causality()` before timing anything and aborts if either arm is
+non-causal or if the two arms disagree (`rel` must be < 1e-3; it currently
+measures exactly `0.000e+00`).
+
+**Re-measured after the fix** (same grid, corrected causal baseline): memory is
+faster than the hand-rolled arm at **13/15** points and faster than the *fused
+causal* arm at **9/15** (was 8/15). The median fused speedup over hand-rolled
+falls from 2.06x to **1.31x**. **The retraction's direction is unchanged: the
+claim still does not survive**, and the honest position is still
+"slower at short context, faster at long context only". The correction moved one
+point across the line, not the conclusion.
+
 **Does not survive:** "memory is faster than attention at every width." It is
 faster at some widths and context lengths and slower at others, with no clean
 monotonic pattern.

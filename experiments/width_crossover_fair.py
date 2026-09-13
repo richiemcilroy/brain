@@ -77,7 +77,15 @@ class AttnFused(nn.Module):
         q = self.q(x).reshape(B, T, self.n_head, hd).transpose(0, 2, 1, 3)
         k = self.k(x).reshape(B, T, self.n_head, hd).transpose(0, 2, 1, 3)
         v = self.v(x).reshape(B, T, self.n_head, hd).transpose(0, 2, 1, 3)
-        y = mx.fast.scaled_dot_product_attention(q, k, v, scale=self.scale, mask=None)
+        # mask="causal" is the FUSED CAUSAL path. mask=None is UNMASKED: it
+        # attends to future tokens. This was a real defect -- the previous
+        # version passed mask=None while the memory block is causal by
+        # construction, so the "fair" baseline was solving an EASIER problem
+        # (it could see the answer). Prefix-perturbation check: with mask=None,
+        # perturbing the last key moves position 0's output by 0.103; with
+        # mask="causal", by exactly 0.0. verify_causality() now asserts this.
+        y = mx.fast.scaled_dot_product_attention(q, k, v, scale=self.scale,
+                                                mask="causal")
         y = y.transpose(0, 2, 1, 3).reshape(B, T, self.d)
         return self.o(y)
 
@@ -91,6 +99,42 @@ class Mem(nn.Module):
         return self.mem(x)
 
 
+def verify_causality():
+    """Hard self-check: the timing arms must compute the SAME function.
+
+    A previous version of this file passed mask=None to the fused kernel, which
+    in MLX is UNMASKED -- it attends to future tokens. The memory block is
+    causal by construction, so that "fair" baseline was solving an easier
+    problem and any ratio was meaningless. This is the same failure class as the
+    bigram-floor baseline and the MAC/FLOP unit error, so it is checked in-run
+    and the run aborts rather than publishing a number.
+    """
+    mx.random.seed(0)
+    T, d, nh = 32, 64, 4
+    x = mx.random.normal((2, T, d)).astype(mx.float32)
+    a, f = AttnNaive(d, nh), AttnFused(d, nh)
+    for nm in ("q", "k", "v", "o"):
+        setattr(f, nm, getattr(a, nm))
+    mx.eval(a.parameters(), f.parameters())
+    ya, yf = a(x), f(x)
+    mx.eval(ya, yf)
+    rel = float(mx.max(mx.abs(ya - yf))) / (float(mx.max(mx.abs(ya))) + 1e-9)
+    # prefix-perturbation: changing the LAST token must not move position 0
+    xp = x.at[:, T - 1, :].add(7.0)
+    leak_n = float(mx.max(mx.abs(a(x)[:, 0, :] - a(xp)[:, 0, :])))
+    leak_f = float(mx.max(mx.abs(f(x)[:, 0, :] - f(xp)[:, 0, :])))
+    print(f"  VERIFY naive-vs-fused: rel {rel:.3e} | "
+          f"causal leak naive {leak_n:.3e} fused {leak_f:.3e}", flush=True)
+    if rel > 1e-3:
+        raise RuntimeError(
+            f"timing arms disagree (rel {rel:.3e}); a ratio across different "
+            f"functions is meaningless")
+    if leak_f > 1e-6 or leak_n > 1e-6:
+        raise RuntimeError(
+            f"an arm is NON-CAUSAL (leak naive {leak_n:.3e}, fused {leak_f:.3e}); "
+            f"mask=None in MLX is unmasked and attends to the future")
+
+
 def timeit(fn, x, reps=REPS):
     best = float("inf")
     for _ in range(3):
@@ -102,6 +146,7 @@ def timeit(fn, x, reps=REPS):
 
 def main():
     print(f"device {mx.default_device()} B={B} reps={REPS}", flush=True)
+    verify_causality()
     out = dict(meta=dict(host=platform.platform(), machine=platform.machine(),
                          driver="experiments/width_crossover_fair.py", B=B, reps=REPS,
                          widths=WIDTHS, Ts=TS,
