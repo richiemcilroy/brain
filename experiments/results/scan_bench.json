@@ -19,8 +19,8 @@
    "T=512:hillis_c64": {
     "setting": "chunk=64 (baseline)",
     "T": 512,
-    "ms_min": 1.6266669845208526,
-    "ms_median": 13.163958035875112,
+    "ms_min": 1.0052090001408942,
+    "ms_median": 3.0824589998701413,
     "macs_per_token": 2322,
     "rel_err": 4.472859299704751e-06,
     "gate_passed": true,
@@ -29,58 +29,58 @@
    "T=512:hillis_c16": {
     "setting": "chunk=16",
     "T": 512,
-    "ms_min": 1.7022499814629555,
-    "ms_median": 14.054958999622613,
+    "ms_min": 0.6922920001670718,
+    "ms_median": 2.581457999895065,
     "macs_per_token": 1656,
     "rel_err": 4.574515192879859e-06,
     "gate_passed": true,
-    "speedup_vs_hillis_c64": 0.9555981801937545
+    "speedup_vs_hillis_c64": 1.4520014674419257
    },
    "T=512:hillis_c32": {
     "setting": "chunk=32",
     "T": 512,
-    "ms_min": 2.0962909911759198,
-    "ms_median": 19.111500005237758,
+    "ms_min": 0.7527919997301069,
+    "ms_median": 2.97050000017407,
     "macs_per_token": 1968,
     "rel_err": 4.523687246292304e-06,
     "gate_passed": true,
-    "speedup_vs_hillis_c64": 0.775973846840972
+    "speedup_vs_hillis_c64": 1.3353077616410436
    },
    "T=512:hillis_c128": {
     "setting": "chunk=128",
     "T": 512,
-    "ms_min": 3.018708957824856,
-    "ms_median": 20.81433398416266,
+    "ms_min": 0.9710829999676207,
+    "ms_median": 3.298083000117913,
     "macs_per_token": 2694,
     "rel_err": 4.472859299704751e-06,
     "gate_passed": true,
-    "speedup_vs_hillis_c64": 0.5388618138573235
+    "speedup_vs_hillis_c64": 1.0351422073853742
    },
    "T=512:hillis_c256": {
     "setting": "chunk=256",
     "T": 512,
-    "ms_min": 1.7103749560192227,
-    "ms_median": 10.372832999564707,
+    "ms_min": 0.9287920001952443,
+    "ms_median": 3.602666999995563,
     "macs_per_token": 3073,
     "rel_err": 4.574515192879859e-06,
     "gate_passed": true,
-    "speedup_vs_hillis_c64": 0.9510587013661644
+    "speedup_vs_hillis_c64": 1.0822756870532757
    },
    "T=512:hillis_c64_compiled": {
     "setting": "chunk=64 + mx.compile",
     "T": 512,
-    "ms_min": 1.0419170139357448,
-    "ms_median": 6.429624976590276,
+    "ms_min": 0.7695829999647685,
+    "ms_median": 2.2995419999460864,
     "macs_per_token": 2322,
     "rel_err": 4.472859299704751e-06,
     "gate_passed": true,
-    "speedup_vs_hillis_c64": 1.561225090639675
+    "speedup_vs_hillis_c64": 1.3061736033500124
    },
    "T=2048:hillis_c64": {
     "setting": "chunk=64 (baseline)",
     "T": 2048,
-    "ms_min": 7.69100000616163,
-    "ms_median": 28.54812500299886,
+    "ms_min": 3.188125000178843,
+    "ms_median": 6.835541999862471,
     "macs_per_token": 2334,
     "rel_err": 4.472859299704751e-06,
     "gate_passed": true,
@@ -89,58 +89,58 @@
    "T=2048:hillis_c16": {
     "setting": "chunk=16",
     "T": 2048,
-    "ms_min": 8.491166983731091,
-    "ms_median": 28.13929202966392,
+    "ms_min": 2.621249999720021,
+    "ms_median": 6.62304099978428,
     "macs_per_token": 1704,
     "rel_err": 4.574515192879859e-06,
     "gate_passed": true,
-    "speedup_vs_hillis_c64": 0.9057647813189206
+    "speedup_vs_hillis_c64": 1.2162613259015242
    },
    "T=2048:hillis_c32": {
     "setting": "chunk=32",
     "T": 2048,
-    "ms_min": 7.107666984666139,
-    "ms_median": 27.347791008651257,
+    "ms_min": 3.1393750000461296,
+    "ms_median": 6.973167000069225,
     "macs_per_token": 1992,
     "rel_err": 4.523687246292304e-06,
     "gate_passed": true,
-    "speedup_vs_hillis_c64": 1.0820709555968162
+    "speedup_vs_hillis_c64": 1.015528568626557
    },
    "T=2048:hillis_c128": {
     "setting": "chunk=128",
     "T": 2048,
-    "ms_min": 4.998292017262429,
-    "ms_median": 19.00974998716265,
+    "ms_min": 4.2598329996508255,
+    "ms_median": 9.652374999859603,
     "macs_per_token": 2700,
     "rel_err": 4.472859299704751e-06,
     "gate_passed": true,
-    "speedup_vs_hillis_c64": 1.5387256245932588
+    "speedup_vs_hillis_c64": 0.7484154896307369
    },
    "T=2048:hillis_c256": {
     "setting": "chunk=256",
     "T": 2048,
-    "ms_min": 9.199291002005339,
-    "ms_median": 19.70233302563429,
+    "ms_min": 5.323709000094823,
+    "ms_median": 9.98745799961398,
     "macs_per_token": 3076,
     "rel_err": 4.574515192879859e-06,
     "gate_passed": true,
-    "speedup_vs_hillis_c64": 0.8360426911688174
+    "speedup_vs_hillis_c64": 0.5988541071876877
    },
    "T=2048:hillis_c64_compiled": {
     "setting": "chunk=64 + mx.compile",
     "T": 2048,
-    "ms_min": 6.346542038954794,
-    "ms_median": 19.485583005007356,
+    "ms_min": 3.1350839999504387,
+    "ms_median": 7.491792000109854,
     "macs_per_token": 2334,
     "rel_err": 4.472859299704751e-06,
     "gate_passed": true,
-    "speedup_vs_hillis_c64": 1.2118410244436437
+    "speedup_vs_hillis_c64": 1.016918526020114
    },
    "T=8192:hillis_c64": {
     "setting": "chunk=64 (baseline)",
     "T": 8192,
-    "ms_min": 31.280375027563423,
-    "ms_median": 85.36425000056624,
+    "ms_min": 18.53945799985013,
+    "ms_median": 24.722041000131867,
     "macs_per_token": 2346,
     "rel_err": 4.472859299704751e-06,
     "gate_passed": true,
@@ -149,74 +149,74 @@
    "T=8192:hillis_c16": {
     "setting": "chunk=16",
     "T": 8192,
-    "ms_min": 18.29512498807162,
-    "ms_median": 66.88349996693432,
+    "ms_min": 13.595333000012033,
+    "ms_median": 21.58179200023369,
     "macs_per_token": 1752,
     "rel_err": 4.574515192879859e-06,
     "gate_passed": true,
-    "speedup_vs_hillis_c64": 1.7097655822498155
+    "speedup_vs_hillis_c64": 1.3636633983024704
    },
    "T=8192:hillis_c32": {
     "setting": "chunk=32",
     "T": 8192,
-    "ms_min": 22.275583003647625,
-    "ms_median": 60.52495900075883,
+    "ms_min": 16.605833000085113,
+    "ms_median": 34.667458000058105,
     "macs_per_token": 2016,
     "rel_err": 4.523687246292304e-06,
     "gate_passed": true,
-    "speedup_vs_hillis_c64": 1.4042449538780315
+    "speedup_vs_hillis_c64": 1.1164425175030428
    },
    "T=8192:hillis_c128": {
     "setting": "chunk=128",
     "T": 8192,
-    "ms_min": 27.982584026176482,
-    "ms_median": 65.1854170137085,
+    "ms_min": 21.62816700001713,
+    "ms_median": 30.293583999991824,
     "macs_per_token": 2706,
     "rel_err": 4.472859299704751e-06,
     "gate_passed": true,
-    "speedup_vs_hillis_c64": 1.1178515536056999
+    "speedup_vs_hillis_c64": 0.8571904405877505
    },
    "T=8192:hillis_c256": {
     "setting": "chunk=256",
     "T": 8192,
-    "ms_min": 37.31545800110325,
-    "ms_median": 64.96774998959154,
+    "ms_min": 26.902957999936916,
+    "ms_median": 34.308041999793204,
     "macs_per_token": 3079,
     "rel_err": 4.574515192879859e-06,
     "gate_passed": true,
-    "speedup_vs_hillis_c64": 0.8382685541910969
+    "speedup_vs_hillis_c64": 0.6891234041956874
    },
    "T=8192:hillis_c64_compiled": {
     "setting": "chunk=64 + mx.compile",
     "T": 8192,
-    "ms_min": 16.50241599418223,
-    "ms_median": 38.485458004288375,
+    "ms_min": 15.580249999857188,
+    "ms_median": 25.636082999881182,
     "macs_per_token": 2346,
     "rel_err": 4.472859299704751e-06,
     "gate_passed": true,
-    "speedup_vs_hillis_c64": 1.895502757813827
+    "speedup_vs_hillis_c64": 1.189933280917833
    }
   },
   "b_logspace": {
    "T=512:logscan_start_c16": {
     "setting": "start-referenced chunk=16",
     "T": 512,
-    "ms_min": 1.1596669792197645,
-    "ms_median": 14.777667005546391,
+    "ms_min": 0.6466250001722074,
+    "ms_median": 2.069665999897552,
     "macs_per_token": 1024,
     "rel_err": 2.948020902078131e-06,
     "gate_passed": true,
-    "speedup_vs_hillis_c64": 1.402701821875872
+    "speedup_vs_hillis_c64": 1.5545470711358047
    },
    "T=512:logscan_start_c32": {
     "setting": "start-referenced chunk=32",
     "T": 512,
-    "ms_min": 2.217707980889827,
-    "ms_median": 9.357709030155092,
+    "ms_min": 0.509833000251092,
+    "ms_median": 1.7412090001016622,
     "macs_per_token": 1024,
     "rel_err": 2.4397414362025913e-06,
     "gate_passed": true,
-    "speedup_vs_hillis_c64": 0.7334901612556641
+    "speedup_vs_hillis_c64": 1.9716436551691048
    },
    "T=512:logscan_end_c16": {
     "setting": "end-referenced chunk=16 (unsafe)",
@@ -241,22 +241,22 @@
    "T=2048:logscan_start_c16": {
     "setting": "start-referenced chunk=16",
     "T": 2048,
-    "ms_min": 4.954415955580771,
-    "ms_median": 21.28658298170194,
+    "ms_min": 2.735500000198954,
+    "ms_median": 4.776541999945039,
     "macs_per_token": 1024,
     "rel_err": 2.948020902078131e-06,
     "gate_passed": true,
-    "speedup_vs_hillis_c64": 1.5523525023163036
+    "speedup_vs_hillis_c64": 1.1654633522014146
    },
    "T=2048:logscan_start_c32": {
     "setting": "start-referenced chunk=32",
     "T": 2048,
-    "ms_min": 2.1622080239467323,
-    "ms_median": 9.935540962032974,
+    "ms_min": 1.5106659998309624,
+    "ms_median": 4.228791000059573,
     "macs_per_token": 1024,
     "rel_err": 2.4397414362025913e-06,
     "gate_passed": true,
-    "speedup_vs_hillis_c64": 3.55701205479899
+    "speedup_vs_hillis_c64": 2.110410243254023
    },
    "T=2048:logscan_end_c16": {
     "setting": "end-referenced chunk=16 (unsafe)",
@@ -281,22 +281,22 @@
    "T=8192:logscan_start_c16": {
     "setting": "start-referenced chunk=16",
     "T": 8192,
-    "ms_min": 18.868957995437086,
-    "ms_median": 27.824749995488673,
+    "ms_min": 10.169916999984707,
+    "ms_median": 15.608375000283559,
     "macs_per_token": 1024,
     "rel_err": 2.948020902078131e-06,
     "gate_passed": true,
-    "speedup_vs_hillis_c64": 1.6577690742184958
+    "speedup_vs_hillis_c64": 1.8229704332766932
    },
    "T=8192:logscan_start_c32": {
     "setting": "start-referenced chunk=32",
     "T": 8192,
-    "ms_min": 10.68187499186024,
-    "ms_median": 29.641208006069064,
+    "ms_min": 6.38545800029533,
+    "ms_median": 10.595540999929653,
     "macs_per_token": 1024,
     "rel_err": 2.4397414362025913e-06,
     "gate_passed": true,
-    "speedup_vs_hillis_c64": 2.9283599603440003
+    "speedup_vs_hillis_c64": 2.90338735279328
    },
    "T=8192:logscan_end_c16": {
     "setting": "end-referenced chunk=16 (unsafe)",
@@ -323,104 +323,104 @@
    "T=512:matmul_c16": {
     "setting": "chunk=16",
     "T": 512,
-    "ms_min": 5.359708040487021,
-    "ms_median": 23.875750019215047,
+    "ms_min": 1.82454100013274,
+    "ms_median": 5.554832999678183,
     "macs_per_token": 2048,
     "rel_err": 2.8971929554905773e-06,
     "gate_passed": true,
-    "speedup_vs_hillis_c64": 0.3034991779837773
+    "speedup_vs_hillis_c64": 0.5509380167766922
    },
    "T=512:matmul_c32": {
     "setting": "chunk=32",
     "T": 512,
-    "ms_min": 6.683791987597942,
-    "ms_median": 31.747125030960888,
+    "ms_min": 4.184791000170662,
+    "ms_median": 7.522374999552994,
     "macs_per_token": 4096,
     "rel_err": 2.4905693827901454e-06,
     "gate_passed": true,
-    "speedup_vs_hillis_c64": 0.24337486677311349
+    "speedup_vs_hillis_c64": 0.24020530537842874
    },
    "T=512:matmul_c64": {
     "setting": "chunk=64",
     "T": 512,
-    "ms_min": 15.077791991643608,
-    "ms_median": 35.93262494541705,
+    "ms_min": 8.16058400005204,
+    "ms_median": 13.35091700002522,
     "macs_per_token": 8192,
     "rel_err": 3.3060713749859405e-06,
     "gate_passed": true,
-    "speedup_vs_hillis_c64": 0.10788495990808081
+    "speedup_vs_hillis_c64": 0.12317856174686566
    },
    "T=2048:matmul_c16": {
     "setting": "chunk=16",
     "T": 2048,
-    "ms_min": 7.265333959367126,
-    "ms_median": 27.23274996969849,
+    "ms_min": 8.53645899996991,
+    "ms_median": 15.582416000142985,
     "macs_per_token": 2048,
     "rel_err": 2.8971929554905773e-06,
     "gate_passed": true,
-    "speedup_vs_hillis_c64": 1.0585886415098231
+    "speedup_vs_hillis_c64": 0.3734715998975783
    },
    "T=2048:matmul_c32": {
     "setting": "chunk=32",
     "T": 2048,
-    "ms_min": 19.20145796611905,
-    "ms_median": 53.85487497551367,
+    "ms_min": 18.49595799967574,
+    "ms_median": 27.88270899964118,
     "macs_per_token": 4096,
     "rel_err": 2.4905693827901454e-06,
     "gate_passed": true,
-    "speedup_vs_hillis_c64": 0.4005425014981878
+    "speedup_vs_hillis_c64": 0.17236874133444374
    },
    "T=2048:matmul_c64": {
     "setting": "chunk=64",
     "T": 2048,
-    "ms_min": 46.00566695444286,
-    "ms_median": 115.7072500209324,
+    "ms_min": 41.98966600006315,
+    "ms_median": 48.53866700022991,
     "macs_per_token": 8192,
     "rel_err": 3.3060713749859405e-06,
     "gate_passed": true,
-    "speedup_vs_hillis_c64": 0.16717505723322407
+    "speedup_vs_hillis_c64": 0.07592641961415098
    },
    "T=8192:matmul_c16": {
     "setting": "chunk=16",
     "T": 8192,
-    "ms_min": 33.55862497119233,
-    "ms_median": 62.617915973532945,
+    "ms_min": 47.73195799998575,
+    "ms_median": 57.929541999783396,
     "macs_per_token": 2048,
     "rel_err": 2.8971929554905773e-06,
     "gate_passed": true,
-    "speedup_vs_hillis_c64": 0.9321113440856227
+    "speedup_vs_hillis_c64": 0.3884076576086751
    },
    "T=8192:matmul_c32": {
     "setting": "chunk=32",
     "T": 8192,
-    "ms_min": 92.88941597333178,
-    "ms_median": 157.50329103320837,
+    "ms_min": 90.14499999966574,
+    "ms_median": 105.87983300001724,
     "macs_per_token": 4096,
     "rel_err": 2.4905693827901454e-06,
     "gate_passed": true,
-    "speedup_vs_hillis_c64": 0.33674853803089805
+    "speedup_vs_hillis_c64": 0.20566263242463667
    },
    "T=8192:matmul_c64": {
     "setting": "chunk=64",
     "T": 8192,
-    "ms_min": 129.78537497110665,
-    "ms_median": 205.06962499348447,
+    "ms_min": 190.1265000001331,
+    "ms_median": 206.8129580002278,
     "macs_per_token": 8192,
     "rel_err": 3.3060713749859405e-06,
     "gate_passed": true,
-    "speedup_vs_hillis_c64": 0.2410161779362828
+    "speedup_vs_hillis_c64": 0.09751117282355248
    }
   },
   "e_other": {
    "T=512:loop_unrolled": {
     "setting": "python loop, uncompiled (reference)",
     "T": 512,
-    "ms_min": 54.0098330238834,
-    "ms_median": 110.85412499960512,
+    "ms_min": 12.722417000077257,
+    "ms_median": 26.48666699997193,
     "macs_per_token": 256,
     "rel_err": 0.0,
     "gate_passed": true,
-    "speedup_vs_hillis_c64": 0.03011797840222044
+    "speedup_vs_hillis_c64": 0.07901085148637951
    },
    "T=512:loop_compiled": {
     "setting": "unrolled loop + mx.compile",
@@ -428,99 +428,99 @@
     "ms_min": null,
     "ms_median": null,
     "macs_per_token": null,
-    "rel_err": Infinity,
+    "rel_err": null,
     "gate_passed": false,
     "verdict": "GATED OUT - rel err > 1e-5, no speedup reported"
    },
    "T=2048:loop_unrolled": {
     "setting": "python loop, uncompiled (reference)",
     "T": 2048,
-    "ms_min": 296.14645801484585,
-    "ms_median": 637.472708011046,
+    "ms_min": 77.06462499982081,
+    "ms_median": 85.63308399970992,
     "macs_per_token": 256,
     "rel_err": 0.0,
     "gate_passed": true,
-    "speedup_vs_hillis_c64": 0.02597025828948486
+    "speedup_vs_hillis_c64": 0.0413694999513234
    },
    "T=8192:loop_unrolled": {
     "setting": "python loop, uncompiled (reference)",
     "T": 8192,
-    "ms_min": 1203.8045839872211,
-    "ms_median": 1753.2236250117421,
+    "ms_min": 322.10737499963216,
+    "ms_median": 369.2204999997557,
     "macs_per_token": 256,
     "rel_err": 0.0,
     "gate_passed": true,
-    "speedup_vs_hillis_c64": 0.02598459537673224
+    "speedup_vs_hillis_c64": 0.05755676348568952
    }
   },
   "e_fused_kernel": {
    "T=512:fused_metal": {
     "setting": "one Metal launch, unroll4 (WINNER)",
     "T": 512,
-    "ms_min": 0.9965419885702431,
-    "ms_median": 7.849459012504667,
+    "ms_min": 0.334374999965803,
+    "ms_median": 0.6746670001120947,
     "macs_per_token": 256,
     "rel_err": 3.2193988094663203e-06,
     "gate_passed": true,
-    "speedup_vs_hillis_c64": 1.6323115364708929
+    "speedup_vs_hillis_c64": 3.0062325240933037
    },
    "T=512:fused_metal_compiled": {
     "setting": "winner + mx.compile",
     "T": 512,
-    "ms_min": 1.3599160010926425,
-    "ms_median": 4.654958960600197,
+    "ms_min": 0.27495800031829276,
+    "ms_median": 0.6397910001396667,
     "macs_per_token": 256,
     "rel_err": 3.2193988094663203e-06,
     "gate_passed": true,
-    "speedup_vs_hillis_c64": 1.196152544137936
+    "speedup_vs_hillis_c64": 3.6558638009341764
    },
    "T=2048:fused_metal": {
     "setting": "one Metal launch, unroll4 (WINNER)",
     "T": 2048,
-    "ms_min": 1.799958001356572,
-    "ms_median": 12.233250017743558,
+    "ms_min": 0.9576669999660226,
+    "ms_median": 1.7805840002438345,
     "macs_per_token": 256,
     "rel_err": 3.2193988094663203e-06,
     "gate_passed": true,
-    "speedup_vs_hillis_c64": 4.272877478455144
+    "speedup_vs_hillis_c64": 3.3290538363459907
    },
    "T=2048:fused_metal_compiled": {
     "setting": "winner + mx.compile",
     "T": 2048,
-    "ms_min": 1.452875032555312,
-    "ms_median": 13.12545797554776,
+    "ms_min": 1.0305840000910393,
+    "ms_median": 1.8356249997850682,
     "macs_per_token": 256,
     "rel_err": 3.2193988094663203e-06,
     "gate_passed": true,
-    "speedup_vs_hillis_c64": 5.2936418025125835
+    "speedup_vs_hillis_c64": 3.0935129983555067
    },
    "T=8192:fused_metal": {
     "setting": "one Metal launch, unroll4 (WINNER)",
     "T": 8192,
-    "ms_min": 13.448374986182898,
-    "ms_median": 27.706416964065284,
+    "ms_min": 4.746209000131785,
+    "ms_median": 6.25312500005748,
     "macs_per_token": 256,
     "rel_err": 3.2193988094663203e-06,
     "gate_passed": true,
-    "speedup_vs_hillis_c64": 2.3259594605074176
+    "speedup_vs_hillis_c64": 3.906161317239792
    },
    "T=8192:fused_metal_compiled": {
     "setting": "winner + mx.compile",
     "T": 8192,
-    "ms_min": 6.411999987903982,
-    "ms_median": 14.704916975460947,
+    "ms_min": 3.9982499997677223,
+    "ms_median": 6.8130829999972775,
     "macs_per_token": 256,
     "rel_err": 3.2193988094663203e-06,
     "gate_passed": true,
-    "speedup_vs_hillis_c64": 4.878411585554082
+    "speedup_vs_hillis_c64": 4.636893140980973
    }
   },
   "d_projection_fusion": {
    "T=512:split_2_matmul": {
     "setting": "v and gate as two Linears",
     "T": 512,
-    "ms_min": 3.900707990396768,
-    "ms_median": 13.991957996040583,
+    "ms_min": 0.3368340003362391,
+    "ms_median": 0.7577500000479631,
     "macs_per_token": 32768,
     "gate_passed": true,
     "rel_err": 0.0
@@ -528,8 +528,8 @@
    "T=512:fused_1_matmul": {
     "setting": "one Linear to 2*d then split",
     "T": 512,
-    "ms_min": 1.179250015411526,
-    "ms_median": 12.797707982826978,
+    "ms_min": 0.35433399989415193,
+    "ms_median": 0.6140420000519953,
     "macs_per_token": 32768,
     "gate_passed": true,
     "rel_err": 0.0
@@ -546,7 +546,9 @@
     "13.0": 2.01212425591645e-06
    },
    "max_rel_err": 4.574515192879859e-06,
-   "gate_passed": true
+   "gate_passed": true,
+   "measured": true,
+   "note": null
   },
   "hillis_c32": {
    "rel_err_by_bias": {
@@ -557,7 +559,9 @@
     "13.0": 2.01212425591645e-06
    },
    "max_rel_err": 4.523687246292304e-06,
-   "gate_passed": true
+   "gate_passed": true,
+   "measured": true,
+   "note": null
   },
   "hillis_c64": {
    "rel_err_by_bias": {
@@ -568,7 +572,9 @@
     "13.0": 2.01212425591645e-06
    },
    "max_rel_err": 4.472859299704751e-06,
-   "gate_passed": true
+   "gate_passed": true,
+   "measured": true,
+   "note": null
   },
   "hillis_c128": {
    "rel_err_by_bias": {
@@ -579,7 +585,9 @@
     "13.0": 2.01212425591645e-06
    },
    "max_rel_err": 4.472859299704751e-06,
-   "gate_passed": true
+   "gate_passed": true,
+   "measured": true,
+   "note": null
   },
   "hillis_c256": {
    "rel_err_by_bias": {
@@ -590,7 +598,9 @@
     "13.0": 2.056838128270149e-06
    },
    "max_rel_err": 4.574515192879859e-06,
-   "gate_passed": true
+   "gate_passed": true,
+   "measured": true,
+   "note": null
   },
   "hillis_c64_compiled": {
    "rel_err_by_bias": {
@@ -601,7 +611,9 @@
     "13.0": 2.01212425591645e-06
    },
    "max_rel_err": 4.472859299704751e-06,
-   "gate_passed": true
+   "gate_passed": true,
+   "measured": true,
+   "note": null
   },
   "logscan_start_c16": {
    "rel_err_by_bias": {
@@ -612,7 +624,9 @@
     "13.0": 2.6828323412219335e-06
    },
    "max_rel_err": 2.948020902078131e-06,
-   "gate_passed": true
+   "gate_passed": true,
+   "measured": true,
+   "note": null
   },
   "logscan_start_c32": {
    "rel_err_by_bias": {
@@ -623,7 +637,9 @@
     "13.0": 2.235693617684945e-06
    },
    "max_rel_err": 2.4397414362025913e-06,
-   "gate_passed": true
+   "gate_passed": true,
+   "measured": true,
+   "note": null
   },
   "logscan_end_c16": {
    "rel_err_by_bias": {
@@ -634,7 +650,9 @@
     "13.0": 0.0001408934117865052
    },
    "max_rel_err": 5460409211.616434,
-   "gate_passed": false
+   "gate_passed": false,
+   "measured": true,
+   "note": null
   },
   "logscan_shift_c16": {
    "rel_err_by_bias": {
@@ -645,7 +663,9 @@
     "13.0": 0.0001408934117865052
    },
    "max_rel_err": 5460409211.616434,
-   "gate_passed": false
+   "gate_passed": false,
+   "measured": true,
+   "note": null
   },
   "matmul_c16": {
    "rel_err_by_bias": {
@@ -656,7 +676,9 @@
     "13.0": 2.7275462135756325e-06
    },
    "max_rel_err": 2.8971929554905773e-06,
-   "gate_passed": true
+   "gate_passed": true,
+   "measured": true,
+   "note": null
   },
   "matmul_c32": {
    "rel_err_by_bias": {
@@ -667,7 +689,9 @@
     "13.0": 2.235693617684945e-06
    },
    "max_rel_err": 2.4905693827901454e-06,
-   "gate_passed": true
+   "gate_passed": true,
+   "measured": true,
+   "note": null
   },
   "matmul_c64": {
    "rel_err_by_bias": {
@@ -678,7 +702,9 @@
     "13.0": 2.01212425591645e-06
    },
    "max_rel_err": 3.3060713749859405e-06,
-   "gate_passed": true
+   "gate_passed": true,
+   "measured": true,
+   "note": null
   },
   "loop_unrolled": {
    "rel_err_by_bias": {
@@ -689,18 +715,22 @@
     "13.0": 0.0
    },
    "max_rel_err": 0.0,
-   "gate_passed": true
+   "gate_passed": true,
+   "measured": true,
+   "note": null
   },
   "loop_compiled": {
    "rel_err_by_bias": {
-    "0.0": Infinity,
-    "2.0": Infinity,
-    "4.0": Infinity,
-    "9.0": Infinity,
-    "13.0": Infinity
+    "0.0": null,
+    "2.0": null,
+    "4.0": null,
+    "9.0": null,
+    "13.0": null
    },
-   "max_rel_err": Infinity,
-   "gate_passed": false
+   "max_rel_err": null,
+   "gate_passed": false,
+   "measured": false,
+   "note": "capped at T=512 (compile cost; slower where affordable)"
   },
   "fused_metal": {
    "rel_err_by_bias": {
@@ -711,7 +741,9 @@
     "13.0": 3.2193988094663203e-06
    },
    "max_rel_err": 3.2193988094663203e-06,
-   "gate_passed": true
+   "gate_passed": true,
+   "measured": true,
+   "note": null
   },
   "fused_metal_compiled": {
    "rel_err_by_bias": {
@@ -722,19 +754,25 @@
     "13.0": 3.2193988094663203e-06
    },
    "max_rel_err": 3.2193988094663203e-06,
-   "gate_passed": true
+   "gate_passed": true,
+   "measured": true,
+   "note": null
   }
  },
  "compiled_loop_max_T": 512,
- "verify_scan_max_abs_err": 4.76837158203125e-07,
- "dispatch_floor_ms": 0.329792033880949,
- "dispatch_floor_med_ms": 7.0291669690050185,
- "grad_check": {
-  "fwd_rel": 1.4812112427191987e-07,
-  "grad_v_rel": 0.0,
-  "grad_g_rel": 1.836326898139957e-07
+ "headline_previous": {
+  "mem_block_before_ms": 9.86695900792256,
+  "mem_block_after_ms": 4.484416975174099,
+  "attn_block_ms": 6.989834015257657,
+  "mem_over_attn_before": 1.4116156387096765,
+  "mem_over_attn_after": 0.6415627274389285,
+  "mem_faster_than_attn_before": false,
+  "mem_faster_than_attn_after": true,
+  "mem_block_speedup": 2.2002768838282467,
+  "mac_ratio_attn_over_mem_full": 1.8156028368794326,
+  "mac_ratio_attn_over_mem_causal": 1.4524822695035462
  },
- "end_to_end": {
+ "end_to_end_previous": {
   "B": 16,
   "T": 512,
   "d": 128,
@@ -850,16 +888,1474 @@
   "mac_ratio_attn_over_mem_full": 1.8156028368794326,
   "mac_ratio_attn_over_mem_causal": 1.4524822695035462
  },
- "headline": {
-  "mem_block_before_ms": 9.86695900792256,
-  "mem_block_after_ms": 4.484416975174099,
-  "attn_block_ms": 6.989834015257657,
-  "mem_over_attn_before": 1.4116156387096765,
-  "mem_over_attn_after": 0.6415627274389285,
-  "mem_faster_than_attn_before": false,
+ "verify_scan_max_abs_err": 4.76837158203125e-07,
+ "dispatch_floor_ms": 0.11570800006666104,
+ "dispatch_floor_med_ms": 0.22591700007978943,
+ "grad_check": {
+  "fwd_rel": 1.4812112427191987e-07,
+  "grad_v_rel": 0.0,
+  "grad_g_rel": 1.836326898139957e-07
+ },
+ "end_to_end": {
+  "B": 16,
+  "T": 512,
+  "d": 128,
+  "n_head": 8,
+  "rows": [
+   {
+    "component": "LayerNorm",
+    "macs_per_token": 0,
+    "min_ms": 0.3428330001042923,
+    "med_ms": 0.7197499999165302,
+    "n_samples": 90
+   },
+   {
+    "component": "MLP d->4d->d",
+    "macs_per_token": 131072,
+    "min_ms": 0.9037919999173027,
+    "med_ms": 1.5467499997612322,
+    "n_samples": 90
+   },
+   {
+    "component": "mem scan only BEFORE (hillis c64)",
+    "macs_per_token": 2322,
+    "min_ms": 2.0329170001787134,
+    "med_ms": 5.852708000020357,
+    "n_samples": 90
+   },
+   {
+    "component": "mem scan only AFTER (fused)",
+    "macs_per_token": 256,
+    "min_ms": 0.7297080001080758,
+    "med_ms": 1.5816249997442355,
+    "n_samples": 90
+   },
+   {
+    "component": "GatedMemory banks=1 BEFORE",
+    "macs_per_token": 49408,
+    "min_ms": 1.7416249997950217,
+    "med_ms": 5.278833000375016,
+    "n_samples": 90
+   },
+   {
+    "component": "GatedMemory banks=1 AFTER (fused)",
+    "macs_per_token": 49408,
+    "min_ms": 0.766125000154716,
+    "med_ms": 1.7299999999522697,
+    "n_samples": 90
+   },
+   {
+    "component": "mem BLOCK BEFORE",
+    "macs_per_token": 180480,
+    "min_ms": 3.237709000131872,
+    "med_ms": 7.3245839998890006,
+    "n_samples": 90
+   },
+   {
+    "component": "mem BLOCK AFTER",
+    "macs_per_token": 180480,
+    "min_ms": 1.6866250002749439,
+    "med_ms": 4.430416999639419,
+    "n_samples": 90
+   },
+   {
+    "component": "attn BLOCK",
+    "macs_per_token": 327680,
+    "min_ms": 5.165125000075932,
+    "med_ms": 9.631165999962832,
+    "n_samples": 90
+   },
+   {
+    "component": "attn BLOCK (causal-skip MACs)",
+    "macs_per_token": 262144,
+    "min_ms": 4.457000000002154,
+    "med_ms": 9.279208999942057,
+    "n_samples": 90
+   },
+   {
+    "component": "attn BLOCK (mask=None)",
+    "macs_per_token": 327680,
+    "min_ms": 4.113874999802647,
+    "med_ms": 8.490374999837513,
+    "n_samples": 90
+   },
+   {
+    "component": "dispatch floor (trivial op)",
+    "macs_per_token": 0,
+    "min_ms": 0.22370799979398726,
+    "med_ms": 0.5066670000815066,
+    "n_samples": 90
+   }
+  ],
+  "block_same_function_rel_err": 1.9293119670722727e-07,
+  "dispatch_floor_ms": 0.22370799979398726,
+  "dispatch_floor_med_ms": 0.5066670000815066,
+  "mem_block_before_ms": 3.237709000131872,
+  "mem_block_after_ms": 1.6866250002749439,
+  "attn_block_ms": 5.165125000075932,
+  "mem_over_attn_before": 0.6268403959409066,
+  "mem_over_attn_after": 0.3265409840517217,
+  "mem_faster_than_attn_before": true,
   "mem_faster_than_attn_after": true,
-  "mem_block_speedup": 2.2002768838282467,
+  "mem_block_speedup": 1.9196377378516738,
+  "macs_per_token": {
+   "attn": {
+    "proj": 65536,
+    "ctx": 131072,
+    "mlp": 131072,
+    "block_full": 327680,
+    "block_causal": 262144
+   },
+   "mem_banks1": {
+    "proj": 49152,
+    "ctx": 256,
+    "mlp": 131072,
+    "block_full": 180480,
+    "block_causal": null
+   },
+   "mem_banks4": {
+    "proj": 196608,
+    "ctx": 1024,
+    "mlp": 131072,
+    "block_full": 328704,
+    "block_causal": null
+   }
+  },
   "mac_ratio_attn_over_mem_full": 1.8156028368794326,
   "mac_ratio_attn_over_mem_causal": 1.4524822695035462
+ },
+ "headline_current_run": {
+  "mem_block_before_ms": 3.237709000131872,
+  "mem_block_after_ms": 1.6866250002749439,
+  "attn_block_ms": 5.165125000075932,
+  "mem_over_attn_before": 0.6268403959409066,
+  "mem_over_attn_after": 0.3265409840517217,
+  "mem_faster_than_attn_before": true,
+  "mem_faster_than_attn_after": true,
+  "mem_block_speedup": 1.9196377378516738,
+  "mac_ratio_attn_over_mem_full": 1.8156028368794326,
+  "mac_ratio_attn_over_mem_causal": 1.4524822695035462
+ },
+ "headline_used": "headline_current_run",
+ "short_context_sweep": {
+  "seed": 0,
+  "Ts": [
+   8,
+   16,
+   32,
+   48,
+   64,
+   128,
+   256,
+   512,
+   1024,
+   2048
+  ],
+  "B": 16,
+  "d": 128,
+  "n_head": 8,
+  "reps": 9,
+  "rows": [
+   {
+    "T": 8,
+    "B": 16,
+    "d": 128,
+    "n_head": 8,
+    "rows": [
+     {
+      "component": "mem scan only BEFORE (hillis c64)",
+      "macs_per_token": 2352,
+      "min_ms": 0.9714590000839962,
+      "med_ms": 3.576625000278,
+      "n_samples": 60
+     },
+     {
+      "component": "mem scan only AFTER (fused kernel)",
+      "macs_per_token": 256,
+      "min_ms": 0.3117500000371365,
+      "med_ms": 0.7984159997249662,
+      "n_samples": 60
+     },
+     {
+      "component": "GatedMemory banks=1 AFTER (proj+scan)",
+      "macs_per_token": 49408,
+      "min_ms": 0.31237500024872134,
+      "med_ms": 0.8267919997706485,
+      "n_samples": 60
+     },
+     {
+      "component": "mem BLOCK BEFORE (hillis)",
+      "macs_per_token": 180480,
+      "min_ms": 0.9373329999107227,
+      "med_ms": 4.687207999722887,
+      "n_samples": 60
+     },
+     {
+      "component": "mem BLOCK AFTER (fused)",
+      "macs_per_token": 180480,
+      "min_ms": 0.5407919998106081,
+      "med_ms": 1.7579999998815765,
+      "n_samples": 60
+     },
+     {
+      "component": "attn BLOCK (causal mask)",
+      "macs_per_token": 198656,
+      "min_ms": 0.5626669999401201,
+      "med_ms": 3.087957999923674,
+      "n_samples": 60
+     },
+     {
+      "component": "attn BLOCK (mask=None)",
+      "macs_per_token": 198656,
+      "min_ms": 0.5043330002081348,
+      "med_ms": 2.2507080002469593,
+      "n_samples": 60
+     },
+     {
+      "component": "dispatch floor (trivial op)",
+      "macs_per_token": 0,
+      "min_ms": 0.17658299975664704,
+      "med_ms": 0.41212499991161167,
+      "n_samples": 60
+     }
+    ],
+    "same_function_rel_err": 1.9184742451067636e-07,
+    "mem_block_before_ms": 0.9373329999107227,
+    "mem_block_after_ms": 0.5407919998106081,
+    "attn_block_masked_ms": 0.5626669999401201,
+    "attn_block_nomask_ms": 0.5043330002081348,
+    "mem_over_attn_after": 0.9611226531290443,
+    "mem_over_attn_after_vs_nomask": 1.0722915208551234,
+    "mem_over_attn_before": 1.6658751979598503,
+    "mem_block_speedup": 1.7332597380120047,
+    "mem_faster_than_attn_after": true,
+    "mem_faster_than_attn_after_vs_nomask": false,
+    "scan_before_ms": 0.9714590000839962,
+    "scan_after_ms": 0.3117500000371365,
+    "dispatch_floor_ms": 0.17658299975664704,
+    "macs_per_token": {
+     "attn": {
+      "proj": 65536,
+      "ctx": 2048,
+      "mlp": 131072,
+      "block_full": 198656,
+      "block_causal": 197632
+     },
+     "mem_banks1": {
+      "proj": 49152,
+      "ctx": 256,
+      "mlp": 131072,
+      "block_full": 180480,
+      "block_causal": null
+     }
+    },
+    "mac_ratio_attn_over_mem": 1.100709219858156,
+    "ratio_reps": [
+     0.7164178323347821,
+     0.7299868674852014,
+     0.8045905195842468,
+     0.8075249471824294,
+     0.8205256572858337,
+     0.8392833573126831,
+     0.8520736302337578,
+     0.859514672949744,
+     0.9611226531290443
+    ],
+    "ratio_median_over_reps": 0.8205256572858337,
+    "ratio_min_over_reps": 0.7164178323347821,
+    "ratio_max_over_reps": 0.9611226531290443,
+    "mem_faster_reps": 9,
+    "sign_stable": true,
+    "median_rep_mem_faster": true,
+    "ratio_nomask_reps": [
+     0.7956689692695401,
+     0.8026467258322536,
+     0.8309959986165613,
+     0.8626416194378709,
+     0.8644702510388063,
+     0.8664212117110671,
+     0.9220806665648884,
+     1.0722915208551234,
+     1.1096758221376135
+    ],
+    "ratio_nomask_median_over_reps": 0.8644702510388063,
+    "median_rep_mem_faster_vs_nomask": true,
+    "nomask_faster_reps": 7,
+    "nomask_sign_stable": false
+   },
+   {
+    "T": 16,
+    "B": 16,
+    "d": 128,
+    "n_head": 8,
+    "rows": [
+     {
+      "component": "mem scan only BEFORE (hillis c64)",
+      "macs_per_token": 2328,
+      "min_ms": 0.8023750001484586,
+      "med_ms": 2.9210839998086158,
+      "n_samples": 60
+     },
+     {
+      "component": "mem scan only AFTER (fused kernel)",
+      "macs_per_token": 256,
+      "min_ms": 0.32212499991146615,
+      "med_ms": 0.8383340000364115,
+      "n_samples": 60
+     },
+     {
+      "component": "GatedMemory banks=1 AFTER (proj+scan)",
+      "macs_per_token": 49408,
+      "min_ms": 0.31587500006935443,
+      "med_ms": 0.7810000001882145,
+      "n_samples": 60
+     },
+     {
+      "component": "mem BLOCK BEFORE (hillis)",
+      "macs_per_token": 180480,
+      "min_ms": 0.9837090001383331,
+      "med_ms": 3.013999999893713,
+      "n_samples": 60
+     },
+     {
+      "component": "mem BLOCK AFTER (fused)",
+      "macs_per_token": 180480,
+      "min_ms": 0.47325000014097895,
+      "med_ms": 1.4431670001613384,
+      "n_samples": 60
+     },
+     {
+      "component": "attn BLOCK (causal mask)",
+      "macs_per_token": 200704,
+      "min_ms": 0.660874999994121,
+      "med_ms": 1.8600840003273333,
+      "n_samples": 60
+     },
+     {
+      "component": "attn BLOCK (mask=None)",
+      "macs_per_token": 200704,
+      "min_ms": 0.5426249999800348,
+      "med_ms": 1.6119160000016564,
+      "n_samples": 60
+     },
+     {
+      "component": "dispatch floor (trivial op)",
+      "macs_per_token": 0,
+      "min_ms": 0.20770899982380797,
+      "med_ms": 0.34850000020014704,
+      "n_samples": 60
+     }
+    ],
+    "same_function_rel_err": 1.6568177137671777e-07,
+    "mem_block_before_ms": 0.9837090001383331,
+    "mem_block_after_ms": 0.47325000014097895,
+    "attn_block_masked_ms": 0.660874999994121,
+    "attn_block_nomask_ms": 0.5426249999800348,
+    "mem_over_attn_after": 0.7160960849558371,
+    "mem_over_attn_after_vs_nomask": 0.8721492746526452,
+    "mem_over_attn_before": 1.4884947987850712,
+    "mem_block_speedup": 2.0786244053783216,
+    "mem_faster_than_attn_after": true,
+    "mem_faster_than_attn_after_vs_nomask": true,
+    "scan_before_ms": 0.8023750001484586,
+    "scan_after_ms": 0.32212499991146615,
+    "dispatch_floor_ms": 0.20770899982380797,
+    "macs_per_token": {
+     "attn": {
+      "proj": 65536,
+      "ctx": 4096,
+      "mlp": 131072,
+      "block_full": 200704,
+      "block_causal": 198656
+     },
+     "mem_banks1": {
+      "proj": 49152,
+      "ctx": 256,
+      "mlp": 131072,
+      "block_full": 180480,
+      "block_causal": null
+     }
+    },
+    "mac_ratio_attn_over_mem": 1.1120567375886525,
+    "ratio_reps": [
+     0.6619455526220979,
+     0.7160960849558371,
+     0.8189634810227915,
+     0.870486859363783,
+     0.9056897750549906,
+     0.9426222937256508,
+     0.9441225164472217,
+     1.0432842057585432,
+     1.065837979196131
+    ],
+    "ratio_median_over_reps": 0.9056897750549906,
+    "ratio_min_over_reps": 0.6619455526220979,
+    "ratio_max_over_reps": 1.065837979196131,
+    "mem_faster_reps": 7,
+    "sign_stable": false,
+    "median_rep_mem_faster": true,
+    "ratio_nomask_reps": [
+     0.8721492746526452,
+     0.906777976091371,
+     0.9117016368457932,
+     0.9118133038090367,
+     0.92188801315597,
+     0.946339260182081,
+     0.9555598277086002,
+     1.0473631504925744,
+     1.0605370966690195
+    ],
+    "ratio_nomask_median_over_reps": 0.92188801315597,
+    "median_rep_mem_faster_vs_nomask": true,
+    "nomask_faster_reps": 7,
+    "nomask_sign_stable": false
+   },
+   {
+    "T": 32,
+    "B": 16,
+    "d": 128,
+    "n_head": 8,
+    "rows": [
+     {
+      "component": "mem scan only BEFORE (hillis c64)",
+      "macs_per_token": 2316,
+      "min_ms": 0.8597499995630642,
+      "med_ms": 2.6705000000220025,
+      "n_samples": 60
+     },
+     {
+      "component": "mem scan only AFTER (fused kernel)",
+      "macs_per_token": 256,
+      "min_ms": 0.37987499990776996,
+      "med_ms": 0.7435410002472054,
+      "n_samples": 60
+     },
+     {
+      "component": "GatedMemory banks=1 AFTER (proj+scan)",
+      "macs_per_token": 49408,
+      "min_ms": 0.36587500017049024,
+      "med_ms": 0.8373330001631984,
+      "n_samples": 60
+     },
+     {
+      "component": "mem BLOCK BEFORE (hillis)",
+      "macs_per_token": 180480,
+      "min_ms": 0.8709159997124516,
+      "med_ms": 2.8848329998254485,
+      "n_samples": 60
+     },
+     {
+      "component": "mem BLOCK AFTER (fused)",
+      "macs_per_token": 180480,
+      "min_ms": 0.5177500001991575,
+      "med_ms": 1.3642499998240964,
+      "n_samples": 60
+     },
+     {
+      "component": "attn BLOCK (causal mask)",
+      "macs_per_token": 204800,
+      "min_ms": 0.7079160000103002,
+      "med_ms": 1.7100420000133454,
+      "n_samples": 60
+     },
+     {
+      "component": "attn BLOCK (mask=None)",
+      "macs_per_token": 204800,
+      "min_ms": 0.5909999999857973,
+      "med_ms": 1.5195830001175636,
+      "n_samples": 60
+     },
+     {
+      "component": "dispatch floor (trivial op)",
+      "macs_per_token": 0,
+      "min_ms": 0.2065000003312889,
+      "med_ms": 0.3580830002647417,
+      "n_samples": 60
+     }
+    ],
+    "same_function_rel_err": 1.6513206684744225e-07,
+    "mem_block_before_ms": 0.8709159997124516,
+    "mem_block_after_ms": 0.5177500001991575,
+    "attn_block_masked_ms": 0.7079160000103002,
+    "attn_block_nomask_ms": 0.5909999999857973,
+    "mem_over_attn_after": 0.7313720839642334,
+    "mem_over_attn_after_vs_nomask": 0.8760575299688661,
+    "mem_over_attn_before": 1.2302533064654277,
+    "mem_block_speedup": 1.6821168505600104,
+    "mem_faster_than_attn_after": true,
+    "mem_faster_than_attn_after_vs_nomask": true,
+    "scan_before_ms": 0.8597499995630642,
+    "scan_after_ms": 0.37987499990776996,
+    "dispatch_floor_ms": 0.2065000003312889,
+    "macs_per_token": {
+     "attn": {
+      "proj": 65536,
+      "ctx": 8192,
+      "mlp": 131072,
+      "block_full": 204800,
+      "block_causal": 200704
+     },
+     "mem_banks1": {
+      "proj": 49152,
+      "ctx": 256,
+      "mlp": 131072,
+      "block_full": 180480,
+      "block_causal": null
+     }
+    },
+    "mac_ratio_attn_over_mem": 1.1347517730496455,
+    "ratio_reps": [
+     0.7313720839642334,
+     0.8151379878607188,
+     0.8421730725287758,
+     0.8786179282085921,
+     0.8896271499003232,
+     0.9268043597048561,
+     0.943630438954719,
+     1.0378069651401696,
+     1.257259631648674
+    ],
+    "ratio_median_over_reps": 0.8896271499003232,
+    "ratio_min_over_reps": 0.7313720839642334,
+    "ratio_max_over_reps": 1.257259631648674,
+    "mem_faster_reps": 7,
+    "sign_stable": false,
+    "median_rep_mem_faster": true,
+    "ratio_nomask_reps": [
+     0.8729134207779824,
+     0.8760575299688661,
+     0.881874901604179,
+     0.8857667569922641,
+     0.8889766544373858,
+     0.912539755600187,
+     0.9248758113366355,
+     0.9599122452179745,
+     1.2681461456989844
+    ],
+    "ratio_nomask_median_over_reps": 0.8889766544373858,
+    "median_rep_mem_faster_vs_nomask": true,
+    "nomask_faster_reps": 8,
+    "nomask_sign_stable": false
+   },
+   {
+    "T": 48,
+    "B": 16,
+    "d": 128,
+    "n_head": 8,
+    "rows": [
+     {
+      "component": "mem scan only BEFORE (hillis c64)",
+      "macs_per_token": 2312,
+      "min_ms": 1.194166999994195,
+      "med_ms": 4.372542000055546,
+      "n_samples": 60
+     },
+     {
+      "component": "mem scan only AFTER (fused kernel)",
+      "macs_per_token": 256,
+      "min_ms": 0.40933400032372447,
+      "med_ms": 1.0723750001488952,
+      "n_samples": 60
+     },
+     {
+      "component": "GatedMemory banks=1 AFTER (proj+scan)",
+      "macs_per_token": 49408,
+      "min_ms": 0.32187500028157956,
+      "med_ms": 1.1876250000568689,
+      "n_samples": 60
+     },
+     {
+      "component": "mem BLOCK BEFORE (hillis)",
+      "macs_per_token": 180480,
+      "min_ms": 1.8761249998533458,
+      "med_ms": 5.619708000267565,
+      "n_samples": 60
+     },
+     {
+      "component": "mem BLOCK AFTER (fused)",
+      "macs_per_token": 180480,
+      "min_ms": 0.9893749997900159,
+      "med_ms": 2.51954100031071,
+      "n_samples": 60
+     },
+     {
+      "component": "attn BLOCK (causal mask)",
+      "macs_per_token": 208896,
+      "min_ms": 1.379124999857595,
+      "med_ms": 3.229959000236704,
+      "n_samples": 60
+     },
+     {
+      "component": "attn BLOCK (mask=None)",
+      "macs_per_token": 208896,
+      "min_ms": 1.0638749999998254,
+      "med_ms": 3.407333000268409,
+      "n_samples": 60
+     },
+     {
+      "component": "dispatch floor (trivial op)",
+      "macs_per_token": 0,
+      "min_ms": 0.34737500027404167,
+      "med_ms": 0.8882500001163862,
+      "n_samples": 60
+     }
+    ],
+    "same_function_rel_err": 1.859975281413721e-07,
+    "mem_block_before_ms": 1.8761249998533458,
+    "mem_block_after_ms": 0.9893749997900159,
+    "attn_block_masked_ms": 1.379124999857595,
+    "attn_block_nomask_ms": 1.0638749999998254,
+    "mem_over_attn_after": 0.717393274643108,
+    "mem_over_attn_after_vs_nomask": 0.9299729759512896,
+    "mem_over_attn_before": 1.3603734252131388,
+    "mem_block_speedup": 1.896272899812036,
+    "mem_faster_than_attn_after": true,
+    "mem_faster_than_attn_after_vs_nomask": true,
+    "scan_before_ms": 1.194166999994195,
+    "scan_after_ms": 0.40933400032372447,
+    "dispatch_floor_ms": 0.34737500027404167,
+    "macs_per_token": {
+     "attn": {
+      "proj": 65536,
+      "ctx": 12288,
+      "mlp": 131072,
+      "block_full": 208896,
+      "block_causal": 202752
+     },
+     "mem_banks1": {
+      "proj": 49152,
+      "ctx": 256,
+      "mlp": 131072,
+      "block_full": 180480,
+      "block_causal": null
+     }
+    },
+    "mac_ratio_attn_over_mem": 1.1574468085106382,
+    "ratio_reps": [
+     0.717393274643108,
+     0.7355125961701274,
+     0.8017034698425918,
+     0.8051891325803106,
+     0.8235516955471637,
+     0.8277435175336634,
+     0.854900567401909,
+     0.8564507220918514,
+     0.8780233448774863
+    ],
+    "ratio_median_over_reps": 0.8235516955471637,
+    "ratio_min_over_reps": 0.717393274643108,
+    "ratio_max_over_reps": 0.8780233448774863,
+    "mem_faster_reps": 9,
+    "sign_stable": true,
+    "median_rep_mem_faster": true,
+    "ratio_nomask_reps": [
+     0.7619661090777655,
+     0.8665373892311417,
+     0.892214695494299,
+     0.8966448975431821,
+     0.9222966854229458,
+     0.9299729759512896,
+     0.9482305369779086,
+     0.9647801378849021,
+     0.9816389684501953
+    ],
+    "ratio_nomask_median_over_reps": 0.9222966854229458,
+    "median_rep_mem_faster_vs_nomask": true,
+    "nomask_faster_reps": 9,
+    "nomask_sign_stable": true
+   },
+   {
+    "T": 64,
+    "B": 16,
+    "d": 128,
+    "n_head": 8,
+    "rows": [
+     {
+      "component": "mem scan only BEFORE (hillis c64)",
+      "macs_per_token": 2310,
+      "min_ms": 0.7471669996448327,
+      "med_ms": 2.1375830001488794,
+      "n_samples": 60
+     },
+     {
+      "component": "mem scan only AFTER (fused kernel)",
+      "macs_per_token": 256,
+      "min_ms": 0.31804099990040413,
+      "med_ms": 0.6419999999707215,
+      "n_samples": 60
+     },
+     {
+      "component": "GatedMemory banks=1 AFTER (proj+scan)",
+      "macs_per_token": 49408,
+      "min_ms": 0.3575410000848933,
+      "med_ms": 0.788457999988168,
+      "n_samples": 60
+     },
+     {
+      "component": "mem BLOCK BEFORE (hillis)",
+      "macs_per_token": 180480,
+      "min_ms": 0.9307079999416601,
+      "med_ms": 2.5933749998330313,
+      "n_samples": 60
+     },
+     {
+      "component": "mem BLOCK AFTER (fused)",
+      "macs_per_token": 180480,
+      "min_ms": 0.5941250001342269,
+      "med_ms": 1.5590000002703164,
+      "n_samples": 60
+     },
+     {
+      "component": "attn BLOCK (causal mask)",
+      "macs_per_token": 212992,
+      "min_ms": 0.6292080001912836,
+      "med_ms": 1.820750000206317,
+      "n_samples": 60
+     },
+     {
+      "component": "attn BLOCK (mask=None)",
+      "macs_per_token": 212992,
+      "min_ms": 0.6710829998155532,
+      "med_ms": 1.6310830001202703,
+      "n_samples": 60
+     },
+     {
+      "component": "dispatch floor (trivial op)",
+      "macs_per_token": 0,
+      "min_ms": 0.1887500002339948,
+      "med_ms": 0.3284159997747338,
+      "n_samples": 60
+     }
+    ],
+    "same_function_rel_err": 2.432147936857548e-07,
+    "mem_block_before_ms": 0.9307079999416601,
+    "mem_block_after_ms": 0.5941250001342269,
+    "attn_block_masked_ms": 0.6292080001912836,
+    "attn_block_nomask_ms": 0.6710829998155532,
+    "mem_over_attn_after": 0.9442426033261,
+    "mem_over_attn_after_vs_nomask": 0.8853226803503021,
+    "mem_over_attn_before": 1.4791738179723053,
+    "mem_block_speedup": 1.5665188297603891,
+    "mem_faster_than_attn_after": true,
+    "mem_faster_than_attn_after_vs_nomask": true,
+    "scan_before_ms": 0.7471669996448327,
+    "scan_after_ms": 0.31804099990040413,
+    "dispatch_floor_ms": 0.1887500002339948,
+    "macs_per_token": {
+     "attn": {
+      "proj": 65536,
+      "ctx": 16384,
+      "mlp": 131072,
+      "block_full": 212992,
+      "block_causal": 204800
+     },
+     "mem_banks1": {
+      "proj": 49152,
+      "ctx": 256,
+      "mlp": 131072,
+      "block_full": 180480,
+      "block_causal": null
+     }
+    },
+    "mac_ratio_attn_over_mem": 1.1801418439716311,
+    "ratio_reps": [
+     0.7838157280683418,
+     0.8337213324300085,
+     0.8461633933263701,
+     0.8563973707183885,
+     0.8640968277010411,
+     0.8846979597410122,
+     0.9442426033261,
+     0.9598685947815523,
+     0.9791679047086703
+    ],
+    "ratio_median_over_reps": 0.8640968277010411,
+    "ratio_min_over_reps": 0.7838157280683418,
+    "ratio_max_over_reps": 0.9791679047086703,
+    "mem_faster_reps": 9,
+    "sign_stable": true,
+    "median_rep_mem_faster": true,
+    "ratio_nomask_reps": [
+     0.7011571938244046,
+     0.8417835126819477,
+     0.8853226803503021,
+     0.8857915183369264,
+     0.9032401675560398,
+     0.9655819936238631,
+     1.0056511444162988,
+     1.0269547310000389,
+     1.0284143976900106
+    ],
+    "ratio_nomask_median_over_reps": 0.9032401675560398,
+    "median_rep_mem_faster_vs_nomask": true,
+    "nomask_faster_reps": 6,
+    "nomask_sign_stable": false
+   },
+   {
+    "T": 128,
+    "B": 16,
+    "d": 128,
+    "n_head": 8,
+    "rows": [
+     {
+      "component": "mem scan only BEFORE (hillis c64)",
+      "macs_per_token": 2310,
+      "min_ms": 0.7534999999734282,
+      "med_ms": 2.148915999896417,
+      "n_samples": 60
+     },
+     {
+      "component": "mem scan only AFTER (fused kernel)",
+      "macs_per_token": 256,
+      "min_ms": 0.3397499999664433,
+      "med_ms": 0.7382919998235593,
+      "n_samples": 60
+     },
+     {
+      "component": "GatedMemory banks=1 AFTER (proj+scan)",
+      "macs_per_token": 49408,
+      "min_ms": 0.3579999997782579,
+      "med_ms": 0.8287919999929727,
+      "n_samples": 60
+     },
+     {
+      "component": "mem BLOCK BEFORE (hillis)",
+      "macs_per_token": 180480,
+      "min_ms": 0.9554580001349677,
+      "med_ms": 2.9758330001641298,
+      "n_samples": 60
+     },
+     {
+      "component": "mem BLOCK AFTER (fused)",
+      "macs_per_token": 180480,
+      "min_ms": 0.6277080001382274,
+      "med_ms": 1.671417000125075,
+      "n_samples": 60
+     },
+     {
+      "component": "attn BLOCK (causal mask)",
+      "macs_per_token": 229376,
+      "min_ms": 0.8449580000160495,
+      "med_ms": 2.388791000157653,
+      "n_samples": 60
+     },
+     {
+      "component": "attn BLOCK (mask=None)",
+      "macs_per_token": 229376,
+      "min_ms": 0.7926660000521224,
+      "med_ms": 2.189332999932958,
+      "n_samples": 60
+     },
+     {
+      "component": "dispatch floor (trivial op)",
+      "macs_per_token": 0,
+      "min_ms": 0.1787500000318687,
+      "med_ms": 0.31087500019566505,
+      "n_samples": 60
+     }
+    ],
+    "same_function_rel_err": 1.9086854348977938e-07,
+    "mem_block_before_ms": 0.9554580001349677,
+    "mem_block_after_ms": 0.6277080001382274,
+    "attn_block_masked_ms": 0.8449580000160495,
+    "attn_block_nomask_ms": 0.7926660000521224,
+    "mem_over_attn_after": 0.7428866288339828,
+    "mem_over_attn_after_vs_nomask": 0.7918946947351746,
+    "mem_over_attn_before": 1.130775731002984,
+    "mem_block_speedup": 1.5221376817318988,
+    "mem_faster_than_attn_after": true,
+    "mem_faster_than_attn_after_vs_nomask": true,
+    "scan_before_ms": 0.7534999999734282,
+    "scan_after_ms": 0.3397499999664433,
+    "dispatch_floor_ms": 0.1787500000318687,
+    "macs_per_token": {
+     "attn": {
+      "proj": 65536,
+      "ctx": 32768,
+      "mlp": 131072,
+      "block_full": 229376,
+      "block_causal": 212992
+     },
+     "mem_banks1": {
+      "proj": 49152,
+      "ctx": 256,
+      "mlp": 131072,
+      "block_full": 180480,
+      "block_causal": null
+     }
+    },
+    "mac_ratio_attn_over_mem": 1.270921985815603,
+    "ratio_reps": [
+     0.7249036982605158,
+     0.7428866288339828,
+     0.7469695391659867,
+     0.7655259344564509,
+     0.808481814751509,
+     0.8148181881492522,
+     0.858148186872449,
+     0.965531800659033,
+     0.9691138120221262
+    ],
+    "ratio_median_over_reps": 0.808481814751509,
+    "ratio_min_over_reps": 0.7249036982605158,
+    "ratio_max_over_reps": 0.9691138120221262,
+    "mem_faster_reps": 9,
+    "sign_stable": true,
+    "median_rep_mem_faster": true,
+    "ratio_nomask_reps": [
+     0.7787527278035324,
+     0.7918946947351746,
+     0.7937062941201162,
+     0.7991489242510175,
+     0.804245499558076,
+     0.8824956981637241,
+     0.8904235833331866,
+     0.9092944630991011,
+     1.016446357155035
+    ],
+    "ratio_nomask_median_over_reps": 0.804245499558076,
+    "median_rep_mem_faster_vs_nomask": true,
+    "nomask_faster_reps": 8,
+    "nomask_sign_stable": false
+   },
+   {
+    "T": 256,
+    "B": 16,
+    "d": 128,
+    "n_head": 8,
+    "rows": [
+     {
+      "component": "mem scan only BEFORE (hillis c64)",
+      "macs_per_token": 2316,
+      "min_ms": 0.9195000002364395,
+      "med_ms": 2.997542000230169,
+      "n_samples": 60
+     },
+     {
+      "component": "mem scan only AFTER (fused kernel)",
+      "macs_per_token": 256,
+      "min_ms": 0.3999999998995918,
+      "med_ms": 0.9168330002466973,
+      "n_samples": 60
+     },
+     {
+      "component": "GatedMemory banks=1 AFTER (proj+scan)",
+      "macs_per_token": 49408,
+      "min_ms": 0.37945899975966313,
+      "med_ms": 1.115499999741587,
+      "n_samples": 60
+     },
+     {
+      "component": "mem BLOCK BEFORE (hillis)",
+      "macs_per_token": 180480,
+      "min_ms": 1.505417000316811,
+      "med_ms": 4.0306669998244615,
+      "n_samples": 60
+     },
+     {
+      "component": "mem BLOCK AFTER (fused)",
+      "macs_per_token": 180480,
+      "min_ms": 1.0407919999124715,
+      "med_ms": 2.1543750003729656,
+      "n_samples": 60
+     },
+     {
+      "component": "attn BLOCK (causal mask)",
+      "macs_per_token": 262144,
+      "min_ms": 1.5534580002167786,
+      "med_ms": 3.2969999997476407,
+      "n_samples": 60
+     },
+     {
+      "component": "attn BLOCK (mask=None)",
+      "macs_per_token": 262144,
+      "min_ms": 1.4489170002889296,
+      "med_ms": 3.0462909999187104,
+      "n_samples": 60
+     },
+     {
+      "component": "dispatch floor (trivial op)",
+      "macs_per_token": 0,
+      "min_ms": 0.16920799998842995,
+      "med_ms": 0.34679200007303734,
+      "n_samples": 60
+     }
+    ],
+    "same_function_rel_err": 2.4732919507620334e-07,
+    "mem_block_before_ms": 1.505417000316811,
+    "mem_block_after_ms": 1.0407919999124715,
+    "attn_block_masked_ms": 1.5534580002167786,
+    "attn_block_nomask_ms": 1.4489170002889296,
+    "mem_over_attn_after": 0.6699839968426783,
+    "mem_over_attn_after_vs_nomask": 0.718324099796556,
+    "mem_over_attn_before": 0.9690747996448802,
+    "mem_block_speedup": 1.4464148460436028,
+    "mem_faster_than_attn_after": true,
+    "mem_faster_than_attn_after_vs_nomask": true,
+    "scan_before_ms": 0.9195000002364395,
+    "scan_after_ms": 0.3999999998995918,
+    "dispatch_floor_ms": 0.16920799998842995,
+    "macs_per_token": {
+     "attn": {
+      "proj": 65536,
+      "ctx": 65536,
+      "mlp": 131072,
+      "block_full": 262144,
+      "block_causal": 229376
+     },
+     "mem_banks1": {
+      "proj": 49152,
+      "ctx": 256,
+      "mlp": 131072,
+      "block_full": 180480,
+      "block_causal": null
+     }
+    },
+    "mac_ratio_attn_over_mem": 1.4524822695035462,
+    "ratio_reps": [
+     0.558928552097794,
+     0.6148676035841752,
+     0.6303918046061434,
+     0.6699839968426783,
+     0.6906470092827481,
+     0.6911428066841927,
+     0.7015762519014336,
+     0.7140955540269075,
+     0.7932390929252895
+    ],
+    "ratio_median_over_reps": 0.6906470092827481,
+    "ratio_min_over_reps": 0.558928552097794,
+    "ratio_max_over_reps": 0.7932390929252895,
+    "mem_faster_reps": 9,
+    "sign_stable": true,
+    "median_rep_mem_faster": true,
+    "ratio_nomask_reps": [
+     0.5556727897092443,
+     0.6465341157905663,
+     0.718324099796556,
+     0.7214618717434935,
+     0.7270075629234253,
+     0.7486957787229548,
+     0.7796235372612289,
+     0.7987722049108926,
+     0.8020734799818712
+    ],
+    "ratio_nomask_median_over_reps": 0.7270075629234253,
+    "median_rep_mem_faster_vs_nomask": true,
+    "nomask_faster_reps": 9,
+    "nomask_sign_stable": true
+   },
+   {
+    "T": 512,
+    "B": 16,
+    "d": 128,
+    "n_head": 8,
+    "rows": [
+     {
+      "component": "mem scan only BEFORE (hillis c64)",
+      "macs_per_token": 2322,
+      "min_ms": 1.5072919995873235,
+      "med_ms": 5.631292000089161,
+      "n_samples": 60
+     },
+     {
+      "component": "mem scan only AFTER (fused kernel)",
+      "macs_per_token": 256,
+      "min_ms": 0.6490000000667351,
+      "med_ms": 1.4598749999095162,
+      "n_samples": 60
+     },
+     {
+      "component": "GatedMemory banks=1 AFTER (proj+scan)",
+      "macs_per_token": 49408,
+      "min_ms": 0.7832500000404252,
+      "med_ms": 1.399958000092738,
+      "n_samples": 60
+     },
+     {
+      "component": "mem BLOCK BEFORE (hillis)",
+      "macs_per_token": 180480,
+      "min_ms": 3.267250000135391,
+      "med_ms": 7.764125000448985,
+      "n_samples": 60
+     },
+     {
+      "component": "mem BLOCK AFTER (fused)",
+      "macs_per_token": 180480,
+      "min_ms": 1.6757910002525023,
+      "med_ms": 3.7218750003376044,
+      "n_samples": 60
+     },
+     {
+      "component": "attn BLOCK (causal mask)",
+      "macs_per_token": 327680,
+      "min_ms": 5.081625000002532,
+      "med_ms": 9.363500000290514,
+      "n_samples": 60
+     },
+     {
+      "component": "attn BLOCK (mask=None)",
+      "macs_per_token": 327680,
+      "min_ms": 4.380500000024767,
+      "med_ms": 7.406416999856447,
+      "n_samples": 60
+     },
+     {
+      "component": "dispatch floor (trivial op)",
+      "macs_per_token": 0,
+      "min_ms": 0.23858399981691036,
+      "med_ms": 0.5249170003480685,
+      "n_samples": 60
+     }
+    ],
+    "same_function_rel_err": 1.978159379668209e-07,
+    "mem_block_before_ms": 3.267250000135391,
+    "mem_block_after_ms": 1.6757910002525023,
+    "attn_block_masked_ms": 5.081625000002532,
+    "attn_block_nomask_ms": 4.380500000024767,
+    "mem_over_attn_after": 0.32977462922818335,
+    "mem_over_attn_after_vs_nomask": 0.38255701409497256,
+    "mem_over_attn_before": 0.6429537795751876,
+    "mem_block_speedup": 1.9496763019034553,
+    "mem_faster_than_attn_after": true,
+    "mem_faster_than_attn_after_vs_nomask": true,
+    "scan_before_ms": 1.5072919995873235,
+    "scan_after_ms": 0.6490000000667351,
+    "dispatch_floor_ms": 0.23858399981691036,
+    "macs_per_token": {
+     "attn": {
+      "proj": 65536,
+      "ctx": 131072,
+      "mlp": 131072,
+      "block_full": 327680,
+      "block_causal": 262144
+     },
+     "mem_banks1": {
+      "proj": 49152,
+      "ctx": 256,
+      "mlp": 131072,
+      "block_full": 180480,
+      "block_causal": null
+     }
+    },
+    "mac_ratio_attn_over_mem": 1.8156028368794326,
+    "ratio_reps": [
+     0.3292792091431675,
+     0.32977462922818335,
+     0.418319051719748,
+     0.4272586948483584,
+     0.4468164429471253,
+     0.46522001893638604,
+     0.4991547945471518,
+     0.5017741735833172,
+     0.5994594833311377
+    ],
+    "ratio_median_over_reps": 0.4468164429471253,
+    "ratio_min_over_reps": 0.3292792091431675,
+    "ratio_max_over_reps": 0.5994594833311377,
+    "mem_faster_reps": 9,
+    "sign_stable": true,
+    "median_rep_mem_faster": true,
+    "ratio_nomask_reps": [
+     0.38255701409497256,
+     0.4398797778558187,
+     0.45293778209123803,
+     0.4805495379703201,
+     0.5201785650864691,
+     0.5297968674018327,
+     0.5311042229077005,
+     0.5637356064768754,
+     0.5902986177461159
+    ],
+    "ratio_nomask_median_over_reps": 0.5201785650864691,
+    "median_rep_mem_faster_vs_nomask": true,
+    "nomask_faster_reps": 9,
+    "nomask_sign_stable": true
+   },
+   {
+    "T": 1024,
+    "B": 16,
+    "d": 128,
+    "n_head": 8,
+    "rows": [
+     {
+      "component": "mem scan only BEFORE (hillis c64)",
+      "macs_per_token": 2328,
+      "min_ms": 2.1727919997829304,
+      "med_ms": 6.033084000137023,
+      "n_samples": 60
+     },
+     {
+      "component": "mem scan only AFTER (fused kernel)",
+      "macs_per_token": 256,
+      "min_ms": 1.0141250004380709,
+      "med_ms": 1.9260409999333206,
+      "n_samples": 60
+     },
+     {
+      "component": "GatedMemory banks=1 AFTER (proj+scan)",
+      "macs_per_token": 49408,
+      "min_ms": 1.1190000000169675,
+      "med_ms": 2.178290999836463,
+      "n_samples": 60
+     },
+     {
+      "component": "mem BLOCK BEFORE (hillis)",
+      "macs_per_token": 180480,
+      "min_ms": 5.0635829998100235,
+      "med_ms": 9.902249999868218,
+      "n_samples": 60
+     },
+     {
+      "component": "mem BLOCK AFTER (fused)",
+      "macs_per_token": 180480,
+      "min_ms": 2.7298329996483517,
+      "med_ms": 5.277291999846057,
+      "n_samples": 60
+     },
+     {
+      "component": "attn BLOCK (causal mask)",
+      "macs_per_token": 458752,
+      "min_ms": 15.401000000110798,
+      "med_ms": 22.170707999976003,
+      "n_samples": 60
+     },
+     {
+      "component": "attn BLOCK (mask=None)",
+      "macs_per_token": 458752,
+      "min_ms": 11.626666000211117,
+      "med_ms": 16.11087499986752,
+      "n_samples": 60
+     },
+     {
+      "component": "dispatch floor (trivial op)",
+      "macs_per_token": 0,
+      "min_ms": 0.21179200030019274,
+      "med_ms": 0.36470900022322894,
+      "n_samples": 60
+     }
+    ],
+    "same_function_rel_err": 2.2377624046815779e-07,
+    "mem_block_before_ms": 5.0635829998100235,
+    "mem_block_after_ms": 2.7298329996483517,
+    "attn_block_masked_ms": 15.401000000110798,
+    "attn_block_nomask_ms": 11.626666000211117,
+    "mem_over_attn_after": 0.1772503733282717,
+    "mem_over_attn_after_vs_nomask": 0.2347906957677105,
+    "mem_over_attn_before": 0.32878274136572916,
+    "mem_block_speedup": 1.8549057764567642,
+    "mem_faster_than_attn_after": true,
+    "mem_faster_than_attn_after_vs_nomask": true,
+    "scan_before_ms": 2.1727919997829304,
+    "scan_after_ms": 1.0141250004380709,
+    "dispatch_floor_ms": 0.21179200030019274,
+    "macs_per_token": {
+     "attn": {
+      "proj": 65536,
+      "ctx": 262144,
+      "mlp": 131072,
+      "block_full": 458752,
+      "block_causal": 327680
+     },
+     "mem_banks1": {
+      "proj": 49152,
+      "ctx": 256,
+      "mlp": 131072,
+      "block_full": 180480,
+      "block_causal": null
+     }
+    },
+    "mac_ratio_attn_over_mem": 2.541843971631206,
+    "ratio_reps": [
+     0.17692893627782208,
+     0.1772503733282717,
+     0.18292975850189117,
+     0.18343903576600387,
+     0.23107557388170386,
+     0.2349628673634568,
+     0.2511825428920791,
+     0.2591962666581724,
+     0.2781795841312816
+    ],
+    "ratio_median_over_reps": 0.23107557388170386,
+    "ratio_min_over_reps": 0.17692893627782208,
+    "ratio_max_over_reps": 0.2781795841312816,
+    "mem_faster_reps": 9,
+    "sign_stable": true,
+    "median_rep_mem_faster": true,
+    "ratio_nomask_reps": [
+     0.2347906957677105,
+     0.24123520957634803,
+     0.24223294253543745,
+     0.25037619639537834,
+     0.2913681183352954,
+     0.29757244873158756,
+     0.31360256233560313,
+     0.33233879385394,
+     0.33670011192439614
+    ],
+    "ratio_nomask_median_over_reps": 0.2913681183352954,
+    "median_rep_mem_faster_vs_nomask": true,
+    "nomask_faster_reps": 9,
+    "nomask_sign_stable": true
+   },
+   {
+    "T": 2048,
+    "B": 16,
+    "d": 128,
+    "n_head": 8,
+    "rows": [
+     {
+      "component": "mem scan only BEFORE (hillis c64)",
+      "macs_per_token": 2334,
+      "min_ms": 4.269916999874113,
+      "med_ms": 13.797417000205314,
+      "n_samples": 60
+     },
+     {
+      "component": "mem scan only AFTER (fused kernel)",
+      "macs_per_token": 256,
+      "min_ms": 2.1312919998308644,
+      "med_ms": 3.367625000009866,
+      "n_samples": 60
+     },
+     {
+      "component": "GatedMemory banks=1 AFTER (proj+scan)",
+      "macs_per_token": 49408,
+      "min_ms": 2.6308750002499437,
+      "med_ms": 3.8242499999796564,
+      "n_samples": 60
+     },
+     {
+      "component": "mem BLOCK BEFORE (hillis)",
+      "macs_per_token": 180480,
+      "min_ms": 11.137040999983583,
+      "med_ms": 22.05087500033187,
+      "n_samples": 60
+     },
+     {
+      "component": "mem BLOCK AFTER (fused)",
+      "macs_per_token": 180480,
+      "min_ms": 7.3090000000775035,
+      "med_ms": 11.70620900029462,
+      "n_samples": 60
+     },
+     {
+      "component": "attn BLOCK (causal mask)",
+      "macs_per_token": 720896,
+      "min_ms": 64.745791000405,
+      "med_ms": 84.47174999992058,
+      "n_samples": 60
+     },
+     {
+      "component": "attn BLOCK (mask=None)",
+      "macs_per_token": 720896,
+      "min_ms": 46.24991600030626,
+      "med_ms": 62.68424999962008,
+      "n_samples": 60
+     },
+     {
+      "component": "dispatch floor (trivial op)",
+      "macs_per_token": 0,
+      "min_ms": 0.22895899974173517,
+      "med_ms": 0.4422920001161401,
+      "n_samples": 60
+     }
+    ],
+    "same_function_rel_err": 2.1009403809144973e-07,
+    "mem_block_before_ms": 11.137040999983583,
+    "mem_block_after_ms": 7.3090000000775035,
+    "attn_block_masked_ms": 64.745791000405,
+    "attn_block_nomask_ms": 46.24991600030626,
+    "mem_over_attn_after": 0.11288764701371527,
+    "mem_over_attn_after_vs_nomask": 0.1580327194546495,
+    "mem_over_attn_before": 0.1720118146353933,
+    "mem_block_speedup": 1.5237434669401406,
+    "mem_faster_than_attn_after": true,
+    "mem_faster_than_attn_after_vs_nomask": true,
+    "scan_before_ms": 4.269916999874113,
+    "scan_after_ms": 2.1312919998308644,
+    "dispatch_floor_ms": 0.22895899974173517,
+    "macs_per_token": {
+     "attn": {
+      "proj": 65536,
+      "ctx": 524288,
+      "mlp": 131072,
+      "block_full": 720896,
+      "block_causal": 458752
+     },
+     "mem_banks1": {
+      "proj": 49152,
+      "ctx": 256,
+      "mlp": 131072,
+      "block_full": 180480,
+      "block_causal": null
+     }
+    },
+    "mac_ratio_attn_over_mem": 3.9943262411347518,
+    "ratio_reps": [
+     0.10752884336246576,
+     0.11288764701371527,
+     0.11764176568391942,
+     0.11996480417409354,
+     0.1253285903586636,
+     0.12850440679590092,
+     0.1344246692828294,
+     0.13616696670995257,
+     0.13773854473397368
+    ],
+    "ratio_median_over_reps": 0.1253285903586636,
+    "ratio_min_over_reps": 0.10752884336246576,
+    "ratio_max_over_reps": 0.13773854473397368,
+    "mem_faster_reps": 9,
+    "sign_stable": true,
+    "median_rep_mem_faster": true,
+    "ratio_nomask_reps": [
+     0.14024507382762252,
+     0.15263086274989088,
+     0.15643439995637687,
+     0.1580327194546495,
+     0.16903426236247382,
+     0.17376697106787414,
+     0.17652580315754104,
+     0.179332081931044,
+     0.18521355269274947
+    ],
+    "ratio_nomask_median_over_reps": 0.16903426236247382,
+    "median_rep_mem_faster_vs_nomask": true,
+    "nomask_faster_reps": 9,
+    "nomask_sign_stable": true
+   }
+  ],
+  "tie_Ts": [
+   16,
+   32
+  ],
+  "resolved_Ts": [
+   8,
+   48,
+   64,
+   128,
+   256,
+   512,
+   1024,
+   2048
+  ],
+  "mem_slower_at": [],
+  "mem_faster_at": [
+   8,
+   48,
+   64,
+   128,
+   256,
+   512,
+   1024,
+   2048
+  ],
+  "resolution_limit_T": 8,
+  "mem_slower_at_vs_nomask": [],
+  "crossover_T_interval": null,
+  "mem_always_faster": true,
+  "mem_never_faster": false
  }
 }

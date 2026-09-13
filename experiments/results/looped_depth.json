@@ -1,0 +1,467 @@
+{
+ "meta": {
+  "corpus": "/Users/richie/Documents/github/human-brain/data/tinyshakespeare.txt",
+  "chars": 1115394,
+  "vocab": 65,
+  "d": 128,
+  "ctx": 512,
+  "mlp_mult": 4,
+  "chunk": 64,
+  "steps": 1500,
+  "seeds": [
+   0,
+   1,
+   2,
+   3,
+   4
+  ],
+  "n_val_windows": 217,
+  "bigram_floor": 3.580577474174118,
+  "unigram_floor": 4.829176877807436,
+  "arms": {
+   "flat4": {
+    "n_layer": 4,
+    "loops": 1,
+    "params": 808448,
+    "flops_per_token": 4402944.0
+   },
+   "loop2x2": {
+    "n_layer": 2,
+    "loops": 2,
+    "params": 445440,
+    "flops_per_token": 4402944.0
+   },
+   "loop1x4": {
+    "n_layer": 1,
+    "loops": 4,
+    "params": 263936,
+    "flops_per_token": 4402944.0
+   },
+   "flat2": {
+    "n_layer": 2,
+    "loops": 1,
+    "params": 445440,
+    "flops_per_token": 2226432.0
+   },
+   "loop2x2_ws": {
+    "n_layer": 2,
+    "loops": 2,
+    "loop_norm": true,
+    "params": 445954,
+    "flops_per_token": 4402944.0
+   },
+   "loop2x2_ts": {
+    "n_layer": 2,
+    "loops": 2,
+    "timestep": true,
+    "params": 445696,
+    "flops_per_token": 4402944.0
+   },
+   "loop1x4_ws": {
+    "n_layer": 1,
+    "loops": 4,
+    "loop_norm": true,
+    "params": 264964,
+    "flops_per_token": 4402944.0
+   },
+   "loop1x4_ts": {
+    "n_layer": 1,
+    "loops": 4,
+    "timestep": true,
+    "params": 264448,
+    "flops_per_token": 4402944.0
+   },
+   "flat2_wall": {
+    "n_layer": 2,
+    "loops": 1,
+    "steps_mult": 1.8666666666666667,
+    "wall_matched": true,
+    "params": 445440,
+    "flops_per_token": 2226432.0
+   }
+  },
+  "decision_rule": "looping is a real efficiency win only if loop2x2 beats flat2 beyond seed noise; flat2 has the SAME parameters at HALF the FLOPs",
+  "preregistered_prediction": "loop2x2 loses to flat4 on bpc at matched FLOPs, and matches flat2 on params; a null on loop2x2-vs-flat2 is the expected outcome"
+ },
+ "runs": [
+  {
+   "arm": "flat4",
+   "seed": 0,
+   "params": 808448,
+   "flops_per_token": 4402944.0,
+   "steps_run": 1500,
+   "diverged": false,
+   "val_bpc": 2.188222897239683,
+   "train_bpc": 1.881449612533523,
+   "n_val_windows": 217,
+   "tok_s": 258491.65625812713,
+   "wall_s": 47.537317752838135,
+   "tokens_seen": 12288000,
+   "pass_drift": [
+    {
+     "pass_index": 1,
+     "rel_change": 23.81953514724013,
+     "cosine_to_prev": 0.04569520801305771
+    }
+   ]
+  },
+  {
+   "arm": "flat4",
+   "seed": 1,
+   "params": 808448,
+   "flops_per_token": 4402944.0,
+   "steps_run": 1500,
+   "diverged": false,
+   "val_bpc": 2.1641418515938144,
+   "train_bpc": 1.80200257093275,
+   "n_val_windows": 217,
+   "tok_s": 82407.00068438624,
+   "wall_s": 149.1135449409485,
+   "tokens_seen": 12288000,
+   "pass_drift": [
+    {
+     "pass_index": 1,
+     "rel_change": 24.816108829454297,
+     "cosine_to_prev": 0.046125628054142
+    }
+   ]
+  },
+  {
+   "arm": "flat4",
+   "seed": 2,
+   "params": 808448,
+   "flops_per_token": 4402944.0,
+   "steps_run": 1500,
+   "diverged": false,
+   "val_bpc": 2.1939373497215127,
+   "train_bpc": 1.7931287820961819,
+   "n_val_windows": 217,
+   "tok_s": 101269.4655497842,
+   "wall_s": 121.33963513374329,
+   "tokens_seen": 12288000,
+   "pass_drift": [
+    {
+     "pass_index": 1,
+     "rel_change": 22.844638846883434,
+     "cosine_to_prev": 0.09073487669229507
+    }
+   ]
+  },
+  {
+   "arm": "flat4",
+   "seed": 3,
+   "params": 808448,
+   "flops_per_token": 4402944.0,
+   "steps_run": 1500,
+   "diverged": false,
+   "val_bpc": 2.1849079974256846,
+   "train_bpc": 1.8301330852037763,
+   "n_val_windows": 217,
+   "tok_s": 80194.88811982605,
+   "wall_s": 153.22672414779663,
+   "tokens_seen": 12288000,
+   "pass_drift": [
+    {
+     "pass_index": 1,
+     "rel_change": 23.845688692206878,
+     "cosine_to_prev": 0.08884722739458084
+    }
+   ]
+  },
+  {
+   "arm": "flat4",
+   "seed": 4,
+   "params": 808448,
+   "flops_per_token": 4402944.0,
+   "steps_run": 1500,
+   "diverged": false,
+   "val_bpc": 2.181590510739003,
+   "train_bpc": 1.7294042224546362,
+   "n_val_windows": 217,
+   "tok_s": 57285.85362788977,
+   "wall_s": 214.50321888923645,
+   "tokens_seen": 12288000,
+   "pass_drift": [
+    {
+     "pass_index": 1,
+     "rel_change": 25.286267084206433,
+     "cosine_to_prev": 0.040441516786813736
+    }
+   ]
+  },
+  {
+   "arm": "loop2x2",
+   "seed": 0,
+   "params": 445440,
+   "flops_per_token": 4402944.0,
+   "steps_run": 1500,
+   "diverged": false,
+   "val_bpc": 2.205065873115872,
+   "train_bpc": 1.9620836783905506,
+   "n_val_windows": 217,
+   "tok_s": 60167.198998865286,
+   "wall_s": 204.23088002204895,
+   "tokens_seen": 12288000,
+   "pass_drift": [
+    {
+     "pass_index": 1,
+     "rel_change": 13.03386602304107,
+     "cosine_to_prev": 0.0023125899024307728
+    },
+    {
+     "pass_index": 2,
+     "rel_change": 0.8479994195651016,
+     "cosine_to_prev": 0.8418360948562622
+    }
+   ]
+  },
+  {
+   "arm": "loop2x2",
+   "seed": 1,
+   "params": 445440,
+   "flops_per_token": 4402944.0,
+   "steps_run": 1500,
+   "diverged": false,
+   "val_bpc": 2.1980773858371987,
+   "train_bpc": 1.8776068321826442,
+   "n_val_windows": 217,
+   "tok_s": 102479.93091440015,
+   "wall_s": 119.9064040184021,
+   "tokens_seen": 12288000,
+   "pass_drift": [
+    {
+     "pass_index": 1,
+     "rel_change": 11.640408051166032,
+     "cosine_to_prev": 0.07007049769163132
+    },
+    {
+     "pass_index": 2,
+     "rel_change": 0.9264416614208972,
+     "cosine_to_prev": 0.8365632891654968
+    }
+   ]
+  },
+  {
+   "arm": "loop2x2",
+   "seed": 2,
+   "params": 445440,
+   "flops_per_token": 4402944.0,
+   "steps_run": 1500,
+   "diverged": false,
+   "val_bpc": 2.2027089024013375,
+   "train_bpc": 1.87997400138912,
+   "n_val_windows": 217,
+   "tok_s": 105056.96585516208,
+   "wall_s": 116.9651141166687,
+   "tokens_seen": 12288000,
+   "pass_drift": [
+    {
+     "pass_index": 1,
+     "rel_change": 12.61253813342402,
+     "cosine_to_prev": 0.03148839622735977
+    },
+    {
+     "pass_index": 2,
+     "rel_change": 0.8700645849659535,
+     "cosine_to_prev": 0.8356845378875732
+    }
+   ]
+  },
+  {
+   "arm": "loop2x2",
+   "seed": 3,
+   "params": 445440,
+   "flops_per_token": 4402944.0,
+   "steps_run": 1500,
+   "diverged": false,
+   "val_bpc": 2.2317246613068016,
+   "train_bpc": 1.936626462444536,
+   "n_val_windows": 217,
+   "tok_s": 151571.937215567,
+   "wall_s": 81.07041597366333,
+   "tokens_seen": 12288000,
+   "pass_drift": [
+    {
+     "pass_index": 1,
+     "rel_change": 12.607927909671146,
+     "cosine_to_prev": 0.04600817710161209
+    },
+    {
+     "pass_index": 2,
+     "rel_change": 0.8974565551164215,
+     "cosine_to_prev": 0.8419363498687744
+    }
+   ]
+  },
+  {
+   "arm": "loop2x2",
+   "seed": 4,
+   "params": 445440,
+   "flops_per_token": 4402944.0,
+   "steps_run": 1500,
+   "diverged": false,
+   "val_bpc": 2.2041594785781116,
+   "train_bpc": 1.8074724791434418,
+   "n_val_windows": 217,
+   "tok_s": 192153.09515135814,
+   "wall_s": 63.94900894165039,
+   "tokens_seen": 12288000,
+   "pass_drift": [
+    {
+     "pass_index": 1,
+     "rel_change": 12.360133602632931,
+     "cosine_to_prev": 0.03557877615094185
+    },
+    {
+     "pass_index": 2,
+     "rel_change": 0.8506491042056168,
+     "cosine_to_prev": 0.8450511693954468
+    }
+   ]
+  },
+  {
+   "arm": "loop1x4",
+   "seed": 0,
+   "params": 263936,
+   "flops_per_token": 4402944.0,
+   "steps_run": 1500,
+   "diverged": false,
+   "val_bpc": 2.2628068749797943,
+   "train_bpc": 2.061839463301109,
+   "n_val_windows": 217,
+   "tok_s": 125404.1893128612,
+   "wall_s": 97.98715710639954,
+   "tokens_seen": 12288000,
+   "pass_drift": [
+    {
+     "pass_index": 1,
+     "rel_change": 8.734708609360812,
+     "cosine_to_prev": 0.02972535602748394
+    },
+    {
+     "pass_index": 2,
+     "rel_change": 0.7265840581429825,
+     "cosine_to_prev": 0.7887336611747742
+    },
+    {
+     "pass_index": 3,
+     "rel_change": 0.5357872687711578,
+     "cosine_to_prev": 0.931125819683075
+    },
+    {
+     "pass_index": 4,
+     "rel_change": 0.42475429957849914,
+     "cosine_to_prev": 0.9681082367897034
+    }
+   ]
+  },
+  {
+   "arm": "loop1x4",
+   "seed": 1,
+   "params": 263936,
+   "flops_per_token": 4402944.0,
+   "steps_run": 1500,
+   "diverged": false,
+   "val_bpc": 2.2610661379169708,
+   "train_bpc": 1.9722671151134394,
+   "n_val_windows": 217,
+   "tok_s": 114930.1676219085,
+   "wall_s": 106.91709804534912,
+   "tokens_seen": 12288000,
+   "pass_drift": [
+    {
+     "pass_index": 1,
+     "rel_change": 9.311265358021032,
+     "cosine_to_prev": -0.0036270152777433395
+    },
+    {
+     "pass_index": 2,
+     "rel_change": 0.7148429181164204,
+     "cosine_to_prev": 0.7976835370063782
+    },
+    {
+     "pass_index": 3,
+     "rel_change": 0.5458435566254644,
+     "cosine_to_prev": 0.93522047996521
+    },
+    {
+     "pass_index": 4,
+     "rel_change": 0.424168558920418,
+     "cosine_to_prev": 0.9745034575462341
+    }
+   ]
+  },
+  {
+   "arm": "loop1x4",
+   "seed": 2,
+   "params": 263936,
+   "flops_per_token": 4402944.0,
+   "steps_run": 1500,
+   "diverged": false,
+   "val_bpc": 2.2689224956196106,
+   "train_bpc": 1.9614287684560652,
+   "n_val_windows": 217,
+   "tok_s": 85250.1487034265,
+   "wall_s": 144.1405110359192,
+   "tokens_seen": 12288000,
+   "pass_drift": [
+    {
+     "pass_index": 1,
+     "rel_change": 9.409328412553487,
+     "cosine_to_prev": 0.037743065506219864
+    },
+    {
+     "pass_index": 2,
+     "rel_change": 0.6364784038418039,
+     "cosine_to_prev": 0.8358445763587952
+    },
+    {
+     "pass_index": 3,
+     "rel_change": 0.4717542242153532,
+     "cosine_to_prev": 0.943059504032135
+    },
+    {
+     "pass_index": 4,
+     "rel_change": 0.3669697913210229,
+     "cosine_to_prev": 0.9763369560241699
+    }
+   ]
+  },
+  {
+   "arm": "loop1x4",
+   "seed": 3,
+   "params": 263936,
+   "flops_per_token": 4402944.0,
+   "steps_run": 1500,
+   "diverged": false,
+   "val_bpc": 2.295968198807268,
+   "train_bpc": 2.022234610529818,
+   "n_val_windows": 217,
+   "tok_s": 79228.32126913854,
+   "wall_s": 155.09605407714844,
+   "tokens_seen": 12288000,
+   "pass_drift": [
+    {
+     "pass_index": 1,
+     "rel_change": 8.946194098584469,
+     "cosine_to_prev": 0.013489357195794582
+    },
+    {
+     "pass_index": 2,
+     "rel_change": 0.6653226146028224,
+     "cosine_to_prev": 0.8313441872596741
+    },
+    {
+     "pass_index": 3,
+     "rel_change": 0.5280612937985246,
+     "cosine_to_prev": 0.9404643177986145
+    },
+    {
+     "pass_index": 4,
+     "rel_change": 0.40265751595334026,
+     "cosine_to_prev": 0.976088285446167
+    }
+   ]
+  }
+ ]
+}

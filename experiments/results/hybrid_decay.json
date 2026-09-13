@@ -1,0 +1,251 @@
+{
+ "teacher": "unsloth/Llama-3.2-1B",
+ "layer": 8,
+ "n_layers": 16,
+ "teacher_ppl": 20.375600125475536,
+ "zero_ppl": 24.104393610665852,
+ "val_tokens": 3000,
+ "decays": [
+  0.5,
+  0.7,
+  0.8,
+  0.9,
+  0.95,
+  0.99,
+  0.999
+ ],
+ "arms": {
+  "transfer": {
+   "rows": [
+    {
+     "decay": 0.5,
+     "banks": 1,
+     "ppl": 23.31386145199827,
+     "horizon": 2.0,
+     "beats_teacher": false,
+     "beats_zero": true
+    },
+    {
+     "decay": 0.7,
+     "banks": 1,
+     "ppl": 22.893967741787147,
+     "horizon": 3.333333333333333,
+     "beats_teacher": false,
+     "beats_zero": true
+    },
+    {
+     "decay": 0.8,
+     "banks": 1,
+     "ppl": 22.805480283914086,
+     "horizon": 5.000000000000001,
+     "beats_teacher": false,
+     "beats_zero": true
+    },
+    {
+     "decay": 0.9,
+     "banks": 1,
+     "ppl": 22.982798539511116,
+     "horizon": 10.000000000000002,
+     "beats_teacher": false,
+     "beats_zero": true
+    },
+    {
+     "decay": 0.95,
+     "banks": 1,
+     "ppl": 23.493845301133774,
+     "horizon": 19.999999999999982,
+     "beats_teacher": false,
+     "beats_zero": true
+    },
+    {
+     "decay": 0.99,
+     "banks": 1,
+     "ppl": 24.335947279747632,
+     "horizon": 99.99999999999991,
+     "beats_teacher": false,
+     "beats_zero": false
+    },
+    {
+     "decay": 0.999,
+     "banks": 1,
+     "ppl": 23.997416936489078,
+     "horizon": 999.9999999999991,
+     "beats_teacher": false,
+     "beats_zero": true
+    }
+   ],
+   "best": {
+    "decay": 0.8,
+    "banks": 1,
+    "ppl": 22.805480283914086,
+    "horizon": 5.000000000000001,
+    "beats_teacher": false,
+    "beats_zero": true
+   }
+  },
+  "random_matched": {
+   "rows": [
+    {
+     "decay": 0.5,
+     "banks": 1,
+     "ppl": 27.366705553984804,
+     "horizon": 2.0,
+     "beats_teacher": false,
+     "beats_zero": false
+    },
+    {
+     "decay": 0.7,
+     "banks": 1,
+     "ppl": 27.7019158862986,
+     "horizon": 3.333333333333333,
+     "beats_teacher": false,
+     "beats_zero": false
+    },
+    {
+     "decay": 0.8,
+     "banks": 1,
+     "ppl": 27.91987906258369,
+     "horizon": 5.000000000000001,
+     "beats_teacher": false,
+     "beats_zero": false
+    },
+    {
+     "decay": 0.9,
+     "banks": 1,
+     "ppl": 28.214818874446365,
+     "horizon": 10.000000000000002,
+     "beats_teacher": false,
+     "beats_zero": false
+    },
+    {
+     "decay": 0.95,
+     "banks": 1,
+     "ppl": 28.360235403772332,
+     "horizon": 19.999999999999982,
+     "beats_teacher": false,
+     "beats_zero": false
+    },
+    {
+     "decay": 0.99,
+     "banks": 1,
+     "ppl": 27.84143974775665,
+     "horizon": 99.99999999999991,
+     "beats_teacher": false,
+     "beats_zero": false
+    },
+    {
+     "decay": 0.999,
+     "banks": 1,
+     "ppl": 25.670301720384156,
+     "horizon": 999.9999999999991,
+     "beats_teacher": false,
+     "beats_zero": false
+    }
+   ],
+   "best": {
+    "decay": 0.999,
+    "banks": 1,
+    "ppl": 25.670301720384156,
+    "horizon": 999.9999999999991,
+    "beats_teacher": false,
+    "beats_zero": false
+   }
+  },
+  "banks_multi": {
+   "rows": [
+    {
+     "decay": 0.5,
+     "banks": 3,
+     "ppl": 23.207247406231,
+     "horizon": 2.0,
+     "beats_teacher": false,
+     "beats_zero": true
+    },
+    {
+     "decay": 0.7,
+     "banks": 3,
+     "ppl": 22.874558628715,
+     "horizon": 3.333333333333333,
+     "beats_teacher": false,
+     "beats_zero": true
+    },
+    {
+     "decay": 0.8,
+     "banks": 3,
+     "ppl": 22.838837788292516,
+     "horizon": 5.000000000000001,
+     "beats_teacher": false,
+     "beats_zero": true
+    },
+    {
+     "decay": 0.9,
+     "banks": 3,
+     "ppl": 23.118882483077243,
+     "horizon": 10.000000000000002,
+     "beats_teacher": false,
+     "beats_zero": true
+    },
+    {
+     "decay": 0.95,
+     "banks": 3,
+     "ppl": 23.59373166203089,
+     "horizon": 19.999999999999982,
+     "beats_teacher": false,
+     "beats_zero": true
+    },
+    {
+     "decay": 0.99,
+     "banks": 3,
+     "ppl": 24.241951552341387,
+     "horizon": 99.99999999999991,
+     "beats_teacher": false,
+     "beats_zero": false
+    },
+    {
+     "decay": 0.999,
+     "banks": 3,
+     "ppl": 23.99800692066692,
+     "horizon": 999.9999999999991,
+     "beats_teacher": false,
+     "beats_zero": true
+    }
+   ],
+   "best": {
+    "decay": 0.8,
+    "banks": 3,
+    "ppl": 22.838837788292516,
+    "horizon": 5.000000000000001,
+    "beats_teacher": false,
+    "beats_zero": true
+   }
+  }
+ },
+ "protocol": {
+  "eval": "frozen, fixed 3000-token window, no sampling -> exact",
+  "norm": "every arm scaled to attention's output rms before scoring",
+  "banks": "multi-timescale arm keeps one trace per decay constant"
+ },
+ "verdict": {
+  "teacher": 20.375600125475536,
+  "zero": 24.104393610665852,
+  "transfer_best": {
+   "decay": 0.8,
+   "banks": 1,
+   "ppl": 22.805480283914086,
+   "horizon": 5.000000000000001,
+   "beats_teacher": false,
+   "beats_zero": true
+  },
+  "best_control": {
+   "decay": 0.8,
+   "banks": 3,
+   "ppl": 22.838837788292516,
+   "horizon": 5.000000000000001,
+   "beats_teacher": false,
+   "beats_zero": true
+  },
+  "transfer_beats_best_control": true,
+  "transfer_beats_zero_at_best": true,
+  "note": "Each arm is swept over the same decay grid and scored at its own best setting, so this separates 'the weights know the right time constant' from 'the right time constant helps everyone'. If the optima coincide the transplant carries no information about it."
+ }
+}

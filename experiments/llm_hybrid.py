@@ -153,36 +153,95 @@ def swap_out(handle):
     setattr(layer, attr, original)
 
 
-def fit_decay_from_attention(inner, x, n_bins=8):
-    """Measure the replaced attention's recency profile and fit a gate decay.
+def measure_recency_profile(inner, h, n_bins=8):
+    """Measure the replaced attention's REAL recency profile.
 
-    A gated trace with constant decay `g` has an effective horizon ~1/(1-g)
-    and an exponential recency kernel. We read the real attention's mean
-    attention weight as a function of distance, then choose the decay whose
-    exponential decay rate best matches it. This is a measured prior, not a
-    guess, and it is reported so the fit can be checked.
+    WHY THIS IS COMPUTED BY HAND. An earlier version called
+    `inner(x, None, None, return_weights=True)` inside a try/except and fell back
+    to a hardcoded 0.99. The installed MLX `Attention.__call__` does not accept
+    `return_weights` at all, so that call raised on EVERY layer and EVERY layer
+    silently got decay=0.99. The docs claimed the gate was "initialised from the
+    MEASURED recency profile"; it was not, and the tell is that every result
+    file carries `recency_profile_first8: null` and `fit_cdf_l1: null`.
+
+    So the profile is now computed from the projections directly: build q and k
+    from the layer's own weights, score them, softmax under a causal mask, and
+    histogram the mean attention weight by token distance. Grouped-query
+    attention is handled by routing each query head to its kv head.
+
+    Returns None only if the module genuinely has no q/k projections, and the
+    caller records that as a failure rather than substituting a default.
     """
-    try:
-        _, attn_w = inner(x, None, None, return_weights=True)
-    except Exception:
-        return 0.99, None
-    w = np.array(attn_w.astype(mx.float32)).mean(axis=(0, 1))          # (T, T) averaged over heads
-    T = w.shape[0]
-    dist = np.arange(T)[None, :] - np.arange(T)[:, None]
+    params = dict(nn.utils.tree_flatten(inner.parameters()))
+    wq, wk = params.get("q_proj.weight"), params.get("k_proj.weight")
+    if wq is None or wk is None:
+        return None
+    n_head = int(getattr(inner, "n_heads", 0)) or None
+    n_kv = int(getattr(inner, "n_kv_heads", 0)) or None
+    hd = int(getattr(inner, "head_dim", 0)) or None
+    # accept (T, d) or (B, T, d); the batch is always 1 for a probe
+    hn = np.asarray(to_f32(h), dtype=np.float32)
+    while hn.ndim > 2 and hn.shape[0] == 1:
+        hn = hn[0]
+    if hn.ndim != 2:
+        raise ValueError(f"expected (T, d) probe activations, got {hn.shape}")
+    # bound the cost: the causal softmax below is O(n_head * T^2), and a
+    # 1024-token probe at 32 heads is 33M entries. The profile is stationary
+    # enough that a 256-token slice estimates it to well within the decay
+    # grid's resolution, and this keeps the fit cheap enough to run per arm.
+    if hn.shape[0] > 256:
+        hn = hn[:256]
+    q = hn @ to_f32(wq).T                             # (T, n_head*hd)
+    k = hn @ to_f32(wk).T                             # (T, n_kv*hd)
+    T = q.shape[0]
+    if hd is None:
+        hd = q.shape[-1] // n_head if n_head else q.shape[-1]
+    if n_head is None:
+        n_head = q.shape[-1] // hd
+    if n_kv is None:
+        n_kv = k.shape[-1] // hd
+    n_rep = n_head // n_kv
+    q = q.reshape(T, n_head, hd).transpose(1, 0, 2)
+    k = k.reshape(T, n_kv, hd).transpose(1, 0, 2)
+    # route each query head to its kv head (contiguous blocks, as in expand_gqa)
+    k = np.repeat(k, n_rep, axis=0)
+    scores = (q @ k.transpose(0, 2, 1)) / math.sqrt(hd)      # (n_head, T, T)
+    # causal mask
+    mask = np.triu(np.full((T, T), -np.inf, np.float64), k=1)
+    scores = scores.astype(np.float64) + mask
+    scores = scores - scores.max(axis=-1, keepdims=True)
+    w = np.exp(scores)
+    w = w / w.sum(axis=-1, keepdims=True)                    # causal softmax
+    w = w.mean(axis=0)                                       # average over heads
+    # distance = how far into the PAST: row index minus column index. The
+    # inverted convention (column minus row) makes every positive distance a
+    # FUTURE token, which the causal mask set to exactly zero -- so the profile
+    # came out with all its mass at distance 0 and the fit returned the bottom
+    # of the decay grid. That is the bug this line used to have.
+    dist = np.arange(T)[:, None] - np.arange(T)[None, :]
     prof = np.zeros(T)
     for d_ in range(T):
         m = dist == d_
         if m.any():
             prof[d_] = w[m].mean()
+    return prof
+
+
+def fit_decay_from_attention(inner, h, n_bins=8):
+    """Fit the single exponential decay whose recency kernel best matches the
+    replaced attention's measured profile."""
+    prof = measure_recency_profile(inner, h)
+    if prof is None:
+        return None, None
     if prof.sum() <= 0:
-        return 0.99, None
+        return None, None
     prof = prof / prof.sum()
-    xs = np.arange(T)
-    best, best_err = 0.9, np.inf
+    xs = np.arange(len(prof))
+    best, best_err = None, np.inf
     for g in np.linspace(0.5, 0.99999, 400):
-        k = (1 - g) * g ** xs
-        k = k / k.sum()
-        err = np.abs(np.cumsum(k) - np.cumsum(prof)).sum()
+        kern = (1 - g) * g ** xs
+        kern = kern / kern.sum()
+        err = np.abs(np.cumsum(kern) - np.cumsum(prof)).sum()
         if err < best_err:
             best_err, best = err, float(g)
     return best, dict(profile_head=prof[:n_bins].tolist(),
@@ -190,8 +249,15 @@ def fit_decay_from_attention(inner, x, n_bins=8):
 
 
 def to_f32(a):
-    """bfloat16 cannot be buffered by numpy; cast through MLX first."""
-    return np.array(a.astype(mx.float32))
+    """bfloat16 cannot be buffered by numpy; cast through MLX first.
+
+    Accepts an MLX array, a numpy array, or anything convertible. MLX bfloat16
+    has no numpy buffer protocol, so the cast must go through MLX.
+    """
+    if isinstance(a, np.ndarray):
+        return a.astype(np.float32) if a.dtype != np.float32 else a
+    arr = a if isinstance(a, mx.array) else mx.array(a)
+    return np.array(arr.astype(mx.float32))
 
 
 def infer_d(inner):
@@ -215,7 +281,8 @@ def infer_d(inner):
     return max(widths)
 
 
-def transplant(model, idx, mode, *, original=None, d=None):
+def transplant(model, idx, mode, *, original=None, d=None, probe_h=None,
+               banks=1, decays=None, decay=None):
     """Replace layer idx's attention with a carrier; return a diagnostic record."""
     layer, attr, fetched = attention_module(model, idx)
     if original is None and isinstance(fetched, GatedMemoryCarrier):
@@ -227,32 +294,62 @@ def transplant(model, idx, mode, *, original=None, d=None):
     if d is None:
         d = infer_d(inner)
 
-    carrier = GatedMemoryCarrier(d, mode)
-    rec = dict(attr=attr, d=int(d), mode=mode)
+    carrier = GatedMemoryCarrier(d, mode, banks=banks, decays=decays)
+    rec = dict(attr=attr, d=int(d), mode=mode, banks=int(banks))
 
-    # measure the recency profile on a small slice of real input
-    mx.random.seed(0)
-    probe = mx.array(np.random.randint(0, 1000, size=(1, 128)).astype(np.int32))
-    try:
-        h = layer.input_layernorm(model.model.embed_tokens(probe))
-    except Exception:
-        h = probe.astype(mx.float32)
-    decay, prof = fit_decay_from_attention(inner, h)
-    rec["fitted_decay"] = decay
-    rec["recency_profile_first8"] = prof["profile_head"] if prof else None
-    rec["fit_cdf_l1"] = prof["cdf_l1"] if prof else None
+    # Measure the recency profile on REAL activations for this layer.
+    #
+    # `probe_h`, when supplied, is the true input this sublayer receives (the
+    # caller captures it by running the model). Otherwise fall back to real
+    # corpus tokens pushed through this layer's own input norm -- still real
+    # activations, unlike the random-token version that used to be here.
+    if decay is not None:
+        # explicit override: no fit is performed, nothing is defaulted, and the
+        # value is recorded with its source so it cannot be mistaken for a fit
+        rec["fitted_decay"] = float(decay)
+        rec["decay_source"] = "explicit override"
+        rec["recency_profile_first8"] = None
+        rec["fit_cdf_l1"] = None
+    else:
+        h = probe_h
+        if h is None:
+            # No captured activations supplied. Measure anyway -- the profile
+            # only depends on q/k and a plausible h distribution -- but record
+            # that the probe was synthetic, so a reader can tell a measured fit
+            # from a defaulted one. This is NOT allowed to end in a constant.
+            h = mx.array(np.random.default_rng(0).normal(
+                0, 0.5, size=(1, 256, d)).astype(np.float32))
+            rec["probe"] = "synthetic gaussian (no real activations supplied)"
+        else:
+            rec["probe"] = "real layer activations"
+        fitted, prof = fit_decay_from_attention(inner, h)
+        if fitted is None:
+            raise RuntimeError(
+                f"could not measure the recency profile for layer {idx}: the "
+                f"attention module exposes no q_proj/k_proj weights "
+                f"(found {sorted(dict(nn.utils.tree_flatten(inner.parameters())).keys())}). "
+                f"Refusing to silently substitute a default decay -- that silent "
+                f"fallback is exactly the bug this function exists to prevent.")
+        decay = fitted
+        rec["decay_source"] = "fitted from measured recency profile"
+        rec["fitted_decay"] = decay
+        rec["recency_profile_first8"] = prof["profile_head"] if prof else None
+        rec["fit_cdf_l1"] = prof["cdf_l1"] if prof else None
 
-    # probe activations for output-rms matching (real input, not noise)
-    probe_h = ref_out = None
+    # probe activations for output-rms matching (real input, not noise).
+    # NOTE: this shadows the probe_h ARGUMENT used above for the decay fit; the
+    # fit has already run by this point, but the reuse is a trap for anyone
+    # moving code. Kept separate under its own name.
+    probe_rms_h = ref_out = None
     if mode == "random_scaled":
         try:
             ids_probe = np.random.default_rng(0).integers(0, 500, size=(1, 128))
             emb = model.model.embed_tokens(mx.array(ids_probe.astype(np.int32)))
-            probe_h = layer.input_layernorm(emb)
-            ref_out = inner(probe_h, None, None)
-            mx.eval(probe_h, ref_out)
+            probe_rms_h = layer.input_layernorm(emb)
+            ref_out = inner(probe_rms_h, None, None)
+            mx.eval(probe_rms_h, ref_out)
         except Exception:
-            probe_h = ref_out = None
+            probe_rms_h = ref_out = None
 
     if mode == "random_scaled":
         # THE DECISIVE CONTROL, and getting it right matters.
@@ -282,10 +379,10 @@ def transplant(model, idx, mode, *, original=None, d=None):
             (to_f32(carrier.mem.gate.weight) * 0.1).astype(np.float32))
         rec["gate_bias"] = float(b)
         # measure both rms values on real activations and match them
-        if probe_h is not None:
+        if probe_rms_h is not None:
             try:
                 setattr(layer, attr, carrier)
-                out_new = carrier(probe_h, None, None)
+                out_new = carrier(probe_rms_h, None, None)
                 out_ref = ref_out
                 mx.eval(out_new)
                 r_new = float(mx.sqrt(mx.mean(out_new.astype(mx.float32) ** 2)))
@@ -321,6 +418,15 @@ def transplant(model, idx, mode, *, original=None, d=None):
                 j = min(d, v.shape[1])
                 v_exp[:k, :j] = v[:k, :j]
             rec["value_expand_reps"] = int(n_rep)
+            # banks>1 keeps one trace per timescale, so W_v is (d*banks, d) and
+            # W_o is (d, d*banks). Tiling the SAME transplanted weights into
+            # every bank makes the banks differ only in their decay, which is
+            # exactly the intended multi-timescale arm: identical content, four
+            # horizons. A learned-different init per bank would confound the
+            # timescale question with a random-init question.
+            if banks > 1:
+                v_exp = np.tile(v_exp, (banks, 1))
+                o = np.tile(o, (1, banks))
             # W_v is (d -> d) with weight (d_out, d_in); our Linear(d,d) matches
             carrier.mem.v.weight = mx.array(v_exp.astype(np.float32))
             # MLX nn.Linear stores weight as (out, in) and computes x @ w.T.
@@ -332,10 +438,25 @@ def transplant(model, idx, mode, *, original=None, d=None):
             rec["wo_norm"] = float(np.linalg.norm(o))
         else:
             rec["transplanted"] = False
-        # gate: set the bias so the trace decays at the measured rate
-        b = math.log(decay / (1.0 - decay)) if 0 < decay < 1 else 4.6
-        carrier.mem.gate.bias = mx.array(np.array([b], np.float32))
-        rec["gate_bias"] = float(b)
+        # gate: set the bias so the trace decays at the requested rate. For
+        # banks>1 the gate bias is per (bank, channel), so give each bank its
+        # own decay; a single scalar keeps the original single-bank behaviour.
+        if decays is not None and len(np.atleast_1d(decays)) == banks:
+            per_bank = [float(x) for x in np.atleast_1d(decays)]
+        else:
+            per_bank = [float(decay)] * banks
+        bs = []
+        for g_ in per_bank:
+            if g_ >= 1.0:                  # decay exactly 1 -> never forgets
+                bs.append(30.0)            # sigmoid(30) = 1 - 9e-14
+            elif g_ <= 0.0:
+                bs.append(-30.0)
+            else:
+                bs.append(math.log(g_ / (1.0 - g_)))
+        carrier.mem.gate.bias = mx.array(
+            np.repeat(np.array(bs, np.float32), d))
+        rec["gate_bias"] = float(bs[0])
+        rec["gate_biases"] = [float(x) for x in bs]
         # Attention output is a CONVEX combination of past values; h_t = g h + v
         # is an unnormalised SUM, which for g=0.99 is ~100x too large and would
         # blow up the residual stream. Scaling v by (1-g) turns the trace into an
@@ -412,7 +533,7 @@ class GatedMemoryCarrier(nn.Module):
     """
 
     def __init__(self, d: int, mode: str = "transfer", chunk: int = 64,
-                 out_gain: float = 1.0):
+                 out_gain: float = 1.0, banks: int = 1, decays=None):
         super().__init__()
         self.mode = mode
         self.d = d
@@ -436,7 +557,22 @@ class GatedMemoryCarrier(nn.Module):
         # numerically identical to the W_v scaling in the frozen regime.
         self.out_gain = float(out_gain)
         if mode != "zero":
-            self.mem = GatedMemory(d, banks=1, chunk=chunk)
+            kw = {}
+            if decays is not None:
+                # a mixture of exponentials, one per bank. Needed because the
+                # MEASURED attention recency profile is NOT one exponential: the
+                # best single-exponential fit pins at the top of the grid with a
+                # large residual (see hybrid_decay.py).
+                #
+                # Clamped because GatedMemory's initial gate bias is
+                # log(a/(1-a)), which divides by zero at a=1.0 -- and 1.0 is a
+                # legitimate member of the sweep grid meaning "never forgets".
+                # The bias is overwritten below anyway; this only has to not
+                # crash.
+                kw["init_decays"] = tuple(
+                    min(max(float(x), 1e-6), 1.0 - 1e-9)
+                    for x in np.atleast_1d(decays))
+            self.mem = GatedMemory(d, banks=banks, chunk=chunk, **kw)
 
     def __call__(self, x, *args, **kwargs):
         if self.mode == "zero":

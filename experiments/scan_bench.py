@@ -315,6 +315,16 @@ _COMPILE_CACHE: dict = {}
 # cap is recorded in the JSON rather than hidden.
 COMPILED_LOOP_MAX_T = int(os.environ.get("BRAIN_COMPILED_LOOP_MAX_T", "512"))
 
+# Context lengths for the short-context block sweep. 64 and 128 are the regime
+# where attention is cheap and the scan's fixed launch cost should dominate.
+SHORT_TS = tuple(int(t) for t in os.environ.get(
+    "BRAIN_SHORT_TS", "64,128,256,512,2048").split(","))
+
+# Independent repetitions per context length for the short-context sweep. At
+# short T the two blocks are within ~10% of each other, so one pass cannot
+# establish the sign; the reps are what turn a coin flip into a result.
+SHORT_REPS = int(os.environ.get("BRAIN_SHORT_REPS", "5"))
+
 
 def compiled_hillis(v, g, chunk=64):
     key = ("hillis", chunk)
@@ -658,6 +668,175 @@ def end_to_end(seed=0, B=16, T=512, d=128, n_head=8, warmup=5, iters=30,
     )
 
 
+# --------------------------------------------------------------------------
+# short-context sweep: where does the memory block stop beating attention?
+# --------------------------------------------------------------------------
+def block_pair(T, seed=0, B=16, d=128, n_head=8, warmup=3, iters=20,
+               trials=3):
+    """Mem block (Hillis vs fused) and attention block at ONE context length.
+
+    Every arm is timed round-robin in a single interleaved loop, so background
+    GPU contention cannot flatter one arm; `ms_min` is the minimum over all
+    trials and `ms_median` the median over all samples. mx.eval runs inside the
+    timing loop, so each sample is a real evaluation of a lazy graph.
+
+    The scan-only rows are included so the reader can separate "the recurrence
+    costs this much" from "the block costs this much"; the fused-kernel launch
+    is fixed-cost, so at short T it should dominate the scan row.
+    """
+    mx.random.seed(seed)
+    x = mx.random.normal((B, T, d))
+    mask = nn.MultiHeadAttention.create_additive_causal_mask(T)
+
+    mem_before = GatedMemory(d, banks=1, chunk=64)
+    mem_after = GatedMemoryFused(mem_before)
+    attn = AttentionMemory(d, n_head)
+    for m in (attn,):
+        mx.eval(m.parameters())
+
+    blk_before = Block(d, n_head, "mem")
+    blk_before.mem = mem_before
+    blk_after = _swap_mem(blk_before)
+    blk_attn = Block(d, n_head, "attn")
+    for m in (blk_before, blk_after, blk_attn):
+        mx.eval(m.parameters())
+
+    _a, _b = blk_before(x, mask), blk_after(x, mask)
+    mx.eval(_a, _b)
+    agree = rel_err(_a, _b)
+
+    m_attn = macs_per_token_block("attn", d, T)
+    m_mem = macs_per_token_block("mem", d, T, banks=1)
+    m_attn_ctx1 = macs_per_token_block("attn", d, T)
+
+    parts = {
+        "mem scan only BEFORE (hillis c64)": (
+            lambda: chunked_gated_scan(*_mem_scan_inputs(mem_before, x)),
+            macs_scan("hillis", B, T, d, 64) // (B * T)),
+        "mem scan only AFTER (fused kernel)": (
+            lambda: fused_scan(*_mem_scan_inputs(mem_after, x)),
+            macs_scan("fused", B, T, d) // (B * T)),
+        "GatedMemory banks=1 AFTER (proj+scan)": (
+            lambda: mem_after(x), m_mem["proj"] + m_mem["ctx"]),
+        "mem BLOCK BEFORE (hillis)": (
+            lambda: blk_before(x, mask), m_mem["block_full"]),
+        "mem BLOCK AFTER (fused)": (
+            lambda: blk_after(x, mask), m_mem["block_full"]),
+        "attn BLOCK (causal mask)": (
+            lambda: blk_attn(x, mask), m_attn["block_full"]),
+        "attn BLOCK (mask=None)": (
+            lambda: blk_attn(x, None), m_attn_ctx1["block_full"]),
+        "dispatch floor (trivial op)": (
+            lambda: mx.add(mx.array([1.0]), 1.0), 0),
+    }
+    res = measure_paired({k: v[0] for k, v in parts.items()},
+                         warmup=warmup, iters=iters, trials=trials)
+    rows = []
+    for name, (_fn, macs) in parts.items():
+        r = res[name]
+        rows.append(dict(component=name, macs_per_token=macs,
+                         min_ms=r["ms_min"], med_ms=r["ms_median"],
+                         n_samples=r["n_samples"]))
+    by = {r["component"]: r for r in rows}
+    mb_before = by["mem BLOCK BEFORE (hillis)"]["min_ms"]
+    mb_after = by["mem BLOCK AFTER (fused)"]["min_ms"]
+    at_masked = by["attn BLOCK (causal mask)"]["min_ms"]
+    at_none = by["attn BLOCK (mask=None)"]["min_ms"]
+    return dict(
+        T=T, B=B, d=d, n_head=n_head, rows=rows,
+        same_function_rel_err=agree,
+        mem_block_before_ms=mb_before, mem_block_after_ms=mb_after,
+        attn_block_masked_ms=at_masked, attn_block_nomask_ms=at_none,
+        mem_over_attn_after=mb_after / at_masked,
+        mem_over_attn_after_vs_nomask=mb_after / at_none,
+        mem_over_attn_before=mb_before / at_masked,
+        mem_block_speedup=mb_before / mb_after,
+        mem_faster_than_attn_after=bool(mb_after < at_masked),
+        mem_faster_than_attn_after_vs_nomask=bool(mb_after < at_none),
+        scan_before_ms=by["mem scan only BEFORE (hillis c64)"]["min_ms"],
+        scan_after_ms=by["mem scan only AFTER (fused kernel)"]["min_ms"],
+        dispatch_floor_ms=by["dispatch floor (trivial op)"]["min_ms"],
+        macs_per_token=dict(attn=m_attn, mem_banks1=m_mem),
+        mac_ratio_attn_over_mem=m_attn["block_full"] / m_mem["block_full"],
+    )
+
+
+def short_context_sweep(seed=0, Ts=(64, 128, 256, 512, 2048), reps=1, **kw):
+    """Block-vs-block wall clock across context length, plus the crossover.
+
+    Each T is measured `reps` independent times. At short context the two
+    blocks land within ~10-20% of each other, which is the same size as the
+    dispatch floor and as run-to-run contention on this machine, so a single
+    pass cannot tell the sign of the difference. The distribution of the ratio
+    over reps is reported alongside it, and `sign_stable` records whether every
+    rep agreed. A one-rep run would be a coin flip dressed as a result.
+
+    The crossover is reported as an interval, not a point: the largest tested T
+    at which the fused memory block was slower than the attention block in the
+    MEDIAN rep, and the smallest tested T at which it was faster. `None` on
+    either side means "no such T in the tested range", which is itself a result.
+    """
+    rows = []
+    for T in Ts:
+        reps_out = [block_pair(T, seed=seed, **kw) for _ in range(reps)]
+        ratios = sorted(r["mem_over_attn_after"] for r in reps_out)
+        first = reps_out[0]
+        first = dict(first)
+        first["ratio_reps"] = ratios
+        first["ratio_median_over_reps"] = ratios[len(ratios) // 2]
+        first["ratio_min_over_reps"] = ratios[0]
+        first["ratio_max_over_reps"] = ratios[-1]
+        first["mem_faster_reps"] = sum(
+            1 for r in reps_out if r["mem_faster_than_attn_after"])
+        first["sign_stable"] = bool(
+            first["mem_faster_reps"] in (0, reps))
+        first["median_rep_mem_faster"] = bool(
+            first["ratio_median_over_reps"] < 1.0)
+        # comparison against UNMASKED attention, on the same rep distribution,
+        # so the two verdicts are computed the same way
+        ratio_nm = sorted(r["mem_over_attn_after_vs_nomask"] for r in reps_out)
+        first["ratio_nomask_reps"] = ratio_nm
+        first["ratio_nomask_median_over_reps"] = ratio_nm[len(ratio_nm) // 2]
+        first["median_rep_mem_faster_vs_nomask"] = bool(
+            first["ratio_nomask_median_over_reps"] < 1.0)
+        first["nomask_faster_reps"] = sum(
+            1 for r in reps_out
+            if r["mem_faster_than_attn_after_vs_nomask"])
+        first["nomask_sign_stable"] = bool(
+            first["nomask_faster_reps"] in (0, reps))
+        rows.append(first)
+
+    # A T is only evidence of a WIN or a LOSS if every rep agreed on the sign.
+    # Where reps disagree the difference is smaller than this machine's
+    # measurement noise, and calling it either way would be reporting noise.
+    # Those T are TIES and are excluded from the crossover.
+    stable = [r for r in rows if r["sign_stable"]]
+    ties = [r["T"] for r in rows if not r["sign_stable"]]
+    slower = [r["T"] for r in stable if r["median_rep_mem_faster"] is False]
+    faster = [r["T"] for r in stable if r["median_rep_mem_faster"] is True]
+    nomask_slower = [r["T"] for r in rows
+                     if r["median_rep_mem_faster_vs_nomask"] is False]
+    return dict(
+        seed=seed, Ts=list(Ts), B=rows[0]["B"], d=rows[0]["d"],
+        n_head=rows[0]["n_head"], reps=reps, rows=rows,
+        tie_Ts=ties,
+        resolved_Ts=[r["T"] for r in stable],
+        mem_slower_at=sorted(slower), mem_faster_at=sorted(faster),
+        # the resolution limit: below this T the two blocks are
+        # indistinguishable on this machine, whichever way individual reps fall
+        # the smallest T at which the memory block's win was sign-stable;
+        # if the smallest tested T is already stable, no limit was found
+        resolution_limit_T=(
+            min(r["T"] for r in stable if r["median_rep_mem_faster"])
+            if any(r["median_rep_mem_faster"] for r in stable) else None),
+        mem_slower_at_vs_nomask=sorted(nomask_slower),
+        crossover_T_interval=(
+            [max(slower), min(faster)] if slower and faster else None),
+        mem_always_faster=not slower,
+        mem_never_faster=not faster,
+    )
+
+
 def _mem_scan_inputs(mem, x):
     B, T, _ = x.shape
     v = mem.v(x).reshape(B, T, mem.banks, mem.d)
@@ -704,10 +883,28 @@ def main():
     np.random.seed(seed)
 
     B, D = 16, 128
+    # Anything already in the results file is PRIOR EVIDENCE. This session's
+    # brief was to add short-context numbers without overwriting the recorded
+    # headline, so the previous headline and detailed table are carried forward
+    # under explicit *_previous keys and never silently replaced.
+    prior = {}
+    if os.path.exists(OUT):
+        try:
+            with open(OUT) as fh:
+                prior = json.load(fh)
+        except Exception:
+            prior = {}
+
     report: dict = dict(seed=seed, B=B, D=D, tol=TOL,
                         gate_biases=list(GATE_BIASES),
                         gate_T=list(GATE_T), levers={}, gate={},
                         compiled_loop_max_T=COMPILED_LOOP_MAX_T)
+    if prior.get("headline"):
+        report["headline_previous"] = prior["headline"]
+    if prior.get("end_to_end"):
+        report["end_to_end_previous"] = prior["end_to_end"]
+    if prior.get("short_context_sweep"):
+        report["short_context_sweep_previous"] = prior["short_context_sweep"]
 
     print("=" * 78)
     print("scan_bench: wall clock of the gated-memory scan, with exactness gate")
@@ -932,7 +1129,7 @@ def main():
     mb = e2e["mem_block_before_ms"]
     ma = e2e["mem_block_after_ms"]
     at = e2e["attn_block_ms"]
-    report["headline"] = dict(
+    current = dict(
         mem_block_before_ms=mb, mem_block_after_ms=ma, attn_block_ms=at,
         mem_over_attn_before=e2e["mem_over_attn_before"],
         mem_over_attn_after=e2e["mem_over_attn_after"],
@@ -942,6 +1139,15 @@ def main():
         mac_ratio_attn_over_mem_full=e2e["mac_ratio_attn_over_mem_full"],
         mac_ratio_attn_over_mem_causal=e2e["mac_ratio_attn_over_mem_causal"],
     )
+    # The headline key is NOT overwritten if a headline was already recorded:
+    # the long-context result is prior evidence and this run's number goes in
+    # headline_current_run instead. Only a fresh file sets the headline.
+    if prior.get("headline"):
+        report["headline_current_run"] = current
+    else:
+        report["headline"] = current
+    report["headline_used"] = ("headline" if not prior.get("headline")
+                               else "headline_current_run")
     print(f"\n[headline] mem block {mb:.3f} -> {ma:.3f} ms "
           f"({e2e['mem_block_speedup']:.2f}x); mem/attn "
           f"{e2e['mem_over_attn_before']:.2f}x -> {e2e['mem_over_attn_after']:.2f}x "
@@ -953,6 +1159,61 @@ def main():
           f"{e2e['mac_ratio_attn_over_mem_causal']:.2f}x causal-skip")
     print(f"[headline] block same-function rel err vs Hillis: "
           f"{e2e['block_same_function_rel_err']:.2e}")
+
+    # ---- short-context sweep (NEW KEY: short_context_sweep) --------------
+    print("\n[short-context] mem block vs attn block, B=16, d=128, n_head=8")
+    print("  round-robin paired timing, mx.eval every sample, min over trials")
+    sweep = short_context_sweep(seed=seed, Ts=SHORT_TS, reps=SHORT_REPS)
+    report["short_context_sweep"] = sweep
+    print(f"  min-of-N ms, {SHORT_REPS} independent reps per T; ratio is "
+          f"mem_block_after/attn_block (min_ms within a rep)")
+    print(f"  {'T':>6}{'mem bef':>9}{'mem aft':>9}{'attn':>9}"
+          f"{'ratio':>8}{'ratio med':>10}{'rng':>16}{'mem win':>9}"
+          f"{'scan bef':>10}{'scan aft':>10}{'floor':>8}{'a/m MAC':>9}")
+    for r in sweep["rows"]:
+        rng = f"{r['ratio_min_over_reps']:.2f}-{r['ratio_max_over_reps']:.2f}"
+        print(f"  {r['T']:>6}{r['mem_block_before_ms']:>9.3f}"
+              f"{r['mem_block_after_ms']:>9.3f}{r['attn_block_masked_ms']:>9.3f}"
+              f"{r['mem_over_attn_after']:>8.2f}"
+              f"{r['ratio_median_over_reps']:>10.2f}{rng:>16}"
+              f"{r['mem_faster_reps']:>5}/{SHORT_REPS:<3}"
+              f"{r['scan_before_ms']:>10.3f}"
+              f"{r['scan_after_ms']:>10.3f}{r['dispatch_floor_ms']:>8.3f}"
+              f"{r['mac_ratio_attn_over_mem']:>9.2f}")
+    ci = sweep["crossover_T_interval"]
+    if sweep["tie_Ts"]:
+        print(f"  [tie] sign NOT stable across reps at T={sweep['tie_Ts']}: "
+              f"the difference there is smaller than this machine's noise.")
+    if sweep["mem_always_faster"]:
+        print(f"  [crossover] no T in {list(SHORT_TS)} where attention beats "
+              f"the memory block in every rep. The memory block is never "
+              f"reliably SLOWER in the tested range.")
+    elif sweep["mem_never_faster"]:
+        print(f"  [crossover] no T in {list(SHORT_TS)} where the memory block "
+              f"beats attention.")
+    else:
+        print(f"  [crossover] memory block loses at T<={ci[0]} and wins from "
+              f"T>={ci[1]}.")
+    print(f"  [resolution] sign-stable memory WIN at T={sweep['mem_faster_at']}")
+    if sweep["mem_slower_at"]:
+        print(f"  [resolution] sign-stable attention WIN at T="
+              f"{sweep['mem_slower_at']}")
+    if sweep["tie_Ts"]:
+        print(f"  [resolution] TIE (no stable sign) at T={sweep['tie_Ts']}: "
+              f"the two blocks are within this machine's measurement noise "
+              f"there, so those T are excluded from the crossover.")
+    print(f"  [resolution] smallest tested T is {min(SHORT_TS)}; this harness "
+          f"does NOT exclude a crossover below it.")
+    print(f"  [resolution] quiet-run caveat: the dispatch floor for this sweep "
+          f"ranged {min(r['dispatch_floor_ms'] for r in sweep['rows']):.3f}-"
+          f"{max(r['dispatch_floor_ms'] for r in sweep['rows']):.3f} ms. At "
+          f"short T the whole block costs ~0.3-0.6 ms, so the floor is a large "
+          f"share of the measurement and the TIE band is wide there.")
+    print(f"  [crossover] vs UNMASKED attention (median over "
+          f"{SHORT_REPS} reps): mem slower at "
+          f"{sweep['mem_slower_at_vs_nomask'] or 'none'}")
+    print(f"  [crossover] same-function rel err of the fused block vs Hillis: "
+          f"max {max(r['same_function_rel_err'] for r in sweep['rows']):.2e}")
 
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     with open(OUT, "w") as fh:

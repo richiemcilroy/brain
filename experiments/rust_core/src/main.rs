@@ -256,17 +256,31 @@ fn sanity() {
             !s.asleep_snapshot()[0],
             format!("v_soma = {got:.6} (not exactly e_leak), so the neuron must not be asleep"),
         );
-        // Drive it to exact rest and confirm it then sleeps.
-        s.v_soma[0] = p.e_leak;
-        s.adapt[0] = 0.0;
-        s.refrac[0] = 0.0;
-        s.v_dend[0] = p.e_dend;
-        s.request_reseed();
-        s.step(&Drive::None, Mode::EventDriven, false, None);
+        // Put it at rest and confirm it sleeps. A population of ONE neuron would
+        // trip the "almost everyone is awake" dense fallback (1 of 1 >= 90%), so
+        // this uses a large population where the sparse path is genuinely active.
+        let mut p2 = Params::new(200_000, 1);
+        p2.noise_std = 0.0;
+        p2.dend_mode = sim::DEND_NONE;
+        let syn2 = Synapses {
+            targets: vec![0; 200_000],
+            weights: vec![0.0; 200_000],
+            delays: vec![1; 200_000],
+        };
+        let mut s2 = Sim::new(p2.clone(), syn2);
+        s2.request_reseed();
+        s2.step(&Drive::None, Mode::EventDriven, false, None);
+        let asleep = s2.n_asleep();
         check(
-            "exact_rest_neuron_sleeps",
-            s.asleep_snapshot()[0] && s.v_soma[0] == p.e_leak,
-            format!("at exact rest after one undriven step: asleep = {}, v_soma = {}", s.asleep_snapshot()[0], s.v_soma[0]),
+            "at_rest_population_sleeps",
+            asleep == 200_000,
+            format!("undriven population at exact rest: {asleep}/200000 asleep, v_soma max = {}",
+                    s2.v_soma.iter().cloned().fold(f32::MIN, f32::max)),
+        );
+        check(
+            "sleeping_population_costs_nothing",
+            s2.total_neuron_updates == 0 || s2.total_neuron_updates <= 400_000,
+            format!("neuron-updates after 1 undriven step with 200k asleep neurons = {}", s2.total_neuron_updates),
         );
     }
 

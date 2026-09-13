@@ -2,16 +2,22 @@
  "teacher": "unsloth/Llama-3.2-1B",
  "base_params": 1235814400,
  "layer": 8,
+ "n_layers": 16,
  "val_tokens": 3000,
+ "select_tokens": 3000,
  "teacher_ppl": 20.375600125475536,
  "steps": 300,
  "bs": 2,
  "ctx": 128,
- "lr": 0.0003,
+ "lrs": [
+  1e-05,
+  3e-05
+ ],
  "arms": [
   {
    "attr": "self_attn",
    "d": 2048,
+   "mode": "transfer",
    "fitted_decay": 0.99,
    "recency_profile_first8": null,
    "fit_cdf_l1": null,
@@ -27,137 +33,286 @@
    "wo_norm": 29.8035831451416,
    "gate_bias": 4.595119850134589,
    "value_scaled_by": 0.010000000000000009,
-   "mode": "transfer",
-   "before_ppl": 23.722761662217685,
-   "after_ppl": 1392.7937655961198,
-   "ft_wall_s": 49.8035728931427,
-   "ft_history": [
-    {
-     "step": 25,
-     "loss": 8.795462608337402
-    },
+   "out_gain": 0.010000000000000009,
+   "arm": "transfer",
+   "rms_before_gain": 3.2285592555999756,
+   "rms_target": 0.05049945414066315,
+   "out_gain_calibrated": 0.015641482823358817,
+   "wv_per_element_mag": 0.009965745732188225,
+   "lr": 1e-05,
+   "before_ppl": 24.3232575225621,
+   "after_ppl": 24.122524976416614,
+   "wall_s": 136.00284004211426,
+   "curve": [
     {
      "step": 50,
-     "loss": 7.601831912994385
-    },
-    {
-     "step": 75,
-     "loss": 8.067967414855957
+     "loss": 3.7061309814453125,
+     "select_ppl": 30.944685668091537
     },
     {
      "step": 100,
-     "loss": 7.803762435913086
-    },
-    {
-     "step": 125,
-     "loss": 7.867695331573486
+     "loss": 3.519044876098633,
+     "select_ppl": 27.0793086755128
     },
     {
      "step": 150,
-     "loss": 7.536554336547852
-    },
-    {
-     "step": 175,
-     "loss": 7.434368133544922
+     "loss": 3.234419345855713,
+     "select_ppl": 26.831167353635617
     },
     {
      "step": 200,
-     "loss": 6.987357139587402
-    },
-    {
-     "step": 225,
-     "loss": 7.224848747253418
+     "loss": 3.180938243865967,
+     "select_ppl": 26.423266761457782
     },
     {
      "step": 250,
-     "loss": 7.521109104156494
-    },
-    {
-     "step": 275,
-     "loss": 6.959964275360107
+     "loss": 3.074247360229492,
+     "select_ppl": 25.991462871270073
     },
     {
      "step": 300,
-     "loss": 6.839288234710693
+     "loss": 3.39699387550354,
+     "select_ppl": 25.80513529954621
     }
    ]
   },
   {
    "attr": "self_attn",
    "d": 2048,
+   "mode": "transfer",
    "fitted_decay": 0.99,
    "recency_profile_first8": null,
    "fit_cdf_l1": null,
+   "found": [
+    "k_proj.weight",
+    "o_proj.weight",
+    "q_proj.weight",
+    "v_proj.weight"
+   ],
+   "value_expand_reps": 4,
    "transplanted": false,
-   "control": "random weights, output-rms matched to the attention it replaces",
+   "wv_norm": 26.364788055419922,
+   "wo_norm": 29.8035831451416,
    "gate_bias": 4.595119850134589,
-   "output_rms_before": 6.057466506958008,
-   "output_rms_target": 0.02838282287120819,
-   "output_rms_scale_applied": 0.004685593034415593,
-   "mode": "random_scaled",
-   "before_ppl": 74.6296236897966,
-   "after_ppl": 1554.1203424930077,
-   "ft_wall_s": 3684.055746793747,
-   "ft_history": [
-    {
-     "step": 25,
-     "loss": 8.688057899475098
-    },
+   "value_scaled_by": 0.010000000000000009,
+   "out_gain": 0.010000000000000009,
+   "arm": "random_matched",
+   "control": "random W_v/W_o at fan-in scale, output-rms matched",
+   "rms_before_gain": 25.933996200561523,
+   "rms_target": 0.05049945414066315,
+   "out_gain_calibrated": 0.001947229950607062,
+   "wv_per_element_mag": 0.017624743282794952,
+   "lr": 1e-05,
+   "before_ppl": 27.833372185152207,
+   "after_ppl": 23.582261131676706,
+   "wall_s": 124.48333477973938,
+   "curve": [
     {
      "step": 50,
-     "loss": 7.581955909729004
-    },
-    {
-     "step": 75,
-     "loss": 8.067399024963379
+     "loss": 3.697218894958496,
+     "select_ppl": 27.387401198101152
     },
     {
      "step": 100,
-     "loss": 7.8196821212768555
-    },
-    {
-     "step": 125,
-     "loss": 7.895528316497803
+     "loss": 3.578946113586426,
+     "select_ppl": 26.044294343418503
     },
     {
      "step": 150,
-     "loss": 7.57029914855957
-    },
-    {
-     "step": 175,
-     "loss": 7.494036674499512
+     "loss": 3.2696266174316406,
+     "select_ppl": 26.041236139054707
     },
     {
      "step": 200,
-     "loss": 7.092254638671875
-    },
-    {
-     "step": 225,
-     "loss": 7.281970977783203
+     "loss": 3.2217864990234375,
+     "select_ppl": 25.85049411246476
     },
     {
      "step": 250,
-     "loss": 7.637784957885742
-    },
-    {
-     "step": 275,
-     "loss": 7.103091239929199
+     "loss": 3.134061336517334,
+     "select_ppl": 26.10258113390864
     },
     {
      "step": 300,
-     "loss": 6.956867218017578
+     "loss": 3.4044313430786133,
+     "select_ppl": 25.750209394822008
+    }
+   ]
+  },
+  {
+   "attr": "self_attn",
+   "d": 2048,
+   "mode": "transfer",
+   "fitted_decay": 0.99,
+   "recency_profile_first8": null,
+   "fit_cdf_l1": null,
+   "found": [
+    "k_proj.weight",
+    "o_proj.weight",
+    "q_proj.weight",
+    "v_proj.weight"
+   ],
+   "value_expand_reps": 4,
+   "transplanted": true,
+   "wv_norm": 26.364788055419922,
+   "wo_norm": 29.8035831451416,
+   "gate_bias": 4.595119850134589,
+   "value_scaled_by": 0.010000000000000009,
+   "out_gain": 0.010000000000000009,
+   "arm": "transfer",
+   "rms_before_gain": 3.238391399383545,
+   "rms_target": 0.05049945414066315,
+   "out_gain_calibrated": 0.015593993409899786,
+   "wv_per_element_mag": 0.009965745732188225,
+   "lr": 3e-05,
+   "before_ppl": 24.34856833543998,
+   "after_ppl": 23.62198770469931,
+   "wall_s": 200.6510627269745,
+   "curve": [
+    {
+     "step": 50,
+     "loss": 3.7446346282958984,
+     "select_ppl": 30.84634323210497
+    },
+    {
+     "step": 100,
+     "loss": 3.5046029090881348,
+     "select_ppl": 27.03538530734998
+    },
+    {
+     "step": 150,
+     "loss": 3.235872507095337,
+     "select_ppl": 26.140040962360796
+    },
+    {
+     "step": 200,
+     "loss": 3.1322154998779297,
+     "select_ppl": 26.09603288477051
+    },
+    {
+     "step": 250,
+     "loss": 3.1889147758483887,
+     "select_ppl": 25.068757156874586
+    },
+    {
+     "step": 300,
+     "loss": 3.3470401763916016,
+     "select_ppl": 25.151200181090008
+    }
+   ]
+  },
+  {
+   "attr": "self_attn",
+   "d": 2048,
+   "mode": "transfer",
+   "fitted_decay": 0.99,
+   "recency_profile_first8": null,
+   "fit_cdf_l1": null,
+   "found": [
+    "k_proj.weight",
+    "o_proj.weight",
+    "q_proj.weight",
+    "v_proj.weight"
+   ],
+   "value_expand_reps": 4,
+   "transplanted": false,
+   "wv_norm": 26.364788055419922,
+   "wo_norm": 29.8035831451416,
+   "gate_bias": 4.595119850134589,
+   "value_scaled_by": 0.010000000000000009,
+   "out_gain": 0.010000000000000009,
+   "arm": "random_matched",
+   "control": "random W_v/W_o at fan-in scale, output-rms matched",
+   "rms_before_gain": 25.933996200561523,
+   "rms_target": 0.05049945414066315,
+   "out_gain_calibrated": 0.001947229950607062,
+   "wv_per_element_mag": 0.017624743282794952,
+   "lr": 3e-05,
+   "before_ppl": 27.833372185152207,
+   "after_ppl": 22.919715760020974,
+   "wall_s": 146.90973496437073,
+   "curve": [
+    {
+     "step": 50,
+     "loss": 3.689589262008667,
+     "select_ppl": 29.122962698749586
+    },
+    {
+     "step": 100,
+     "loss": 3.552645206451416,
+     "select_ppl": 25.88997368757149
+    },
+    {
+     "step": 150,
+     "loss": 3.243698835372925,
+     "select_ppl": 25.387286918133547
+    },
+    {
+     "step": 200,
+     "loss": 3.18062424659729,
+     "select_ppl": 25.309747849750888
+    },
+    {
+     "step": 250,
+     "loss": 3.0694804191589355,
+     "select_ppl": 25.069420419454264
+    },
+    {
+     "step": 300,
+     "loss": 3.371796131134033,
+     "select_ppl": 24.871114236742798
     }
    ]
   }
  ],
+ "protocol": {
+  "normalisation": "fixed output gain (not a parameter)",
+  "rms_matching": "every arm matched to attention output rms, same rule",
+  "frozen": "only the carrier is trainable",
+  "lr_selection": "selection split only; val never used to choose lr",
+  "naive_v1_artifact": "results/hybrid_finetune_naive.json"
+ },
+ "zero_ppl": 24.104393610665852,
+ "verdicts": [
+  {
+   "lr": 1e-05,
+   "transfer_after": 24.122524976416614,
+   "random_after": 23.582261131676706,
+   "zero": 24.104393610665852,
+   "teacher": 20.375600125475536,
+   "transfer_beats_random": false,
+   "margin_random_minus_transfer": -0.5402638447399077,
+   "transfer_beats_zero": false,
+   "random_beats_zero": true,
+   "transfer_recovery_frac": -0.004862528810665994,
+   "random_recovery_frac": 0.14002719138587444
+  },
+  {
+   "lr": 3e-05,
+   "transfer_after": 23.62198770469931,
+   "random_after": 22.919715760020974,
+   "zero": 24.104393610665852,
+   "teacher": 20.375600125475536,
+   "transfer_beats_random": false,
+   "margin_random_minus_transfer": -0.702271944678337,
+   "transfer_beats_zero": true,
+   "random_beats_zero": true,
+   "transfer_recovery_frac": 0.1293731894465373,
+   "random_recovery_frac": 0.3177107703470503
+  }
+ ],
  "verdict": {
+  "lr": 1e-05,
+  "transfer_after": 24.122524976416614,
+  "random_after": 23.582261131676706,
+  "zero": 24.104393610665852,
   "teacher": 20.375600125475536,
-  "transfer_before": 23.722761662217685,
-  "transfer_after": 1392.7937655961198,
-  "random_before": 74.6296236897966,
-  "random_after": 1554.1203424930077,
-  "transplant_init_better_after_ft": true,
-  "margin": 161.3265768968879,
-  "note": "If the transplant does not beat the matched random init after identical finetuning, the init is worthless and the frozen win came from architecture + fitted decay, not the weights."
- }
+  "transfer_beats_random": false,
+  "margin_random_minus_transfer": -0.5402638447399077,
+  "transfer_beats_zero": false,
+  "random_beats_zero": true,
+  "transfer_recovery_frac": -0.004862528810665994,
+  "random_recovery_frac": 0.14002719138587444
+ },
+ "interpretation": "transfer_beats_random is the decisive test: it separates 'the transplanted weights carry the function' from 'any module with the right decay and scale helps'. A negative here is a clean falsification of the transplant claim."
 }

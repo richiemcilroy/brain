@@ -1,0 +1,45 @@
+{
+ "arm": "depth2_mem",
+ "seed": 0,
+ "phase": "final",
+ "dropout": 0.0,
+ "lr": 0.001,
+ "params": 490496,
+ "steps": 100,
+ "bs": 16,
+ "ctx": 512,
+ "d": 128,
+ "depth": 2,
+ "val_bpc": 3.7375791518029926,
+ "test_bpc": 3.767650019709953,
+ "train_bpc": 3.740428948766768,
+ "best_val_bpc": 3.7375791518029926,
+ "best_val_step": 100,
+ "final_val_bpc": 3.73758,
+ "train_bpc_last_batch": 3.8680879419183603,
+ "n_windows": {
+  "train": 2000,
+  "val": 9765,
+  "test": 9765
+ },
+ "curve": [
+  {
+   "step": 50,
+   "val_bpc": 4.93992
+  },
+  {
+   "step": 100,
+   "val_bpc": 3.73758
+  },
+  {
+   "step": 100,
+   "val_bpc": 3.73758
+  }
+ ],
+ "train_wall_s": 7.2,
+ "eval_wall_s": 8.1,
+ "tok_s": 113067.2,
+ "tokens_seen": 819200,
+ "corpus_sha256": "2b49720ec4d78c3c9fabaee6e4179a5e997302b3a70029f30f2d582218c024a8",
+ "finished_utc": "2026-09-13T11:56:32.001471+00:00"
+}

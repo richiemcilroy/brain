@@ -163,11 +163,13 @@ class LoopedLM(nn.Module):
             self.loop_ln = [nn.LayerNorm(d) for _ in range(loops)]
             self.loop_scale = mx.full((loops,), loop_scale_init, dtype=mx.float32)
 
-    def __call__(self, idx):
+    def forward_trace(self, idx):
+        """Hidden state after each full pass. Used for the mechanism probe."""
         B, T = idx.shape
         x0 = self.tok(idx) + self.pos(mx.arange(T)[None, :])
         mask = nn.MultiHeadAttention.create_additive_causal_mask(T)
         h = x0
+        states = []
         for i in range(self.loops):
             if self.use_timestep:
                 h = h + self.ts(mx.array([i]))
@@ -177,7 +179,12 @@ class LoopedLM(nn.Module):
                 h = self.loop_ln[i](h) * self.loop_scale[i]
             for blk in self.blocks:
                 h = blk(h, mask)
-        return self.head(self.lnf(h))
+            states.append(h)
+        return states
+
+    def __call__(self, idx):
+        states = self.forward_trace(idx)
+        return self.head(self.lnf(states[-1]))
 
 
 # --------------------------------------------------------------------------
@@ -194,6 +201,14 @@ ARMS = {
     "loop2x2_ts":  dict(n_layer=2, loops=2, timestep=True),
     "loop1x4_ws":  dict(n_layer=1, loops=4, loop_norm=True),
     "loop1x4_ts":  dict(n_layer=1, loops=4, timestep=True),
+    # flat2 with its step count scaled so its WALL-CLOCK matches loop2x2's.
+    # flat2 has loop2x2's parameters at half its FLOPs per token, so under an
+    # equal-time budget it gets MORE steps. That is the point: time is what a
+    # practitioner pays. `steps_mult` is filled from the wall-clock calibration.
+    # 2800 = 1500 * 1.8815, the measured flat2/loop2x2 steps-per-second ratio,
+    # rounded to the nearest 50. Calibration is re-run and recorded in the JSON.
+    "flat2_wall":  dict(n_layer=2, loops=1, steps_mult=2800 / 1500.0,
+                        wall_matched=True),
 }
 
 # pre-registered comparisons; first arm negative = first arm better (lower bpc)
@@ -206,11 +221,14 @@ PAIRED = [
     ("loop2x2_ts", "loop2x2"),   # what the timestep embedding does
     ("loop1x4_ws", "loop1x4"),   # stabiliser on the 4-pass arm
     ("loop1x4_ts", "loop1x4"),   # timestep embedding on the 4-pass arm
+    ("flat2_wall", "loop2x2"),   # equal WALL-CLOCK, not equal steps
 ]
 
 
 def build(arm, vocab):
     spec = dict(ARMS[arm])
+    spec.pop("steps_mult", None)    # scheduling metadata, not a model argument
+    spec.pop("wall_matched", None)
     m = LoopedLM(vocab, D, CTX, spec.pop("n_layer"), loops=spec.pop("loops"),
                  chunk=CHUNK, **spec)
     return m
@@ -271,11 +289,39 @@ def run(arm, data, vocab, *, steps=1500, bs=16, lr=1e-3, seed=0, log=print):
                     n_val_windows=n_win, tok_s=ntok / max(wall, 1e-9),
                     wall_s=wall)
     val_nats = evaluate(m, xv, yv, vocab)
+    drift = pass_drift(m, tr, vocab, seed=seed)
     return dict(arm=arm, seed=seed, params=P, flops_per_token=FL,
                 steps_run=steps, diverged=False,
                 val_bpc=val_nats / math.log(2),
                 train_bpc=last_train / math.log(2),
-                n_val_windows=n_win, tok_s=ntok / wall, wall_s=wall)
+                n_val_windows=n_win, tok_s=ntok / wall, wall_s=wall,
+                tokens_seen=int(ntok), pass_drift=drift)
+
+
+def pass_drift(m, train, vocab, seed=0, ctx=CTX, n=4):
+    """How much does one more pass actually change the representation?
+
+    Reports, per pass, the relative change ||h_i - h_{i-1}|| / ||h_{i-1}|| and
+    the cosine similarity between consecutive passes. This is the honest,
+    cheap thing to measure on the "effective depth" axis: it says whether the
+    extra passes are still doing work or have settled onto a fixed point. It is
+    NOT a receptive-field measurement and is not reported as one.
+    """
+    rng = np.random.default_rng(seed)
+    ix = rng.integers(0, len(train) - ctx - 1, size=n)
+    x = mx.array(np.stack([train[i:i + ctx] for i in ix]))
+    states = m.forward_trace(x)
+    ev = [m.tok(x) + m.pos(mx.arange(ctx)[None, :])] + states
+    out = []
+    for i in range(1, len(ev)):
+        a, b = ev[i - 1], ev[i]
+        num = float(mx.sqrt(mx.sum((b - a) ** 2)))
+        den = float(mx.sqrt(mx.sum(a ** 2))) + 1e-12
+        cos = float(mx.sum(a * b) / (mx.sqrt(mx.sum(a ** 2)) *
+                                     mx.sqrt(mx.sum(b ** 2)) + 1e-12))
+        out.append(dict(pass_index=i, rel_change=num / den,
+                        cosine_to_prev=cos))
+    return out
 
 
 # --------------------------------------------------------------------------
@@ -308,6 +354,9 @@ def summarise(results, arms, bg):
             arm=arm, params=rs[0]["params"],
             flops_per_token=rs[0]["flops_per_token"],
             loops=ARMS[arm]["loops"], n_layer=ARMS[arm]["n_layer"],
+            steps=rs[0]["steps_run"],
+            tokens_seen=int(np.mean([r.get("tokens_seen", 0) for r in rs])),
+            pass_drift=ok[0].get("pass_drift") if ok else None,
             val_bpc_mean=float(np.mean(v)) if v else float("nan"),
             val_bpc_sd=float(np.std(v, ddof=1)) if len(v) > 1 else float("nan"),
             val_bpc_min=float(min(v)) if v else float("nan"),
@@ -327,7 +376,8 @@ def print_tables(rows, paired, bg, ug):
     print("(every arm must be BELOW the bigram floor to have learned any "
           "context at all)\n")
     hdr = (f"{'arm':<12}{'params':>10}{'FLOPs/tok':>13}{'uniq':>5}{'pass':>5}"
-           f"{'train bpc':>11}{'val bpc':>9}{'sd':>8}{'vs floor':>10}{'wall s':>9}")
+           f"{'steps':>7}{'train bpc':>11}{'val bpc':>9}{'sd':>8}"
+           f"{'vs floor':>10}{'wall s':>9}")
     print(hdr)
     print("-" * len(hdr))
     for r in rows:
@@ -337,7 +387,7 @@ def print_tables(rows, paired, bg, ug):
         elif r["at_or_above_floor"]:
             flag = "  ABOVE FLOOR (no context learned)"
         print(f"{r['arm']:<12}{r['params']:>10,}{r['flops_per_token']:>13,.0f}"
-              f"{r['n_layer']:>5}{r['loops']:>5}"
+              f"{r['n_layer']:>5}{r['loops']:>5}{r['steps']:>7}"
               f"{r['train_bpc_mean']:>11.4f}{r['val_bpc_mean']:>9.4f}"
               f"{r['val_bpc_sd']:>8.4f}{bg - r['val_bpc_mean']:>+10.4f}"
               f"{r['wall_s_mean']:>9.1f}{flag}")
@@ -399,6 +449,28 @@ if __name__ == "__main__":
                     "matches flat2 on params; a null on loop2x2-vs-flat2 is "
                     "the expected outcome"))
 
+    # ---- determinism is ASSERTED, not assumed -------------------------
+    # Two independent constructions of the same arm at the same seed must give
+    # bit-identical validation loss. Anything else makes every paired interval
+    # below meaningless.
+    if os.environ.get("BRAIN_DET_CHECK", "1") == "1":
+        probe = arms[0]
+        mx.random.seed(0)
+        m1 = build(probe, vocab)
+        mx.eval(m1.parameters())
+        xv0, yv0, _ = deterministic_val_batches(data, CTX)
+        v1 = evaluate(m1, xv0[:8], yv0[:8], vocab)
+        mx.random.seed(0)
+        m2 = build(probe, vocab)
+        mx.eval(m2.parameters())
+        v2 = evaluate(m2, xv0[:8], yv0[:8], vocab)
+        same = (v1 == v2)
+        p1 = n_params(m1) == n_params(m2)
+        print(f"determinism check [{probe}] same-init loss identical: {same} "
+              f"(params identical: {p1})")
+        if not (same and p1):
+            raise SystemExit("DETERMINISM FAILED: aborting before the sweep")
+
     out = load_done(meta)
     done = {(r["arm"], r["seed"]) for r in out}
     if done:
@@ -408,20 +480,25 @@ if __name__ == "__main__":
         json.dump(dict(meta=meta, runs=out), open(RESULTS, "w"), indent=1)
 
     for arm in arms:
+        arm_steps = int(round(steps * ARMS[arm].get("steps_mult", 1.0)))
+        if arm_steps != steps:
+            print(f"  {arm}: {arm_steps} steps (wall-clock-matched to "
+                  f"{steps} steps of loop2x2; ratio "
+                  f"{ARMS[arm]['steps_mult']:.4f})")
         for seed in seeds:
             if (arm, seed) in done:
                 continue
-            r = run(arm, data, vocab, steps=steps, seed=seed)
+            r = run(arm, data, vocab, steps=arm_steps, seed=seed)
             out.append(r)
             if r["diverged"]:
                 print(f"  {arm:<12} seed={seed} DIVERGED at step "
                       f"{r['steps_run']} -- reported, not dropped", flush=True)
             else:
                 print(f"  {arm:<12} seed={seed} params={r['params']:>8,} "
-                      f"val={r['val_bpc']:.4f} train={r['train_bpc']:.4f} "
-                      f"({bg-r['val_bpc']:+.4f} vs floor) "
-                      f"tok/s={r['tok_s']:>8,.0f} wall={r['wall_s']:.0f}s",
-                      flush=True)
+                      f"steps={r['steps_run']:>5} val={r['val_bpc']:.4f} "
+                      f"train={r['train_bpc']:.4f} ({bg-r['val_bpc']:+.4f} vs "
+                      f"floor) tok/s={r['tok_s']:>8,.0f} "
+                      f"wall={r['wall_s']:.0f}s", flush=True)
             checkpoint()
 
     rows = summarise(out, arms, bg)

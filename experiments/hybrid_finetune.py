@@ -89,44 +89,86 @@ def rms(a):
     return float(mx.sqrt(mx.mean(a.astype(mx.float32) ** 2)))
 
 
-def build_arm(model, layer_idx, arm, probe_h, ref_out, original):
-    """Construct a carrier for `arm`, calibrating its gain to attention's rms.
+def build_arm(model, layer_idx, arm, probe_h, ref_out, original, gain=None):
+    """Construct a carrier for `arm`, calibrating its output gain.
 
     `original` MUST be the attention module that was removed. Re-deriving it
     from the model is a trap: once a carrier is installed the slot no longer
     holds a parameterised attention module, so the inferred width becomes None
     and the next call fails two frames later. This bit an earlier version.
+
+    THE SCALE PROBLEM, stated exactly, because it decides how to read every arm:
+    `transplant` gives W_v its native trained magnitude (~0.013 rms at d=2048).
+    Raw random weights at fan-in scale 1/sqrt(d) have rms 0.022 -- comparable --
+    but a random matrix's OUTPUT rms on real activations is 25.9 against
+    attention's 0.0505, an 8x mismatch, because random weights do not cancel the
+    way trained ones do. So any arm sequence that ends in raw random weights
+    lands on a completely different activation scale unless it is divided back
+    down, and "matched output rms" alone does not fix the optimisation
+    asymmetry: matching forces the random arm's gain to 0.00195 vs transfer's
+    0.01564, so Adam's ABSOLUTE step is ~8x larger relative to the random arm's
+    weights. Both arms were rms-matched in the run this docstring belongs to,
+    and the random arm still started 3.5 ppl apart, which is why the difference
+    cannot be read as evidence about weight provenance.
+
+    SUPERSEDING THE OLD CONTROL: matching transfer's W_v *scale* and its output
+    rms simultaneously, then giving BOTH arms an identical Adam budget, removes
+    both asymmetries at once. `random_matched` below does exactly that.
+
+    `gain`, when supplied, overrides the calibration (used for the dose-response
+    sweep that asks whether the frozen transfer measurement was a scale effect).
     """
     layer, attr, _ = attention_module(model, layer_idx)
     setattr(layer, attr, original)
-    carrier, rec = transplant(model, layer_idx, "transfer", original=original)
+    carrier, rec = transplant(model, layer_idx, "transfer", original=original,
+                              probe_h=probe_h)
     rec["arm"] = arm
+    d = rec["d"]
+    wv_native_std = float(np.array(carrier.mem.v.weight).std())
 
     if arm == "random_matched":
-        d = rec["d"]
+        # THE DECISIVE CONTROL. Match BOTH scales that the transplant differs in:
+        # raw-weight scale AND output scale. Then the only remaining difference
+        # is whose weights they are.
         rng = np.random.default_rng(0)
-        v_rand = rng.normal(0, 1.0 / math.sqrt(d), size=(d, d)).astype(np.float32)
-        o_rand = rng.normal(0, 1.0 / math.sqrt(d), size=(d, d)).astype(np.float32)
+        v_rand = rng.normal(0, wv_native_std, size=(d, d)).astype(np.float32)
+        o_rand = rng.normal(0, wv_native_std, size=(d, d)).astype(np.float32)
         carrier.mem.v.weight = mx.array(v_rand)
         carrier.mem.o.weight = mx.array(o_rand)
         rec["transplanted"] = False
-        rec["control"] = "random W_v/W_o at fan-in scale, output-rms matched"
+        rec["control"] = ("random W_v/W_o, raw scale matched to the transplant's "
+                          "W_v, then output-rms matched by the same rule")
+        rec["random_wv_std_matched"] = wv_native_std
+    elif arm == "random_fanin":
+        rng = np.random.default_rng(0)
+        s_ = 1.0 / math.sqrt(d)
+        carrier.mem.v.weight = mx.array(
+            rng.normal(0, s_, size=(d, d)).astype(np.float32))
+        carrier.mem.o.weight = mx.array(
+            rng.normal(0, s_, size=(d, d)).astype(np.float32))
+        rec["transplanted"] = False
+        rec["control"] = "random W_v/W_o at fan-in 1/sqrt(d), kept at native scale"
 
-    # calibrate the fixed gain so the module's output rms equals attention's,
-    # for EVERY arm, including transfer
     mx.eval(model.parameters())
     carrier.out_gain = 1.0
     out_new = carrier(probe_h, None, None)
     mx.eval(out_new)
     r_new = rms(out_new)
     r_ref = rms(ref_out)
-    gain = (r_ref / r_new) if r_new > 0 else 1.0
-    carrier.out_gain = float(gain)
+    calibrated = (r_ref / r_new) if r_new > 0 else 1.0
+    carrier.out_gain = float(gain if gain is not None else calibrated)
     rec["rms_before_gain"] = r_new
     rec["rms_target"] = r_ref
-    rec["out_gain_calibrated"] = float(gain)
+    rec["out_gain_calibrated"] = float(calibrated)
+    rec["out_gain_used"] = float(carrier.out_gain)
     rec["wv_per_element_mag"] = float(
         mx.mean(mx.abs(carrier.mem.v.weight)).item())
+    # what the module contributes with the gain actually used, so a dose can be
+    # read directly against the attention it replaces
+    out_used = carrier(probe_h, None, None)
+    mx.eval(out_used)
+    rec["out_rms_used"] = rms(out_used)
+    rec["out_rms_ratio_used"] = (rms(out_used) / r_ref) if r_ref > 0 else None
     return carrier, rec
 
 

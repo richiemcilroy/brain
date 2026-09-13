@@ -532,6 +532,28 @@ impl Sim {
         // the awake set is >= 90% of the population.
         let wake_nearly_full = event_mode && wake.len() * 10 >= self.p.n as usize * 9;
         let idx: Vec<u32> = if wake_nearly_full {
+            // Falling back to dense iteration means EVERY neuron is about to be
+            // integrated, so every sleeping neuron must first be brought exactly
+            // up to date. A sleeping neuron that is neither driven nor receiving
+            // current is never enqueued, so it would otherwise be integrated from
+            // stale state -- which measured as event-driven diverging from dense
+            // by 0.03% of spikes at 20% activity, with the first divergence two
+            // steps in. Relaxing them here makes the fallback step EXACTLY the
+            // dense step.
+            for u in 0..self.p.n {
+                let uu = u as usize;
+                if self.asleep[uu] {
+                    let n = t.saturating_sub(self.sleep_since[uu]).saturating_sub(1);
+                    if n > 0 {
+                        let (vs, vd, ad, rf) = self.relax(uu, n);
+                        self.v_soma[uu] = vs;
+                        self.v_dend[uu] = vd;
+                        self.adapt[uu] = ad;
+                        self.refrac[uu] = rf;
+                    }
+                    self.asleep[uu] = false;
+                }
+            }
             let mut v = wake;
             v.clear();
             v.extend(0..self.p.n);
@@ -579,24 +601,26 @@ impl Sim {
                     spikes.push(u);
                 }
                 if event_mode {
-                    // Any neuron left in a non-rest state must be carried into the
-                    // next step's active set, or it freezes mid-trajectory. This
-                    // applies on BOTH the sparse and the dense-fallback paths.
-                    if Self::can_sleep(&p, vs[uu], vd[uu], ad[uu]) {
-                        // Only the sparse path may mark it asleep: it received no
-                        // drive this step, so nothing will wake it prematurely. A
-                        // driven neuron must NOT be slept -- it will be woken next
-                        // step regardless, and the wake/sleep round trip would then
-                        // be paid every single step (measured as a 3x slowdown
-                        // versus dense at 10% driven). Tonic input means "awake".
-                        if !wake_nearly_full && drive.at(uu) == 0.0 {
-                            self.asleep[uu] = true;
-                            self.sleep_since[uu] = t;
-                            self.total_sleep_transitions += 1;
-                        } else {
-                            still.push(u);
-                        }
+                    let driven_now = drive.at(uu) != 0.0;
+                    // Sleep only when all three hold:
+                    //   * the neuron provably cannot fire without new input;
+                    //   * it received no drive this step, so nothing will wake it
+                    //     next step -- otherwise the sleep/wake round trip is paid
+                    //     EVERY step (measured: 3x slower than dense at 10% driven);
+                    //   * the sparse path is actually in use. When the dense
+                    //     fallback is engaged the whole population is integrated
+                    //     anyway, so sleeping would only add bookkeeping.
+                    if !wake_nearly_full
+                        && !driven_now
+                        && Self::can_sleep(&p, vs[uu], vd[uu], ad[uu])
+                    {
+                        self.asleep[uu] = true;
+                        self.sleep_since[uu] = t;
+                        self.total_sleep_transitions += 1;
                     } else {
+                        // Carry it into the next step's active set. A neuron that is
+                        // neither driven nor asleep must stay in the set, or it
+                        // freezes mid-trajectory.
                         still.push(u);
                     }
                 }

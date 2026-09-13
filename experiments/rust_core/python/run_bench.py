@@ -26,6 +26,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import platform
 import struct
 import subprocess
@@ -48,7 +49,13 @@ from brain.simulator import Brain, SimConfig                    # noqa: E402
 
 MAGIC = b"RBRAIN01"
 DEND_MODE_IDS = {"dcaap": 0, "linear": 1, "none": 2}
-DEFAULT_BIN = "/Volumes/T9/human-brain/scratch/rust_target/release/rust_core"
+# Overridable so the benchmark does not depend on the external SSD being mounted.
+# Set RC_BIN / RC_SCRATCH to relocate. Defaults live under /tmp so a run never
+# writes hundreds of MB to the internal disk.
+DEFAULT_BIN = os.environ.get(
+    "RC_BIN", "/tmp/zz_rust_target/release/rust_core")
+DEFAULT_SCRATCH = Path(
+    os.environ.get("RC_SCRATCH", "/tmp/zz_fixtures"))
 
 
 def rust_binary() -> Path:
@@ -57,8 +64,9 @@ def rust_binary() -> Path:
         return p
     raise SystemExit(
         f"rust binary not found at {p}\n"
-        "build it first:  CARGO_TARGET_DIR=/Volumes/T9/human-brain/scratch/rust_target "
-        "cargo build --release"
+        "build it first:\n"
+        "  CARGO_TARGET_DIR=/tmp/zz_rust_target cargo build --release\n"
+        "or set RC_BIN to the binary's path."
     )
 
 
@@ -222,7 +230,7 @@ def run_rust(binpath: Path, fixture: Path, extra: list[str]) -> dict:
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", type=Path, default=CORE / "bench")
-    ap.add_argument("--scratch", type=Path, default=Path("/Volumes/T9/human-brain/scratch/fixtures"))
+    ap.add_argument("--scratch", type=Path, default=DEFAULT_SCRATCH)
     ap.add_argument("--warm", type=int, default=20)
     ap.add_argument("--steps", type=int, default=150)
     ap.add_argument("--seed", type=int, default=0)

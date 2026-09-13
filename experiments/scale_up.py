@@ -112,10 +112,14 @@ from llm_efficiency import (  # noqa: E402
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 RESULTS_DIR = os.path.join(REPO, "experiments", "results")
-RUNS_DIR = os.path.join(RESULTS_DIR, "scale_up_runs")
-OUT = os.path.join(RESULTS_DIR, "scale_up.json")
+RUNS_DIR = os.environ.get("BRAIN_RUNS_DIR",
+                          os.path.expanduser("~/zbrain/scale_up_runs"))
+OUT = os.environ.get("BRAIN_SCALE_OUT",
+                        os.path.join(RESULTS_DIR, "scale_up.json"))
 CORPUS_DIR = "/tmp/zz_enwik8"
 CORPUS_PATH = os.path.join(CORPUS_DIR, "extract", "enwik8")
+HOME_DATA = os.path.expanduser("~/zbrain/data/enwik8")
+T9_PATH = "/Volumes/T9/human-brain/scratch/enwik8_extract/enwik8"
 ENWIK8_URLS = ["https://data.deepai.org/enwik8.zip",
                "http://mattmahoney.net/dc/enwik8.zip"]
 ENWIK8_SHA256 = "2b49720ec4d78c3c9fabaee6e4179a5e997302b3a70029f30f2d582218c024a8"
@@ -126,13 +130,21 @@ SPLIT = {"train": (0, 90_000_000), "val": (90_000_000, 95_000_000),
 # PRE-DECLARED GRIDS. Nothing is added to these after seeing any result.
 # ---------------------------------------------------------------------------
 DROPOUTS = [0.0, 0.1, 0.2]
-SEEDS = [0, 1, 2, 3, 4]
+SEEDS = [int(x) for x in os.environ.get("BRAIN_SEEDS_LIST", "0,1,2,3,4").split(",")]
 ARMS = ["depth2_mem", "depth2_attn"]
 # learning-rate grid, evaluated on VALIDATION only, at the selection budget
 LR_GRID = [3e-4, 1e-3, 3e-3]
 SELECTION_STEPS = 3000
 SELECTION_SEED = 0
-FINAL_STEPS = 20000
+SKIP_SELECTION = os.environ.get("BRAIN_SKIP_SELECTION", "0") == "1"
+# Session budget. The lead's priority order is: (a) the TEST number for both
+# arms, (b) dropout 0.0 vs 0.2. FINAL_STEPS and the dropout levels are fixed
+# BEFORE any final run is launched and are recorded in the output.
+FINAL_STEPS = int(os.environ.get("BRAIN_FINAL_STEPS", "8000"))
+CURVE_EVERY = int(os.environ.get("BRAIN_CURVE_EVERY", "1000"))
+CURVE_WINDOWS = int(os.environ.get("BRAIN_CURVE_WINDOWS", "1500"))
+SESSION_DROPOUTS = [float(x) for x in
+                    os.environ.get("BRAIN_DROPOUTS", "0.0,0.2").split(",")]
 CTX, D_MODEL, DEPTH, N_HEAD, BS = 512, 128, 2, 4, 16
 T95 = {1: 12.706, 2: 4.303, 3: 3.182, 4: 2.776, 5: 2.571, 6: 2.447,
        7: 2.365, 8: 2.306, 9: 2.262, 10: 2.228}
@@ -165,11 +177,18 @@ def sha256_of(path, chunk=1 << 22):
 
 
 def find_corpus():
+    """Primary corpus first (internal disk), then external drive, then vendored.
+
+    The internal copy is preferred deliberately: an external volume unmounted
+    mid-session earlier and took a download with it.
+    """
     env = os.environ.get("BRAIN_CORPUS")
     for cand in ([env] if env else []) + [
+            HOME_DATA,
+            T9_PATH,
+            os.path.join(REPO, "data", "enwik8"),
             CORPUS_PATH,
-            os.path.join(CORPUS_DIR, "enwik8"),
-            os.path.join(REPO, "data", "enwik8")]:
+            os.path.join(CORPUS_DIR, "enwik8")]:
         if cand and os.path.exists(cand):
             return cand
     return None
@@ -244,11 +263,12 @@ def evaluate(m, spec, vocab, bs=32):
 
 def floors(train_tok, targets, V):
     """Unigram and add-1 bigram bpc: counts from train, evaluated per split."""
-    Cu = np.ones(V)
-    np.add.at(Cu, train_tok, 1.0)
+    t = train_tok.astype(np.int64)
+    Cu = np.bincount(t, minlength=V).astype(np.float64) + 1.0
     Pu = Cu / Cu.sum()
-    C = np.ones((V, V))
-    np.add.at(C, (train_tok[:-1], train_tok[1:]), 1.0)
+    pair = t[:-1] * V + t[1:]
+    C = (np.bincount(pair, minlength=V * V).astype(np.float64)
+         .reshape(V, V)) + 1.0
     P = C / C.sum(1, keepdims=True)
     out = {}
     for name, t in targets.items():
@@ -344,6 +364,10 @@ def run(arm, data, vocab, *, ctx, steps, bs, lr, dropout, seed, cut,
             lo.reshape(-1, vocab), y.reshape(-1), reduction="mean")
 
     lg = nn.value_and_grad(m, loss_fn)
+    curve_spec = eval_specs.get("val")
+    if curve_every and curve_spec is not None and CURVE_WINDOWS < curve_spec["n_win"]:
+        curve_spec = window_spec(curve_spec["tokens"], ctx, CURVE_WINDOWS,
+                                 "val_curve")
     t0 = time.time()
     ntok, last_train = 0, float("nan")
     curve, best = [], {"val_bpc": float("inf"), "step": 0}
@@ -358,9 +382,10 @@ def run(arm, data, vocab, *, ctx, steps, bs, lr, dropout, seed, cut,
         mx.eval(m.parameters(), opt.state)
         ntok += x.size
         last_train = float(l)
-        if curve_every and s % curve_every == 0:
-            vb = evaluate(m, eval_specs["val"], vocab)
-            curve.append({"step": s, "val_bpc": round(vb, 5)})
+        if curve_every and curve_spec is not None and s % curve_every == 0:
+            vb = evaluate(m, curve_spec, vocab)
+            curve.append({"step": s, "val_bpc": round(vb, 5),
+                          "n_windows": curve_spec["n_win"]})
             if vb < best["val_bpc"]:
                 best = {"val_bpc": vb, "step": s}
     train_wall = time.time() - t0
@@ -444,7 +469,8 @@ def summarise(rows):
 
 
 def run_key(r):
-    return f"{r['arm']}_p{r['dropout']}_lr{r['lr']:g}_s{r['seed']}_{r['phase']}"
+    return (f"{r['arm']}_p{r['dropout']}_lr{r['lr']:g}_s{r['seed']}"
+            f"_st{r['steps']}_{r['phase']}")
 
 
 # ---------------------------------------------------------------------------
@@ -509,12 +535,20 @@ def merge(extra=None):
 
     sel = [r for r in rows if r["phase"] == "selection"]
     fin = [r for r in rows if r["phase"] == "final"]
-    expected = len(ARMS) * len(DROPOUTS) * len(SEEDS)
+    planned = [j for j in plan() if j["phase"] == "final"]
+    expected = len(planned)
+    done_keys = {(r["arm"], r["dropout"], r["seed"], r["lr"], r["steps"])
+                 for r in fin}
+    missing = [job_key(j) for j in planned
+               if (j["arm"], j["dropout"], j["seed"], j["lr"],
+                   j["steps"]) not in done_keys]
     doc = {
         "complete": len(fin) >= expected,
         "n_final_runs": len(fin), "n_final_expected": expected,
         "note": ("partial results are valid; `complete` becomes true only when "
                  "every declared arm/dropout/seed pair has finished"),
+        "planned_final_jobs": [job_key(j) for j in planned],
+        "missing_final_jobs": missing,
         "updated_utc": now(),
         "corpus": {
             "path": path, "bytes": os.path.getsize(path),
@@ -536,6 +570,8 @@ def merge(extra=None):
             "ctx": CTX, "d": D_MODEL, "depth": DEPTH, "n_head": N_HEAD, "bs": BS,
             "arms": ARMS, "dropouts": DROPOUTS, "seeds": SEEDS,
             "final_steps": FINAL_STEPS, "selection_steps": SELECTION_STEPS,
+            "curve_every": CURVE_EVERY, "curve_windows": CURVE_WINDOWS,
+            "session_dropouts": SESSION_DROPOUTS,
             "optimizer": ("AdamW, lr*min(1,step/100) warmup, weight_decay=0.01, "
                           "grad clip 1.0"),
             "dropout_placement": "on both residual branches (after memory/"
@@ -603,23 +639,25 @@ def merge(extra=None):
 # ---------------------------------------------------------------------------
 def plan(selected_lr=None):
     jobs = []
-    for lr in LR_GRID:                      # selection: validation only
-        for arm in ARMS:
-            jobs.append(dict(arm=arm, dropout=0.0, lr=lr, seed=SELECTION_SEED,
-                             steps=SELECTION_STEPS, phase="selection",
-                             curve_every=0))
+    if not SKIP_SELECTION:
+        for lr in LR_GRID:                  # selection: VALIDATION ONLY
+            for arm in ARMS:
+                jobs.append(dict(arm=arm, dropout=0.0, lr=lr,
+                                 seed=SELECTION_SEED, steps=SELECTION_STEPS,
+                                 phase="selection", curve_every=0))
     lr = selected_lr if selected_lr is not None else 1e-3
-    for p in [0.0, 0.2, 0.1]:               # priority order: 0.0, 0.2, then 0.1
+    for p in SESSION_DROPOUTS:              # primary first, then extension
         for seed in SEEDS:
             for arm in ARMS:
                 jobs.append(dict(arm=arm, dropout=p, lr=lr, seed=seed,
                                  steps=FINAL_STEPS, phase="final",
-                                 curve_every=2000))
+                                 curve_every=CURVE_EVERY))
     return jobs
 
 
 def job_key(j):
-    return f"{j['arm']}_p{j['dropout']}_lr{j['lr']:g}_s{j['seed']}_{j['phase']}"
+    return (f"{j['arm']}_p{j['dropout']}_lr{j['lr']:g}_s{j['seed']}"
+            f"_st{j['steps']}_{j['phase']}")
 
 
 def cmd_plan():
@@ -628,14 +666,12 @@ def cmd_plan():
     print(f"total jobs: {len(plan())}")
 
 
-def cmd_all(workers, unlock_test):
-    os.makedirs(RUNS_DIR, exist_ok=True)
-    jobs = plan()
+def run_jobs(jobs, workers, unlock_test, label):
+    """Execute jobs in parallel; merge after each completion so nothing is lost."""
     done = {f[:-5] for f in os.listdir(RUNS_DIR) if f.endswith(".json")}
     pending = [j for j in jobs if job_key(j) not in done]
-    log(f"{len(jobs)} jobs, {len(jobs)-len(pending)} already done, "
+    log(f"[{label}] {len(jobs)} jobs, {len(jobs)-len(pending)} already done, "
         f"{len(pending)} pending, workers={workers}")
-    t0 = time.time()
     running = []
     while pending or running:
         while pending and len(running) < workers:
@@ -659,6 +695,21 @@ def cmd_all(workers, unlock_test):
                 rc = proc.returncode
                 log(f"{'OK  ' if rc == 0 else 'FAIL'} {job_key(j)} rc={rc}")
                 merge()
+    return [j for j in jobs]
+
+
+def cmd_all(workers, unlock_test):
+    os.makedirs(RUNS_DIR, exist_ok=True)
+    t0 = time.time()
+    if not SKIP_SELECTION:
+        sel_jobs = [j for j in plan(selected_lr=None)
+                    if j["phase"] == "selection"]
+        run_jobs(sel_jobs, workers, unlock_test, "selection")
+    doc = merge()
+    sel_lr = doc.get("selection", {}).get("selected_lr") or 1e-3
+    log(f"using lr={sel_lr:g} for final runs")
+    fin_jobs = [j for j in plan(selected_lr=sel_lr) if j["phase"] == "final"]
+    run_jobs(fin_jobs, workers, unlock_test, "final")
     doc = merge()
     log(f"all jobs finished in {time.time()-t0:.0f}s")
     return doc
@@ -684,8 +735,9 @@ def main():
 
     global OUT, RUNS_DIR
     if args.smoke:
-        RUNS_DIR = "/tmp/zz_enwik8/smoke_runs"
-        OUT = "/tmp/zz_enwik8/scale_up_smoke.json"
+        args.curve_every = 50
+        RUNS_DIR = os.path.expanduser("~/zbrain/scale_up_smoke_runs")
+        OUT = os.path.expanduser("~/zbrain/scale_up_smoke.json")
         args.curve_every = 10
         args.unlock_test = True
     if args.plan:

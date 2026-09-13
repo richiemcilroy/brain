@@ -57,6 +57,8 @@ def main():
     text = open(CORPUS, encoding="utf-8").read()
     ids = np.array(tok.encode(text), dtype=np.int32)
     val = ids[int(0.9 * len(ids)):int(0.9 * len(ids)) + 3000]
+    # probe tokens come from the TRAIN half, never from val
+    train_ids = ids[:int(0.5 * len(ids))]
     layers, _ = get_layers(model)
     n_layer = len(layers)
     print(f"{base_par:,} params, {n_layer} layers, val {len(val)} tokens\n",
@@ -78,11 +80,32 @@ def main():
     def restore():
         setattr(layer, attr, original)
 
+    # capture REAL activations at this layer once, so the gate decay is fitted
+    # from the distribution the module actually sees rather than a synthetic one
+    probe_h = None
+    try:
+        _cap = {}
+        class _Cap:
+            def __call__(self, x, *a, **k):
+                _cap["h"] = x
+                return original(x, *a, **k)
+        setattr(layer, attr, _Cap())
+        ids_probe = np.asarray(train_ids[:1024], dtype=np.int32)
+        model(mx.array(ids_probe[None, :]))
+        probe_h = _cap.get("h")
+        mx.eval(probe_h)
+    except Exception as e:
+        print(f"  probe capture failed ({type(e).__name__}: {e}); "
+              f"decay will be fitted on a synthetic probe", flush=True)
+    finally:
+        restore()
+
     for mode in modes:
         for seed in seeds:
             mx.random.seed(seed)
             restore()
-            carrier, rec = transplant(model, layer_idx, mode)
+            carrier, rec = transplant(model, layer_idx, mode,
+                                      original=original, probe_h=probe_h)
             mx.eval(model.parameters())
             r = perplexity(model, val)
             rec.pop("mode", None)
