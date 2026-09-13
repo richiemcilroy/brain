@@ -1,0 +1,60 @@
+{
+ "teacher": "unsloth/Llama-3.2-1B",
+ "base_params": 1235814400,
+ "n_layers": 16,
+ "val_tokens": 3000,
+ "teacher_ppl": 20.375600125475536,
+ "arms": [
+  {
+   "layer": 0,
+   "mode": "zero",
+   "seed": 0,
+   "ppl": 513.9267232719343,
+   "nll": 6.242080693564522,
+   "attr": "self_attn",
+   "d": 2048,
+   "fitted_decay": 0.99,
+   "recency_profile_first8": null,
+   "fit_cdf_l1": null,
+   "transplanted": false,
+   "gate_bias": null
+  },
+  {
+   "layer": 0,
+   "mode": "transfer",
+   "seed": 0,
+   "ppl": 354.04620353354227,
+   "nll": 5.869427423073316,
+   "attr": "self_attn",
+   "d": 2048,
+   "fitted_decay": 0.99,
+   "recency_profile_first8": null,
+   "fit_cdf_l1": null,
+   "found": [
+    "k_proj.weight",
+    "o_proj.weight",
+    "q_proj.weight",
+    "v_proj.weight"
+   ],
+   "value_expand_reps": 4,
+   "transplanted": true,
+   "wv_norm": 18.726633071899414,
+   "wo_norm": 23.739700317382812,
+   "gate_bias": 4.595119850134589,
+   "value_scaled_by": 0.010000000000000009
+  }
+ ],
+ "verdict": {
+  "teacher": 20.375600125475536,
+  "zero": 513.9267232719343,
+  "random_init": NaN,
+  "transfer": 354.04620353354227,
+  "transfer_beats_zero": true,
+  "random_beats_zero": null,
+  "transfer_beats_random": null,
+  "zero_gap": 493.55112314645874,
+  "transfer_recovers_fraction": 0.3239391265470757,
+  "random_recovers_fraction": null,
+  "note": "transfer_beats_random is the decisive test: it separates 'the transplanted weights carry the function' from 'any module with a sensible decay helps'."
+ }
+}

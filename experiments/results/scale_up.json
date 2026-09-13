@@ -1,0 +1,106 @@
+{
+ "complete": false,
+ "note": "partial results are valid; `complete` is true only after the final phase has finished every declared arm/seed pair",
+ "phase": "selection",
+ "started_utc": "2026-09-12T15:06:55.008058+00:00",
+ "config": {
+  "ctx": 512,
+  "steps": 20000,
+  "bs": 16,
+  "arms": [
+   "depth2_mem",
+   "depth2_attn"
+  ],
+  "seeds": [
+   0,
+   1,
+   2,
+   3,
+   4
+  ],
+  "selection_seed": 0,
+  "eval_frac": 1.0,
+  "d": 128,
+  "depth": 2,
+  "optimizer": "AdamW lr*(min(1,step/100)), wd=0.01, grad clip 1.0"
+ },
+ "grid": {
+  "predeclared": {
+   "depth2_mem": {
+    "lr": [
+     0.0003,
+     0.001,
+     0.003
+    ]
+   },
+   "depth2_attn": {
+    "lr": [
+     0.0003,
+     0.001,
+     0.003
+    ]
+   }
+  },
+  "n_arm_configs": 6,
+  "note": "selection uses the VALIDATION split only; TEST is never consulted before the final phase"
+ },
+ "corpus": {
+  "path": "/Volumes/T9/human-brain/scratch/enwik8_extract/enwik8",
+  "bytes": 100000000,
+  "sha256": "2b49720ec4d78c3c9fabaee6e4179a5e997302b3a70029f30f2d582218c024a8",
+  "vocab_size": 241,
+  "split_chars": {
+   "train": 90000000,
+   "val": 5000000,
+   "test": 5000000
+  },
+  "split_bounds": {
+   "train": [
+    0,
+    90000000
+   ],
+   "val": [
+    90000000,
+    95000000
+   ],
+   "test": [
+    95000000,
+    100000000
+   ]
+  }
+ },
+ "floors": {
+  "train": {
+   "unigram_bpc": 5.079335911815918,
+   "bigram_bpc": 3.885101375408583,
+   "n_tokens": 90000000
+  },
+  "val": {
+   "unigram_bpc": 5.065815183869866,
+   "bigram_bpc": 3.888435169779994,
+   "n_tokens": 5000000
+  },
+  "test": {
+   "unigram_bpc": 5.110053922906743,
+   "bigram_bpc": 3.9208409590214597,
+   "n_tokens": 5000000
+  }
+ },
+ "eval_windows": {
+  "total": {
+   "train": 175781,
+   "val": 9765,
+   "test": 9765
+  },
+  "evaluated": {
+   "train": 2000,
+   "val": 9765,
+   "test": 9765
+  },
+  "note": "val and test use every non-overlapping window of their split; windows do not overlap and do not cross split boundaries"
+ },
+ "runs": [],
+ "paired": {},
+ "wall_time_s": 4.0,
+ "updated_utc": "2026-09-12T15:06:55.008679+00:00"
+}

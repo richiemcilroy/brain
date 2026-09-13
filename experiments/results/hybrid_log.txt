@@ -1,0 +1,25 @@
+loading unsloth/Llama-3.2-1B ...
+Fetching 6 files:   0%|          | 0/6 [00:00<?, ?it/s]Fetching 6 files: 100%|██████████| 6/6 [00:00<00:00, 5888.12it/s]
+  1,235,814,400 params in 1s
+[transformers] Token indices sequence length is longer than the specified maximum sequence length for this model (301769 > 131072). Running this sequence through the model will result in indexing errors
+corpus 1,115,394 chars -> 301,769 tokens | train 150,884 | val 3,000
+layers: 16 at .layers; swapping layer 8
+
+  teacher       ppl=   20.3756  params=1,235,814,400
+Fetching 6 files:   0%|          | 0/6 [00:00<?, ?it/s]Fetching 6 files: 100%|██████████| 6/6 [00:00<00:00, 5753.50it/s]
+  zero          ppl=   24.1044  params=1,225,328,640 (-10,485,760)
+Fetching 6 files:   0%|          | 0/6 [00:00<?, ?it/s]Fetching 6 files: 100%|██████████| 6/6 [00:00<00:00, 1403.17it/s]
+  transfer      ppl=   23.7154  params=1,237,911,553 (+2,097,153)
+
+=== VERDICT ===
+  teacher  ppl    20.3756
+  zero     ppl    24.1044   (attention deleted)
+  transfer ppl    23.7154   (transplanted, no training)
+  rand+ft  ppl        nan   (random init, finetuned)
+  xfer+ft  ppl        nan   (transplanted, finetuned)
+
+  transfer beats zero-control: True
+  transplant beats random init: None
+
+wrote /Users/richie/Documents/github/human-brain/experiments/results/llm_hybrid.json
+EXIT=0

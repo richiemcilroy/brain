@@ -1,0 +1,68 @@
+{
+ "teacher": "unsloth/Llama-3.2-1B",
+ "base_params": 1235814400,
+ "n_layers": 16,
+ "swap_layer": 8,
+ "val_tokens": 3000,
+ "arms": {
+  "teacher": {
+   "mode": "none",
+   "params": 1235814400,
+   "nll": 3.014338112704235,
+   "ppl": 20.375600125475536,
+   "n_tokens": 2999
+  },
+  "zero": {
+   "attr": "self_attn",
+   "d": 2048,
+   "fitted_decay": 0.99,
+   "recency_profile_first8": null,
+   "fit_cdf_l1": null,
+   "transplanted": false,
+   "gate_bias": null,
+   "mode": "zero",
+   "params": 1225328640,
+   "delta_params": -10485760,
+   "nll": 3.1823941313771256,
+   "ppl": 24.104393610665852,
+   "n_tokens": 2999
+  },
+  "transfer": {
+   "attr": "self_attn",
+   "d": 2048,
+   "fitted_decay": 0.99,
+   "recency_profile_first8": null,
+   "fit_cdf_l1": null,
+   "found": [
+    "k_proj.weight",
+    "o_proj.weight",
+    "q_proj.weight",
+    "v_proj.weight"
+   ],
+   "value_expand_reps": 4,
+   "transplanted": true,
+   "wv_norm": 26.364788055419922,
+   "wo_norm": 29.8035831451416,
+   "gate_bias": 4.595119850134589,
+   "value_scaled_by": 0.010000000000000009,
+   "mode": "transfer",
+   "params": 1237911553,
+   "delta_params": 2097153,
+   "nll": 3.166123489730952,
+   "ppl": 23.715373049403468,
+   "n_tokens": 2999
+  }
+ },
+ "verdict": {
+  "teacher_ppl": 20.375600125475536,
+  "zero_ppl": 24.104393610665852,
+  "transfer_ppl": 23.715373049403468,
+  "random_ft_ppl": NaN,
+  "transfer_ft_ppl": NaN,
+  "transfer_beats_zero": true,
+  "transfer_ft_beats_zero": null,
+  "transfer_ft_beats_random_ft": null,
+  "recovered_fraction_of_zero_gap": null,
+  "note": "transfer beats zero: the primitive carries the replaced function better than deleting it. transfer_ft beats random_ft: the weight transplant itself mattered, not just finetuning."
+ }
+}
