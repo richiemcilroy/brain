@@ -306,13 +306,24 @@ measured, then fixed.
 - Short-context sweep (T=4…2048): the ratio is **noisy below T≈256 and often
   favours attention** — measured ratios of memory-block/attention-block time are
   1.84 (T=4), 1.32 (T=32), 1.10 (T=48), i.e. attention faster at those lengths,
-  and 0.51 (T=8), 0.76 (T=16), 0.73 (T=64), 0.98 (T=128). From **T=256 upward
-  the memory advantage is consistent and grows monotonically**: ratios 0.64,
-  0.36, 0.26, 0.17 at T=256/512/1024/2048. An independent 5-rep reproduction
-  agrees on every shared T except T=32, where it found a small memory win
-  against the primary sweep's tie; the conservative reading is kept. **There is no clean short-context
-  crossover claim here** — the sub-256 region is dominated by dispatch overhead
-  and noise.
+  and 0.51 (T=8), 0.76 (T=16), 0.73 (T=64), 0.98 (T=128). **There is no clean
+  short-context crossover claim here** — the sub-256 region is dominated by
+  dispatch overhead and noise.
+
+> **RETRACTION — every number in this section was measured against hand-rolled
+> attention, not against MLX's fused kernel.** MLX ships
+> `mx.fast.scaled_dot_product_attention`, which applies causal masking internally
+> and is a median **2.06x** faster than the explicit matmul/mask/softmax/matmul
+> path used here. Re-measured against the fused baseline
+> (`experiments/width_crossover_fair.py`, `docs/RETRACTION_FUSED_BASELINE.md`),
+> the memory block is faster at only **8 of 15** width/context points rather
+> than at every one, and the winner is **context-dependent with no clean
+> crossover**. The retracted claim, the fair table, and the caveats are in
+> `docs/RETRACTION_FUSED_BASELINE.md`. **No efficiency claim in this repository
+> should be treated as established until it is re-measured against the fused
+> kernel on an idle machine.** This is the third instance of the same failure
+> class here (after the FLOP/MAC unit error and the bigram-floor baseline): a
+> comparison that looked clean because the baseline was quietly handicapped.
 - An independent reproduction of this result was commissioned and its verdict is
   in [§7](#7-what-is-not-claimed).
 
@@ -410,6 +421,8 @@ to NumPy (`BRAIN_BACKEND=numpy`).
 - `docs/INJECTION.md`, `FINETUNE.md`, `HYBRID_DECAY.md` — per-experiment detail
 - `docs/DTYPE_BUG.md` — the dtype-promotion bug
 - `docs/WALLCLOCK.md` — the MAC/FLOP unit error and its correction
+- `docs/RETRACTION_FUSED_BASELINE.md` — **the efficiency claims were measured
+  against hand-rolled attention, not the fused kernel**
 - `docs/IMPROVE.md` — how to improve the carrier, including two refuted hypotheses
 - `docs/PRIOR_ART.md` — what is genuinely new vs. already published
 - `docs/THREEFACTOR.md` — the falsified thesis experiment

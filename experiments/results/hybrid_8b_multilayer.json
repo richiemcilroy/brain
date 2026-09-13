@@ -1,0 +1,2025 @@
+{
+ "meta": {
+  "teacher": "mlx-community/Meta-Llama-3.1-8B-Instruct-4bit",
+  "n_params": 1254952960,
+  "n_layers": 32,
+  "d": 4096,
+  "corpus": "/Users/richie/Documents/github/human-brain/data/tinyshakespeare.txt",
+  "corpus_tokens": 301768,
+  "ks": [
+   1,
+   2,
+   4,
+   8,
+   16
+  ],
+  "decays": [
+   0.5,
+   0.7,
+   0.8,
+   0.9,
+   0.99,
+   1.0
+  ],
+  "seeds": [
+   0,
+   1,
+   2,
+   3
+  ],
+  "layers_by_k": {
+   "1": [
+    16
+   ],
+   "2": [
+    8,
+    24
+   ],
+   "4": [
+    4,
+    12,
+    20,
+    28
+   ],
+   "8": [
+    2,
+    6,
+    10,
+    14,
+    18,
+    22,
+    26,
+    30
+   ],
+   "16": [
+    1,
+    3,
+    5,
+    7,
+    9,
+    11,
+    13,
+    15,
+    17,
+    19,
+    21,
+    23,
+    25,
+    27,
+    29,
+    31
+   ]
+  },
+  "layer_selection": "centres of k equal-depth bins; k=1 reproduces layer 16 of 32, the committed single-layer choice in hybrid_8b.py",
+  "select_window": [
+   181060,
+   184060
+  ],
+  "val_window": [
+   271591,
+   274591
+  ],
+  "window_tokens": 3000,
+  "protocol": "arms rms-matched per layer to the attention they replace; decay chosen on SELECT and reported once on VAL; every evaluated decay reported per arm; control-seed sweep at the SELECT-chosen decay",
+  "select_sha1": "e8847c4f1c959cca5b133510b634df1c95fe4051",
+  "val_sha1": "4d0c3e453e9d03058f65c386b21c31da2865d584",
+  "driver": "experiments/hybrid_8b_multilayer.py",
+  "host": "macOS-27.0-arm64-arm-64bit-Mach-O",
+  "machine": "arm64",
+  "python": "3.14.3",
+  "mlx_device": "Device(gpu, 0)",
+  "environment": "Quantized 4-bit 8B (mlx-community/Meta-Llama-3.1-8B-Instruct-4bit). The internal APFS volume is LOW ON FREE SPACE and the model is cached on an external ExFAT volume mounted at /Volumes/T9 (HF_HOME=/Volumes/T9/hf8b); nothing is downloaded to the internal disk. Weights are read through llm_hybrid.dense_weight(), which dequantizes packed uint32 4-bit weights -- reading .weight directly is a silent-corruption bug on this model.",
+  "load_s": 0.7577217079997354,
+  "started_epoch": 1789319224.0738518,
+  "elapsed_s": 494.8398389816284,
+  "teacher_eval_s": 13.61530912499802,
+  "peak_memory_gb": 5.76,
+  "max_rss_gb": 6.3
+ },
+ "teacher_ppl": 6.499924730202013,
+ "ks": {
+  "1": {
+   "k": 1,
+   "layers": [
+    16
+   ],
+   "probe": {
+    "16": {
+     "shape": [
+      1,
+      1024,
+      4096
+     ],
+     "rms_in": 0.5057498812675476,
+     "rms_attn_out": 0.043364111334085464
+    }
+   },
+   "zero_ppl": 8.1609979189294,
+   "paired": [
+    {
+     "decay": 0.5,
+     "transfer": {
+      "mode": "transfer",
+      "decay": 0.5,
+      "control_seed": null,
+      "select_ppl": 13.839717168399023,
+      "ppl": 9.00007050148257,
+      "wall_s": 13.833803541001544,
+      "n_layers_replaced": 1,
+      "per_layer": [
+       {
+        "attr": "self_attn",
+        "d": 4096,
+        "mode": "transfer",
+        "banks": 1,
+        "fitted_decay": 0.5,
+        "decay_source": "explicit override",
+        "recency_profile_first8": null,
+        "fit_cdf_l1": null,
+        "found": [
+         "k_proj.biases",
+         "k_proj.scales",
+         "k_proj.weight",
+         "o_proj.biases",
+         "o_proj.scales",
+         "o_proj.weight",
+         "q_proj.biases",
+         "q_proj.scales",
+         "q_proj.weight",
+         "v_proj.biases",
+         "v_proj.scales",
+         "v_proj.weight"
+        ],
+        "quantized": true,
+        "value_expand_reps": 4,
+        "transplanted": true,
+        "wv_norm": 39.456600189208984,
+        "wo_norm": 44.30905532836914,
+        "gate_bias": 0.0,
+        "gate_biases": [
+         0.0
+        ],
+        "value_scaled_by": 0.5,
+        "out_gain": 0.22564081758420756,
+        "decay": 0.5,
+        "rms_pre_norm": 0.1921820342540741,
+        "rms_post_norm": 0.04336417093873024,
+        "rms_target": 0.043364111334085464,
+        "normalisation_reldiff": 1.374515536944898e-06
+       }
+      ],
+      "recovery_frac": -0.5051388393042548
+     },
+     "random_matched": {
+      "mode": "random_matched",
+      "decay": 0.5,
+      "control_seed": 0,
+      "select_ppl": 14.404718866324345,
+      "ppl": 9.935345978119903,
+      "wall_s": 14.178139125000598,
+      "n_layers_replaced": 1,
+      "per_layer": [
+       {
+        "attr": "self_attn",
+        "d": 4096,
+        "mode": "random_matched",
+        "banks": 1,
+        "fitted_decay": 0.5,
+        "decay_source": "explicit override",
+        "recency_profile_first8": null,
+        "fit_cdf_l1": null,
+        "found": [
+         "k_proj.biases",
+         "k_proj.scales",
+         "k_proj.weight",
+         "o_proj.biases",
+         "o_proj.scales",
+         "o_proj.weight",
+         "q_proj.biases",
+         "q_proj.scales",
+         "q_proj.weight",
+         "v_proj.biases",
+         "v_proj.scales",
+         "v_proj.weight"
+        ],
+        "quantized": true,
+        "value_expand_reps": 4,
+        "transplanted": true,
+        "wv_norm": 39.456600189208984,
+        "wo_norm": 44.30905532836914,
+        "gate_bias": 0.0,
+        "gate_biases": [
+         0.0
+        ],
+        "value_scaled_by": 0.5,
+        "out_gain": 0.13494223729187035,
+        "control_seed": 0,
+        "legacy_control_seed": true,
+        "control_std": 0.009632875211536884,
+        "decay": 0.5,
+        "rms_pre_norm": 0.32135313749313354,
+        "rms_post_norm": 0.04336411505937576,
+        "rms_target": 0.043364111334085464,
+        "normalisation_reldiff": 8.590722111456728e-08
+       }
+      ],
+      "recovery_frac": -1.0681937865422413
+     },
+     "ppl_gap_transfer_minus_control": -0.935275476637333,
+     "gap_at_same_decay_transfer_minus_control_recovery": 0.5630549472379864
+    },
+    {
+     "decay": 0.7,
+     "transfer": {
+      "mode": "transfer",
+      "decay": 0.7,
+      "control_seed": null,
+      "select_ppl": 13.844332715185798,
+      "ppl": 9.040675646820693,
+      "wall_s": 13.79214604200024,
+      "n_layers_replaced": 1,
+      "per_layer": [
+       {
+        "attr": "self_attn",
+        "d": 4096,
+        "mode": "transfer",
+        "banks": 1,
+        "fitted_decay": 0.7,
+        "decay_source": "explicit override",
+        "recency_profile_first8": null,
+        "fit_cdf_l1": null,
+        "found": [
+         "k_proj.biases",
+         "k_proj.scales",
+         "k_proj.weight",
+         "o_proj.biases",
+         "o_proj.scales",
+         "o_proj.weight",
+         "q_proj.biases",
+         "q_proj.scales",
+         "q_proj.weight",
+         "v_proj.biases",
+         "v_proj.scales",
+         "v_proj.weight"
+        ],
+        "quantized": true,
+        "value_expand_reps": 4,
+        "transplanted": true,
+        "wv_norm": 39.456600189208984,
+        "wo_norm": 44.30905532836914,
+        "gate_bias": 0.8472978603872034,
+        "gate_biases": [
+         0.8472978603872034
+        ],
+        "value_scaled_by": 0.30000000000000004,
+        "out_gain": 0.15647036370755213,
+        "decay": 0.7,
+        "rms_pre_norm": 0.27713945508003235,
+        "rms_post_norm": 0.04336414858698845,
+        "rms_target": 0.043364111334085464,
+        "normalisation_reldiff": 8.590722107015836e-07
+       }
+      ],
+      "recovery_frac": -0.5295839664748597
+     },
+     "random_matched": {
+      "mode": "random_matched",
+      "decay": 0.7,
+      "control_seed": 0,
+      "select_ppl": 14.496268871379225,
+      "ppl": 9.950265156732302,
+      "wall_s": 13.29108774999986,
+      "n_layers_replaced": 1,
+      "per_layer": [
+       {
+        "attr": "self_attn",
+        "d": 4096,
+        "mode": "random_matched",
+        "banks": 1,
+        "fitted_decay": 0.7,
+        "decay_source": "explicit override",
+        "recency_profile_first8": null,
+        "fit_cdf_l1": null,
+        "found": [
+         "k_proj.biases",
+         "k_proj.scales",
+         "k_proj.weight",
+         "o_proj.biases",
+         "o_proj.scales",
+         "o_proj.weight",
+         "q_proj.biases",
+         "q_proj.scales",
+         "q_proj.weight",
+         "v_proj.biases",
+         "v_proj.scales",
+         "v_proj.weight"
+        ],
+        "quantized": true,
+        "value_expand_reps": 4,
+        "transplanted": true,
+        "wv_norm": 39.456600189208984,
+        "wo_norm": 44.30905532836914,
+        "gate_bias": 0.8472978603872034,
+        "gate_biases": [
+         0.8472978603872034
+        ],
+        "value_scaled_by": 0.30000000000000004,
+        "out_gain": 0.08781358078433164,
+        "control_seed": 0,
+        "legacy_control_seed": true,
+        "control_std": 0.009632875211536884,
+        "decay": 0.7,
+        "rms_pre_norm": 0.49382010102272034,
+        "rms_post_norm": 0.043364088982343674,
+        "rms_target": 0.043364111334085464,
+        "normalisation_reldiff": 5.154433263543368e-07
+       }
+      ],
+      "recovery_frac": -1.0771754369075865
+     },
+     "ppl_gap_transfer_minus_control": -0.9095895099116085,
+     "gap_at_same_decay_transfer_minus_control_recovery": 0.5475914704327268
+    },
+    {
+     "decay": 0.8,
+     "transfer": {
+      "mode": "transfer",
+      "decay": 0.8,
+      "control_seed": null,
+      "select_ppl": 13.89983948781566,
+      "ppl": 9.119395033341508,
+      "wall_s": 16.995217209001567,
+      "n_layers_replaced": 1,
+      "per_layer": [
+       {
+        "attr": "self_attn",
+        "d": 4096,
+        "mode": "transfer",
+        "banks": 1,
+        "fitted_decay": 0.8,
+        "decay_source": "explicit override",
+        "recency_profile_first8": null,
+        "fit_cdf_l1": null,
+        "found": [
+         "k_proj.biases",
+         "k_proj.scales",
+         "k_proj.weight",
+         "o_proj.biases",
+         "o_proj.scales",
+         "o_proj.weight",
+         "q_proj.biases",
+         "q_proj.scales",
+         "q_proj.weight",
+         "v_proj.biases",
+         "v_proj.scales",
+         "v_proj.weight"
+        ],
+        "quantized": true,
+        "value_expand_reps": 4,
+        "transplanted": true,
+        "wv_norm": 39.456600189208984,
+        "wo_norm": 44.30905532836914,
+        "gate_bias": 1.3862943611198908,
+        "gate_biases": [
+         1.3862943611198908
+        ],
+        "value_scaled_by": 0.19999999999999996,
+        "out_gain": 0.11492888042652945,
+        "decay": 0.8,
+        "rms_pre_norm": 0.377312570810318,
+        "rms_post_norm": 0.043364107608795166,
+        "rms_target": 0.043364111334085464,
+        "normalisation_reldiff": 8.590722111456728e-08
+       }
+      ],
+      "recovery_frac": -0.5769746456183386
+     },
+     "random_matched": {
+      "mode": "random_matched",
+      "decay": 0.8,
+      "control_seed": 0,
+      "select_ppl": 14.549537212279407,
+      "ppl": 9.985163754555472,
+      "wall_s": 16.139225083999918,
+      "n_layers_replaced": 1,
+      "per_layer": [
+       {
+        "attr": "self_attn",
+        "d": 4096,
+        "mode": "random_matched",
+        "banks": 1,
+        "fitted_decay": 0.8,
+        "decay_source": "explicit override",
+        "recency_profile_first8": null,
+        "fit_cdf_l1": null,
+        "found": [
+         "k_proj.biases",
+         "k_proj.scales",
+         "k_proj.weight",
+         "o_proj.biases",
+         "o_proj.scales",
+         "o_proj.weight",
+         "q_proj.biases",
+         "q_proj.scales",
+         "q_proj.weight",
+         "v_proj.biases",
+         "v_proj.scales",
+         "v_proj.weight"
+        ],
+        "quantized": true,
+        "value_expand_reps": 4,
+        "transplanted": true,
+        "wv_norm": 39.456600189208984,
+        "wo_norm": 44.30905532836914,
+        "gate_bias": 1.3862943611198908,
+        "gate_biases": [
+         1.3862943611198908
+        ],
+        "value_scaled_by": 0.19999999999999996,
+        "out_gain": 0.06164256708032049,
+        "control_seed": 0,
+        "legacy_control_seed": true,
+        "control_std": 0.009632875211536884,
+        "decay": 0.8,
+        "rms_pre_norm": 0.7034767270088196,
+        "rms_post_norm": 0.04336412996053696,
+        "rms_target": 0.043364111334085464,
+        "normalisation_reldiff": 4.295361053507918e-07
+       }
+      ],
+      "recovery_frac": -1.098185105873412
+     },
+     "ppl_gap_transfer_minus_control": -0.8657687212139642,
+     "gap_at_same_decay_transfer_minus_control_recovery": 0.5212104602550734
+    },
+    {
+     "decay": 0.9,
+     "transfer": {
+      "mode": "transfer",
+      "decay": 0.9,
+      "control_seed": null,
+      "select_ppl": 14.016194407110309,
+      "ppl": 9.323867643667926,
+      "wall_s": 16.414697374999378,
+      "n_layers_replaced": 1,
+      "per_layer": [
+       {
+        "attr": "self_attn",
+        "d": 4096,
+        "mode": "transfer",
+        "banks": 1,
+        "fitted_decay": 0.9,
+        "decay_source": "explicit override",
+        "recency_profile_first8": null,
+        "fit_cdf_l1": null,
+        "found": [
+         "k_proj.biases",
+         "k_proj.scales",
+         "k_proj.weight",
+         "o_proj.biases",
+         "o_proj.scales",
+         "o_proj.weight",
+         "q_proj.biases",
+         "q_proj.scales",
+         "q_proj.weight",
+         "v_proj.biases",
+         "v_proj.scales",
+         "v_proj.weight"
+        ],
+        "quantized": true,
+        "value_expand_reps": 4,
+        "transplanted": true,
+        "wv_norm": 39.456600189208984,
+        "wo_norm": 44.30905532836914,
+        "gate_bias": 2.1972245773362196,
+        "gate_biases": [
+         2.1972245773362196
+        ],
+        "value_scaled_by": 0.09999999999999998,
+        "out_gain": 0.06593333563222287,
+        "decay": 0.9,
+        "rms_pre_norm": 0.6576963067054749,
+        "rms_post_norm": 0.0433640256524086,
+        "rms_target": 0.043364111334085464,
+        "normalisation_reldiff": 1.975866084413802e-06
+       }
+      ],
+      "recovery_frac": -0.7000713349840083
+     },
+     "random_matched": {
+      "mode": "random_matched",
+      "decay": 0.9,
+      "control_seed": 0,
+      "select_ppl": 14.607871396420027,
+      "ppl": 10.025197768877307,
+      "wall_s": 16.121346916999755,
+      "n_layers_replaced": 1,
+      "per_layer": [
+       {
+        "attr": "self_attn",
+        "d": 4096,
+        "mode": "random_matched",
+        "banks": 1,
+        "fitted_decay": 0.9,
+        "decay_source": "explicit override",
+        "recency_profile_first8": null,
+        "fit_cdf_l1": null,
+        "found": [
+         "k_proj.biases",
+         "k_proj.scales",
+         "k_proj.weight",
+         "o_proj.biases",
+         "o_proj.scales",
+         "o_proj.weight",
+         "q_proj.biases",
+         "q_proj.scales",
+         "q_proj.weight",
+         "v_proj.biases",
+         "v_proj.scales",
+         "v_proj.weight"
+        ],
+        "quantized": true,
+        "value_expand_reps": 4,
+        "transplanted": true,
+        "wv_norm": 39.456600189208984,
+        "wo_norm": 44.30905532836914,
+        "gate_bias": 2.1972245773362196,
+        "gate_biases": [
+         2.1972245773362196
+        ],
+        "value_scaled_by": 0.09999999999999998,
+        "out_gain": 0.033094142934603124,
+        "control_seed": 0,
+        "legacy_control_seed": true,
+        "control_std": 0.009632875211536884,
+        "decay": 0.9,
+        "rms_pre_norm": 1.3103258609771729,
+        "rms_post_norm": 0.043364107608795166,
+        "rms_target": 0.043364111334085464,
+        "normalisation_reldiff": 8.590722111456728e-08
+       }
+      ],
+      "recovery_frac": -1.122286400502402
+     },
+     "ppl_gap_transfer_minus_control": -0.7013301252093811,
+     "gap_at_same_decay_transfer_minus_control_recovery": 0.4222150655183937
+    },
+    {
+     "decay": 0.99,
+     "transfer": {
+      "mode": "transfer",
+      "decay": 0.99,
+      "control_seed": null,
+      "select_ppl": 14.308974993558726,
+      "ppl": 9.749920063513242,
+      "wall_s": 16.50210645900006,
+      "n_layers_replaced": 1,
+      "per_layer": [
+       {
+        "attr": "self_attn",
+        "d": 4096,
+        "mode": "transfer",
+        "banks": 1,
+        "fitted_decay": 0.99,
+        "decay_source": "explicit override",
+        "recency_profile_first8": null,
+        "fit_cdf_l1": null,
+        "found": [
+         "k_proj.biases",
+         "k_proj.scales",
+         "k_proj.weight",
+         "o_proj.biases",
+         "o_proj.scales",
+         "o_proj.weight",
+         "q_proj.biases",
+         "q_proj.scales",
+         "q_proj.weight",
+         "v_proj.biases",
+         "v_proj.scales",
+         "v_proj.weight"
+        ],
+        "quantized": true,
+        "value_expand_reps": 4,
+        "transplanted": true,
+        "wv_norm": 39.456600189208984,
+        "wo_norm": 44.30905532836914,
+        "gate_bias": 4.595119850134589,
+        "gate_biases": [
+         4.595119850134589
+        ],
+        "value_scaled_by": 0.010000000000000009,
+        "out_gain": 0.009120723905316151,
+        "decay": 0.99,
+        "rms_pre_norm": 4.754459381103516,
+        "rms_post_norm": 0.04336411878466606,
+        "rms_target": 0.043364111334085464,
+        "normalisation_reldiff": 1.7181444222913456e-07
+       }
+      ],
+      "recovery_frac": -0.9565635971773024
+     },
+     "random_matched": {
+      "mode": "random_matched",
+      "decay": 0.99,
+      "control_seed": 0,
+      "select_ppl": 14.395115720769255,
+      "ppl": 9.774333505569043,
+      "wall_s": 15.911237874999642,
+      "n_layers_replaced": 1,
+      "per_layer": [
+       {
+        "attr": "self_attn",
+        "d": 4096,
+        "mode": "random_matched",
+        "banks": 1,
+        "fitted_decay": 0.99,
+        "decay_source": "explicit override",
+        "recency_profile_first8": null,
+        "fit_cdf_l1": null,
+        "found": [
+         "k_proj.biases",
+         "k_proj.scales",
+         "k_proj.weight",
+         "o_proj.biases",
+         "o_proj.scales",
+         "o_proj.weight",
+         "q_proj.biases",
+         "q_proj.scales",
+         "q_proj.weight",
+         "v_proj.biases",
+         "v_proj.scales",
+         "v_proj.weight"
+        ],
+        "quantized": true,
+        "value_expand_reps": 4,
+        "transplanted": true,
+        "wv_norm": 39.456600189208984,
+        "wo_norm": 44.30905532836914,
+        "gate_bias": 4.595119850134589,
+        "gate_biases": [
+         4.595119850134589
+        ],
+        "value_scaled_by": 0.010000000000000009,
+        "out_gain": 0.004055921822411709,
+        "control_seed": 0,
+        "legacy_control_seed": true,
+        "control_std": 0.009632875211536884,
+        "decay": 0.99,
+        "rms_pre_norm": 10.69155502319336,
+        "rms_post_norm": 0.043364107608795166,
+        "rms_target": 0.043364111334085464,
+        "normalisation_reldiff": 8.590722111456728e-08
+       }
+      ],
+      "recovery_frac": -0.9712609881300184
+     },
+     "ppl_gap_transfer_minus_control": -0.02441344205580087,
+     "gap_at_same_decay_transfer_minus_control_recovery": 0.014697390952715939
+    },
+    {
+     "decay": 1.0,
+     "transfer": {
+      "mode": "transfer",
+      "decay": 1.0,
+      "control_seed": null,
+      "select_ppl": 13.61543035588178,
+      "ppl": 8.70636776457232,
+      "wall_s": 15.763479708999512,
+      "n_layers_replaced": 1,
+      "per_layer": [
+       {
+        "attr": "self_attn",
+        "d": 4096,
+        "mode": "transfer",
+        "banks": 1,
+        "fitted_decay": 1.0,
+        "decay_source": "explicit override",
+        "recency_profile_first8": null,
+        "fit_cdf_l1": null,
+        "found": [
+         "k_proj.biases",
+         "k_proj.scales",
+         "k_proj.weight",
+         "o_proj.biases",
+         "o_proj.scales",
+         "o_proj.weight",
+         "q_proj.biases",
+         "q_proj.scales",
+         "q_proj.weight",
+         "v_proj.biases",
+         "v_proj.scales",
+         "v_proj.weight"
+        ],
+        "quantized": true,
+        "value_expand_reps": 4,
+        "transplanted": true,
+        "wv_norm": 39.456600189208984,
+        "wo_norm": 44.30905532836914,
+        "gate_bias": 30.0,
+        "gate_biases": [
+         30.0
+        ],
+        "value_scaled_by": 0.0,
+        "out_gain": 0.00150123218381991,
+        "decay": 1.0,
+        "rms_pre_norm": 28.885679244995117,
+        "rms_post_norm": 0.043364107608795166,
+        "rms_target": 0.043364111334085464,
+        "normalisation_reldiff": 8.590722111456728e-08
+       }
+      ],
+      "recovery_frac": -0.32832379051325794
+     },
+     "random_matched": {
+      "mode": "random_matched",
+      "decay": 1.0,
+      "control_seed": 0,
+      "select_ppl": 13.629057140755783,
+      "ppl": 8.68751811236475,
+      "wall_s": 15.631402750001143,
+      "n_layers_replaced": 1,
+      "per_layer": [
+       {
+        "attr": "self_attn",
+        "d": 4096,
+        "mode": "random_matched",
+        "banks": 1,
+        "fitted_decay": 1.0,
+        "decay_source": "explicit override",
+        "recency_profile_first8": null,
+        "fit_cdf_l1": null,
+        "found": [
+         "k_proj.biases",
+         "k_proj.scales",
+         "k_proj.weight",
+         "o_proj.biases",
+         "o_proj.scales",
+         "o_proj.weight",
+         "q_proj.biases",
+         "q_proj.scales",
+         "q_proj.weight",
+         "v_proj.biases",
+         "v_proj.scales",
+         "v_proj.weight"
+        ],
+        "quantized": true,
+        "value_expand_reps": 4,
+        "transplanted": true,
+        "wv_norm": 39.456600189208984,
+        "wo_norm": 44.30905532836914,
+        "gate_bias": 30.0,
+        "gate_biases": [
+         30.0
+        ],
+        "value_scaled_by": 0.0,
+        "out_gain": 0.0006714079517550595,
+        "control_seed": 0,
+        "legacy_control_seed": true,
+        "control_std": 0.009632875211536884,
+        "decay": 1.0,
+        "rms_pre_norm": 64.58683013916016,
+        "rms_post_norm": 0.043364088982343674,
+        "rms_target": 0.043364111334085464,
+        "normalisation_reldiff": 5.154433263543368e-07
+       }
+      ],
+      "recovery_frac": -0.3169759147330147
+     },
+     "ppl_gap_transfer_minus_control": 0.018849652207570955,
+     "gap_at_same_decay_transfer_minus_control_recovery": -0.011347875780243266
+    }
+   ],
+   "per_arm": {
+    "transfer": {
+     "chosen_on_select": {
+      "decay": 1.0,
+      "ppl": 8.70636776457232,
+      "select_ppl": 13.61543035588178,
+      "recovery_frac": -0.32832379051325794,
+      "wall_s": 15.763479708999512
+     },
+     "best_val": {
+      "decay": 1.0,
+      "ppl": 8.70636776457232,
+      "select_ppl": 13.61543035588178,
+      "recovery_frac": -0.32832379051325794,
+      "wall_s": 15.763479708999512
+     },
+     "val_curve": [
+      {
+       "decay": 0.5,
+       "ppl": 9.00007050148257,
+       "select_ppl": 13.839717168399023
+      },
+      {
+       "decay": 0.7,
+       "ppl": 9.040675646820693,
+       "select_ppl": 13.844332715185798
+      },
+      {
+       "decay": 0.8,
+       "ppl": 9.119395033341508,
+       "select_ppl": 13.89983948781566
+      },
+      {
+       "decay": 0.9,
+       "ppl": 9.323867643667926,
+       "select_ppl": 14.016194407110309
+      },
+      {
+       "decay": 0.99,
+       "ppl": 9.749920063513242,
+       "select_ppl": 14.308974993558726
+      },
+      {
+       "decay": 1.0,
+       "ppl": 8.70636776457232,
+       "select_ppl": 13.61543035588178
+      }
+     ],
+     "select_is_best_val": true
+    },
+    "random_matched": {
+     "chosen_on_select": {
+      "decay": 1.0,
+      "ppl": 8.68751811236475,
+      "select_ppl": 13.629057140755783,
+      "recovery_frac": -0.3169759147330147,
+      "wall_s": 15.631402750001143
+     },
+     "best_val": {
+      "decay": 1.0,
+      "ppl": 8.68751811236475,
+      "select_ppl": 13.629057140755783,
+      "recovery_frac": -0.3169759147330147,
+      "wall_s": 15.631402750001143
+     },
+     "val_curve": [
+      {
+       "decay": 0.5,
+       "ppl": 9.935345978119903,
+       "select_ppl": 14.404718866324345
+      },
+      {
+       "decay": 0.7,
+       "ppl": 9.950265156732302,
+       "select_ppl": 14.496268871379225
+      },
+      {
+       "decay": 0.8,
+       "ppl": 9.985163754555472,
+       "select_ppl": 14.549537212279407
+      },
+      {
+       "decay": 0.9,
+       "ppl": 10.025197768877307,
+       "select_ppl": 14.607871396420027
+      },
+      {
+       "decay": 0.99,
+       "ppl": 9.774333505569043,
+       "select_ppl": 14.395115720769255
+      },
+      {
+       "decay": 1.0,
+       "ppl": 8.68751811236475,
+       "select_ppl": 13.629057140755783
+      }
+     ],
+     "select_is_best_val": true
+    }
+   },
+   "control_seed_sweep": {
+    "decay": 1.0,
+    "source": "transfer SELECT choice",
+    "transfer_ppl": 8.70636776457232,
+    "transfer_select_ppl": 13.61543035588178,
+    "transfer_recovery_frac": -0.32832379051325794,
+    "seeds": [
+     {
+      "seed": 0,
+      "ppl": 8.68751811236475,
+      "select_ppl": 13.629057140755783,
+      "recovery_frac": -0.3169759147330147,
+      "wall_s": 20.727249833002134
+     },
+     {
+      "seed": 1,
+      "ppl": 8.535336131985982,
+      "select_ppl": 13.430557360618405,
+      "recovery_frac": -0.2253592530401246,
+      "wall_s": 20.580757750001794
+     },
+     {
+      "seed": 2,
+      "ppl": 8.549578304776317,
+      "select_ppl": 13.408184290066663,
+      "recovery_frac": -0.23393333206745864,
+      "wall_s": 25.94428866599992
+     },
+     {
+      "seed": 3,
+      "ppl": 8.505504747115618,
+      "select_ppl": 13.35909463716602,
+      "recovery_frac": -0.20740014980926721,
+      "wall_s": 21.358249375000014
+     }
+    ],
+    "mean_ppl": 8.569484324060666,
+    "std_ppl": 0.08080369231084872,
+    "min_ppl": 8.505504747115618,
+    "max_ppl": 8.68751811236475,
+    "n_seeds_beating_transfer": 4,
+    "n_seeds": 4,
+    "best_seed_recovery_frac": -0.3169759147330147,
+    "min_paired_margin_ppl": -0.20086301745670276
+   },
+   "control_seed_convention": "committed hybrid_8b.py convention (np.random.default_rng(seed), no per-layer offset) -- k=1 is a direct replication of the single-layer run",
+   "zero_select_ppl": 13.195290073656379,
+   "zero_wall_s": 14.268782709001243,
+   "deletion_cost_ppl": 1.6610731887273875,
+   "deletion_cost_nats": 0.22757585861954,
+   "zero_recovery_frac": 0.0,
+   "replication_check_k1": {
+    "committed_file": "/Users/richie/Documents/github/human-brain/experiments/results/hybrid_8b_b.json",
+    "reference": {
+     "teacher_ppl": 6.499924730202013,
+     "zero_ppl": 8.1609979189294,
+     "val_sha1": "4d0c3e453e9d03058f65c386b21c31da2865d584"
+    },
+    "rows": [
+     {
+      "decay": 0.5,
+      "transfer_mine": 9.00007050148257,
+      "transfer_committed": 9.00007050148257,
+      "transfer_absdiff": 0.0,
+      "random_matched_mine": 9.935345978119903,
+      "random_matched_committed": 9.935345978119903,
+      "random_matched_absdiff": 0.0
+     },
+     {
+      "decay": 0.9,
+      "transfer_mine": 9.323867643667926,
+      "transfer_committed": 9.323867643667926,
+      "transfer_absdiff": 0.0,
+      "random_matched_mine": 10.025197768877307,
+      "random_matched_committed": 10.025197768877307,
+      "random_matched_absdiff": 0.0
+     },
+     {
+      "decay": 0.99,
+      "transfer_mine": 9.749920063513242,
+      "transfer_committed": 9.749920063513242,
+      "transfer_absdiff": 0.0,
+      "random_matched_mine": 9.774333505569043,
+      "random_matched_committed": 9.774333505569043,
+      "random_matched_absdiff": 0.0
+     },
+     {
+      "decay": 1.0,
+      "transfer_mine": 8.70636776457232,
+      "transfer_committed": 8.70636776457232,
+      "transfer_absdiff": 0.0,
+      "random_matched_mine": 8.68751811236475,
+      "random_matched_committed": 8.68751811236475,
+      "random_matched_absdiff": 0.0
+     }
+    ],
+    "val_sha1_matches": true,
+    "teacher_ppl_matches": true,
+    "zero_ppl_matches": true,
+    "max_abs_ppl_diff": 0.0,
+    "agrees_with_committed": true
+   },
+   "headline_selected": {
+    "transfer_decay": 1.0,
+    "transfer_val_ppl": 8.70636776457232,
+    "transfer_select_ppl": 13.61543035588178,
+    "transfer_recovery_frac": -0.32832379051325794,
+    "control_decay": 1.0,
+    "control_val_ppl": 8.68751811236475,
+    "control_select_ppl": 13.629057140755783,
+    "control_recovery_frac": -0.3169759147330147,
+    "margin_ppl": -0.018849652207570955,
+    "margin_recovery": -0.011347875780243266,
+    "transfer_wins": false
+   },
+   "control_seed_sweeps_extra": []
+  },
+  "2": {
+   "k": 2,
+   "layers": [
+    8,
+    24
+   ],
+   "probe": {
+    "8": {
+     "shape": [
+      1,
+      1024,
+      4096
+     ],
+     "rms_in": 0.4503687620162964,
+     "rms_attn_out": 0.03802759200334549
+    },
+    "24": {
+     "shape": [
+      1,
+      1024,
+      4096
+     ],
+     "rms_in": 0.5447990894317627,
+     "rms_attn_out": 0.034547191113233566
+    }
+   },
+   "zero_ppl": 7.532093750566383,
+   "paired": [
+    {
+     "decay": 0.5,
+     "transfer": {
+      "mode": "transfer",
+      "decay": 0.5,
+      "control_seed": null,
+      "select_ppl": 15.189031028915087,
+      "ppl": 8.858644818828129,
+      "wall_s": 25.313260875002015,
+      "n_layers_replaced": 2,
+      "per_layer": [
+       {
+        "attr": "self_attn",
+        "d": 4096,
+        "mode": "transfer",
+        "banks": 1,
+        "fitted_decay": 0.5,
+        "decay_source": "explicit override",
+        "recency_profile_first8": null,
+        "fit_cdf_l1": null,
+        "found": [
+         "k_proj.biases",
+         "k_proj.scales",
+         "k_proj.weight",
+         "o_proj.biases",
+         "o_proj.scales",
+         "o_proj.weight",
+         "q_proj.biases",
+         "q_proj.scales",
+         "q_proj.weight",
+         "v_proj.biases",
+         "v_proj.scales",
+         "v_proj.weight"
+        ],
+        "quantized": true,
+        "value_expand_reps": 4,
+        "transplanted": true,
+        "wv_norm": 36.05506896972656,
+        "wo_norm": 41.98839569091797,
+        "gate_bias": 0.0,
+        "gate_biases": [
+         0.0
+        ],
+        "value_scaled_by": 0.5,
+        "out_gain": 0.27910713967373846,
+        "decay": 0.5,
+        "rms_pre_norm": 0.13624729216098785,
+        "rms_post_norm": 0.03802759572863579,
+        "rms_target": 0.03802759200334549,
+        "normalisation_reldiff": 9.79628238528818e-08
+       },
+       {
+        "attr": "self_attn",
+        "d": 4096,
+        "mode": "transfer",
+        "banks": 1,
+        "fitted_decay": 0.5,
+        "decay_source": "explicit override",
+        "recency_profile_first8": null,
+        "fit_cdf_l1": null,
+        "found": [
+         "k_proj.biases",
+         "k_proj.scales",
+         "k_proj.weight",
+         "o_proj.biases",
+         "o_proj.scales",
+         "o_proj.weight",
+         "q_proj.biases",
+         "q_proj.scales",
+         "q_proj.weight",
+         "v_proj.biases",
+         "v_proj.scales",
+         "v_proj.weight"
+        ],
+        "quantized": true,
+        "value_expand_reps": 4,
+        "transplanted": true,
+        "wv_norm": 54.65917205810547,
+        "wo_norm": 49.8495979309082,
+        "gate_bias": 0.0,
+        "gate_biases": [
+         0.0
+        ],
+        "value_scaled_by": 0.5,
+        "out_gain": 0.08901042790851887,
+        "decay": 0.5,
+        "rms_pre_norm": 0.3881252110004425,
+        "rms_post_norm": 0.03454715386033058,
+        "rms_target": 0.034547191113233566,
+        "normalisation_reldiff": 1.0783193012953163e-06
+       }
+      ],
+      "recovery_frac": -1.28520721130872
+     },
+     "random_matched": {
+      "mode": "random_matched",
+      "decay": 0.5,
+      "control_seed": 0,
+      "select_ppl": 14.79907760663216,
+      "ppl": 8.642733467227366,
+      "wall_s": 16.427211209000234,
+      "n_layers_replaced": 2,
+      "per_layer": [
+       {
+        "attr": "self_attn",
+        "d": 4096,
+        "mode": "random_matched",
+        "banks": 1,
+        "fitted_decay": 0.5,
+        "decay_source": "explicit override",
+        "recency_profile_first8": null,
+        "fit_cdf_l1": null,
+        "found": [
+         "k_proj.biases",
+         "k_proj.scales",
+         "k_proj.weight",
+         "o_proj.biases",
+         "o_proj.scales",
+         "o_proj.weight",
+         "q_proj.biases",
+         "q_proj.scales",
+         "q_proj.weight",
+         "v_proj.biases",
+         "v_proj.scales",
+         "v_proj.weight"
+        ],
+        "quantized": true,
+        "value_expand_reps": 4,
+        "transplanted": true,
+        "wv_norm": 36.05506896972656,
+        "wo_norm": 41.98839569091797,
+        "gate_bias": 0.0,
+        "gate_biases": [
+         0.0
+        ],
+        "value_scaled_by": 0.5,
+        "out_gain": 0.1644666892229365,
+        "control_seed": 0,
+        "legacy_control_seed": false,
+        "control_std": 0.008802459575235844,
+        "decay": 0.5,
+        "rms_pre_norm": 0.23121759295463562,
+        "rms_post_norm": 0.038027599453926086,
+        "rms_target": 0.03802759200334549,
+        "normalisation_reldiff": 1.959256477057636e-07
+       },
+       {
+        "attr": "self_attn",
+        "d": 4096,
+        "mode": "random_matched",
+        "banks": 1,
+        "fitted_decay": 0.5,
+        "decay_source": "explicit override",
+        "recency_profile_first8": null,
+        "fit_cdf_l1": null,
+        "found": [
+         "k_proj.biases",
+         "k_proj.scales",
+         "k_proj.weight",
+         "o_proj.biases",
+         "o_proj.scales",
+         "o_proj.weight",
+         "q_proj.biases",
+         "q_proj.scales",
+         "q_proj.weight",
+         "v_proj.biases",
+         "v_proj.scales",
+         "v_proj.weight"
+        ],
+        "quantized": true,
+        "value_expand_reps": 4,
+        "transplanted": true,
+        "wv_norm": 54.65917205810547,
+        "wo_norm": 49.8495979309082,
+        "gate_bias": 0.0,
+        "gate_biases": [
+         0.0
+        ],
+        "value_scaled_by": 0.5,
+        "out_gain": 0.05388673182409818,
+        "control_seed": 0,
+        "legacy_control_seed": false,
+        "control_std": 0.013344431295990944,
+        "decay": 0.5,
+        "rms_pre_norm": 0.6411075592041016,
+        "rms_post_norm": 0.03454718366265297,
+        "rms_target": 0.034547191113233566,
+        "normalisation_reldiff": 2.1566386021465433e-07
+       }
+      ],
+      "recovery_frac": -1.0760250450734428
+     },
+     "ppl_gap_transfer_minus_control": 0.2159113516007629,
+     "gap_at_same_decay_transfer_minus_control_recovery": -0.2091821662352773
+    },
+    {
+     "decay": 0.7,
+     "transfer": {
+      "mode": "transfer",
+      "decay": 0.7,
+      "control_seed": null,
+      "select_ppl": 14.725242348865507,
+      "ppl": 8.470127106074441,
+      "wall_s": 12.530785000002652,
+      "n_layers_replaced": 2,
+      "per_layer": [
+       {
+        "attr": "self_attn",
+        "d": 4096,
+        "mode": "transfer",
+        "banks": 1,
+        "fitted_decay": 0.7,
+        "decay_source": "explicit override",
+        "recency_profile_first8": null,
+        "fit_cdf_l1": null,
+        "found": [
+         "k_proj.biases",
+         "k_proj.scales",
+         "k_proj.weight",
+         "o_proj.biases",
+         "o_proj.scales",
+         "o_proj.weight",
+         "q_proj.biases",
+         "q_proj.scales",
+         "q_proj.weight",
+         "v_proj.biases",
+         "v_proj.scales",
+         "v_proj.weight"
+        ],
+        "quantized": true,
+        "value_expand_reps": 4,
+        "transplanted": true,
+        "wv_norm": 36.05506896972656,
+        "wo_norm": 41.98839569091797,
+        "gate_bias": 0.8472978603872034,
+        "gate_biases": [
+         0.8472978603872034
+        ],
+        "value_scaled_by": 0.30000000000000004,
+        "out_gain": 0.19801870990384332,
+        "decay": 0.7,
+        "rms_pre_norm": 0.19204039871692657,
+        "rms_post_norm": 0.03802764043211937,
+        "rms_target": 0.03802759200334549,
+        "normalisation_reldiff": 1.2735167105315526e-06
+       },
+       {
+        "attr": "self_attn",
+        "d": 4096,
+        "mode": "transfer",
+        "banks": 1,
+        "fitted_decay": 0.7,
+        "decay_source": "explicit override",
+        "recency_profile_first8": null,
+        "fit_cdf_l1": null,
+        "found": [
+         "k_proj.biases",
+         "k_proj.scales",
+         "k_proj.weight",
+         "o_proj.biases",
+         "o_proj.scales",
+         "o_proj.weight",
+         "q_proj.biases",
+         "q_proj.scales",
+         "q_proj.weight",
+         "v_proj.biases",
+         "v_proj.scales",
+         "v_proj.weight"
+        ],
+        "quantized": true,
+        "value_expand_reps": 4,
+        "transplanted": true,
+        "wv_norm": 54.65917205810547,
+        "wo_norm": 49.8495979309082,
+        "gate_bias": 0.8472978603872034,
+        "gate_biases": [
+         0.8472978603872034
+        ],
+        "value_scaled_by": 0.30000000000000004,
+        "out_gain": 0.06095784784098698,
+        "decay": 0.7,
+        "rms_pre_norm": 0.566739022731781,
+        "rms_post_norm": 0.034547220915555954,
+        "rms_target": 0.034547191113233566,
+        "normalisation_reldiff": 8.626554410806619e-07
+       }
+      ],
+      "recovery_frac": -0.9087982074650132
+     },
+     "random_matched": {
+      "mode": "random_matched",
+      "decay": 0.7,
+      "control_seed": 0,
+      "select_ppl": 14.472120503036194,
+      "ppl": 8.613962743283636,
+      "wall_s": 13.075743290999526,
+      "n_layers_replaced": 2,
+      "per_layer": [
+       {
+        "attr": "self_attn",
+        "d": 4096,
+        "mode": "random_matched",
+        "banks": 1,
+        "fitted_decay": 0.7,
+        "decay_source": "explicit override",
+        "recency_profile_first8": null,
+        "fit_cdf_l1": null,
+        "found": [
+         "k_proj.biases",
+         "k_proj.scales",
+         "k_proj.weight",
+         "o_proj.biases",
+         "o_proj.scales",
+         "o_proj.weight",
+         "q_proj.biases",
+         "q_proj.scales",
+         "q_proj.weight",
+         "v_proj.biases",
+         "v_proj.scales",
+         "v_proj.weight"
+        ],
+        "quantized": true,
+        "value_expand_reps": 4,
+        "transplanted": true,
+        "wv_norm": 36.05506896972656,
+        "wo_norm": 41.98839569091797,
+        "gate_bias": 0.8472978603872034,
+        "gate_biases": [
+         0.8472978603872034
+        ],
+        "value_scaled_by": 0.30000000000000004,
+        "out_gain": 0.1087301269446995,
+        "control_seed": 0,
+        "legacy_control_seed": false,
+        "control_std": 0.008802459575235844,
+        "decay": 0.7,
+        "rms_pre_norm": 0.34974291920661926,
+        "rms_post_norm": 0.03802759200334549,
+        "rms_target": 0.03802759200334549,
+        "normalisation_reldiff": 0.0
+       },
+       {
+        "attr": "self_attn",
+        "d": 4096,
+        "mode": "random_matched",
+        "banks": 1,
+        "fitted_decay": 0.7,
+        "decay_source": "explicit override",
+        "recency_profile_first8": null,
+        "fit_cdf_l1": null,
+        "found": [
+         "k_proj.biases",
+         "k_proj.scales",
+         "k_proj.weight",
+         "o_proj.biases",
+         "o_proj.scales",
+         "o_proj.weight",
+         "q_proj.biases",
+         "q_proj.scales",
+         "q_proj.weight",
+         "v_proj.biases",
+         "v_proj.scales",
+         "v_proj.weight"
+        ],
+        "quantized": true,
+        "value_expand_reps": 4,
+        "transplanted": true,
+        "wv_norm": 54.65917205810547,
+        "wo_norm": 49.8495979309082,
+        "gate_bias": 0.8472978603872034,
+        "gate_biases": [
+         0.8472978603872034
+        ],
+        "value_scaled_by": 0.30000000000000004,
+        "out_gain": 0.0357519504853915,
+        "control_seed": 0,
+        "legacy_control_seed": false,
+        "control_std": 0.013344431295990944,
+        "decay": 0.7,
+        "rms_pre_norm": 0.9663022756576538,
+        "rms_post_norm": 0.034547191113233566,
+        "rms_target": 0.034547191113233566,
+        "normalisation_reldiff": 0.0
+       }
+      ],
+      "recovery_frac": -1.0481510017955569
+     },
+     "ppl_gap_transfer_minus_control": -0.1438356372091949,
+     "gap_at_same_decay_transfer_minus_control_recovery": 0.1393527943305437
+    },
+    {
+     "decay": 0.8,
+     "transfer": {
+      "mode": "transfer",
+      "decay": 0.8,
+      "control_seed": null,
+      "select_ppl": 14.49143597631768,
+      "ppl": 8.349547973335111,
+      "wall_s": 15.690126500001497,
+      "n_layers_replaced": 2,
+      "per_layer": [
+       {
+        "attr": "self_attn",
+        "d": 4096,
+        "mode": "transfer",
+        "banks": 1,
+        "fitted_decay": 0.8,
+        "decay_source": "explicit override",
+        "recency_profile_first8": null,
+        "fit_cdf_l1": null,
+        "found": [
+         "k_proj.biases",
+         "k_proj.scales",
+         "k_proj.weight",
+         "o_proj.biases",
+         "o_proj.scales",
+         "o_proj.weight",
+         "q_proj.biases",
+         "q_proj.scales",
+         "q_proj.weight",
+         "v_proj.biases",
+         "v_proj.scales",
+         "v_proj.weight"
+        ],
+        "quantized": true,
+        "value_expand_reps": 4,
+        "transplanted": true,
+        "wv_norm": 36.05506896972656,
+        "wo_norm": 41.98839569091797,
+        "gate_bias": 1.3862943611198908,
+        "gate_biases": [
+         1.3862943611198908
+        ],
+        "value_scaled_by": 0.19999999999999996,
+        "out_gain": 0.1478402995471154,
+        "decay": 0.8,
+        "rms_pre_norm": 0.2572207450866699,
+        "rms_post_norm": 0.03802761808037758,
+        "rms_target": 0.03802759200334549,
+        "normalisation_reldiff": 6.857397671922172e-07
+       },
+       {
+        "attr": "self_attn",
+        "d": 4096,
+        "mode": "transfer",
+        "banks": 1,
+        "fitted_decay": 0.8,
+        "decay_source": "explicit override",
+        "recency_profile_first8": null,
+        "fit_cdf_l1": null,
+        "found": [
+         "k_proj.biases",
+         "k_proj.scales",
+         "k_proj.weight",
+         "o_proj.biases",
+         "o_proj.scales",
+         "o_proj.weight",
+         "q_proj.biases",
+         "q_proj.scales",
+         "q_proj.weight",
+         "v_proj.biases",
+         "v_proj.scales",
+         "v_proj.weight"
+        ],
+        "quantized": true,
+        "value_expand_reps": 4,
+        "transplanted": true,
+        "wv_norm": 54.65917205810547,
+        "wo_norm": 49.8495979309082,
+        "gate_bias": 1.3862943611198908,
+        "gate_biases": [
+         1.3862943611198908
+        ],
+        "value_scaled_by": 0.19999999999999996,
+        "out_gain": 0.04412128724647731,
+        "decay": 0.8,
+        "rms_pre_norm": 0.7830050587654114,
+        "rms_post_norm": 0.034547220915555954,
+        "rms_target": 0.034547191113233566,
+        "normalisation_reldiff": 8.626554410806619e-07
+       }
+      ],
+      "recovery_frac": -0.7919770954568618
+     },
+     "random_matched": {
+      "mode": "random_matched",
+      "decay": 0.8,
+      "control_seed": 0,
+      "select_ppl": 14.204391590460734,
+      "ppl": 8.615399002178732,
+      "wall_s": 14.747649708002427,
+      "n_layers_replaced": 2,
+      "per_layer": [
+       {
+        "attr": "self_attn",
+        "d": 4096,
+        "mode": "random_matched",
+        "banks": 1,
+        "fitted_decay": 0.8,
+        "decay_source": "explicit override",
+        "recency_profile_first8": null,
+        "fit_cdf_l1": null,
+        "found": [
+         "k_proj.biases",
+         "k_proj.scales",
+         "k_proj.weight",
+         "o_proj.biases",
+         "o_proj.scales",
+         "o_proj.weight",
+         "q_proj.biases",
+         "q_proj.scales",
+         "q_proj.weight",
+         "v_proj.biases",
+         "v_proj.scales",
+         "v_proj.weight"
+        ],
+        "quantized": true,
+        "value_expand_reps": 4,
+        "transplanted": true,
+        "wv_norm": 36.05506896972656,
+        "wo_norm": 41.98839569091797,
+        "gate_bias": 1.3862943611198908,
+        "gate_biases": [
+         1.3862943611198908
+        ],
+        "value_scaled_by": 0.19999999999999996,
+        "out_gain": 0.07696511956428377,
+        "control_seed": 0,
+        "legacy_control_seed": false,
+        "control_std": 0.008802459575235844,
+        "decay": 0.8,
+        "rms_pre_norm": 0.49408864974975586,
+        "rms_post_norm": 0.038027580827474594,
+        "rms_target": 0.03802759200334549,
+        "normalisation_reldiff": 2.938884716696677e-07
+       },
+       {
+        "attr": "self_attn",
+        "d": 4096,
+        "mode": "random_matched",
+        "banks": 1,
+        "fitted_decay": 0.8,
+        "decay_source": "explicit override",
+        "recency_profile_first8": null,
+        "fit_cdf_l1": null,
+        "found": [
+         "k_proj.biases",
+         "k_proj.scales",
+         "k_proj.weight",
+         "o_proj.biases",
+         "o_proj.scales",
+         "o_proj.weight",
+         "q_proj.biases",
+         "q_proj.scales",
+         "q_proj.weight",
+         "v_proj.biases",
+         "v_proj.scales",
+         "v_proj.weight"
+        ],
+        "quantized": true,
+        "value_expand_reps": 4,
+        "transplanted": true,
+        "wv_norm": 54.65917205810547,
+        "wo_norm": 49.8495979309082,
+        "gate_bias": 1.3862943611198908,
+        "gate_biases": [
+         1.3862943611198908
+        ],
+        "value_scaled_by": 0.19999999999999996,
+        "out_gain": 0.02536314927668474,
+        "control_seed": 0,
+        "legacy_control_seed": false,
+        "control_std": 0.013344431295990944,
+        "decay": 0.8,
+        "rms_pre_norm": 1.3621017932891846,
+        "rms_post_norm": 0.03454720228910446,
+        "rms_target": 0.034547191113233566,
+        "normalisation_reldiff": 3.2349579037749265e-07
+       }
+      ],
+      "recovery_frac": -1.0495424976327297
+     },
+     "ppl_gap_transfer_minus_control": -0.26585102884362044,
+     "gap_at_same_decay_transfer_minus_control_recovery": 0.2575654021758679
+    },
+    {
+     "decay": 0.9,
+     "transfer": {
+      "mode": "transfer",
+      "decay": 0.9,
+      "control_seed": null,
+      "select_ppl": 14.328072721781458,
+      "ppl": 8.369059510389732,
+      "wall_s": 12.143171083000198,
+      "n_layers_replaced": 2,
+      "per_layer": [
+       {
+        "attr": "self_attn",
+        "d": 4096,
+        "mode": "transfer",
+        "banks": 1,
+        "fitted_decay": 0.9,
+        "decay_source": "explicit override",
+        "recency_profile_first8": null,
+        "fit_cdf_l1": null,
+        "found": [
+         "k_proj.biases",
+         "k_proj.scales",
+         "k_proj.weight",
+         "o_proj.biases",
+         "o_proj.scales",
+         "o_proj.weight",
+         "q_proj.biases",
+         "q_proj.scales",
+         "q_proj.weight",
+         "v_proj.biases",
+         "v_proj.scales",
+         "v_proj.weight"
+        ],
+        "quantized": true,
+        "value_expand_reps": 4,
+        "transplanted": true,
+        "wv_norm": 36.05506896972656,
+        "wo_norm": 41.98839569091797,
+        "gate_bias": 2.1972245773362196,
+        "gate_biases": [
+         2.1972245773362196
+        ],
+        "value_scaled_by": 0.09999999999999998,
+        "out_gain": 0.08692015700466885,
+        "decay": 0.9,
+        "rms_pre_norm": 0.4375002682209015,
+        "rms_post_norm": 0.03802761435508728,
+        "rms_target": 0.03802759200334549,
+        "normalisation_reldiff": 5.877769433393354e-07
+       },
+       {
+        "attr": "self_attn",
+        "d": 4096,
+        "mode": "transfer",
+        "banks": 1,
+        "fitted_decay": 0.9,
+        "decay_source": "explicit override",
+        "recency_profile_first8": null,
+        "fit_cdf_l1": null,
+        "found": [
+         "k_proj.biases",
+         "k_proj.scales",
+         "k_proj.weight",
+         "o_proj.biases",
+         "o_proj.scales",
+         "o_proj.weight",
+         "q_proj.biases",
+         "q_proj.scales",
+         "q_proj.weight",
+         "v_proj.biases",
+         "v_proj.scales",
+         "v_proj.weight"
+        ],
+        "quantized": true,
+        "value_expand_reps": 4,
+        "transplanted": true,
+        "wv_norm": 54.65917205810547,
+        "wo_norm": 49.8495979309082,
+        "gate_bias": 2.1972245773362196,
+        "gate_biases": [
+         2.1972245773362196
+        ],
+        "value_scaled_by": 0.09999999999999998,
+        "out_gain": 0.024540666716289475,
+        "decay": 0.9,
+        "rms_pre_norm": 1.4077527523040771,
+        "rms_post_norm": 0.03454717621207237,
+        "rms_target": 0.034547191113233566,
+        "normalisation_reldiff": 4.3132772054033097e-07
+       }
+      ],
+      "recovery_frac": -0.8108805276173553
+     },
+     "random_matched": {
+      "mode": "random_matched",
+      "decay": 0.9,
+      "control_seed": 0,
+      "select_ppl": 13.825879758619093,
+      "ppl": 8.632652799492995,
+      "wall_s": 12.574292625002272,
+      "n_layers_replaced": 2,
+      "per_layer": [
+       {
+        "attr": "self_attn",
+        "d": 4096,
+        "mode": "random_matched",
+        "banks": 1,
+        "fitted_decay": 0.9,
+        "decay_source": "explicit override",
+        "recency_profile_first8": null,
+        "fit_cdf_l1": null,
+        "found": [
+         "k_proj.biases",
+         "k_proj.scales",
+         "k_proj.weight",
+         "o_proj.biases",
+         "o_proj.scales",
+         "o_proj.weight",
+         "q_proj.biases",
+         "q_proj.scales",
+         "q_proj.weight",
+         "v_proj.biases",
+         "v_proj.scales",
+         "v_proj.weight"
+        ],
+        "quantized": true,
+        "value_expand_reps": 4,
+        "transplanted": true,
+        "wv_norm": 36.05506896972656,
+        "wo_norm": 41.98839569091797,
+        "gate_bias": 2.1972245773362196,
+        "gate_biases": [
+         2.1972245773362196
+        ],
+        "value_scaled_by": 0.09999999999999998,
+        "out_gain": 0.04164276928796679,
+        "control_seed": 0,
+        "legacy_control_seed": false,
+        "control_std": 0.008802459575235844,
+        "decay": 0.9,
+        "rms_pre_norm": 0.9131859540939331,
+        "rms_post_norm": 0.03802759572863579,
+        "rms_target": 0.03802759200334549,
+        "normalisation_reldiff": 9.79628238528818e-08
+       },
+       {
+        "attr": "self_attn",
+        "d": 4096,
+        "mode": "random_matched",
+        "banks": 1,
+        "fitted_decay": 0.9,
+        "decay_source": "explicit override",
+        "recency_profile_first8": null,
+        "fit_cdf_l1": null,
+        "found": [
+         "k_proj.biases",
+         "k_proj.scales",
+         "k_proj.weight",
+         "o_proj.biases",
+         "o_proj.scales",
+         "o_proj.weight",
+         "q_proj.biases",
+         "q_proj.scales",
+         "q_proj.weight",
+         "v_proj.biases",
+         "v_proj.scales",
+         "v_proj.weight"
+        ],
+        "quantized": true,
+        "value_expand_reps": 4,
+        "transplanted": true,
+        "wv_norm": 54.65917205810547,
+        "wo_norm": 49.8495979309082,
+        "gate_bias": 2.1972245773362196,
+        "gate_biases": [
+         2.1972245773362196
+        ],
+        "value_scaled_by": 0.09999999999999998,
+        "out_gain": 0.013773204211365377,
+        "control_seed": 0,
+        "legacy_control_seed": false,
+        "control_std": 0.013344431295990944,
+        "decay": 0.9,
+        "rms_pre_norm": 2.5082900524139404,
+        "rms_post_norm": 0.03454720973968506,
+        "rms_target": 0.034547191113233566,
+        "normalisation_reldiff": 5.391596507031693e-07
+       }
+      ],
+      "recovery_frac": -1.0662585557335356
+     },
+     "ppl_gap_transfer_minus_control": -0.2635932891032624,
+     "gap_at_same_decay_transfer_minus_control_recovery": 0.25537802811618027
+    },
+    {
+     "decay": 0.99,
+     "transfer": {
+      "mode": "transfer",
+      "decay": 0.99,
+      "control_seed": null,
+      "select_ppl": 14.256587392031042,
+      "ppl": 8.49275180611234,
+      "wall_s": 25.60981208299927,
+      "n_layers_replaced": 2,
+      "per_layer": [
+       {
+        "attr": "self_attn",
+        "d": 4096,
+        "mode": "transfer",
+        "banks": 1,
+        "fitted_decay": 0.99,
+        "decay_source": "explicit override",
+        "recency_profile_first8": null,
+        "fit_cdf_l1": null,
+        "found": [
+         "k_proj.biases",
+         "k_proj.scales",
+         "k_proj.weight",
+         "o_proj.biases",
+         "o_proj.scales",
+         "o_proj.weight",
+         "q_proj.biases",
+         "q_proj.scales",
+         "q_proj.weight",
+         "v_proj.biases",
+         "v_proj.scales",
+         "v_proj.weight"
+        ],
+        "quantized": true,
+        "value_expand_reps": 4,
+        "transplanted": true,
+        "wv_norm": 36.05506896972656,
+        "wo_norm": 41.98839569091797,
+        "gate_bias": 4.595119850134589,
+        "gate_biases": [
+         4.595119850134589
+        ],
+        "value_scaled_by": 0.010000000000000009,
+        "out_gain": 0.01262225790103488,
+        "decay": 0.99,
+        "rms_pre_norm": 3.0127408504486084,
+        "rms_post_norm": 0.03802763298153877,
+        "rms_target": 0.03802759200334549,
+        "normalisation_reldiff": 1.077591062825789e-06
+       },
+       {
+        "attr": "self_attn",
+        "d": 4096,
+        "mode": "transfer",
+        "banks": 1,
+        "fitted_decay": 0.99,
+        "decay_source": "explicit override",
+        "recency_profile_first8": null,
+        "fit_cdf_l1": null,
+        "found": [
+         "k_proj.biases",
+         "k_proj.scales",
+         "k_proj.weight",
+         "o_proj.biases",
+         "o_proj.scales",
+         "o_proj.weight",
+         "q_proj.biases",
+         "q_proj.scales",
+         "q_proj.weight",
+         "v_proj.biases",
+         "v_proj.scales",
+         "v_proj.weight"
+        ],
+        "quantized": true,
+        "value_expand_reps": 4,
+        "transplanted": true,
+        "wv_norm": 54.65917205810547,
+        "wo_norm": 49.8495979309082,
+        "gate_bias": 4.595119850134589,
+        "gate_biases": [
+         4.595119850134589
+        ],
+        "value_scaled_by": 0.010000000000000009,
+        "out_gain": 0.0030663572210374505,
+        "decay": 0.99,
+        "rms_pre_norm": 11.266525268554688,
+        "rms_post_norm": 0.03454720228910446,
+        "rms_target": 0.034547191113233566,
+        "normalisation_reldiff": 3.2349579037749265e-07
+       }
+      ],
+      "recovery_frac": -0.9307177764421091
+     },
+     "random_matched": {
+      "mode": "random_matched",
+      "decay": 0.99,
+      "control_seed": 0,
+      "select_ppl": 13.376924590660044,
+      "ppl": 8.419441656743171,
+      "wall_s": 16.203647624999576,
+      "n_layers_replaced": 2,
+      "per_layer": [
+       {
+        "attr": "self_attn",
+        "d": 4096,
+        "mode": "random_matched",
+        "banks": 1,
+        "fitted_decay": 0.99,
+        "decay_source": "explicit override",
+        "recency_profile_first8": null,
+        "fit_cdf_l1": null,
+        "found": [
+         "k_proj.biases",
+         "k_proj.scales",
+         "k_proj.weight",
+         "o_proj.biases",
+         "o_proj.scales",
+         "o_proj.weight",
+         "q_proj.biases",
+         "q_proj.scales",
+         "q_proj.weight",
+         "v_proj.biases",
+         "v_proj.scales",
+         "v_proj.weight"
+        ],
+        "quantized": true,
+        "value_expand_reps": 4,
+        "transplanted": true,
+        "wv_norm": 36.05506896972656,
+        "wo_norm": 41.98839569091797,
+        "gate_bias": 4.595119850134589,
+        "gate_biases": [
+         4.595119850134589
+        ],
+        "value_scaled_by": 0.010000000000000009,
+        "out_gain": 0.005079761249826905,
+        "control_seed": 0,
+        "legacy_control_seed": false,
+        "control_std": 0.008802459575235844,
+        "decay": 0.99,
+        "rms_pre_norm": 7.486098289489746,
+        "rms_post_norm": 0.038027603179216385,
+        "rms_target": 0.03802759200334549,
+        "normalisation_reldiff": 2.9388847178069e-07
+       },
+       {
+        "attr": "self_attn",
+        "d": 4096,
+        "mode": "random_matched",
+        "banks": 1,
+        "fitted_decay": 0.99,
+        "decay_source": "explicit override",
+        "recency_profile_first8": null,
+        "fit_cdf_l1": null,
+        "found": [
+         "k_proj.biases",
+         "k_proj.scales",
+         "k_proj.weight",
+         "o_proj.biases",
+         "o_proj.scales",
+         "o_proj.weight",
+         "q_proj.biases",
+         "q_proj.scales",
+         "q_proj.weight",
+         "v_proj.biases",
+         "v_proj.scales",
+         "v_proj.weight"
+        ],
+        "quantized": true,
+        "value_expand_reps": 4,
+        "transplanted": true,
+        "wv_norm": 54.65917205810547,
+        "wo_norm": 49.8495979309082,
+        "gate_bias": 4.595119850134589,
+        "gate_biases": [
+         4.595119850134589
+        ],
+        "value_scaled_by": 0.010000000000000009,
+        "out_gain": 0.0017009229485356711,
+        "control_seed": 0,
+        "legacy_control_seed": false,
+        "control_std": 0.013344431295990944,
+        "decay": 0.99,
+        "rms_pre_norm": 20.310850143432617,
+        "rms_post_norm": 0.03454718738794327,
+        "rms_target": 0.034547191113233566,
+        "normalisation_reldiff": 1.0783193016283832e-07
+       }
+      ],
+      "recovery_frac": -0.8596924424873181
+     },
+     "ppl_gap_transfer_minus_control": 0.0733101493691688,
+     "gap_at_same_decay_transfer_minus_control_recovery": -0.07102533395479094
+    }
+   ],
+   "per_arm": {},
+   "control_seed_sweep": null,
+   "control_seed_convention": "one independent draw per (seed, layer): np.random.default_rng(seed*100003 + layer), so the k layers do not share a single random draw",
+   "zero_select_ppl": 13.063951182598633,
+   "zero_wall_s": 17.479079749999073,
+   "deletion_cost_ppl": 1.0321690203643703,
+   "deletion_cost_nats": 0.14738246082027362,
+   "zero_recovery_frac": 0.0
+  }
+ },
+ "verdict": null,
+ "teacher_select_ppl": 11.582358957802928
+}

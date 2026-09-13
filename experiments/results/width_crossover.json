@@ -1,0 +1,361 @@
+{
+ "meta": {
+  "host": "macOS-27.0-arm64-arm-64bit-Mach-O",
+  "machine": "arm64",
+  "driver": "experiments/width_crossover.py",
+  "B": 4,
+  "reps": 9,
+  "widths": [
+   128,
+   512,
+   2048,
+   4096
+  ],
+  "Ts": [
+   128,
+   256,
+   512,
+   1024,
+   2048,
+   4096
+  ],
+  "cost_model": {
+   "attention_causal": "4*d^2 + 2*T*d MACs/token",
+   "memory": "3*d^2 + O(T*d) MACs/token",
+   "prediction": "crossover T scales with d"
+  },
+  "elapsed_s": null
+ },
+ "rows": [
+  {
+   "d": 128,
+   "T": 128,
+   "n_head": 2,
+   "B": 4,
+   "attn_ms": 0.4383330015116371,
+   "mem_ms": 0.6122080012573861,
+   "mem_over_attn": 1.396673303506975,
+   "mem_faster": false,
+   "mac_attn_per_token": 98304,
+   "mac_mem_per_token": 49152,
+   "mac_ratio": 2.0
+  },
+  {
+   "d": 128,
+   "T": 256,
+   "n_head": 2,
+   "B": 4,
+   "attn_ms": 0.29687500136788003,
+   "mem_ms": 0.3939579983125441,
+   "mem_over_attn": 1.3270164092542143,
+   "mem_faster": false,
+   "mac_attn_per_token": 131072,
+   "mac_mem_per_token": 49152,
+   "mac_ratio": 2.6666666666666665
+  },
+  {
+   "d": 128,
+   "T": 512,
+   "n_head": 2,
+   "B": 4,
+   "attn_ms": 0.3749170027731452,
+   "mem_ms": 0.42058300095959567,
+   "mem_over_attn": 1.121802953316796,
+   "mem_faster": false,
+   "mac_attn_per_token": 196608,
+   "mac_mem_per_token": 49152,
+   "mac_ratio": 4.0
+  },
+  {
+   "d": 128,
+   "T": 1024,
+   "n_head": 2,
+   "B": 4,
+   "attn_ms": 0.7592500005557667,
+   "mem_ms": 0.5221249994065147,
+   "mem_over_attn": 0.687685214388307,
+   "mem_faster": true,
+   "mac_attn_per_token": 327680,
+   "mac_mem_per_token": 49152,
+   "mac_ratio": 6.666666666666667
+  },
+  {
+   "d": 128,
+   "T": 2048,
+   "n_head": 2,
+   "B": 4,
+   "attn_ms": 3.046458998142043,
+   "mem_ms": 0.8508329992764629,
+   "mem_over_attn": 0.2792858856119068,
+   "mem_faster": true,
+   "mac_attn_per_token": 589824,
+   "mac_mem_per_token": 49152,
+   "mac_ratio": 12.0
+  },
+  {
+   "d": 128,
+   "T": 4096,
+   "n_head": 2,
+   "B": 4,
+   "attn_ms": 11.015458003384992,
+   "mem_ms": 1.4318749999802094,
+   "mem_over_attn": 0.1299877862128113,
+   "mem_faster": true,
+   "mac_attn_per_token": 1114112,
+   "mac_mem_per_token": 49152,
+   "mac_ratio": 22.666666666666668
+  },
+  {
+   "d": 512,
+   "T": 128,
+   "n_head": 8,
+   "B": 4,
+   "attn_ms": 0.3807079992839135,
+   "mem_ms": 0.4714999995485414,
+   "mem_over_attn": 1.2384819873378063,
+   "mem_faster": false,
+   "mac_attn_per_token": 1179648,
+   "mac_mem_per_token": 786432,
+   "mac_ratio": 1.5
+  },
+  {
+   "d": 512,
+   "T": 256,
+   "n_head": 8,
+   "B": 4,
+   "attn_ms": 0.5278749995341059,
+   "mem_ms": 0.6033749996277038,
+   "mem_over_attn": 1.1430262849353219,
+   "mem_faster": false,
+   "mac_attn_per_token": 1310720,
+   "mac_mem_per_token": 786432,
+   "mac_ratio": 1.6666666666666667
+  },
+  {
+   "d": 512,
+   "T": 512,
+   "n_head": 8,
+   "B": 4,
+   "attn_ms": 1.060083999618655,
+   "mem_ms": 0.9808750000956934,
+   "mem_over_attn": 0.9252804498969368,
+   "mem_faster": true,
+   "mac_attn_per_token": 1572864,
+   "mac_mem_per_token": 786432,
+   "mac_ratio": 2.0
+  },
+  {
+   "d": 512,
+   "T": 1024,
+   "n_head": 8,
+   "B": 4,
+   "attn_ms": 3.432749999774387,
+   "mem_ms": 1.7624169995542616,
+   "mem_over_attn": 0.5134125700007557,
+   "mem_faster": true,
+   "mac_attn_per_token": 2097152,
+   "mac_mem_per_token": 786432,
+   "mac_ratio": 2.6666666666666665
+  },
+  {
+   "d": 512,
+   "T": 2048,
+   "n_head": 8,
+   "B": 4,
+   "attn_ms": 11.682125001243548,
+   "mem_ms": 3.619709001213778,
+   "mem_over_attn": 0.3098502199581381,
+   "mem_faster": true,
+   "mac_attn_per_token": 3145728,
+   "mac_mem_per_token": 786432,
+   "mac_ratio": 4.0
+  },
+  {
+   "d": 512,
+   "T": 4096,
+   "n_head": 8,
+   "B": 4,
+   "attn_ms": 42.98750000089058,
+   "mem_ms": 8.24924999687937,
+   "mem_over_attn": 0.19189880771639362,
+   "mem_faster": true,
+   "mac_attn_per_token": 5242880,
+   "mac_mem_per_token": 786432,
+   "mac_ratio": 6.666666666666667
+  },
+  {
+   "d": 2048,
+   "T": 128,
+   "n_head": 32,
+   "B": 4,
+   "attn_ms": 2.0912500003760215,
+   "mem_ms": 1.7502920018159784,
+   "mem_over_attn": 0.8369597138081356,
+   "mem_faster": true,
+   "mac_attn_per_token": 17301504,
+   "mac_mem_per_token": 12582912,
+   "mac_ratio": 1.375
+  },
+  {
+   "d": 2048,
+   "T": 256,
+   "n_head": 32,
+   "B": 4,
+   "attn_ms": 3.3904170013556723,
+   "mem_ms": 3.2394999980169814,
+   "mem_over_attn": 0.9554871854175029,
+   "mem_faster": true,
+   "mac_attn_per_token": 17825792,
+   "mac_mem_per_token": 12582912,
+   "mac_ratio": 1.4166666666666667
+  },
+  {
+   "d": 2048,
+   "T": 512,
+   "n_head": 32,
+   "B": 4,
+   "attn_ms": 7.9825419998087455,
+   "mem_ms": 6.7180000005464535,
+   "mem_over_attn": 0.8415865523422753,
+   "mem_faster": true,
+   "mac_attn_per_token": 18874368,
+   "mac_mem_per_token": 12582912,
+   "mac_ratio": 1.5
+  },
+  {
+   "d": 2048,
+   "T": 1024,
+   "n_head": 32,
+   "B": 4,
+   "attn_ms": 20.9062090034422,
+   "mem_ms": 14.157459001580719,
+   "mem_over_attn": 0.677189202463713,
+   "mem_faster": true,
+   "mac_attn_per_token": 20971520,
+   "mac_mem_per_token": 12582912,
+   "mac_ratio": 1.6666666666666667
+  },
+  {
+   "d": 2048,
+   "T": 2048,
+   "n_head": 32,
+   "B": 4,
+   "attn_ms": 61.80045799919753,
+   "mem_ms": 27.929542000492802,
+   "mem_over_attn": 0.4519309873214121,
+   "mem_faster": true,
+   "mac_attn_per_token": 25165824,
+   "mac_mem_per_token": 12582912,
+   "mac_ratio": 2.0
+  },
+  {
+   "d": 2048,
+   "T": 4096,
+   "n_head": 32,
+   "B": 4,
+   "attn_ms": 204.79354200142552,
+   "mem_ms": 81.34833400254138,
+   "mem_over_attn": 0.39722118777541887,
+   "mem_faster": true,
+   "mac_attn_per_token": 33554432,
+   "mac_mem_per_token": 12582912,
+   "mac_ratio": 2.6666666666666665
+  },
+  {
+   "d": 4096,
+   "T": 128,
+   "n_head": 64,
+   "B": 4,
+   "attn_ms": 15.112541001144564,
+   "mem_ms": 13.305542001035064,
+   "mem_over_attn": 0.880430498089458,
+   "mem_faster": true,
+   "mac_attn_per_token": 68157440,
+   "mac_mem_per_token": 50331648,
+   "mac_ratio": 1.3541666666666667
+  },
+  {
+   "d": 4096,
+   "T": 256,
+   "n_head": 64,
+   "B": 4,
+   "attn_ms": 31.130125000345288,
+   "mem_ms": 24.37212500080932,
+   "mem_over_attn": 0.782911247562899,
+   "mem_faster": true,
+   "mac_attn_per_token": 69206016,
+   "mac_mem_per_token": 50331648,
+   "mac_ratio": 1.375
+  },
+  {
+   "d": 4096,
+   "T": 512,
+   "n_head": 64,
+   "B": 4,
+   "attn_ms": 54.648333996738074,
+   "mem_ms": 39.09287500209757,
+   "mem_over_attn": 0.7153534635553758,
+   "mem_faster": true,
+   "mac_attn_per_token": 71303168,
+   "mac_mem_per_token": 50331648,
+   "mac_ratio": 1.4166666666666667
+  },
+  {
+   "d": 4096,
+   "T": 1024,
+   "n_head": 64,
+   "B": 4,
+   "attn_ms": 106.8859170009091,
+   "mem_ms": 73.9878749991476,
+   "mem_over_attn": 0.6922135027247632,
+   "mem_faster": true,
+   "mac_attn_per_token": 75497472,
+   "mac_mem_per_token": 50331648,
+   "mac_ratio": 1.5
+  },
+  {
+   "d": 4096,
+   "T": 2048,
+   "n_head": 64,
+   "B": 4,
+   "attn_ms": 264.006541998242,
+   "mem_ms": 166.24033300104202,
+   "mem_over_attn": 0.6296826273424276,
+   "mem_faster": true,
+   "mac_attn_per_token": 83886080,
+   "mac_mem_per_token": 50331648,
+   "mac_ratio": 1.6666666666666667
+  },
+  {
+   "d": 4096,
+   "T": 4096,
+   "n_head": 64,
+   "B": 4,
+   "attn_ms": 884.8970830003964,
+   "mem_ms": 321.17220900181565,
+   "mem_over_attn": 0.3629486582923585,
+   "mem_faster": true,
+   "mac_attn_per_token": 100663296,
+   "mac_mem_per_token": 50331648,
+   "mac_ratio": 2.0
+  }
+ ],
+ "crossover": {
+  "128": {
+   "first_T_mem_faster": 1024,
+   "predicted_T_approx": 128
+  },
+  "512": {
+   "first_T_mem_faster": 512,
+   "predicted_T_approx": 512
+  },
+  "2048": {
+   "first_T_mem_faster": 128,
+   "predicted_T_approx": 2048
+  },
+  "4096": {
+   "first_T_mem_faster": 128,
+   "predicted_T_approx": 4096
+  }
+ }
+}
