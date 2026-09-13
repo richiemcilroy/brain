@@ -7,9 +7,12 @@ multiple timescales, updated in one operation per token.
 
 This repository tests whether swapping attention for that mechanism — and
 against a pretrained model — actually helps, with an **adversarial control at
-every step**. The results are small, positive, and not yet fully explained. They
-are reported with their controls and their limits, because the interesting part
-of a result is what survives when you try to kill it.
+every step**.
+
+**The short version: it works at 1B and fails to replicate at 8B.** Both results
+are reported here with their controls, because the interesting part of a result
+is what survives when you try to kill it, and the failure to replicate is the
+more informative of the two.
 
 Everything runs locally on one Apple M4 Max, 128 GB, MLX/Metal. No cluster.
 
@@ -54,7 +57,7 @@ than about the transplanted weights.
 | **8B replication** (attention deleted, Llama-3.1-8B-4bit, layer 16) | 6.4999 | 8.7064 | **8.6875** (random) | **the effect does NOT replicate at 8B** — see below |
 
 The 8B row is why this repo is honest rather than promotional. Details in
-[§4](#4-does-it-survive-at-8b).
+[§4](#4-does-it-survive-at-8b-no--and-that-is-the-most-important-result-here).
 
 ---
 
