@@ -286,51 +286,63 @@ larger readout, rather than more timescales.
 
 ---
 
-## 5. Efficiency: what is measured and what is still unknown
+## 5. Efficiency: measured against the fused kernel
 
-**No end-to-end speedup is claimed.** A gated trace has fewer multiply-accumulates
-than attention at short context, and the scan was the wall-clock bottleneck —
-measured, then fixed.
+**The earlier efficiency claims in this repo were retracted**, because they were
+measured against hand-rolled attention rather than MLX's fused
+`mx.fast.scaled_dot_product_attention`. The correction is in
+`docs/RETRACTION_FUSED_BASELINE.md`; the clean re-measurement is in
+`docs/FAIR_BENCH.md`.
 
-`experiments/scan_bench.py` → `results/scan_bench.json`, `docs/WALLCLOCK.md`
+`experiments/fair_bench.py` re-measures with the fair baseline, and -- because
+this is the third time a handicapped baseline has fooled this project -- it
+**verifies before it times**. Both attention arms share their projections and
+differ only in the attention op, so they must compute the same function; measured
+discrepancy **1.6e-7 relative**. The chunked scan is checked against the
+sequential recurrence to **4.8e-7**. The run aborts on disagreement.
 
-- The memory block went from **1.41x slower** than attention to **1.56x faster**
-  (mem block 9.867 ms → 4.484 ms; attention block 6.990 ms), a **2.20x**
-  speedup on the memory block itself.
-- MAC ratio, attention over memory: **1.82x** (full masked T×T) or **1.45x**
-  (kernel skips masked work). An earlier version of this repo claimed 2.9x;
-  that was a **unit error** — attention was charged FLOPs while memory was
-  charged MACs, double-counting attention by exactly 2x. Caught by review.
-- Chunk-size sweep: `chunk=16` gives a further **1.16x** over the `chunk=64`
-  baseline with fewer MACs; `chunk=256` is *slower* than the baseline.
-- Short-context sweep (T=4…2048): the ratio is **noisy below T≈256 and often
-  favours attention** — measured ratios of memory-block/attention-block time are
-  1.84 (T=4), 1.32 (T=32), 1.10 (T=48), i.e. attention faster at those lengths,
-  and 0.51 (T=8), 0.76 (T=16), 0.73 (T=64), 0.98 (T=128). **There is no clean
-  short-context crossover claim here** — the sub-256 region is dominated by
-  dispatch overhead and noise.
+That check earned its keep immediately: it caught that
+`mx.fast.scaled_dot_product_attention(mask=None)` is **unmasked** (it attends to
+the future), so the first attempt was timing two different functions.
 
-> **RETRACTION — every number in this section was measured against hand-rolled
-> attention, not against MLX's fused kernel.** MLX ships
-> `mx.fast.scaled_dot_product_attention`, which applies causal masking internally
-> and is a median **2.06x** faster than the explicit matmul/mask/softmax/matmul
-> path used here. Re-measured against the fused baseline
-> (`experiments/width_crossover_fair.py`, `docs/RETRACTION_FUSED_BASELINE.md`),
-> the memory block is faster at only **8 of 15** width/context points rather
-> than at every one, and the winner is **context-dependent with no clean
-> crossover**. The retracted claim, the fair table, and the caveats are in
-> `docs/RETRACTION_FUSED_BASELINE.md`. **No efficiency claim in this repository
-> should be treated as established until it is re-measured against the fused
-> kernel on an idle machine.** This is the third instance of the same failure
-> class here (after the FLOP/MAC unit error and the bigram-floor baseline): a
-> comparison that looked clean because the baseline was quietly handicapped.
-- An independent reproduction of this result was commissioned and its verdict is
-  in [§7](#7-what-is-not-claimed).
+### The result (B=4, min-of-15, load 5.6-7.1, 15/15 rows clean)
 
-**The honest position:** these are kernel-level and block-level measurements.
-Whether the advantage survives in a full training run at realistic context
-lengths is **not established here**, and the block-level win is small enough that
-fusion and dispatch overheads could erase it.
+| d | T | fused attn | memory | ratio | winner |
+|---|---|---|---|---|---|
+| 512 | 512 | 0.701 ms | 0.984 | 1.40 | attention |
+| 512 | 2048 | 3.204 | 3.553 | 1.11 | attention |
+| 512 | 4096 | 10.158 | 8.459 | **0.83** | **memory** |
+| 2048 | 512 | 6.088 | 6.703 | 1.10 | attention |
+| 2048 | 2048 | 29.990 | 27.839 | **0.93** | **memory** |
+| 2048 | 4096 | 84.721 | 56.581 | **0.67** | **memory** |
+| 4096 | 1024 | 65.970 | 47.438 | **0.72** | **memory** |
+| 4096 | 4096 | 347.762 | 249.055 | **0.72** | **memory** |
+
+Full 15-point table in `docs/FAIR_BENCH.md`.
+
+- The memory block is faster than fused attention at **7 of 15** points, and
+  **3 of 3 at T=4096** (1.20x, 1.50x, 1.40x at d=512/2048/4096).
+- It is **slower at 8 of 15**, including at *every* width at T=512.
+- The fused kernel is a median **1.56x** faster than the hand-rolled arm the
+  earlier results were compared against -- exactly the margin that flattered them.
+
+### The corrected claim
+
+> Replacing a causal-attention sublayer with a gated multi-timescale memory
+> sublayer is **slower at short context and faster at long context**. Against
+> MLX's fused attention at B=4, the memory block wins at every width tested at
+> T=4096 and loses at every width at T=512.
+
+That is narrower than "our architecture is more efficient", and it is what the
+data supports. A two-parameter fit of the form
+`(a*d^2 + b*T*d) / (4*d^2 + 2*T*d)` reproduces the measured ratios to an RMSE of
+0.085-0.135 across ratios spanning 0.67-1.40, and predicts crossovers in the
+right region for d=512 and d=2048.
+
+**Still not claimed:** any end-to-end training or inference speedup on a real
+model. This measures isolated sublayers at B=4. A real transformer layer also has
+LayerNorms, residual adds and an MLP, and 16-32 such layers -- none of which is in
+this measurement.
 
 ---
 
@@ -421,8 +433,9 @@ to NumPy (`BRAIN_BACKEND=numpy`).
 - `docs/INJECTION.md`, `FINETUNE.md`, `HYBRID_DECAY.md` — per-experiment detail
 - `docs/DTYPE_BUG.md` — the dtype-promotion bug
 - `docs/WALLCLOCK.md` — the MAC/FLOP unit error and its correction
-- `docs/RETRACTION_FUSED_BASELINE.md` — **the efficiency claims were measured
-  against hand-rolled attention, not the fused kernel**
+- `docs/RETRACTION_FUSED_BASELINE.md` — the efficiency claims were measured
+  against hand-rolled attention, not the fused kernel
+- `docs/FAIR_BENCH.md` — the clean re-measurement against the fused baseline
 - `docs/IMPROVE.md` — how to improve the carrier, including two refuted hypotheses
 - `docs/PRIOR_ART.md` — what is genuinely new vs. already published
 - `docs/THREEFACTOR.md` — the falsified thesis experiment
