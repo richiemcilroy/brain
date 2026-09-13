@@ -45,7 +45,12 @@ same held-out selection protocol the transplanted carrier *loses* to the random
 control at every control seed ([§4](#4-does-it-survive-at-8b-no--and-that-is-the-most-important-result-here)).
 This repository reports both, because the failure to replicate is the more
 informative finding — it says the earlier win was about decay selection rather
-than about the transplanted weights.
+than about the transplanted weights. The obvious defence that the 8B test is
+merely underpowered is **refuted by measurement**: in nats the 8B deletion gap is
+*1.35x larger* than the 1B one, and yet transfer recovers −28% of it instead of
++35%. So are three other candidate explanations — output alignment, grouped-query
+expansion, and scale matching — each tested and each coming back clean. The
+remaining suspect is the single-layer design of the 8B test.
 
 ### Headline numbers (all measured, all reproducible)
 
@@ -208,14 +213,42 @@ ppl. At 8B the sign reverses.
 **Why this matters more than the 1B win.** A result that appears at two decay
 values chosen post hoc, and disappears at the decay chosen by held-out
 selection, is a result about *decay choice*, not about transplanted weights.
-Note also that deleting attention costs only **1.66 ppl** at 8B (6.4999 → 8.1610)
-against **3.73 ppl** at 1B — a 32-layer model with 15 other attention layers is
-far less dependent on any single one, so the 8B test is a harder place to see an
-effect, and it may simply be underpowered. But the honest summary is the plain
-one: **the transplant advantage is a 1B-scale finding and does not currently
-reproduce at 8B.** The two candidate explanations — an underpowered single-layer
-test, or a genuine scale limit — are not distinguished by this run, and
-distinguishing them is the obvious next experiment.
+
+### The obvious explanation is wrong
+
+The natural defence is "the 8B test is underpowered". **The data refutes it.**
+Perplexities are not comparable across models, but *nats* are, and in nats the
+8B test has **more** headroom, not less:
+
+| | 1B | 8B |
+|---|---|---|
+| deletion cost (nats) | 0.1681 | **0.2276** (1.35x larger) |
+| transfer's recovery of that gap | **+34.9%** | **−28.4%** |
+
+If 8B recovered the same fraction of its (larger) gap, transfer would land at
+**7.54**. It landed at 8.71 — worse than deleting attention outright. A larger
+signal with a worse outcome is not a power problem.
+
+Three further candidate explanations were tested and **also refuted**:
+
+| hypothesis | test | result |
+|---|---|---|
+| Transplanted weights don't align with attention at 8B | cosine similarity of carrier output vs the attention it replaces, on real activations | **+0.49 at 1B, +0.44 at 8B** — essentially the same; random control ≈0.00 at both |
+| Grouped-query expansion picks the wrong head width | compare module `head_dim` to the true `d / n_heads`, and the inferred `n_kv` to the model config | **correct at both**: 1B 64/32/8, 8B 128/32/8 |
+| The arms are being compared on scale, not content | rms normalisation landing error | **0.00%** at 1B and 8B — every arm hits its target exactly |
+
+So the effect is not absent for want of signal, alignment, expansion correctness,
+or scaling. **The one structural difference not yet excluded is that only one
+layer was replaced.** At 1B, deleting layer 8 of 16 removes a large share of the
+model's total attention; at 8B, deleting layer 16 of 32 leaves 31 attention
+layers intact around it, and the surviving layers may simply route around the
+damage. That is a hypothesis under test, not a conclusion — a multi-layer 8B
+sweep is running, and an independent adversarial review has been commissioned to
+try to break the null on six specific harness mechanisms and to confirm the
+grouped-query expansion against an explicit routing simulation rather than
+shapes. **Until those land, the honest summary is: the transplant advantage is a
+1B-scale finding that does not currently reproduce at 8B, and the most likely
+remaining explanation is the single-layer design of the 8B test, not scale.**
 
 ## 5. Efficiency: what is measured and what is still unknown
 
