@@ -40,6 +40,36 @@ Everything else — attention, MLP, embeddings — stays frozen.
 mechanism predicts — transplant < summary < random — but the spread between them
 is much smaller than the spread between "any branch at all" and "no branch".
 
+## A reproducibility defect in the headline number, now fixed
+
+An independent worker re-ran the committed command and got **19.8393** for the
+`transfer` arm where this repo records **19.8922** -- a 0.053 ppl spread on a
+result whose claimed transplant-specific effect is 0.1065 ppl. The teacher
+matched exactly in both runs, so this was not the data, the tokeniser, or the
+evaluation window.
+
+The cause: `Injection.__init__` draws the branch's `down` projection from
+`mx.random.normal`, and **the harness never seeded MLX**. It seeded numpy
+(`np.random.default_rng(seed)`), which controls the batch ORDER only. MLX's
+global RNG is seeded implicitly and differs run to run, so the branch's
+initialisation -- the thing being trained -- was different every time. Repeated
+in this repo, unseeded MLX draws give sums 10.26 / 14.74 / 14.67 where seeded
+draws agree exactly.
+
+This is the fifth measurement defect found in this project and it is the most
+uncomfortable, because unlike the others it does not change the DIRECTION of a
+claim, only the precision of a number that was being quoted to four decimals.
+The margin was 0.1065 ppl and the run-to-run spread is 0.053 ppl: **the
+transplant-specific margin is roughly half the noise floor it was measured
+against.** The honest statement is that the 1B injection result is
+directionally reproducible but its specific margin is not resolvable at one
+seed.
+
+Fixed: `main()` now calls `mx.random.seed(arm_seed * 1000 + arm_i)` before each
+arm is constructed, so the init is a deterministic function of the arm and seed.
+The committed 19.8922 predates this fix and should be treated as one draw from a
+distribution whose spread is ~0.05 ppl, not as an exact value.
+
 ## What this does and does not establish
 
 **Established:**

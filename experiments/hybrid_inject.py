@@ -111,6 +111,13 @@ class Injection(nn.Module):
         # randomly because with B=0 the product is 0 for any A. Zero-init only
         # ONE of the two, or the branch has no gradient at all (dL/dA = 0 when
         # B = 0), which would make the arm silently frozen.
+        # NOTE: MLX's global RNG must be seeded before this draw or the arm is
+        # not reproducible. That was a real defect: an independent re-run of the
+        # identical command produced 19.8393 where this repo records 19.8922,
+        # because the numpy seed controls the BATCH ORDER but nothing seeded
+        # mx.random, which controls this init. `run_arm` now calls
+        # mx.random.seed(seed) before constructing the model, so the recorded
+        # number is reproducible rather than merely repeatable-on-average.
         self.down.weight = mx.random.normal((rank, d)) * (1.0 / math.sqrt(d))
         self.up.weight = mx.zeros((d, rank), dtype=mx.float32)
         self.branch_scale = float(branch_scale)
@@ -239,7 +246,15 @@ def main():
     lr = lrs[0]
 
     arms = os.environ.get("INJ_ARMS", "transfer,random").split(",")
-    for arm in arms:
+    arm_seed = int(os.environ.get("INJ_SEED", "0"))
+    for arm_i, arm in enumerate(arms):
+        # Seed MLX per arm. The branch's `down` projection is drawn from
+        # mx.random, and numpy's seed controls only the batch order -- so
+        # without this the headline number is not reproducible, which is how an
+        # independent re-run produced 19.8393 for a command this repo recorded
+        # as 19.8922. Deriving from (arm_seed, arm index) keeps each arm's init
+        # fixed while giving different arms different draws.
+        mx.random.seed(arm_seed * 1000 + arm_i)
         setattr(layer, attr, original)
         if arm == "summary":
             mem = GatedMemory(d, banks=1, chunk=64)
