@@ -72,7 +72,8 @@ Env knobs, all optional and all recorded in the output:
     VT_DECAYS  default "0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0"
     VT_SEEDS   default "0,1,2,3,4,5,6,7"   (random-control seeds, attack D)
     VT_GATES   default "0,1,2"             (gate-init seeds, see attack C note)
-    VT_ARM_SEED default 0                  (seed for the shuffled control, attack F)
+    VT_SCALE_GAINS default "0.25,0.5,0.75,1.0,1.25,1.5,2.0,3.0"
+                                          (output-gain multipliers, attack C deep)
     VT_TEACHER default "unsloth/Llama-3.2-1B"
     VT_OUT     default experiments/results/verify_transplant.json
 """
@@ -104,6 +105,10 @@ DECAYS = [float(x) for x in os.environ.get(
     "VT_DECAYS", "0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0").split(",")]
 SEEDS = [int(x) for x in os.environ.get("VT_SEEDS", "0,1,2,3,4,5,6,7").split(",")]
 GATES = [int(x) for x in os.environ.get("VT_GATES", "0,1,2").split(",")]
+# Multipliers on each arm's own rms-matching gain, for the deep scale sweep.
+# 1.0 is the committed setting. Exponential, so the swept range is multiplicative.
+SCALE_GAINS = [float(x) for x in os.environ.get(
+    "VT_SCALE_GAINS", "0.25,0.5,0.75,1.0,1.25,1.5,2.0,3.0").split(",")]
 OUT = os.environ.get("VT_OUT", os.path.join(HERE, "results", "verify_transplant.json"))
 CONTROL_SEED = int(os.environ.get("VT_CONTROL_SEED", "0"))
 # The gate INPUT weights are random-initialised inside `transplant` and are not
@@ -116,8 +121,11 @@ GATE_SEED_DEFAULT = int(os.environ.get("VT_GATE_SEED_DEFAULT", "0"))
 SELECT_FRAC, VAL_FRAC, WINDOW = 0.6, 0.9, 3000
 
 
-def rms(a):
+def rms_of(a):
     return float(mx.sqrt(mx.mean(a.astype(mx.float32) ** 2)))
+
+
+rms = rms_of  # kept so the existing calls read unchanged
 
 
 def recovery(zero, base, ppl):
@@ -172,7 +180,8 @@ def shuffle_weights(carrier, seed, d):
 
 
 def evaluate(model, li, layer, attr, original, probe_h, *, decay, seed,
-             gate_seed, rms_target, select, val, mode="random_matched"):
+             gate_seed, rms_target, select, val, mode="random_matched",
+             val_h=None):
     """Install an arm, normalise it to `rms_target`, score SELECT and VAL.
 
     `li` is the layer INDEX (transplant/attention_module address layers by
@@ -198,18 +207,109 @@ def evaluate(model, li, layer, attr, original, probe_h, *, decay, seed,
     o2 = carrier(probe_h, None, None)
     mx.eval(o2)
     post_rms = rms(o2)
+    rms_val = None
+    if val_h is not None:
+        o3 = carrier(val_h, None, None)
+        mx.eval(o3)
+        rms_val = rms(o3)
     p_sel = perplexity(model, select)["ppl"]
     p_val = perplexity(model, val)["ppl"]
     setattr(layer, attr, original)
     return dict(decay=float(decay), ppl=float(p_val), select_ppl=float(p_sel),
                 rms_pre_norm=float(pre_rms), rms_post_norm=float(post_rms),
+                rms_val=float(rms_val) if rms_val is not None else None,
+                rms_val_reldiff=(float(rms_val / rms_target - 1.0)
+                                 if rms_val is not None else None),
                 rms_target=float(rms_target), out_gain=float(carrier.out_gain),
                 control_std=rec.get("control_std"),
                 control_seed=rec.get("control_seed"),
                 shuffle=rec.get("shuffle"))
 
 
-def capture_probe(model, ids, layer_idx):
+def scale_probe(model, li, layer, attr, original, probe_h, rms_target,
+                select, val, *, gains, transfer_decay, control_decay,
+                control_seed, gate_seed):
+    """ATTACK C, DEEP: can SCALE rescue the control, and does the normalisation
+    hold off the probe?
+
+    The main table shows only that each arm's output rms lands on the target ON
+    THE PROBE. Two residual questions are decidable:
+
+      1. Does the normalisation still hold on the EVAL activations? The probe is
+         a 1024-token prefix; VAL is a different 3000-token slice. If the arms
+         normalise differently off-probe, they are partly being compared by
+         scale and the claim is weakened.
+      2. Could a better SCALE rescue the control? If some gain makes the random
+         control match the transplant, the margin is a scale artefact that one
+         scalar removes -- the strongest form of this attack. The gain is swept
+         for BOTH arms, so the treatment gets the same freedom.
+    """
+    cap = {}
+
+    class Capture:
+        def __call__(self, x, *a, **k):
+            cap["h"] = x
+            return original(x, *a, **k)
+
+    setattr(layer, attr, Capture())
+    model(mx.array(val[None, :].astype(np.int32)))
+    val_h = cap["h"]
+    mx.eval(val_h)
+    setattr(layer, attr, original)
+
+    rows = []
+    for arm, seed, decay, mode in (
+            ("transfer", None, transfer_decay, "transfer"),
+            ("random_matched", control_seed, control_decay, "random_matched")):
+        for mult in gains:
+            mx.random.seed(int(gate_seed))
+            carrier, rec = transplant(model, li, "transfer", original=original,
+                                      probe_h=probe_h, banks=1, decays=(decay,))
+            if seed is not None:
+                control_weights(carrier, seed, int(rec["d"]))
+            mx.eval(model.parameters())
+            carrier.out_gain = 1.0
+            o1 = carrier(probe_h, None, None)
+            mx.eval(o1)
+            carrier.out_gain = float(mult * rms_target / rms(o1))
+            o_probe = carrier(probe_h, None, None)
+            o_val = carrier(val_h, None, None)
+            mx.eval(o_probe, o_val)
+            p_val = perplexity(model, val)["ppl"]
+            p_sel = perplexity(model, select)["ppl"]
+            setattr(layer, attr, original)
+            rows.append(dict(
+                arm=arm, decay=float(decay), gain_mult=float(mult),
+                out_gain=float(carrier.out_gain), ppl=float(p_val),
+                select_ppl=float(p_sel),
+                rms_probe=rms_of(o_probe), rms_val=rms_of(o_val),
+                rms_target=float(rms_target),
+                rms_val_reldiff=float(rms_of(o_val) / rms_target - 1.0),
+                rms_probe_reldiff=float(rms_of(o_probe) / rms_target - 1.0)))
+            print(f"    {arm:<15} d={decay} gain x{mult:<6} val {p_val:>9.4f} "
+                  f"(rms val {rms_of(o_val):.5f} / target {rms_target:.5f})", flush=True)
+    arms = {}
+    for arm in ("transfer", "random_matched"):
+        rs = [r for r in rows if r["arm"] == arm]
+        arms[arm] = dict(rows=rs, best_on_select=best_of(rs),
+                         best_val=min(rs, key=lambda r: r["ppl"]))
+    return dict(rows=rows, arms=arms,
+                control_can_be_rescued_by_scale=bool(
+                    arms["random_matched"]["best_on_select"]["ppl"] <
+                    arms["transfer"]["best_on_select"]["ppl"]),
+                max_rms_val_reldiff=float(max(abs(r["rms_val_reldiff"]) for r in rows)))
+
+
+def capture_probe(model, ids, layer_idx, val_ids=None):
+    """Capture this layer's real input on the probe prefix AND on VAL.
+
+    Two different windows are captured on purpose. The committed protocol picks
+    the output-rms target on a 1024-token PROBE and then scores on a 3000-token
+    VAL window. A carrier with a long horizon (decay 1.0 is an unweighted running
+    sum, so its magnitude grows with t) can match on the probe and NOT match on
+    VAL, which would mean the arms are being compared partly by scale after all.
+    Measuring both makes that checkable instead of assumed.
+    """
     layer, attr, original = attention_module(model, layer_idx)
     cap = {}
 
@@ -223,8 +323,14 @@ def capture_probe(model, ids, layer_idx):
     probe_h = cap["h"]
     ref_out = original(probe_h, None, None)
     mx.eval(probe_h, ref_out)
+    val_h = None
+    if val_ids is not None:
+        cap.pop("h", None)
+        model(mx.array(val_ids[None, :].astype(np.int32)))
+        val_h = cap.get("h")
+        mx.eval(val_h)
     setattr(layer, attr, original)
-    return layer, attr, original, probe_h, rms(ref_out)
+    return layer, attr, original, probe_h, rms(ref_out), val_h
 
 
 def best_of(rows, key="select_ppl"):
@@ -297,7 +403,8 @@ def main():
 
     for li in LAYERS:
         print(f"\n=== LAYER {li} ===", flush=True)
-        layer, attr, original, probe_h, rms_target = capture_probe(model, ids, li)
+        layer, attr, original, probe_h, rms_target, val_h = capture_probe(
+            model, ids, li, val_ids=val)
         setattr(layer, attr, GatedMemoryCarrier(int(probe_h.shape[-1]), mode="zero"))
         mx.eval(model.parameters())
         zero_ppl = perplexity(model, val)["ppl"]
@@ -325,7 +432,7 @@ def main():
                 r = evaluate(model, li, layer, attr, original, probe_h, decay=decay,
                              seed=seed, gate_seed=GATE_SEED_DEFAULT,
                              rms_target=rms_target, select=select, val=val,
-                             mode=mode)
+                             mode=mode, val_h=val_h)
                 r["wall_s"] = time.time() - t0
                 row[arm] = r
                 print(f"    d={decay:<6} {arm:<15} sel {r['select_ppl']:>8.4f} "
@@ -337,6 +444,10 @@ def main():
                     row["random_matched"]["rms_post_norm"] - 1.0))
             row["rms_target_reldiff"] = float(
                 abs(row["transfer"]["rms_post_norm"] / rms_target - 1.0))
+            row["rms_val_reldiff_transfer"] = row["transfer"]["rms_val_reldiff"]
+            row["rms_val_reldiff_control"] = row["random_matched"]["rms_val_reldiff"]
+            row["rms_val_ratio_control_over_transfer"] = float(
+                row["random_matched"]["rms_val"] / row["transfer"]["rms_val"])
             rec["paired"].append(row)
             out["layers"][str(li)] = rec
             dump(out)
@@ -370,22 +481,46 @@ def main():
               f"{cb['ppl']:.4f} @ {cb['decay']} | margin {cb['ppl']-tb['ppl']:.4f}",
               flush=True)
 
+        # ------------------------------------------ ATTACK C (deep scale sweep)
+        # Run for EVERY layer: the probe-calibrated rms is only guaranteed to
+        # hold where it was measured, so the check has to be per layer too.
+        tb_ = rec["per_arm"]["transfer"]["at_best"]
+        cb_ = rec["per_arm"]["random_matched"]["at_best"]
+        sp_rows = scale_probe(
+            model, li, layer, attr, original, probe_h, rms_target, select, val,
+            gains=SCALE_GAINS, transfer_decay=tb_["decay"],
+            control_decay=cb_["decay"], control_seed=CONTROL_SEED,
+            gate_seed=GATE_SEED_DEFAULT)
+        rec["scale_probe"] = sp_rows
+        out["layers"][str(li)] = rec
+        dump(out)
+        print(f"    scale sweep: control best-of-scale {sp_rows['arms']['random_matched']['best_on_select']['ppl']:.4f} "
+              f"vs transfer best-of-scale {sp_rows['arms']['transfer']['best_on_select']['ppl']:.4f} "
+              f"| control rescuable by scale: {sp_rows['control_can_be_rescued_by_scale']}", flush=True)
+
         # ------------------------------------------------------------- ATTACK D
         if li == LAYERS[0]:
             sens = []
             for seed in SEEDS:
-                rows = []
+                rows, trows = [], []
                 for decay in DECAYS:
-                    r = evaluate(model, li, layer, attr, original, probe_h, decay=decay,
-                                 seed=seed, gate_seed=GATE_SEED_DEFAULT,
-                                 rms_target=rms_target, select=select, val=val)
-                    rows.append({k: r[k] for k in ("decay", "ppl", "select_ppl")})
+                    for arm_seed, sink in ((seed, rows), (None, trows)):
+                        r = evaluate(model, li, layer, attr, original, probe_h,
+                                     decay=decay, seed=arm_seed,
+                                     gate_seed=GATE_SEED_DEFAULT,
+                                     rms_target=rms_target, select=select, val=val,
+                                     val_h=val_h)
+                        sink.append({k: r[k] for k in ("decay", "ppl", "select_ppl")})
                 b = best_of(rows)
+                bt = best_of(trows)
                 sens.append(dict(seed=int(seed), at_best=b,
+                                 transfer_at_best=bt,
+                                 margin_ppl=float(b["ppl"] - bt["ppl"]),
                                  recovery_frac=recovery(zero_ppl, base, b["ppl"]),
-                                 val_curve=rows))
+                                 val_curve=rows, transfer_val_curve=trows))
                 print(f"    control seed {seed}: best-of-grid select {b['select_ppl']:.4f} "
-                      f"-> val {b['ppl']:.4f} (decay {b['decay']})", flush=True)
+                      f"-> val {b['ppl']:.4f} (decay {b['decay']}) | paired transfer "
+                      f"{bt['ppl']:.4f} | margin {b['ppl'] - bt['ppl']:.4f}", flush=True)
                 rec["random_seed_sensitivity"] = sens
                 out["layers"][str(li)] = rec
                 dump(out)
@@ -399,7 +534,12 @@ def main():
                     sum(1 for b in bests if b < tb_ppl)),
                 transfer_ppl=float(tb_ppl),
                 transfer_beats_every_seed=bool(all(b > tb_ppl for b in bests)),
-                margin_vs_best_seed=float(min(bests) - tb_ppl))
+                margin_vs_best_seed=float(min(bests) - tb_ppl),
+                paired_margins=[float(x["margin_ppl"]) for x in sens],
+                min_paired_margin=float(min(x["margin_ppl"] for x in sens)),
+                all_paired_margins_positive=bool(
+                    all(x["margin_ppl"] > 0 for x in sens)),
+                control_wins_any_seed=bool(any(x["margin_ppl"] < 0 for x in sens)))
             out["layers"][str(li)] = rec
             dump(out)
 
@@ -410,7 +550,7 @@ def main():
                 for decay in DECAYS:
                     r = evaluate(model, li, layer, attr, original, probe_h, decay=decay,
                                  seed=None, gate_seed=gseed, rms_target=rms_target,
-                                 select=select, val=val)
+                                 select=select, val=val, val_h=val_h)
                     rows.append({k: r[k] for k in ("decay", "ppl", "select_ppl",
                                                    "rms_post_norm")})
                 b = best_of(rows)
@@ -460,11 +600,25 @@ def main():
             shared_token_ids=int(shared_tokens)),
         C_rms_confound=dict(
             done=True,
-            max_rms_reldiff=float(max(r["rms_post_reldiff"] for r in l8["paired"])),
-            note=("every arm is scaled to exactly the attention output rms, so "
-                  "post-norm rms is matched by construction; the confound that "
-                  "survives is the random gate-input init, reported separately"),
-            gate_init_spread_ppl=gss.get("spread_ppl")),
+            probe_rms_matched_by_construction=float(
+                max(r["rms_post_reldiff"] for r in l8["paired"])),
+            note=("the committed normalisation equalises output rms ON THE "
+                  "PROBE, so the probe rms is matched by construction and "
+                  "cannot by itself explain the margin. It does NOT hold on the "
+                  "VAL window for long horizons (decay 1.0 = unweighted running "
+                  "sum), so the arms' VAL magnitudes are not equal; the deep "
+                  "scale sweep gives the CONTROL its own best free scale and "
+                  "asks whether that rescues it."),
+            gate_init_spread_ppl=gss.get("spread_ppl"),
+            val_rms_ratio_control_over_transfer_l8=float(max(
+                r["rms_val_ratio_control_over_transfer"] for r in l8["paired"])),
+            per_layer_scale_sweep={
+                int(k): dict(
+                    transfer_best_of_scale=v["scale_probe"]["arms"]["transfer"]["best_on_select"]["ppl"],
+                    control_best_of_scale=v["scale_probe"]["arms"]["random_matched"]["best_on_select"]["ppl"],
+                    control_can_be_rescued_by_scale=v["scale_probe"]["control_can_be_rescued_by_scale"],
+                    max_abs_val_rms_reldiff=v["scale_probe"]["max_rms_val_reldiff"])
+                for k, v in out["layers"].items() if v.get("scale_probe")}),
         D_control_seed_sensitivity=dict(done=True, **rss),
         E_layer_generalisation=dict(done=True, layers=LAYERS, per_layer=margins),
         F_shuffled_weight_control=dict(

@@ -938,8 +938,17 @@ def main():
                         gate_biases=list(GATE_BIASES),
                         gate_T=list(GATE_T), levers={}, gate={},
                         compiled_loop_max_T=COMPILED_LOOP_MAX_T)
-    if prior.get("headline"):
-        report["headline_previous"] = prior["headline"]
+    # The recorded headline is the FIRST one ever written, whatever key it
+    # ended up under on the previous run. This has to be idempotent: an earlier
+    # version of this code moved the headline to `headline_current_run` on the
+    # second run, and the third run then saw no `headline` key and silently
+    # overwrote the committed number with its own. A run that is re-executed
+    # many times must never be able to lose prior evidence.
+    recorded_headline = (prior.get("headline")
+                         or prior.get("headline_original")
+                         or prior.get("headline_previous"))
+    if recorded_headline:
+        report["headline_original"] = recorded_headline
     if prior.get("end_to_end"):
         report["end_to_end_previous"] = prior["end_to_end"]
     if prior.get("short_context_sweep"):
@@ -1178,15 +1187,17 @@ def main():
         mac_ratio_attn_over_mem_full=e2e["mac_ratio_attn_over_mem_full"],
         mac_ratio_attn_over_mem_causal=e2e["mac_ratio_attn_over_mem_causal"],
     )
-    # The headline key is NOT overwritten if a headline was already recorded:
-    # the long-context result is prior evidence and this run's number goes in
-    # headline_current_run instead. Only a fresh file sets the headline.
-    if prior.get("headline"):
-        report["headline_current_run"] = current
+    # `headline` always holds the FIRST recorded long-context result, so the
+    # committed number survives re-runs. This run's own number goes in
+    # `headline_current_run`, and `headline_used` says which one a reader
+    # should treat as the current measurement.
+    report["headline_current_run"] = current
+    if recorded_headline:
+        report["headline"] = recorded_headline
+        report["headline_used"] = "headline (first recorded run)"
     else:
         report["headline"] = current
-    report["headline_used"] = ("headline" if not prior.get("headline")
-                               else "headline_current_run")
+        report["headline_used"] = "headline (this run, first write)"
     print(f"\n[headline] mem block {mb:.3f} -> {ma:.3f} ms "
           f"({e2e['mem_block_speedup']:.2f}x); mem/attn "
           f"{e2e['mem_over_attn_before']:.2f}x -> {e2e['mem_over_attn_after']:.2f}x "

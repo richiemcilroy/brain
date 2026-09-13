@@ -47,7 +47,7 @@
   "depth2_mem_p0.2_lr0.001_s4_st3000_final",
   "depth2_attn_p0.2_lr0.001_s4_st3000_final"
  ],
- "updated_utc": "2026-09-13T13:04:53.933939+00:00",
+ "updated_utc": "2026-09-13T13:24:57.067188+00:00",
  "corpus": {
   "path": "/Users/richie/zbrain/data/enwik8",
   "bytes": 100000000,
