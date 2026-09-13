@@ -180,19 +180,37 @@ def main():
 
     setattr(layer, attr, original)
     tb = out["arms"].get("transfer", {}).get("best")
-    ctrl = {a: v.get("best") for a, v in out["arms"].items() if a != "transfer"}
-    best_ctrl = min((c for c in ctrl.values() if c), key=lambda c: c["ppl"],
-                    default=None)
+    # ARMS ARE NOT ALL CONTROLS. `banks_multi` is built by the SAME transplant
+    # call as `transfer` and differs only in keeping several timescales, so it is
+    # a variant of the treatment, not a control. Classifying it as a control
+    # would make the treatment compete with itself and report a false negative.
+    # Only arms with randomised weights count as controls.
+    CONTROLS = ("random_matched", "random_fanin")
+    non_control = {a: v.get("best") for a, v in out["arms"].items()
+                   if a not in CONTROLS and a != "transfer"}
+    best_variant = min((c for c in non_control.values() if c),
+                       key=lambda c: c["ppl"], default=None)
+    best_ctrl = min((v.get("best") for a, v in out["arms"].items()
+                     if a in CONTROLS and v.get("best")),
+                    key=lambda c: c["ppl"], default=None)
     out["verdict"] = dict(
         teacher=base, zero=zero_ppl,
         transfer_best=tb, best_control=best_ctrl,
+        best_treatment_variant=best_variant,
         transfer_beats_best_control=bool(
             tb and best_ctrl and tb["ppl"] < best_ctrl["ppl"]),
         transfer_beats_zero_at_best=bool(tb and tb["ppl"] < zero_ppl),
-        note=("Each arm is swept over the same decay grid and scored at its own "
-              "best setting, so this separates 'the weights know the right time "
-              "constant' from 'the right time constant helps everyone'. If the "
-              "optima coincide the transplant carries no information about it."))
+        transfer_recovery_frac=(float((zero_ppl - tb["ppl"]) / (zero_ppl - base))
+                                if tb and zero_ppl > base else None),
+        control_recovery_frac=(float((zero_ppl - best_ctrl["ppl"]) /
+                                     (zero_ppl - base))
+                               if best_ctrl and zero_ppl > base else None),
+        note=("Each arm is swept over the same decay grid and the decay is "
+              "chosen on the SELECT split, so this separates 'the weights know "
+              "the right time constant' from 'the right time constant helps "
+              "everyone'. If the optima coincide the transplant carries no "
+              "information about the decay. `banks_multi` is a treatment "
+              "variant, not a control."))
     json.dump(out, open(OUT, "w"), indent=1)
 
     print("\n=== VERDICT (each arm at its own best decay) ===")

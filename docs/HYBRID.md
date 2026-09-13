@@ -1,3 +1,22 @@
+> ## !!! CORRECTION, READ THIS FIRST !!!
+>
+> The numbers below were measured with the gate decay **hardcoded to 0.99** while
+> the code claimed it was "fitted from the measured recency profile". The fit
+> never ran: an MLX API mismatch raised inside a `try/except` and fell through to
+> the constant on every layer and every run. The tell is that every committed
+> result carries `recency_profile_first8: null` and `fit_cdf_l1: null`.
+>
+> 0.99 turns out to be **near the worst point on the module's own curve**. When
+> the decay is swept honestly (chosen on a held-out SELECT split), the transplant
+> recovers **33%** of the deletion gap instead of the 10% reported below, and the
+> matched random control is worse than deleting attention at **every** decay
+> tested rather than only at one setting.
+>
+> The layer sweep in "Result 2" below was likewise run at the wrong decay and
+> should not be quoted. See **`docs/HYBRID_DECAY.md`** for the corrected
+> measurements and the full account. The text below is retained as the record of
+> what was claimed at the time, not as current results.
+
 # Does our brain method improve a real pretrained LLM?
 
 **Question.** Not "is our model better than Llama" — ours is 18,000x smaller and it

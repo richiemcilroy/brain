@@ -89,7 +89,8 @@ def rms(a):
     return float(mx.sqrt(mx.mean(a.astype(mx.float32) ** 2)))
 
 
-def build_arm(model, layer_idx, arm, probe_h, ref_out, original, gain=None):
+def build_arm(model, layer_idx, arm, probe_h, ref_out, original, gain=None,
+              decay=None):
     """Construct a carrier for `arm`, calibrating its output gain.
 
     `original` MUST be the attention module that was removed. Re-deriving it
@@ -121,7 +122,7 @@ def build_arm(model, layer_idx, arm, probe_h, ref_out, original, gain=None):
     layer, attr, _ = attention_module(model, layer_idx)
     setattr(layer, attr, original)
     carrier, rec = transplant(model, layer_idx, "transfer", original=original,
-                              probe_h=probe_h)
+                              probe_h=probe_h, decay=decay)
     rec["arm"] = arm
     d = rec["d"]
     wv_native_std = float(np.array(carrier.mem.v.weight).std())
@@ -288,12 +289,54 @@ def main():
     out["zero_ppl"] = zero_ppl
     print(f"  zero (attention deleted) ppl {zero_ppl:.4f}\n", flush=True)
 
+    # --- choose each arm's decay on SELECT only -------------------------
+    # The decay is a genuine hyperparameter of every arm (the committed
+    # headline used 0.99, which was never fitted -- see llm_hybrid.py) and it
+    # moves the frozen result by ~1.2 ppl, so leaving it fixed while sweeping
+    # lr would confound the two. Each arm gets its OWN best decay, chosen on
+    # select, so no arm is handicapped by another arm's time constant.
+    decay_grid = [float(x) for x in os.environ.get(
+        "FT_DECAYS", "0.5,0.6,0.7,0.8,0.9,0.999").split(",")]
+    arm_decay = {}
+    print("  choosing decay per arm on SELECT (val untouched):", flush=True)
+    for arm in arms:
+        rows = []
+        for g in decay_grid:
+            layer, attr, original = attention_module(model, LAYER)
+            setattr(layer, attr, original)
+            car, rec = transplant(model, LAYER, "transfer",
+                                  original=ATTENTION_ORIGINAL,
+                                  probe_h=probe_h, decay=g)
+            if arm in ("random_matched", "random_fanin"):
+                rng = np.random.default_rng(0)
+                d_ = rec["d"]
+                s_ = (float(np.array(car.mem.v.weight).std())
+                      if arm == "random_matched" else 1.0 / math.sqrt(d_))
+                car.mem.v.weight = mx.array(
+                    rng.normal(0, s_, (d_, d_)).astype(np.float32))
+                car.mem.o.weight = mx.array(
+                    rng.normal(0, s_, (d_, d_)).astype(np.float32))
+            mx.eval(model.parameters())
+            car.out_gain = 1.0
+            o1 = car(probe_h, None, None)
+            mx.eval(o1)
+            car.out_gain = float(rms(ref_out) / rms(o1))
+            sp = perplexity(model, select_ids)["ppl"]
+            rows.append((sp, g))
+            setattr(layer, attr, original)
+        rows.sort()
+        arm_decay[arm] = rows[0][1]
+        print(f"    {arm:<16} best decay on select {rows[0][1]} "
+              f"(select {rows[0][0]:.4f})", flush=True)
+    out["arm_decay"] = arm_decay
+
     for lr in lrs:
         for arm in arms:
             layer, attr, original = attention_module(model, LAYER)
             setattr(layer, attr, original)
             carrier, rec = build_arm(model, LAYER, arm, probe_h, ref_out,
-                                     ATTENTION_ORIGINAL)
+                                     ATTENTION_ORIGINAL,
+                                     decay=arm_decay[arm])
             mx.eval(model.parameters())
             before = perplexity(model, val)
             print(f"  lr={lr:g} {arm:<15} BEFORE ppl {before['ppl']:>9.4f}  "
