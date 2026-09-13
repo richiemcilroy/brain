@@ -17736,8 +17736,8 @@
   }
  },
  "verdict": {
-  "status": "MIXED",
-  "summary": "transfer wins at 1 of 5 k values; see per-k margins rather than a single claim",
+  "status": "DOSE-DEPENDENT RELATIVE ADVANTAGE; NO USEFUL RECOVERY AT ANY k",
+  "summary": "DOES NOT SCALE INTO A USEFUL RECOVERY, and that is the main finding. Across every k the transplant recovers at most +1.7% of the deleted attention's function (1B, layer 8 of 16, recovered +34.9%). At the largest k the two arms are both catastrophically degraded -- transfer 300 and random 380 against a teacher of 6.50 -- so a head-to-head win there is a statement about which arm destroys the model more slowly, not about the carrier replacing attention; the single-layer null does NOT survive a larger intervention. At the largest intervention (k=16, deleting attention costs 3.90 nats) transfer 300.24 beats the matched-random control 379.93 by +79.69 ppl at the decay BOTH arms SELECT, with 0/4 control seeds beating it, and it is the only k where transfer even beats the zero ablation (300.24 vs 320.94); the gap tracks the DELETION COST, not k directly: per-decay corr(deletion_cost_nats, transfer_minus_control_gap) is -0.97, -0.97, -0.97, -0.96, -0.96, -0.93 across the decay grid; at a fixed decay the gap moves monotonically in transfer's favour from k=2 to k=16 at decays 0.5, 0.7, 0.8, 0.9 (the k=1->k=2 step reverses at some decays, and it is the one step where the deletion cost DROPS: k=2 replaces layers 8 and 24 and costs LESS than replacing layer 16 alone); under the strict SELECT protocol transfer wins at 1 of 5 k values, because SELECT picks the grid edge (d=1.0) at the small-k rows where the arms are statistically tied; the effect is in the dose, not in any single k",
   "per_k": [
    {
     "k": 1,
@@ -17750,18 +17750,33 @@
     "deletion_cost_nats": 0.22757585861954,
     "transfer_val_ppl": 8.70636776457232,
     "transfer_decay": 1.0,
+    "transfer_select_ppl": 13.61543035588178,
     "control_val_ppl": 8.68751811236475,
     "control_decay": 1.0,
+    "control_select_ppl": 13.629057140755783,
     "margin_ppl": -0.018849652207570955,
     "transfer_recovery_frac": -0.32832379051325794,
     "control_recovery_frac": -0.3169759147330147,
     "transfer_wins": false,
+    "arms_selected_different_decays": false,
+    "transfer_select_is_best_val": true,
+    "control_select_is_best_val": true,
     "n_grid_decays": 6,
     "n_grid_decays_transfer_wins": 5,
-    "best_grid_margin_ppl": 0.018849652207570955,
+    "margin_at_every_grid_decay_positive": false,
+    "best_grid_gap_transfer_minus_control": -0.935275476637333,
+    "transfer_beats_zero_ppl": false,
+    "control_beats_zero_ppl": false,
+    "nats_margin_transfer_minus_control": -0.002167389129709818,
+    "transfer_recovery_frac_in_nats": -0.28424908424908296,
+    "control_recovery_frac_in_nats": -0.2747252747252738,
+    "margin_ppl_as_frac_of_zero_ppl": -0.0023097239326393243,
+    "per_arm_transfer_best_val_decay": 1.0,
+    "per_arm_transfer_best_val_ppl": 8.70636776457232,
+    "per_arm_control_best_val_decay": 1.0,
+    "per_arm_control_best_val_ppl": 8.68751811236475,
     "n_seeds_beating_transfer": 4,
-    "n_seeds": 4,
-    "seed_sweep_decay": 1.0
+    "n_seeds": 4
    },
    {
     "k": 2,
@@ -17775,18 +17790,33 @@
     "deletion_cost_nats": 0.14738246082027362,
     "transfer_val_ppl": 7.708683719112289,
     "transfer_decay": 1.0,
+    "transfer_select_ppl": 13.103214990336278,
     "control_val_ppl": 7.7022603516654975,
     "control_decay": 1.0,
+    "control_select_ppl": 12.82227288512162,
     "margin_ppl": -0.006423367446791062,
     "transfer_recovery_frac": -0.17108629019263416,
     "control_recovery_frac": -0.16486311615809132,
     "transfer_wins": false,
+    "arms_selected_different_decays": false,
+    "transfer_select_is_best_val": true,
+    "control_select_is_best_val": true,
     "n_grid_decays": 6,
     "n_grid_decays_transfer_wins": 3,
-    "best_grid_margin_ppl": 0.2159113516007629,
+    "margin_at_every_grid_decay_positive": false,
+    "best_grid_gap_transfer_minus_control": -0.26585102884362044,
+    "transfer_beats_zero_ppl": false,
+    "control_beats_zero_ppl": false,
+    "nats_margin_transfer_minus_control": -0.0008336112037343746,
+    "transfer_recovery_frac_in_nats": -0.15723981900452244,
+    "control_recovery_frac_in_nats": -0.15158371040723875,
+    "margin_ppl_as_frac_of_zero_ppl": -0.000852799720702899,
+    "per_arm_transfer_best_val_decay": 1.0,
+    "per_arm_transfer_best_val_ppl": 7.708683719112289,
+    "per_arm_control_best_val_decay": 1.0,
+    "per_arm_control_best_val_ppl": 7.7022603516654975,
     "n_seeds_beating_transfer": 1,
-    "n_seeds": 4,
-    "seed_sweep_decay": 1.0
+    "n_seeds": 4
    },
    {
     "k": 4,
@@ -17802,18 +17832,33 @@
     "deletion_cost_nats": 0.6147049016338781,
     "transfer_val_ppl": 13.265876546094734,
     "transfer_decay": 0.8,
+    "transfer_select_ppl": 18.81482046025835,
     "control_val_ppl": 13.146979862845885,
     "control_decay": 1.0,
+    "control_select_ppl": 19.11200692301576,
     "margin_ppl": -0.11889668324884894,
     "transfer_recovery_frac": -0.22590321225105164,
     "control_recovery_frac": -0.20436066659200777,
     "transfer_wins": false,
+    "arms_selected_different_decays": true,
+    "transfer_select_is_best_val": true,
+    "control_select_is_best_val": true,
     "n_grid_decays": 6,
     "n_grid_decays_transfer_wins": 4,
-    "best_grid_margin_ppl": 3.827356402969585,
+    "margin_at_every_grid_decay_positive": false,
+    "best_grid_gap_transfer_minus_control": -3.8546836748538738,
+    "transfer_beats_zero_ppl": false,
+    "control_beats_zero_ppl": false,
+    "nats_margin_transfer_minus_control": -0.009003001000333466,
+    "transfer_recovery_frac_in_nats": -0.16056414429075103,
+    "control_recovery_frac_in_nats": -0.1459180905885541,
+    "margin_ppl_as_frac_of_zero_ppl": -0.009892327033433545,
+    "per_arm_transfer_best_val_decay": 0.8,
+    "per_arm_transfer_best_val_ppl": 13.265876546094734,
+    "per_arm_control_best_val_decay": 1.0,
+    "per_arm_control_best_val_ppl": 13.146979862845885,
     "n_seeds_beating_transfer": 0,
-    "n_seeds": 4,
-    "seed_sweep_decay": 0.8
+    "n_seeds": 4
    },
    {
     "k": 8,
@@ -17833,18 +17878,33 @@
     "deletion_cost_nats": 1.3426142047349117,
     "transfer_val_ppl": 38.89582670886557,
     "transfer_decay": 0.7,
+    "transfer_select_ppl": 46.38358608820293,
     "control_val_ppl": 31.88558578331168,
     "control_decay": 1.0,
+    "control_select_ppl": 41.27430205475154,
     "margin_ppl": -7.010240925553891,
     "transfer_recovery_frac": -0.7617432262259933,
     "control_recovery_frac": -0.3805146229001508,
     "transfer_wins": false,
+    "arms_selected_different_decays": true,
+    "transfer_select_is_best_val": false,
+    "control_select_is_best_val": true,
     "n_grid_decays": 6,
     "n_grid_decays_transfer_wins": 5,
-    "best_grid_margin_ppl": 5.051019325093936,
+    "margin_at_every_grid_decay_positive": false,
+    "best_grid_gap_transfer_minus_control": -51.81706499717457,
+    "transfer_beats_zero_ppl": false,
+    "control_beats_zero_ppl": false,
+    "nats_margin_transfer_minus_control": -0.1987329109703233,
+    "transfer_recovery_frac_in_nats": -0.3325468769402705,
+    "control_recovery_frac_in_nats": -0.18452750527753622,
+    "margin_ppl_as_frac_of_zero_ppl": -0.2816661619166141,
+    "per_arm_transfer_best_val_decay": 1.0,
+    "per_arm_transfer_best_val_ppl": 36.936605108405615,
+    "per_arm_control_best_val_decay": 1.0,
+    "per_arm_control_best_val_ppl": 31.88558578331168,
     "n_seeds_beating_transfer": 0,
-    "n_seeds": 4,
-    "seed_sweep_decay": 0.7
+    "n_seeds": 4
    },
    {
     "k": 16,
@@ -17872,28 +17932,357 @@
     "deletion_cost_nats": 3.89946648882961,
     "transfer_val_ppl": 300.23580704848507,
     "transfer_decay": 1.0,
+    "transfer_select_ppl": 370.4202651255888,
     "control_val_ppl": 379.927328381844,
     "control_decay": 1.0,
+    "control_select_ppl": 393.85861405966756,
     "margin_ppl": 79.69152133335893,
     "transfer_recovery_frac": 0.06584739923215062,
     "control_recovery_frac": -0.18759130674126037,
     "transfer_wins": true,
+    "arms_selected_different_decays": false,
+    "transfer_select_is_best_val": true,
+    "control_select_is_best_val": true,
     "n_grid_decays": 6,
     "n_grid_decays_transfer_wins": 6,
-    "best_grid_margin_ppl": -79.69152133335893,
+    "margin_at_every_grid_decay_positive": true,
+    "best_grid_gap_transfer_minus_control": -1171.655652588192,
+    "transfer_beats_zero_ppl": true,
+    "control_beats_zero_ppl": false,
+    "nats_margin_transfer_minus_control": 0.23541180393464423,
+    "transfer_recovery_frac_in_nats": 0.017102056522296728,
+    "control_recovery_frac_in_nats": -0.04326820300141083,
+    "margin_ppl_as_frac_of_zero_ppl": 0.24830588444289414,
+    "per_arm_transfer_best_val_decay": 1.0,
+    "per_arm_transfer_best_val_ppl": 300.23580704848507,
+    "per_arm_control_best_val_decay": 1.0,
+    "per_arm_control_best_val_ppl": 379.927328381844,
     "n_seeds_beating_transfer": 0,
-    "n_seeds": 4,
-    "seed_sweep_decay": 1.0
+    "n_seeds": 4
    }
   ],
+  "fixed_decay_dose_response": {
+   "0.5": {
+    "decay": 0.5,
+    "curve": [
+     {
+      "k": 1,
+      "transfer_ppl": 9.00007050148257,
+      "control_ppl": 9.935345978119903,
+      "gap_transfer_minus_control": -0.935275476637333
+     },
+     {
+      "k": 2,
+      "transfer_ppl": 8.858644818828129,
+      "control_ppl": 8.642733467227366,
+      "gap_transfer_minus_control": 0.2159113516007629
+     },
+     {
+      "k": 4,
+      "transfer_ppl": 13.895205435687284,
+      "control_ppl": 16.68101795937508,
+      "gap_transfer_minus_control": -2.7858125236877953
+     },
+     {
+      "k": 8,
+      "transfer_ppl": 38.81808690790372,
+      "control_ppl": 81.6793269422682,
+      "gap_transfer_minus_control": -42.861240034364485
+     },
+     {
+      "k": 16,
+      "transfer_ppl": 457.3162318669771,
+      "control_ppl": 923.597242642807,
+      "gap_transfer_minus_control": -466.28101077582994
+     }
+    ],
+    "deletion_cost_nats": [
+     0.22757585861954,
+     0.14738246082027362,
+     0.6147049016338781,
+     1.3426142047349117,
+     3.89946648882961
+    ],
+    "monotone_in_k": false,
+    "monotone_after_k2": true,
+    "gap_at_smallest_k": -0.935275476637333,
+    "gap_at_largest_k": -466.28101077582994,
+    "grew_in_transfer_favour": true,
+    "corr_deletion_cost_nats_vs_gap": -0.9745088512850478
+   },
+   "0.7": {
+    "decay": 0.7,
+    "curve": [
+     {
+      "k": 1,
+      "transfer_ppl": 9.040675646820693,
+      "control_ppl": 9.950265156732302,
+      "gap_transfer_minus_control": -0.9095895099116085
+     },
+     {
+      "k": 2,
+      "transfer_ppl": 8.470127106074441,
+      "control_ppl": 8.613962743283636,
+      "gap_transfer_minus_control": -0.1438356372091949
+     },
+     {
+      "k": 4,
+      "transfer_ppl": 13.305747242096034,
+      "control_ppl": 16.95580415781756,
+      "gap_transfer_minus_control": -3.6500569157215264
+     },
+     {
+      "k": 8,
+      "transfer_ppl": 38.89582670886557,
+      "control_ppl": 88.39604914885511,
+      "gap_transfer_minus_control": -49.50022243998954
+     },
+     {
+      "k": 16,
+      "transfer_ppl": 374.1442982428979,
+      "control_ppl": 1117.6754712848428,
+      "gap_transfer_minus_control": -743.531173041945
+     }
+    ],
+    "deletion_cost_nats": [
+     0.22757585861954,
+     0.14738246082027362,
+     0.6147049016338781,
+     1.3426142047349117,
+     3.89946648882961
+    ],
+    "monotone_in_k": false,
+    "monotone_after_k2": true,
+    "gap_at_smallest_k": -0.9095895099116085,
+    "gap_at_largest_k": -743.531173041945,
+    "grew_in_transfer_favour": true,
+    "corr_deletion_cost_nats_vs_gap": -0.9691609516318119
+   },
+   "0.8": {
+    "decay": 0.8,
+    "curve": [
+     {
+      "k": 1,
+      "transfer_ppl": 9.119395033341508,
+      "control_ppl": 9.985163754555472,
+      "gap_transfer_minus_control": -0.8657687212139642
+     },
+     {
+      "k": 2,
+      "transfer_ppl": 8.349547973335111,
+      "control_ppl": 8.615399002178732,
+      "gap_transfer_minus_control": -0.26585102884362044
+     },
+     {
+      "k": 4,
+      "transfer_ppl": 13.265876546094734,
+      "control_ppl": 17.120560220948608,
+      "gap_transfer_minus_control": -3.8546836748538738
+     },
+     {
+      "k": 8,
+      "transfer_ppl": 43.11717058006367,
+      "control_ppl": 94.93423557723824,
+      "gap_transfer_minus_control": -51.81706499717457
+     },
+     {
+      "k": 16,
+      "transfer_ppl": 401.0146656508178,
+      "control_ppl": 1320.4509370141518,
+      "gap_transfer_minus_control": -919.4362713633341
+     }
+    ],
+    "deletion_cost_nats": [
+     0.22757585861954,
+     0.14738246082027362,
+     0.6147049016338781,
+     1.3426142047349117,
+     3.89946648882961
+    ],
+    "monotone_in_k": false,
+    "monotone_after_k2": true,
+    "gap_at_smallest_k": -0.8657687212139642,
+    "gap_at_largest_k": -919.4362713633341,
+    "grew_in_transfer_favour": true,
+    "corr_deletion_cost_nats_vs_gap": -0.9668603707879898
+   },
+   "0.9": {
+    "decay": 0.9,
+    "curve": [
+     {
+      "k": 1,
+      "transfer_ppl": 9.323867643667926,
+      "control_ppl": 10.025197768877307,
+      "gap_transfer_minus_control": -0.7013301252093811
+     },
+     {
+      "k": 2,
+      "transfer_ppl": 8.369059510389732,
+      "control_ppl": 8.632652799492995,
+      "gap_transfer_minus_control": -0.2635932891032624
+     },
+     {
+      "k": 4,
+      "transfer_ppl": 14.161828105022288,
+      "control_ppl": 17.292682373142647,
+      "gap_transfer_minus_control": -3.130854268120359
+     },
+     {
+      "k": 8,
+      "transfer_ppl": 55.11028974636382,
+      "control_ppl": 104.7472721398638,
+      "gap_transfer_minus_control": -49.63698239349998
+     },
+     {
+      "k": 16,
+      "transfer_ppl": 514.955948675827,
+      "control_ppl": 1686.611601264019,
+      "gap_transfer_minus_control": -1171.655652588192
+     }
+    ],
+    "deletion_cost_nats": [
+     0.22757585861954,
+     0.14738246082027362,
+     0.6147049016338781,
+     1.3426142047349117,
+     3.89946648882961
+    ],
+    "monotone_in_k": false,
+    "monotone_after_k2": true,
+    "gap_at_smallest_k": -0.7013301252093811,
+    "gap_at_largest_k": -1171.655652588192,
+    "grew_in_transfer_favour": true,
+    "corr_deletion_cost_nats_vs_gap": -0.9635833959838506
+   },
+   "0.99": {
+    "decay": 0.99,
+    "curve": [
+     {
+      "k": 1,
+      "transfer_ppl": 9.749920063513242,
+      "control_ppl": 9.774333505569043,
+      "gap_transfer_minus_control": -0.02441344205580087
+     },
+     {
+      "k": 2,
+      "transfer_ppl": 8.49275180611234,
+      "control_ppl": 8.419441656743171,
+      "gap_transfer_minus_control": 0.0733101493691688
+     },
+     {
+      "k": 4,
+      "transfer_ppl": 20.085536923187668,
+      "control_ppl": 16.258180520218083,
+      "gap_transfer_minus_control": 3.827356402969585
+     },
+     {
+      "k": 8,
+      "transfer_ppl": 58.67560237622501,
+      "control_ppl": 79.23811918154368,
+      "gap_transfer_minus_control": -20.562516805318673
+     },
+     {
+      "k": 16,
+      "transfer_ppl": 534.5510001019081,
+      "control_ppl": 1107.288917376839,
+      "gap_transfer_minus_control": -572.7379172749309
+     }
+    ],
+    "deletion_cost_nats": [
+     0.22757585861954,
+     0.14738246082027362,
+     0.6147049016338781,
+     1.3426142047349117,
+     3.89946648882961
+    ],
+    "monotone_in_k": false,
+    "monotone_after_k2": false,
+    "gap_at_smallest_k": -0.02441344205580087,
+    "gap_at_largest_k": -572.7379172749309,
+    "grew_in_transfer_favour": true,
+    "corr_deletion_cost_nats_vs_gap": -0.9618814004596706
+   },
+   "1.0": {
+    "decay": 1.0,
+    "curve": [
+     {
+      "k": 1,
+      "transfer_ppl": 8.70636776457232,
+      "control_ppl": 8.68751811236475,
+      "gap_transfer_minus_control": 0.018849652207570955
+     },
+     {
+      "k": 2,
+      "transfer_ppl": 7.708683719112289,
+      "control_ppl": 7.7022603516654975,
+      "gap_transfer_minus_control": 0.006423367446791062
+     },
+     {
+      "k": 4,
+      "transfer_ppl": 14.114684912594434,
+      "control_ppl": 13.146979862845885,
+      "gap_transfer_minus_control": 0.9677050497485489
+     },
+     {
+      "k": 8,
+      "transfer_ppl": 36.936605108405615,
+      "control_ppl": 31.88558578331168,
+      "gap_transfer_minus_control": 5.051019325093936
+     },
+     {
+      "k": 16,
+      "transfer_ppl": 300.23580704848507,
+      "control_ppl": 379.927328381844,
+      "gap_transfer_minus_control": -79.69152133335893
+     }
+    ],
+    "deletion_cost_nats": [
+     0.22757585861954,
+     0.14738246082027362,
+     0.6147049016338781,
+     1.3426142047349117,
+     3.89946648882961
+    ],
+    "monotone_in_k": false,
+    "monotone_after_k2": false,
+    "gap_at_smallest_k": 0.018849652207570955,
+    "gap_at_largest_k": -79.69152133335893,
+    "grew_in_transfer_favour": true,
+    "corr_deletion_cost_nats_vs_gap": -0.9341705808817988
+   }
+  },
   "n_k": 5,
   "n_k_transfer_wins": 1,
+  "n_k_transfer_wins_at_every_grid_decay": 1,
   "n_k_with_zero_seeds_beating_transfer": 3,
+  "largest_k": 16,
+  "largest_k_deletion_cost_nats": 3.89946648882961,
+  "largest_k_margin_ppl": 79.69152133335893,
+  "largest_k_transfer_beats_zero": true,
   "margin_monotone_increasing_in_k": false,
   "corr_deletion_cost_nats_vs_margin_ppl": 0.926155603638245,
-  "hypothesis_under_test": "if the 8B null is caused by redundant surviving attention layers routing around the damage of ONE replaced layer, then replacing more layers should reduce that redundancy and the transplant-minus-random margin should GROW with k, tracking the deletion cost",
+  "corr_k_vs_gap_at_largest_k_decay": -0.872351074423575,
+  "select_disagreements": [
+   {
+    "k": 8,
+    "transfer_select_decay": 0.7,
+    "transfer_select_val_ppl": 38.89582670886557,
+    "transfer_best_val_decay": 1.0,
+    "transfer_best_val_ppl": 36.936605108405615,
+    "control_select_decay": 1.0,
+    "control_select_val_ppl": 31.88558578331168
+   }
+  ],
+  "select_disagreement_note": "the SELECT-chosen decay is NOT the best-on-VAL decay in these rows, and that is stated rather than hidden: the protocol reports the SELECT choice, so these are the honest numbers. Their VAL-best alternatives are listed alongside; none of them would flip the sign of the verdict for that k unless the listing shows it, and using them would be reading the answer off VAL.",
+  "reference_1B": "for scale comparison: at 1B (layer 8 of 16, verify_transplant.json) the deletion costs 0.1681 nats, transfer recovers +34.9% of it and the control -27.0%, a margin of +0.1040 nats in transfer's favour",
+  "hypothesis_under_test": "if the 8B null is caused by redundant surviving attention layers routing around the damage of ONE replaced layer, then replacing more layers should reduce that redundancy and the transplant-minus-random gap should GROW with k, tracking the deletion cost",
   "interpretation_rule": "gap grows with k -> the single-layer 8B test was underpowered and the 1B effect is present at 8B once the intervention is large enough. gap flat or negative while the deletion cost grows -> the 1B effect does not scale; the NULL is the finding",
-  "caveat": "a growing deletion cost is not by itself evidence for the transplant: the zero arm moving further from the teacher proves the intervention is larger, and only the transfer-minus-control margin speaks to whose weights are better"
+  "caveats": [
+   "SELECT-protocol margins are not a clean function of k: when the two arms SELECT different decays the reported margin mixes two decays. Read fixed_decay_dose_response for the controlled curve.",
+   "the deletion cost is NOT monotone in k (k=1 replaces layer 16 alone, k=2 replaces layers 8 and 24, and the two-layer intervention costs LESS than the one-layer one). Even spacing changes WHICH layers are replaced as k changes, so k and layer identity are entangled. The dose-response in k is therefore a dose-response in intervention size, not a controlled layer ablation.",
+   "a growing deletion cost is not by itself evidence for the transplant: the zero arm moving further from the teacher only proves the hole is bigger. Only the transfer-minus-control gap speaks to whose weights are better.",
+   "where transfer's SELECT-chosen decay is not its best VAL decay, that is flagged per k by transfer_select_is_best_val and must be stated whenever the number is quoted."
+  ]
  },
  "teacher_select_ppl": 11.582358957802928
 }
