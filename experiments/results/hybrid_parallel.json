@@ -1,0 +1,334 @@
+{
+ "teacher": "unsloth/Llama-3.2-1B",
+ "layer": 8,
+ "n_layers": 16,
+ "teacher_val_ppl": 20.375600125475536,
+ "teacher_select_ppl": 22.66995199094904,
+ "identity_check_val": 20.375600125475536,
+ "identity_exact": true,
+ "val_tokens": 3000,
+ "select_tokens": 3000,
+ "gains": [
+  0.0,
+  0.05,
+  0.1,
+  0.2,
+  0.35,
+  0.5,
+  1.0
+ ],
+ "decays": [
+  0.7,
+  0.9
+ ],
+ "arms": {
+  "mem_transfer": {
+   "rows": [
+    {
+     "decay": 0.7,
+     "sweep_gain": 0.0,
+     "effective_gain": 0.0,
+     "select_ppl": 22.66995199094904,
+     "val_ppl": 20.375600125475536,
+     "delta_vs_teacher": 0.0,
+     "beats_teacher": false
+    },
+    {
+     "decay": 0.7,
+     "sweep_gain": 0.05,
+     "effective_gain": 0.012155860368627031,
+     "select_ppl": 22.608430964273893,
+     "val_ppl": 20.453615386167805,
+     "delta_vs_teacher": 0.07801526069226838,
+     "beats_teacher": false
+    },
+    {
+     "decay": 0.7,
+     "sweep_gain": 0.1,
+     "effective_gain": 0.024311720737254062,
+     "select_ppl": 22.618216218186127,
+     "val_ppl": 20.472516882254354,
+     "delta_vs_teacher": 0.09691675677881761,
+     "beats_teacher": false
+    },
+    {
+     "decay": 0.7,
+     "sweep_gain": 0.2,
+     "effective_gain": 0.048623441474508124,
+     "select_ppl": 22.663851586968182,
+     "val_ppl": 20.53681474942189,
+     "delta_vs_teacher": 0.16121462394635344,
+     "beats_teacher": false
+    },
+    {
+     "decay": 0.7,
+     "sweep_gain": 0.35,
+     "effective_gain": 0.08509102258038921,
+     "select_ppl": 22.79845345881773,
+     "val_ppl": 20.70159591305886,
+     "delta_vs_teacher": 0.3259957875833237,
+     "beats_teacher": false
+    },
+    {
+     "decay": 0.7,
+     "sweep_gain": 0.5,
+     "effective_gain": 0.1215586036862703,
+     "select_ppl": 23.01725952643839,
+     "val_ppl": 20.95269724851471,
+     "delta_vs_teacher": 0.5770971230391737,
+     "beats_teacher": false
+    },
+    {
+     "decay": 0.7,
+     "sweep_gain": 1.0,
+     "effective_gain": 0.2431172073725406,
+     "select_ppl": 24.473631212996892,
+     "val_ppl": 22.48516444666444,
+     "delta_vs_teacher": 2.1095643211889055,
+     "beats_teacher": false
+    },
+    {
+     "decay": 0.9,
+     "sweep_gain": 0.0,
+     "effective_gain": 0.0,
+     "select_ppl": 22.66995199094904,
+     "val_ppl": 20.375600125475536,
+     "delta_vs_teacher": 0.0,
+     "beats_teacher": false
+    },
+    {
+     "decay": 0.9,
+     "sweep_gain": 0.05,
+     "effective_gain": 0.005303813243027557,
+     "select_ppl": 22.617892153659362,
+     "val_ppl": 20.450580180569435,
+     "delta_vs_teacher": 0.07498005509389927,
+     "beats_teacher": false
+    },
+    {
+     "decay": 0.9,
+     "sweep_gain": 0.1,
+     "effective_gain": 0.010607626486055115,
+     "select_ppl": 22.6367407218394,
+     "val_ppl": 20.466642913470096,
+     "delta_vs_teacher": 0.09104278799456011,
+     "beats_teacher": false
+    },
+    {
+     "decay": 0.9,
+     "sweep_gain": 0.2,
+     "effective_gain": 0.02121525297211023,
+     "select_ppl": 22.699322764668413,
+     "val_ppl": 20.52589547328778,
+     "delta_vs_teacher": 0.15029534781224285,
+     "beats_teacher": false
+    },
+    {
+     "decay": 0.9,
+     "sweep_gain": 0.35,
+     "effective_gain": 0.0371266927011929,
+     "select_ppl": 22.85608790552786,
+     "val_ppl": 20.685264586377752,
+     "delta_vs_teacher": 0.30966446090221567,
+     "beats_teacher": false
+    },
+    {
+     "decay": 0.9,
+     "sweep_gain": 0.5,
+     "effective_gain": 0.053038132430275574,
+     "select_ppl": 23.09126019908946,
+     "val_ppl": 20.93514012741873,
+     "delta_vs_teacher": 0.5595400019431942,
+     "beats_teacher": false
+    },
+    {
+     "decay": 0.9,
+     "sweep_gain": 1.0,
+     "effective_gain": 0.10607626486055115,
+     "select_ppl": 24.557362465702823,
+     "val_ppl": 22.540891195336012,
+     "delta_vs_teacher": 2.1652910698604764,
+     "beats_teacher": false
+    }
+   ],
+   "best": {
+    "decay": 0.7,
+    "sweep_gain": 0.05,
+    "effective_gain": 0.012155860368627031,
+    "select_ppl": 22.608430964273893,
+    "val_ppl": 20.453615386167805,
+    "delta_vs_teacher": 0.07801526069226838,
+    "beats_teacher": false
+   }
+  },
+  "mem_random": {
+   "rows": [
+    {
+     "decay": 0.7,
+     "sweep_gain": 0.0,
+     "effective_gain": 0.0,
+     "select_ppl": 22.66995199094904,
+     "val_ppl": 20.375600125475536,
+     "delta_vs_teacher": 0.0,
+     "beats_teacher": false
+    },
+    {
+     "decay": 0.7,
+     "sweep_gain": 0.05,
+     "effective_gain": 0.005899332930779157,
+     "select_ppl": 22.615286917233117,
+     "val_ppl": 20.451405951640215,
+     "delta_vs_teacher": 0.07580582616467879,
+     "beats_teacher": false
+    },
+    {
+     "decay": 0.7,
+     "sweep_gain": 0.1,
+     "effective_gain": 0.011798665861558314,
+     "select_ppl": 22.634671355466647,
+     "val_ppl": 20.470007116586004,
+     "delta_vs_teacher": 0.09440699111046769,
+     "beats_teacher": false
+    },
+    {
+     "decay": 0.7,
+     "sweep_gain": 0.2,
+     "effective_gain": 0.023597331723116628,
+     "select_ppl": 22.70841713650639,
+     "val_ppl": 20.539586023691786,
+     "delta_vs_teacher": 0.1639858982162501,
+     "beats_teacher": false
+    },
+    {
+     "decay": 0.7,
+     "sweep_gain": 0.35,
+     "effective_gain": 0.041295330515454094,
+     "select_ppl": 22.909993100229915,
+     "val_ppl": 20.72838192817003,
+     "delta_vs_teacher": 0.3527818026944942,
+     "beats_teacher": false
+    },
+    {
+     "decay": 0.7,
+     "sweep_gain": 0.5,
+     "effective_gain": 0.05899332930779157,
+     "select_ppl": 23.228786233927693,
+     "val_ppl": 21.026442323024003,
+     "delta_vs_teacher": 0.6508421975484673,
+     "beats_teacher": false
+    },
+    {
+     "decay": 0.7,
+     "sweep_gain": 1.0,
+     "effective_gain": 0.11798665861558313,
+     "select_ppl": 25.354069745374662,
+     "val_ppl": 23.005658168952586,
+     "delta_vs_teacher": 2.6300580434770495,
+     "beats_teacher": false
+    },
+    {
+     "decay": 0.9,
+     "sweep_gain": 0.0,
+     "effective_gain": 0.0,
+     "select_ppl": 22.66995199094904,
+     "val_ppl": 20.375600125475536,
+     "delta_vs_teacher": 0.0,
+     "beats_teacher": false
+    },
+    {
+     "decay": 0.9,
+     "sweep_gain": 0.05,
+     "effective_gain": 0.0022868374411137643,
+     "select_ppl": 22.614040560427714,
+     "val_ppl": 20.45211770648468,
+     "delta_vs_teacher": 0.07651758100914563,
+     "beats_teacher": false
+    },
+    {
+     "decay": 0.9,
+     "sweep_gain": 0.1,
+     "effective_gain": 0.004573674882227529,
+     "select_ppl": 22.63287762771885,
+     "val_ppl": 20.47258354689196,
+     "delta_vs_teacher": 0.09698342141642513,
+     "beats_teacher": false
+    },
+    {
+     "decay": 0.9,
+     "sweep_gain": 0.2,
+     "effective_gain": 0.009147349764455057,
+     "select_ppl": 22.70762778439247,
+     "val_ppl": 20.549600838446867,
+     "delta_vs_teacher": 0.17400071297133124,
+     "beats_teacher": false
+    },
+    {
+     "decay": 0.9,
+     "sweep_gain": 0.35,
+     "effective_gain": 0.016007862087796348,
+     "select_ppl": 22.91638642253182,
+     "val_ppl": 20.75970002857946,
+     "delta_vs_teacher": 0.38409990310392317,
+     "beats_teacher": false
+    },
+    {
+     "decay": 0.9,
+     "sweep_gain": 0.5,
+     "effective_gain": 0.02286837441113764,
+     "select_ppl": 23.25087881327843,
+     "val_ppl": 21.09287826627991,
+     "delta_vs_teacher": 0.7172781408043747,
+     "beats_teacher": false
+    },
+    {
+     "decay": 0.9,
+     "sweep_gain": 1.0,
+     "effective_gain": 0.04573674882227528,
+     "select_ppl": 25.545276444081765,
+     "val_ppl": 23.318545038854257,
+     "delta_vs_teacher": 2.942944913378721,
+     "beats_teacher": false
+    }
+   ],
+   "best": {
+    "decay": 0.9,
+    "sweep_gain": 0.05,
+    "effective_gain": 0.0022868374411137643,
+    "select_ppl": 22.614040560427714,
+    "val_ppl": 20.45211770648468,
+    "delta_vs_teacher": 0.07651758100914563,
+    "beats_teacher": false
+   }
+  }
+ },
+ "protocol": {
+  "mode": "PARALLEL: attention is kept, memory is added alongside",
+  "gain": "fixed swept scalar, not a parameter, never trained",
+  "selection": "decay and gain chosen on SELECT; VAL only reported",
+  "eval": "frozen, fixed 3000-token windows, no sampling -> exact",
+  "note": "gain=0 reproduces the teacher exactly, so any ppl below the teacher is an improvement over an unmodified model"
+ },
+ "verdict": {
+  "teacher_val_ppl": 20.375600125475536,
+  "identity_check_exact": true,
+  "arms_at_their_best": {
+   "mem_transfer": {
+    "val_ppl": 20.453615386167805,
+    "decay": 0.7,
+    "gain": 0.05,
+    "delta": 0.07801526069226838
+   },
+   "mem_random": {
+    "val_ppl": 20.45211770648468,
+    "decay": 0.9,
+    "gain": 0.05,
+    "delta": 0.07651758100914563
+   }
+  },
+  "any_arm_beats_teacher": false,
+  "arms_beating_teacher": [],
+  "best_arm": "mem_random",
+  "best_delta": 0.07651758100914563,
+  "note": "Because gain=0 reproduces the teacher exactly (asserted above), a val ppl below the teacher is an improvement over an UNMODIFIED pretrained model. Arms are chosen on SELECT and reported on VAL."
+ }
+}

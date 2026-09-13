@@ -577,7 +577,24 @@ class GatedMemoryCarrier(nn.Module):
     def __call__(self, x, *args, **kwargs):
         if self.mode == "zero":
             return mx.zeros_like(x)
-        return self.mem(x) * self.out_gain
+        # DTYPE PROMOTION IS A REAL BUG HERE, not a style point.
+        #
+        # The pretrained model runs in bfloat16. Our Linear layers are created
+        # in float32 by default, so `mem(x)` returns float32 and `x + mem(x)`
+        # promotes the ENTIRE residual stream to float32 for the rest of the
+        # network. Measured on Llama-3.2-1B layer 8: adding `0.0 * mem(x)`
+        # (mathematically a no-op) changed the logits by up to 0.194 and moved
+        # perplexity from 27.5975 to 27.8236 -- a fake "effect" that is purely a
+        # precision change. Any arm compared against an unpatched teacher is
+        # therefore not measuring what it claims to measure.
+        #
+        # Casting the branch back to the residual's dtype makes the no-op exact:
+        # max abs logit difference 0.0, bit-identical. Verified with the
+        # zero-projection identity check in hybrid_inject.py.
+        out = self.mem(x) * self.out_gain
+        if out.dtype != x.dtype:
+            out = out.astype(x.dtype)
+        return out
 
 
 # --------------------------------------------------------------------------
