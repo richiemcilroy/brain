@@ -152,8 +152,13 @@ def main():
             json.dump(out, open(OUT, "w"), indent=1)
 
         # seed sweep on the arm that wins on SELECT
-        best_decay = min(DECAYS, key=lambda d_: min(
-            r["select_ppl"] for r in rec["paired"] if r["decay"] == d_))
+        # select_ppl lives INSIDE each arm's record, not on the row. Reading the
+        # row key raised KeyError after the whole sweep had already run.
+        def _select_score(row):
+            return min(row["transfer"]["select_ppl"],
+                       row["random_matched"]["select_ppl"])
+        best_decay = min((r["decay"] for r in rec["paired"]), key=lambda d_: _select_score(
+            next(r for r in rec["paired"] if r["decay"] == d_)))
         print(f"  best SELECT decay {best_decay}; sweeping control seeds", flush=True)
         rows = []
         for s in SEEDS:

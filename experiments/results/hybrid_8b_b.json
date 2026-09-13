@@ -1,0 +1,249 @@
+{
+ "meta": {
+  "teacher": "mlx-community/Meta-Llama-3.1-8B-Instruct-4bit",
+  "n_params": 1254952960,
+  "n_layers": 32,
+  "d": 4096,
+  "corpus_tokens": 301768,
+  "layers": [
+   16
+  ],
+  "decays": [
+   0.5,
+   0.9,
+   0.99,
+   1.0
+  ],
+  "seeds": [
+   0,
+   1,
+   2
+  ],
+  "host": "macOS-27.0-arm64-arm-64bit-Mach-O",
+  "driver": "experiments/hybrid_8b.py",
+  "protocol": "same as verify_transplant.py: rms-matched arms, frozen select/val windows, paired per decay",
+  "val_sha1": "4d0c3e453e9d03058f65c386b21c31da2865d584",
+  "elapsed_s": 132.28510165214539
+ },
+ "teacher_ppl": 6.499924730202013,
+ "layers": {
+  "16": {
+   "probe": {
+    "shape": [
+     1,
+     1024,
+     4096
+    ],
+    "rms_in": 0.5057498812675476,
+    "rms_attn_out": 0.043364111334085464
+   },
+   "zero_ppl": 8.1609979189294,
+   "paired": [
+    {
+     "decay": 0.5,
+     "transfer": {
+      "decay": 0.5,
+      "ppl": 9.00007050148257,
+      "select_ppl": 13.839717168399023,
+      "rms_pre_norm": 0.1921820342540741,
+      "rms_post_norm": 0.04336417093873024,
+      "rms_target": 0.043364111334085464,
+      "out_gain": 0.22564081758420756,
+      "control_seed": null,
+      "value_expand_reps": 4,
+      "quantized": true,
+      "wall_s": null
+     },
+     "random_matched": {
+      "decay": 0.5,
+      "ppl": 9.935345978119903,
+      "select_ppl": 14.404718866324345,
+      "rms_pre_norm": 0.32135313749313354,
+      "rms_post_norm": 0.04336411505937576,
+      "rms_target": 0.043364111334085464,
+      "out_gain": 0.13494223729187035,
+      "control_seed": 0,
+      "value_expand_reps": 4,
+      "quantized": true,
+      "wall_s": null
+     },
+     "ppl_gap_transfer_minus_control": -0.935275476637333
+    },
+    {
+     "decay": 0.9,
+     "transfer": {
+      "decay": 0.9,
+      "ppl": 9.323867643667926,
+      "select_ppl": 14.016194407110309,
+      "rms_pre_norm": 0.6576963067054749,
+      "rms_post_norm": 0.0433640256524086,
+      "rms_target": 0.043364111334085464,
+      "out_gain": 0.06593333563222287,
+      "control_seed": null,
+      "value_expand_reps": 4,
+      "quantized": true,
+      "wall_s": null
+     },
+     "random_matched": {
+      "decay": 0.9,
+      "ppl": 10.025197768877307,
+      "select_ppl": 14.607871396420027,
+      "rms_pre_norm": 1.3103258609771729,
+      "rms_post_norm": 0.043364107608795166,
+      "rms_target": 0.043364111334085464,
+      "out_gain": 0.033094142934603124,
+      "control_seed": 0,
+      "value_expand_reps": 4,
+      "quantized": true,
+      "wall_s": null
+     },
+     "ppl_gap_transfer_minus_control": -0.7013301252093811
+    },
+    {
+     "decay": 0.99,
+     "transfer": {
+      "decay": 0.99,
+      "ppl": 9.749920063513242,
+      "select_ppl": 14.308974993558726,
+      "rms_pre_norm": 4.754459381103516,
+      "rms_post_norm": 0.04336411878466606,
+      "rms_target": 0.043364111334085464,
+      "out_gain": 0.009120723905316151,
+      "control_seed": null,
+      "value_expand_reps": 4,
+      "quantized": true,
+      "wall_s": null
+     },
+     "random_matched": {
+      "decay": 0.99,
+      "ppl": 9.774333505569043,
+      "select_ppl": 14.395115720769255,
+      "rms_pre_norm": 10.69155502319336,
+      "rms_post_norm": 0.043364107608795166,
+      "rms_target": 0.043364111334085464,
+      "out_gain": 0.004055921822411709,
+      "control_seed": 0,
+      "value_expand_reps": 4,
+      "quantized": true,
+      "wall_s": null
+     },
+     "ppl_gap_transfer_minus_control": -0.02441344205580087
+    },
+    {
+     "decay": 1.0,
+     "transfer": {
+      "decay": 1.0,
+      "ppl": 8.70636776457232,
+      "select_ppl": 13.61543035588178,
+      "rms_pre_norm": 28.885679244995117,
+      "rms_post_norm": 0.043364107608795166,
+      "rms_target": 0.043364111334085464,
+      "out_gain": 0.00150123218381991,
+      "control_seed": null,
+      "value_expand_reps": 4,
+      "quantized": true,
+      "wall_s": null
+     },
+     "random_matched": {
+      "decay": 1.0,
+      "ppl": 8.68751811236475,
+      "select_ppl": 13.629057140755783,
+      "rms_pre_norm": 64.58683013916016,
+      "rms_post_norm": 0.043364088982343674,
+      "rms_target": 0.043364111334085464,
+      "out_gain": 0.0006714079517550595,
+      "control_seed": 0,
+      "value_expand_reps": 4,
+      "quantized": true,
+      "wall_s": null
+     },
+     "ppl_gap_transfer_minus_control": 0.018849652207570955
+    }
+   ],
+   "per_arm": {
+    "transfer": {
+     "best_on_select": {
+      "decay": 1.0,
+      "ppl": 8.70636776457232,
+      "select_ppl": 13.61543035588178
+     },
+     "best_val": {
+      "decay": 1.0,
+      "ppl": 8.70636776457232,
+      "select_ppl": 13.61543035588178
+     },
+     "val_curve": [
+      {
+       "decay": 0.5,
+       "ppl": 9.00007050148257
+      },
+      {
+       "decay": 0.9,
+       "ppl": 9.323867643667926
+      },
+      {
+       "decay": 0.99,
+       "ppl": 9.749920063513242
+      },
+      {
+       "decay": 1.0,
+       "ppl": 8.70636776457232
+      }
+     ]
+    },
+    "random_matched": {
+     "best_on_select": {
+      "decay": 1.0,
+      "ppl": 8.68751811236475,
+      "select_ppl": 13.629057140755783
+     },
+     "best_val": {
+      "decay": 1.0,
+      "ppl": 8.68751811236475,
+      "select_ppl": 13.629057140755783
+     },
+     "val_curve": [
+      {
+       "decay": 0.5,
+       "ppl": 9.935345978119903
+      },
+      {
+       "decay": 0.9,
+       "ppl": 10.025197768877307
+      },
+      {
+       "decay": 0.99,
+       "ppl": 9.774333505569043
+      },
+      {
+       "decay": 1.0,
+       "ppl": 8.68751811236475
+      }
+     ]
+    }
+   },
+   "control_seed_sweep": {
+    "decay": 1.0,
+    "seeds": [
+     {
+      "seed": 0,
+      "ppl": 8.68751811236475,
+      "select_ppl": 13.629057140755783
+     },
+     {
+      "seed": 1,
+      "ppl": 8.535336131985982,
+      "select_ppl": 13.430557360618405
+     },
+     {
+      "seed": 2,
+      "ppl": 8.549578304776317,
+      "select_ppl": 13.408184290066663
+     }
+    ],
+    "transfer_ppl": 8.70636776457232,
+    "n_seeds_beating_transfer": 3
+   }
+  }
+ }
+}
