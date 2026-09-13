@@ -118,6 +118,15 @@ ATTN_ATTRS = ("self_attn", "attn", "attention", "mixer")
 
 
 def attention_module(model, idx):
+    """Locate layer idx's attention sublayer ATTRIBUTE.
+
+    Returns (layer, attr, module). CRITICAL: once a carrier has been installed,
+    an installed `GatedMemoryCarrier` has NO parameters, so re-deriving `d` from
+    it silently yields `d=None` and the next transplant crashes. Every caller
+    must therefore keep the ORIGINAL module it removed and pass it back in (see
+    `transplant(..., original=...)`), and `raw_attention` below is the helper
+    that does this correctly.
+    """
     layers, _ = get_layers(model)
     layer = layers[idx]
     for attr in ATTN_ATTRS:
@@ -126,6 +135,22 @@ def attention_module(model, idx):
             if hasattr(mod, "parameters"):
                 return layer, attr, mod
     raise RuntimeError(f"no attention attribute on layer {idx}")
+
+
+def swap_in(model, idx, carrier):
+    """Install `carrier` in place of layer idx's attention. Returns a handle."""
+    layer, attr, original = attention_module(model, idx)
+    if isinstance(original, GatedMemoryCarrier):
+        raise RuntimeError(
+            "an attention slot already holds a carrier; restore the original "
+            "first (see swap_out) rather than stacking swaps")
+    setattr(layer, attr, carrier)
+    return (layer, attr, original)
+
+
+def swap_out(handle):
+    layer, attr, original = handle
+    setattr(layer, attr, original)
 
 
 def fit_decay_from_attention(inner, x, n_bins=8):
@@ -169,19 +194,38 @@ def to_f32(a):
     return np.array(a.astype(mx.float32))
 
 
-def transplant(model, idx, mode):
+def infer_d(inner):
+    """Infer the residual width from an attention module's parameters.
+
+    Prefers a square weight (q_proj/o_proj are (d,d)); falls back to the widest
+    input dimension. Raises rather than returning None -- a silent None here
+    produced a crash two frames later in a previous version, which is a much
+    worse failure because the traceback pointed at the wrong line.
+    """
+    params = list(nn.utils.tree_flatten(inner.parameters()))
+    if not params:
+        raise ValueError("attention module has no parameters; it is probably "
+                         "already a carrier -- pass the ORIGINAL module")
+    for _, v in params:
+        if getattr(v, "ndim", 0) == 2 and v.shape[0] == v.shape[1]:
+            return int(v.shape[0])
+    widths = [int(v.shape[-1]) for _, v in params if getattr(v, "ndim", 0) == 2]
+    if not widths:
+        raise ValueError("could not infer d from attention parameters")
+    return max(widths)
+
+
+def transplant(model, idx, mode, *, original=None, d=None):
     """Replace layer idx's attention with a carrier; return a diagnostic record."""
-    layer, attr, inner = attention_module(model, idx)
-    d = None
-    for _, v in nn.utils.tree_flatten(inner.parameters()):
-        if v.ndim == 2 and v.shape[0] == v.shape[1]:
-            d = v.shape[0]
-            break
+    layer, attr, fetched = attention_module(model, idx)
+    if original is None and isinstance(fetched, GatedMemoryCarrier):
+        raise RuntimeError(
+            "layer already holds a carrier and no original was supplied; pass "
+            "original= the module you removed (see swap_in/swap_out)")
+    inner = original if original is not None else fetched
+    original = inner          # `original` is always the real attention module
     if d is None:
-        for _, v in nn.utils.tree_flatten(inner.parameters()):
-            if v.ndim == 2:
-                d = v.shape[-1]
-                break
+        d = infer_d(inner)
 
     carrier = GatedMemoryCarrier(d, mode)
     rec = dict(attr=attr, d=int(d), mode=mode)
@@ -298,9 +342,12 @@ def transplant(model, idx, mode):
         # exponential moving AVERAGE, sum_k (1-g) g^k = 1, making the two
         # scale-comparable. This is the same normalisation RG-LRU applies.
         if mode in ("transfer", "transfer_ft") and rec.get("transplanted"):
-            carrier.mem.v.weight = mx.array(
-                (to_f32(carrier.mem.v.weight) * (1.0 - decay)).astype(np.float32))
+            # normalise via the fixed output gain, NOT by pre-scaling W_v --
+            # see the out_gain comment in GatedMemoryCarrier for why the
+            # difference is load-bearing whenever these weights are finetuned.
+            carrier.out_gain = float(1.0 - decay)
             rec["value_scaled_by"] = float(1.0 - decay)
+            rec["out_gain"] = float(carrier.out_gain)
         # random-init the gate INPUT weights only (no attention analogue); keep
         # them small so the fitted constant decay dominates at t=0
         carrier.mem.gate.weight = mx.array(
@@ -364,17 +411,37 @@ class GatedMemoryCarrier(nn.Module):
     against.
     """
 
-    def __init__(self, d: int, mode: str = "transfer", chunk: int = 64):
+    def __init__(self, d: int, mode: str = "transfer", chunk: int = 64,
+                 out_gain: float = 1.0):
         super().__init__()
         self.mode = mode
         self.d = d
+        # DECOUPLED OUTPUT GAIN. Not a parameter, so no optimizer can move it.
+        #
+        # Why this exists, and why scaling W_v instead is WRONG for finetuning:
+        # attention outputs a CONVEX combination of past values, while
+        # h_t = g h_{t-1} + v_t is an unnormalised sum that at g=0.99 is ~100x
+        # too large. Both fixes (scale W_v by (1-g), or scale the output by
+        # (1-g)) are mathematically identical, but they differ under
+        # optimisation. Adam's step is ABSOLUTE (lr), not relative: transplanting
+        # W_v at its native trained scale (~0.002 here for d=2048) and then
+        # multiplying it by 0.01 gives weights that lr=3e-4 moves by ~15% of
+        # their magnitude PER STEP. The first finetune run did exactly that and
+        # drove BOTH arms to ~1400-1550 ppl, i.e. it measured whether Adam can
+        # destroy a precise init, not whether the init is useful.
+        #
+        # Keeping W_v at native scale and putting the normalisation in a
+        # fixed gain leaves Adam's absolute step size roughly proportional
+        # (so it behaves like a relative step, as intended). Verified
+        # numerically identical to the W_v scaling in the frozen regime.
+        self.out_gain = float(out_gain)
         if mode != "zero":
             self.mem = GatedMemory(d, banks=1, chunk=chunk)
 
     def __call__(self, x, *args, **kwargs):
         if self.mode == "zero":
             return mx.zeros_like(x)
-        return self.mem(x)
+        return self.mem(x) * self.out_gain
 
 
 # --------------------------------------------------------------------------
