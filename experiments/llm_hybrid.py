@@ -172,8 +172,8 @@ def measure_recency_profile(inner, h, n_bins=8):
     Returns None only if the module genuinely has no q/k projections, and the
     caller records that as a failure rather than substituting a default.
     """
-    params = dict(nn.utils.tree_flatten(inner.parameters()))
-    wq, wk = params.get("q_proj.weight"), params.get("k_proj.weight")
+    wq = dense_weight(getattr(inner, "q_proj", inner), "q_proj.weight")
+    wk = dense_weight(getattr(inner, "k_proj", inner), "k_proj.weight")
     if wq is None or wk is None:
         return None
     n_head = int(getattr(inner, "n_heads", 0)) or None
@@ -191,8 +191,22 @@ def measure_recency_profile(inner, h, n_bins=8):
     # grid's resolution, and this keeps the fit cheap enough to run per arm.
     if hn.shape[0] > 256:
         hn = hn[:256]
-    q = hn @ to_f32(wq).T                             # (T, n_head*hd)
-    k = hn @ to_f32(wk).T                             # (T, n_kv*hd)
+    # A SHORT PROBE SILENTLY DEGENERATES. The fit below matches a single
+    # exponential against `prof`, which has one entry per token distance. With
+    # only a handful of tokens the profile is flat by construction, the fit
+    # pins at the top of the decay grid (0.99999, i.e. "no decay at all"), and
+    # nothing raises -- the caller receives a confident-looking decay fitted to
+    # noise. A 5-token probe did exactly this. Require enough distances for the
+    # fit to be constrained, and say so rather than returning a degenerate value.
+    MIN_PROBE_TOKENS = 64
+    if hn.shape[0] < MIN_PROBE_TOKENS:
+        raise ValueError(
+            f"recency probe has only {hn.shape[0]} tokens; at least "
+            f"{MIN_PROBE_TOKENS} are needed or the exponential fit degenerates "
+            f"to the top of the grid. Pass real activations from a longer "
+            f"prefix (the 1B protocol captures 1024).")
+    q = hn @ wq.T                                     # (T, n_head*hd)
+    k = hn @ wk.T                                     # (T, n_kv*hd)
     T = q.shape[0]
     if hd is None:
         hd = q.shape[-1] // n_head if n_head else q.shape[-1]
@@ -248,6 +262,70 @@ def fit_decay_from_attention(inner, h, n_bins=8):
                       fitted_decay=best, cdf_l1=float(best_err))
 
 
+def dense_weight(module_or_params, name):
+    """Return a DENSE fp32 weight for `name`, dequantizing if necessary.
+
+    THE BUG THIS EXISTS TO PREVENT
+    ------------------------------
+    A quantized MLX layer does not store `weight` as a dense matrix. For a
+    4-bit affine QuantizedLinear with group_size=64, a logical (4096, 4096)
+    projection is stored as a PACKED uint32 array of shape (4096, 512) plus
+    `scales`/`biases` of shape (4096, 64). Reading `weight` directly therefore
+    yields a matrix that is 8x too narrow, and every downstream reader that
+    treats it as dense is silently wrong.
+
+    What that produced here, concretely: `measure_recency_profile` computed
+    `h @ wq.T` with a (T, 4096) activation and a (4096, 512) "weight", which
+    raises a shape error -- the loud, lucky case. `transplant`'s value/output
+    copy had no such guard, so on a quantized model it would have copied packed
+    integers into the recurrent carrier as if they were trained weights and
+    reported a plausible-looking number. The 1B model this project was developed
+    against is bf16 (unsloth/Llama-3.2-1B, dtype bfloat16, no quantization), so
+    the dense assumption held there and the bug stayed invisible until an 8B
+    4-bit model was loaded.
+
+    Dequantization is exact up to the affine grid, verified against the module's
+    own forward pass: max |q(x) - x @ dequantize(W).T| = 8.4e-4 in fp16, i.e.
+    the round-trip error, not a semantic difference.
+
+    Raises rather than falling back to a raw read, because a silent fallback is
+    exactly the failure mode being fixed.
+    """
+    if hasattr(module_or_params, "group_size") and hasattr(module_or_params, "bits"):
+        # a QuantizedLinear-like module: dequantize through MLX
+        w = module_or_params.weight
+        scales = getattr(module_or_params, "scales", None)
+        biases = getattr(module_or_params, "biases", None)
+        if scales is None or biases is None:
+            raise ValueError(
+                f"module looks quantized (bits={module_or_params.bits}) but has "
+                f"no scales/biases, so it cannot be dequantized")
+        dq = mx.dequantize(w, scales, biases,
+                           group_size=int(module_or_params.group_size),
+                           bits=int(module_or_params.bits))
+        mx.eval(dq)
+        return np.array(dq.astype(mx.float32))
+    params = dict(nn.utils.tree_flatten(module_or_params.parameters())) \
+        if hasattr(module_or_params, "parameters") else dict(module_or_params)
+    w = params.get(name)
+    if w is None:
+        # Accept either the full path ("v_proj.weight") or the bare tensor name
+        # ("weight"), so callers can pass a submodule directly.
+        w = params.get(name.rsplit(".", 1)[-1])
+    if w is None:
+        return None
+    if getattr(w, "size", 1) == 0:
+        return None
+    # a packed tensor is 2-D with a uint32 dtype; a dense weight is never uint32
+    if str(getattr(w, "dtype", "")).endswith("uint32"):
+        raise ValueError(
+            f"{name} is a packed uint32 tensor of shape {tuple(w.shape)}; "
+            f"pass the QuantizedLinear module itself to dense_weight() so it can "
+            f"be dequantized. Reading a packed weight as dense is a silent "
+            f"correctness bug.")
+    return to_f32(w)
+
+
 def to_f32(a):
     """bfloat16 cannot be buffered by numpy; cast through MLX first.
 
@@ -261,17 +339,59 @@ def to_f32(a):
 
 
 def infer_d(inner):
-    """Infer the residual width from an attention module's parameters.
+    """Infer the residual width d from an attention module.
 
     Prefers a square weight (q_proj/o_proj are (d,d)); falls back to the widest
     input dimension. Raises rather than returning None -- a silent None here
     produced a crash two frames later in a previous version, which is a much
     worse failure because the traceback pointed at the wrong line.
+
+    QUANTIZED MODELS BREAK THE SHAPE HEURISTIC, and the failure is silent.
+    A QuantizedLinear stores `weight` PACKED: a logical (4096, 4096) projection
+    at 4 bits with group_size=64 is persisted as uint32 (4096, 512). So there is
+    no square weight to find, and `max(last dims)` returns 512 instead of 4096.
+
+    That produced a real, silent corruption on an 8B 4-bit model: d=512 made the
+    transplant's guard `o.shape[1] == d` false, which routed it into the
+    zero-padded fallback branch. No exception was raised; a 512x512 corner of a
+    4096x4096 projection was copied into the carrier and reported as a completed
+    transplant. A shape check cannot catch this, so the width is now taken from
+    the module's own declared `out_features`, and the packed case is detected
+    explicitly.
     """
+    # A QuantizedLinear declares its logical width; trust that over shapes.
+    #
+    # On the PARENT attention module these attributes are absent (MLX's own
+    # Attention has no out_features), so also check o_proj/v_proj, whose output
+    # width IS the residual width d for any standard transformer block.
+    cands = [getattr(inner, "out_features", None)]
+    for name in ("o_proj", "v_proj", "q_proj", "k_proj"):
+        sub = getattr(inner, name, None)
+        if sub is None:
+            continue
+        cands.append(getattr(sub, "out_features", None))
+        # MLX's QuantizedLinear reports out_features=None, but `scales` is
+        # (logical_out, logical_in / group_size), so scales.shape[0] IS the
+        # logical output width -- the value the packed `weight` hides.
+        sc = getattr(sub, "scales", None)
+        if sc is not None and getattr(sc, "ndim", 0) == 2:
+            cands.append(int(sc.shape[0]))
+    for v in cands:
+        if isinstance(v, int) and v > 0:
+            return int(v)
     params = list(nn.utils.tree_flatten(inner.parameters()))
     if not params:
         raise ValueError("attention module has no parameters; it is probably "
                          "already a carrier -- pass the ORIGINAL module")
+    packed = [k for k, v in params
+              if str(getattr(v, "dtype", "")).endswith("uint32")]
+    if packed:
+        raise ValueError(
+            f"parameters {packed} are packed uint32 (a quantized model), so d "
+            f"cannot be inferred from shapes and the module exposes no "
+            f"out_features/in_features. Refusing to guess -- a wrong d here is "
+            f"silently accepted by the transplant and produces a plausible, "
+            f"incorrect result.")
     for _, v in params:
         if getattr(v, "ndim", 0) == 2 and v.shape[0] == v.shape[1]:
             return int(v.shape[0])
@@ -401,22 +521,31 @@ def transplant(model, idx, mode, *, original=None, d=None, probe_h=None,
 
     if mode in ("transfer", "transfer_ft"):
         params = dict(nn.utils.tree_flatten(inner.parameters()))
-        wv = params.get("v_proj.weight")
-        wo = params.get("o_proj.weight")
-        wq = params.get("q_proj.weight")
         rec["found"] = sorted(params.keys())
-        if wv is not None and wo is not None:
-            v = to_f32(wv)                         # (kv_dim, d)
-            o = to_f32(wo)                         # (n_head*hd, d)
+        # dense_weight dequantizes; a packed 4-bit weight has 1/8 the columns of
+        # the dense matrix and copying it verbatim would be silently wrong.
+        v = dense_weight(getattr(inner, "v_proj", inner), "v_proj.weight")
+        o = dense_weight(getattr(inner, "o_proj", inner), "o_proj.weight")
+        rec["quantized"] = bool(
+            hasattr(getattr(inner, "v_proj", None), "group_size")
+            or hasattr(getattr(inner, "o_proj", None), "group_size"))
+        if v is not None and o is not None:
             # expand the value projection to full width by tiling across heads
             n_rep = o.shape[1] // v.shape[0] if v.shape[0] else 1
             if n_rep >= 1 and v.shape[0] * n_rep == o.shape[1] and o.shape[1] == d:
                 v_exp = expand_gqa(v, n_rep, int(getattr(inner, 'head_dim', 0)) or None)
             else:
-                v_exp = np.zeros((d, d), np.float32)
-                k = min(d, v.shape[0])
-                j = min(d, v.shape[1])
-                v_exp[:k, :j] = v[:k, :j]
+                # NO SILENT FALLBACK. This branch used to zero-pad, which on a
+                # quantized model (where d was mis-inferred as 512) silently
+                # copied a 512x512 corner of a 4096x4096 projection and reported
+                # success. A transplant that cannot be expressed faithfully must
+                # fail loudly instead.
+                raise ValueError(
+                    f"cannot transplant layer {idx} faithfully: v is "
+                    f"{v.shape}, o is {o.shape}, d={d}, n_rep={n_rep}. The "
+                    f"value projection does not expand to the residual width, "
+                    f"so any copy would be a guess. Refusing to zero-pad, which "
+                    f"silently produces a plausible wrong result.")
             rec["value_expand_reps"] = int(n_rep)
             # banks>1 keeps one trace per timescale, so W_v is (d*banks, d) and
             # W_o is (d, d*banks). Tiling the SAME transplanted weights into

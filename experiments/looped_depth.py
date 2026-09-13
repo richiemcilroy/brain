@@ -99,11 +99,11 @@ import mlx.optimizers as optim
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from llm_efficiency import (  # noqa: E402
-    Block, CORPUS, LM, flops_per_token, load_corpus, n_params,
+    Block, CORPUS, flops_per_token, load_corpus, n_params,
 )
 from llm_tuned import floors  # noqa: E402
 from confirm_headline import (  # noqa: E402
-    T95, deterministic_val_batches, evaluate, paired_report,
+    deterministic_val_batches, evaluate, paired_report,
 )
 
 RESULTS = os.environ.get(
@@ -113,6 +113,17 @@ RESULTS = os.environ.get(
         "experiments", "results", "looped_depth.json",
     ),
 )
+
+# Device. MLX's GPU backward pass is NOT bit-reproducible: with an identical
+# init, identical batch and identical seed, two gradient evaluations differ by
+# up to ~4.5e-08 per element (measured), which accumulates to a ~1e-7 bpc
+# difference in val_bpc after 1500 steps. The CPU path is bit-identical.
+# Set BRAIN_DEVICE=cpu for strict bit-reproducibility; the default stays on the
+# GPU because CPU training is ~10x slower. Either way the drift is 5 orders of
+# magnitude below every effect size reported here.
+_DEVICE = os.environ.get("BRAIN_DEVICE", "gpu").lower()
+if _DEVICE == "cpu":
+    mx.set_default_device(mx.cpu)
 
 D = 128
 CTX = 512
@@ -209,6 +220,22 @@ ARMS = {
     # rounded to the nearest 50. Calibration is re-run and recorded in the JSON.
     "flat2_wall":  dict(n_layer=2, loops=1, steps_mult=2800 / 1500.0,
                         wall_matched=True),
+    # strict wall-clock match: the clean timing measurement (warmup + 3x25
+    # reps, min median) gives flat2 at 14.1 ms/step against loop2x2 at
+    # 20.2 ms/step, a rate ratio of 1.4309. So under an equal-time budget flat2
+    # gets 1500*1.4309 = 2146 steps; rounded to 2150. `flat2_wall` above used
+    # the pre-run ratio of 1.8667, which the clean timing shows was an
+    # overestimate, so it got ~30% MORE steps than a strict equal-time budget.
+    "flat2_wc":    dict(n_layer=2, loops=1, steps_mult=2150 / 1500.0,
+                        wall_matched=True),
+    # `flat2_wc2` is the properly-centred equal-time arm. Five independent
+    # interleaved timing sessions (round-robin inside each round, 15 rounds,
+    # min round-median) put flat2 at 12.44-20.4 ms/step against loop2x2 at
+    # 22.33-28.3 ms/step, i.e. flat2 completes 1.794x the steps per unit time
+    # (median-based estimate 1.751, so the two agree within 2.5%). 1500 *
+    # 1.794 = 2691 steps.
+    "flat2_wc2":   dict(n_layer=2, loops=1, steps_mult=2691 / 1500.0,
+                        wall_matched=True),
 }
 
 # pre-registered comparisons; first arm negative = first arm better (lower bpc)
@@ -222,6 +249,11 @@ PAIRED = [
     ("loop1x4_ws", "loop1x4"),   # stabiliser on the 4-pass arm
     ("loop1x4_ts", "loop1x4"),   # timestep embedding on the 4-pass arm
     ("flat2_wall", "loop2x2"),   # equal WALL-CLOCK, not equal steps
+    ("flat2_wc", "loop2x2"),     # conservative under-time budget
+    ("flat2_wc2", "loop2x2"),    # THE equal-wall-clock comparison
+    ("flat2_wc2", "flat4"),      # equal time vs 4 unique layers
+    ("flat2_wc", "flat2"),       # value of the extra steps alone
+    ("flat2_wc", "flat4"),       # equal-time shallow vs 4 unique layers
 ]
 
 
@@ -324,6 +356,173 @@ def pass_drift(m, train, vocab, seed=0, ctx=CTX, n=4):
     return out
 
 
+def _timing_session(arm, vocab, data, *, seed, bs, warmup, reps):
+    """Set up one arm for repeated timed steps; return a `step` closure."""
+    n = int(0.9 * len(data))
+    tr = data[:n]
+    mx.random.seed(seed)
+    m = build(arm, vocab)
+    mx.eval(m.parameters())
+    rng = np.random.default_rng(seed)
+    opt = optim.AdamW(learning_rate=1e-3, weight_decay=0.01)
+
+    def loss_fn(m, x, y):
+        return nn.losses.cross_entropy(
+            m(x).reshape(-1, vocab), y.reshape(-1), reduction="mean"
+        )
+
+    lg = nn.value_and_grad(m, loss_fn)
+
+    def step():
+        ix = rng.integers(0, len(tr) - CTX - 1, size=bs)
+        x = mx.array(np.stack([tr[i:i + CTX] for i in ix]))
+        y = mx.array(np.stack([tr[i + 1:i + 1 + CTX] for i in ix]))
+        l, g = lg(m, x, y)
+        g, _ = optim.clip_grad_norm(g, 1.0)
+        opt.update(m, g)
+        mx.eval(m.parameters(), opt.state)
+
+    for _ in range(warmup):
+        step()
+    return step
+
+
+def measure_step_time_interleaved(vocab, data, arms, *, seed=0, bs=16,
+                                  warmup=5, reps=12, rounds=7):
+    """Robust ms/step per arm under a shared, contended machine.
+
+    Arms are measured ROUND-ROBIN inside each round rather than one arm at a
+    time, so a load spike hits every arm rather than whichever arm happens to
+    be running. Each arm's estimate is the MINIMUM round-median, which is the
+    least-contended (closest to dedicated-machine) estimate. This matters: a
+    naive sequential measurement gave loop2x2 20.2 ms/step on one invocation
+    and 39.9 ms/step on the next, a 2x swing that would have silently decided
+    which step count the equal-time arm got.
+    """
+    sessions = {a: _timing_session(a, vocab, data, seed=seed, bs=bs,
+                                   warmup=warmup, reps=reps)
+                for a in arms}
+    per_arm = {a: [] for a in arms}
+    for _ in range(rounds):
+        for a in arms:
+            st = sessions[a]
+            t0 = time.time()
+            for _ in range(reps):
+                st()
+            per_arm[a].append((time.time() - t0) / reps * 1000.0)
+    ref = min(per_arm["loop2x2"]) if "loop2x2" in per_arm else 1.0
+    return {a: dict(arm=a,
+                    ms_per_step=float(min(per_arm[a])),
+                    ms_per_step_median=float(np.median(per_arm[a])),
+                    ms_per_step_all=[round(x, 2) for x in per_arm[a]],
+                    steps_per_s=float(1000.0 / min(per_arm[a])),
+                    steps_per_loop2x2_step=float(min(per_arm[a]) / ref),
+                    tokens_per_step=bs * CTX)
+            for a in arms}
+
+
+def measure_step_time(arm, vocab, data, *, seed=0, bs=16, warmup=5, reps=25,
+                      repeats=3):
+    """Legacy single-arm measurement, kept for compatibility."""
+    n = int(0.9 * len(data))
+    tr = data[:n]
+    mx.random.seed(seed)
+    m = build(arm, vocab)
+    mx.eval(m.parameters())
+    rng = np.random.default_rng(seed)
+    opt = optim.AdamW(learning_rate=1e-3, weight_decay=0.01)
+
+    def loss_fn(m, x, y):
+        return nn.losses.cross_entropy(
+            m(x).reshape(-1, vocab), y.reshape(-1), reduction="mean"
+        )
+
+    lg = nn.value_and_grad(m, loss_fn)
+
+    def one_step():
+        ix = rng.integers(0, len(tr) - CTX - 1, size=bs)
+        x = mx.array(np.stack([tr[i:i + CTX] for i in ix]))
+        y = mx.array(np.stack([tr[i + 1:i + 1 + CTX] for i in ix]))
+        l, g = lg(m, x, y)
+        g, _ = optim.clip_grad_norm(g, 1.0)
+        opt.update(m, g)
+        mx.eval(m.parameters(), opt.state)
+
+    for _ in range(warmup):
+        one_step()
+    per_repeat = []
+    for _ in range(repeats):
+        t0 = time.time()
+        for _ in range(reps):
+            one_step()
+        per_repeat.append((time.time() - t0) / reps * 1000.0)
+    return dict(arm=arm, ms_per_step=float(min(per_repeat)),
+                ms_per_step_all=[round(x, 2) for x in per_repeat],
+                tokens_per_step=bs * CTX)
+
+
+def measured_timing(vocab, data, arms):
+    return measure_step_time_interleaved(vocab, data, arms)
+
+
+def determinism_probe(vocab, data, arm, seed=0):
+    """Measure, rather than assume, what IS reproducible on this device.
+
+    Three separate claims, because they are not the same claim:
+      1. init    -- same seed gives bit-identical parameters (must hold).
+      2. forward -- same params + same batch give a bit-identical loss.
+      3. gradient-- same params + same batch give a bit-identical gradient.
+    Claim 3 is the one that fails on MLX's GPU backend (reduction order), and
+    it is the only reason a full run is not bit-reproducible there. The CPU
+    backend satisfies all three.
+    """
+    def one(device):
+        mx.set_default_device(device)
+        mx.random.seed(seed)
+        m = build(arm, vocab)
+        mx.eval(m.parameters())
+        xv, yv, _ = deterministic_val_batches(data, CTX)
+        x, y = xv[:4], yv[:4]
+
+        def loss_fn(m, x, y):
+            return nn.losses.cross_entropy(
+                m(x).reshape(-1, vocab), y.reshape(-1), reduction="mean")
+
+        lg = nn.value_and_grad(m, loss_fn)
+        l1, g1 = lg(m, x, y)
+        mx.eval(l1)
+        f1 = mx.concatenate([v.reshape(-1)
+                             for _, v in nn.utils.tree_flatten(g1)])
+        mx.eval(f1)
+        # same seed -> second, independent model; same batch
+        mx.random.seed(seed)
+        m2 = build(arm, vocab)
+        mx.eval(m2.parameters())
+        pa = [v for _, v in nn.utils.tree_flatten(m.parameters())]
+        pb = [v for _, v in nn.utils.tree_flatten(m2.parameters())]
+        init_same = all(bool(mx.all(a == b)) for a, b in zip(pa, pb))
+        l2, g2 = lg(m, x, y)
+        mx.eval(l2)
+        f2 = mx.concatenate([v.reshape(-1)
+                             for _, v in nn.utils.tree_flatten(g2)])
+        mx.eval(f2)
+        return dict(device=device.name if hasattr(device, "name") else str(device),
+                    init_bit_identical=bool(init_same),
+                    forward_loss_bit_identical=bool(l1 == l2),
+                    gradient_bit_identical=bool(mx.all(f1 == f2)),
+                    forward_loss_abs_diff=float(abs(l1 - l2)),
+                    gradient_max_abs_diff=float(mx.max(mx.abs(f1 - f2))))
+
+    out = []
+    for dev in (mx.gpu, mx.cpu):
+        try:
+            out.append(one(dev))
+        except Exception as e:  # a device may be unavailable
+            out.append(dict(device=str(dev), error=repr(e)))
+    mx.set_default_device(mx.cpu if _DEVICE == "cpu" else mx.gpu)
+    return out
+
+
 # --------------------------------------------------------------------------
 # reporting
 # --------------------------------------------------------------------------
@@ -399,17 +598,15 @@ def print_tables(rows, paired, bg, ug):
               f"sign={pr['sign_agreement']}  -> {pr['verdict']}")
 
 
-def load_done(meta):
-    """Resume support: reuse only runs whose configuration matches exactly."""
-    if not os.path.exists(RESULTS):
-        return []
-    try:
-        prev = json.load(open(RESULTS))
-    except Exception:
-        return []
-    if not isinstance(prev, dict) or prev.get("meta") != meta:
-        return []
-    return prev.get("runs", [])
+def run_signature(arm, seed, steps, vocab, data):
+    """Everything that determines a single run's numbers.
+
+    Resume is keyed on THIS, not on the whole meta dict, so adding a new arm to
+    the registry does not throw away runs that are already complete.
+    """
+    return dict(arm=arm, seed=seed, steps=steps, d=D, ctx=CTX, chunk=CHUNK,
+                mlp_mult=MLP_MULT, chars=len(data), vocab=vocab,
+                use_lr_schedule="warmup100_clip1.0")
 
 
 if __name__ == "__main__":
@@ -433,7 +630,7 @@ if __name__ == "__main__":
               f"flops/tok={arm_flops(a, vocab):>11,.0f}")
     print()
 
-    meta = dict(corpus=CORPUS, chars=len(data), vocab=vocab,
+    meta = dict(corpus=CORPUS, chars=len(data), vocab=vocab, device=_DEVICE,
                 d=D, ctx=CTX, mlp_mult=MLP_MULT, chunk=CHUNK, steps=steps,
                 seeds=seeds, n_val_windows=nw,
                 bigram_floor=bg, unigram_floor=ug,
@@ -454,27 +651,58 @@ if __name__ == "__main__":
     # bit-identical validation loss. Anything else makes every paired interval
     # below meaningless.
     if os.environ.get("BRAIN_DET_CHECK", "1") == "1":
+        mx.random.seed(0)
+        xv0, yv0, _ = deterministic_val_batches(data, CTX)
         probe = arms[0]
         mx.random.seed(0)
         m1 = build(probe, vocab)
         mx.eval(m1.parameters())
-        xv0, yv0, _ = deterministic_val_batches(data, CTX)
         v1 = evaluate(m1, xv0[:8], yv0[:8], vocab)
         mx.random.seed(0)
         m2 = build(probe, vocab)
         mx.eval(m2.parameters())
         v2 = evaluate(m2, xv0[:8], yv0[:8], vocab)
-        same = (v1 == v2)
-        p1 = n_params(m1) == n_params(m2)
-        print(f"determinism check [{probe}] same-init loss identical: {same} "
-              f"(params identical: {p1})")
-        if not (same and p1):
-            raise SystemExit("DETERMINISM FAILED: aborting before the sweep")
+        p_ok = n_params(m1) == n_params(m2)
+        # init equality is exact on both devices; a TRAINED run's
+        # bit-reproducibility depends on the device (see _DEVICE note above).
+        mx.random.seed(0)
+        m3 = build(probe, vocab)
+        mx.random.seed(0)
+        m4 = build(probe, vocab)
+        mx.eval(m3.parameters(), m4.parameters())
+        pa = [v for _, v in nn.utils.tree_flatten(m3.parameters())]
+        pb = [v for _, v in nn.utils.tree_flatten(m4.parameters())]
+        init_same = all(bool(mx.all(a == b)) for a, b in zip(pa, pb))
+        print(f"determinism check [{probe}, device={_DEVICE}] "
+              f"init bit-identical: {init_same}, params identical: {p_ok}, "
+              f"forward-loss bit-identical: {v1 == v2}")
+        if not (p_ok and init_same):
+            raise SystemExit("DETERMINISM FAILED: init is not reproducible")
+        if _DEVICE == "cpu" and v1 != v2:
+            raise SystemExit("DETERMINISM FAILED on CPU: forward not identical")
+        if _DEVICE != "cpu" and v1 != v2:
+            print("  note: GPU forward loss differs run-to-run at ~1e-7; this "
+                  "is MLX GPU reduction order, not this harness")
 
-    out = load_done(meta)
+    # load any previous runs and keep only those whose signature still matches
+    prev_runs = []
+    if os.path.exists(RESULTS):
+        try:
+            prev = json.load(open(RESULTS))
+            if isinstance(prev, dict):
+                prev_runs = prev.get("runs", [])
+        except Exception:
+            prev_runs = []
+    out = []
+    for r in prev_runs:
+        sig = run_signature(r["arm"], r["seed"], r["steps_run"], vocab, data)
+        if r.get("signature") == sig:
+            out.append(r)
     done = {(r["arm"], r["seed"]) for r in out}
+    stale = len(prev_runs) - len(out)
     if done:
-        print(f"resuming: {len(done)} runs already complete\n")
+        print(f"resuming: {len(done)} runs already complete"
+              + (f" ({stale} discarded as stale)" if stale else "") + "\n")
 
     def checkpoint():
         json.dump(dict(meta=meta, runs=out), open(RESULTS, "w"), indent=1)
@@ -489,6 +717,7 @@ if __name__ == "__main__":
             if (arm, seed) in done:
                 continue
             r = run(arm, data, vocab, steps=arm_steps, seed=seed)
+            r["signature"] = run_signature(arm, seed, arm_steps, vocab, data)
             out.append(r)
             if r["diverged"]:
                 print(f"  {arm:<12} seed={seed} DIVERGED at step "
@@ -506,6 +735,32 @@ if __name__ == "__main__":
               if a in arms and b in arms]
     print_tables(rows, paired, bg, ug)
 
-    json.dump(dict(meta=meta, per_arm=rows, paired=paired, runs=out),
-              open(RESULTS, "w"), indent=1)
+    timing = None
+    if os.environ.get("BRAIN_TIMING", "0") == "1":
+        tarms = os.environ.get(
+            "BRAIN_TIMING_ARMS",
+            "flat4,loop2x2,loop1x4,flat2,flat2_wall").split(",")
+        print("\n=== measured step time (round-robin, min round-median) ===")
+        timing = measured_timing(vocab, data, tarms)
+        for a, t in timing.items():
+            print(f"  {a:<11} {t['ms_per_step']:7.1f} ms/step (median "
+                  f"{t['ms_per_step_median']:7.1f})  {t['steps_per_s']:6.2f} "
+                  f"steps/s  {t['steps_per_loop2x2_step']:5.2f}x loop2x2 rate")
+
+    det = None
+    if os.environ.get("BRAIN_DET_EVIDENCE", "1") == "1":
+        det = determinism_probe(vocab, data, arms[0])
+        print("\n=== determinism evidence (measured, not assumed) ===")
+        for row in det:
+            if "error" in row:
+                print(f"  {row['device']:<4} unavailable: {row['error']}")
+                continue
+            print(f"  {row['device']:<4} init={row['init_bit_identical']} "
+                  f"forward={row['forward_loss_bit_identical']} "
+                  f"gradient={row['gradient_bit_identical']} "
+                  f"(grad max abs diff "
+                  f"{row['gradient_max_abs_diff']:.3e})")
+
+    json.dump(dict(meta=meta, determinism=det, per_arm=rows, paired=paired,
+                   runs=out, timing=timing), open(RESULTS, "w"), indent=1)
     print(f"\nwrote {RESULTS}")

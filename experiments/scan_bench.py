@@ -768,14 +768,21 @@ def short_context_sweep(seed=0, Ts=(64, 128, 256, 512, 2048), reps=1, **kw):
     Each T is measured `reps` independent times. At short context the two
     blocks land within ~10-20% of each other, which is the same size as the
     dispatch floor and as run-to-run contention on this machine, so a single
-    pass cannot tell the sign of the difference. The distribution of the ratio
-    over reps is reported alongside it, and `sign_stable` records whether every
-    rep agreed. A one-rep run would be a coin flip dressed as a result.
+    pass cannot tell the sign of the difference. A one-rep run would be a coin
+    flip dressed as a result, so the full distribution of the per-rep ratio is
+    reported and each T gets a 95% CI on the ratio (the reps are paired, so the
+    per-rep log ratio is the statistic).
 
-    The crossover is reported as an interval, not a point: the largest tested T
-    at which the fused memory block was slower than the attention block in the
-    MEDIAN rep, and the smallest tested T at which it was faster. `None` on
-    either side means "no such T in the tested range", which is itself a result.
+    A T counts as a WIN for either side only when that CI EXCLUDES 1.0. Simply
+    counting agreeing reps is not enough: at these rep counts it resolves
+    differences that are inside the noise. T where the CI spans 1.0 are
+    reported as TIES and excluded from the crossover, because calling them
+    either way would be reporting noise as a result.
+
+    The crossover is reported as an interval: the largest tested T at which the
+    memory block lost, and the smallest at which it won, both CI-resolved.
+    `None` on either side means "no such T in the tested range", which is
+    itself the result.
     """
     rows = []
     for T in Ts:
@@ -839,13 +846,10 @@ def short_context_sweep(seed=0, Ts=(64, 128, 256, 512, 2048), reps=1, **kw):
             first["nomask_faster_reps"] in (0, reps))
         rows.append(first)
 
-    # A T is only evidence of a WIN or a LOSS if every rep agreed on the sign.
-    # Where reps disagree the difference is smaller than this machine's
-    # measurement noise, and calling it either way would be reporting noise.
-    # Those T are TIES and are excluded from the crossover.
-    # A crossover claim needs the CI to exclude 1.0, not just a majority of
-    # reps to fall on one side. Sign-stability alone is too weak at low rep
-    # counts, which is exactly the regime short T sits in.
+    # A T is only evidence of a WIN or a LOSS if the 95% CI on the ratio
+    # excludes 1.0. Where it spans 1.0 the difference is smaller than this
+    # machine's measurement noise, and calling it either way would be
+    # reporting noise. Those T are TIES and are excluded from the crossover.
     ties = [r["T"] for r in rows if not r["ratio_ci95_excludes_1"]]
     slower = [r["T"] for r in rows if r["ratio_ci95_excludes_1"]
               and not r["mem_faster_resolved"]]
