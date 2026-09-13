@@ -1,0 +1,111 @@
+{
+ "meta": {
+  "teacher": "unsloth/Llama-3.2-1B",
+  "n_params": 1235814400,
+  "layer": 8,
+  "n_layers": 16,
+  "corpus_tokens": 301769,
+  "host": "macOS-27.0-arm64-arm-64bit-Mach-O",
+  "driver": "experiments/banks_test.py",
+  "val_sha1": "4d0c3e453e9d03058f65c386b21c31da2865d584",
+  "preregistered_falsifier": "if fit quality does not translate into perplexity, the kernel-misspecification diagnosis is WRONG",
+  "elapsed_s": 39.813925981521606
+ },
+ "teacher_ppl": 20.375600125475536,
+ "arms": {
+  "single_0.8": {
+   "decays": [
+    0.8
+   ],
+   "banks": 1,
+   "ppl": 22.730506083850536,
+   "select_ppl": 25.561322268610237,
+   "rms_pre_norm": 0.2794213891029358,
+   "rms_post_norm": 0.0504993200302124,
+   "rms_target": 0.05049945414066315,
+   "out_gain": 0.18072866326657513,
+   "value_expand_reps": 4,
+   "quantized": false,
+   "delta_vs_default_ppl": 1.2456303317984236,
+   "better_than_default": true
+  },
+  "single_0.9": {
+   "decays": [
+    0.9
+   ],
+   "banks": 1,
+   "ppl": 23.03571141254805,
+   "select_ppl": 25.973731366433004,
+   "rms_pre_norm": 0.4764532148838043,
+   "rms_post_norm": 0.05049942433834076,
+   "rms_target": 0.05049945414066315,
+   "out_gain": 0.10599037337376088,
+   "value_expand_reps": 4,
+   "quantized": false,
+   "delta_vs_default_ppl": 0.9404250031009092,
+   "better_than_default": true
+  },
+  "default_geo": {
+   "decays": [
+    0.9,
+    0.99,
+    0.999,
+    0.9999
+   ],
+   "banks": 4,
+   "ppl": 23.97613641564896,
+   "select_ppl": 27.106311267280223,
+   "rms_pre_norm": 34.43256378173828,
+   "rms_post_norm": 0.050500109791755676,
+   "rms_target": 0.05049945414066315,
+   "out_gain": 0.0014666190545894271,
+   "value_expand_reps": 4,
+   "quantized": false
+  },
+  "near1": {
+   "decays": [
+    0.98,
+    0.99,
+    0.999,
+    0.99999
+   ],
+   "banks": 4,
+   "ppl": 23.912263962190316,
+   "select_ppl": 27.106311267280223,
+   "rms_pre_norm": 36.22126770019531,
+   "rms_post_norm": 0.05049925297498703,
+   "rms_target": 0.05049945414066315,
+   "out_gain": 0.0013941934489606735,
+   "value_expand_reps": 4,
+   "quantized": false,
+   "delta_vs_default_ppl": 0.06387245345864301,
+   "better_than_default": true
+  },
+  "optimal": {
+   "decays": [
+    0.99245,
+    0.99496,
+    0.99748,
+    0.99999
+   ],
+   "banks": 4,
+   "ppl": 23.97613641564896,
+   "select_ppl": 27.324104365561745,
+   "rms_pre_norm": 36.517486572265625,
+   "rms_post_norm": 0.05049939453601837,
+   "rms_target": 0.05049945414066315,
+   "out_gain": 0.0013828841708677885,
+   "value_expand_reps": 4,
+   "quantized": false,
+   "delta_vs_default_ppl": 0.0,
+   "better_than_default": false
+  }
+ },
+ "verdict": {
+  "best_arm": "single_0.8",
+  "best_ppl": 22.730506083850536,
+  "default_ppl": 23.97613641564896,
+  "improvement_ppl": 1.2456303317984236,
+  "fit_quality_translates": true
+ }
+}

@@ -250,6 +250,42 @@ shapes. **Until those land, the honest summary is: the transplant advantage is a
 1B-scale finding that does not currently reproduce at 8B, and the most likely
 remaining explanation is the single-layer design of the 8B test, not scale.**
 
+## 4b. What does *not* work: the obvious fixes are refuted
+
+`docs/IMPROVE.md` records two hypotheses I formed for making the carrier better,
+both of which **measurement killed**. They are kept because a result that only
+lists survivors is not a result.
+
+1. **"The decay fit uses the wrong objective."** Refuted: least squares and the
+   repo's CDF-L1 criterion select the *same* decay (g = 0.99999). The objective
+   was never the problem.
+2. **"The carrier needs more timescales."** Refuted, and this one is important
+   because it was the main hypothesis. Attention's real recency profile is
+   heavy-tailed and is fit **15x better** by a set of banks clustered near 1
+   (cdf_l1 7.50) than by the shipped default (cdf_l1 111.27). That fit does not
+   translate: at matched bank count, `experiments/banks_test.py` measures
+
+   | arm | decays | val ppl | fit cdf_l1 |
+   |---|---|---|---|
+   | **single bank** | (0.8,) | **22.7305** | — |
+   | near-1 banks ×4 | (0.98 … 0.99999) | 23.9123 | 25.87 |
+   | default geometric ×4 | (0.90 … 0.9999) | 23.9761 | 70.94 |
+   | optimal placement ×4 | (0.99245 … 0.99999) | 23.9761 | **30.56** |
+
+   **A single bank beats every multi-bank arm, including the one whose fit is 3x
+   better.** Fit quality and perplexity are *anti*-correlated here. Multi-bank is
+   strictly worse, which also explains why `hybrid_decay.json` contains no
+   `banks_multi` rows — they should stay unrun.
+
+The likely reason, and it is a prediction rather than a result: with `banks=4`
+the trace is 4d wide, so the same rank-64 readout and the same rms budget are
+spread across four timescales. The *learned* readout, not the fixed kernel, is
+what recovers the local structure. That suggests testing a near-field
+convolution (which adds the fast component without widening the trace) and a
+larger readout, rather than more timescales.
+
+---
+
 ## 5. Efficiency: what is measured and what is still unknown
 
 **No end-to-end speedup is claimed.** A gated trace has fewer multiply-accumulates
@@ -374,6 +410,7 @@ to NumPy (`BRAIN_BACKEND=numpy`).
 - `docs/INJECTION.md`, `FINETUNE.md`, `HYBRID_DECAY.md` — per-experiment detail
 - `docs/DTYPE_BUG.md` — the dtype-promotion bug
 - `docs/WALLCLOCK.md` — the MAC/FLOP unit error and its correction
+- `docs/IMPROVE.md` — how to improve the carrier, including two refuted hypotheses
 - `docs/PRIOR_ART.md` — what is genuinely new vs. already published
 - `docs/THREEFACTOR.md` — the falsified thesis experiment
 - `docs/README_ARCHIVE_substrate.md` — the earlier brain-simulation README
