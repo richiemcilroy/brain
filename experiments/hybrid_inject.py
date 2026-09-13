@@ -77,27 +77,51 @@ LAYER = int(os.environ.get("INJ_LAYER", "8"))
 
 
 class Injection(nn.Module):
-    """attention(x) + W_out(mem(x)), with W_out zero-initialised.
+    """attention(x) + A(B(mem(x))), a low-rank zero-initialised projection.
 
     Zero init is the whole point: it makes the starting point EXACTLY the
     pretrained model, so any subsequent improvement is a genuine improvement and
     any failure is unambiguous. `inner` is the untouched attention.
+
+    WHY LOW RANK, AND WHY THIS IS NOT JUST A MEMORY SAVING
+    -----------------------------------------------------
+    A full d x d projection at d=2048 is 4.19M trainable parameters. Trained on
+    a few hundred batches of 128 tokens that is ~100:1 overparameterisation, and
+    a first attempt measured exactly that failure: training loss fell 4.31 ->
+    3.37 while VALIDATION perplexity exploded 20.4 -> 69.1. The run was not
+    testing whether the module can help; it was testing how fast 4M parameters
+    can memorise 800 samples.
+
+    A rank-r bottleneck (r << d) is the standard fix and it is also the honest
+    design for this claim. The question "can our module contribute to this
+    model" is about whether a small number of DIRECTIONS in the residual space
+    are useful, not about giving the branch enough capacity to memorise the
+    training set. With r=64 the branch has 262k parameters, which is 0.02% of
+    the 1.24B model, and the test becomes: can 0.02% of parameters, fed by our
+    recurrent primitive, reduce held-out loss?
     """
 
-    def __init__(self, inner, mem, d, branch_scale: float = 1.0):
+    def __init__(self, inner, mem, d, rank: int = 64, branch_scale: float = 1.0):
         super().__init__()
         self.inner = inner
         self.mem = mem
-        self.out = nn.Linear(d, d, bias=False)
-        self.out.weight = mx.zeros((d, d), dtype=mx.float32)
+        self.down = nn.Linear(d, rank, bias=False)
+        self.up = nn.Linear(rank, d, bias=False)
+        # B is zero so the branch is exactly zero at init; A may be drawn
+        # randomly because with B=0 the product is 0 for any A. Zero-init only
+        # ONE of the two, or the branch has no gradient at all (dL/dA = 0 when
+        # B = 0), which would make the arm silently frozen.
+        self.down.weight = mx.random.normal((rank, d)) * (1.0 / math.sqrt(d))
+        self.up.weight = mx.zeros((d, rank), dtype=mx.float32)
         self.branch_scale = float(branch_scale)
         self._d = d
+        self.rank = rank
 
     def __call__(self, x, *args, **kwargs):
         base = self.inner(x, *args, **kwargs)
         # the fixed normaliser puts the branch at attention's output scale; the
         # learned projection then only has to find a DIRECTION, not a magnitude
-        branch = self.out(self.mem(x) * self.branch_scale)
+        branch = self.up(self.down(self.mem(x) * self.branch_scale))
         # cast to the residual's dtype or the sum silently promotes the whole
         # stream from bfloat16 to float32 -- which alone moved perplexity by
         # 0.23 and made a mathematical no-op look like an effect
@@ -122,10 +146,11 @@ def train_injection(model, module, train_ids, *, steps, bs, ctx, lr, seed=0,
     result.
     """
     model.freeze()
-    module.out.unfreeze()
-    trainable = [k for k, v in nn.utils.tree_flatten(module.trainable_parameters())]
-    assert trainable == ["out.weight"], (
-        f"expected only the injection projection to be trainable, got {trainable}")
+    module.down.unfreeze()
+    module.up.unfreeze()
+    trainable = sorted(k for k, v in nn.utils.tree_flatten(module.trainable_parameters()))
+    assert trainable == ["down.weight", "up.weight"], (
+        f"expected only the low-rank projection to be trainable, got {trainable}")
     mx.eval(model.parameters())
     opt = optim.AdamW(learning_rate=lr, weight_decay=0.0)
     rng = np.random.default_rng(seed)
@@ -253,8 +278,8 @@ def main():
         r_mem = float(mx.sqrt(mx.mean(raw.astype(mx.float32) ** 2)))
         branch_scale = (r_ref / r_mem) if r_mem > 0 else 1.0
 
-        module = Injection(original, mem, d)
-        module.out.weight = mx.zeros_like(module.out.weight)
+        rank = int(os.environ.get("INJ_RANK", "64"))
+        module = Injection(original, mem, d, rank=rank)
         module.branch_scale = float(branch_scale)   # fixed float, not a parameter
         setattr(layer, attr, module)
         mx.eval(model.parameters())

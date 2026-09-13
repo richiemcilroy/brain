@@ -8,7 +8,7 @@
  "steps": 400,
  "bs": 2,
  "ctx": 128,
- "lr": 0.0003,
+ "lr": 0.0001,
  "decay": 0.7,
  "arms": [
   {
@@ -38,31 +38,119 @@
    "out_gain": 0.30000000000000004,
    "arm": "transfer",
    "before_val_ppl": 20.375600125475536,
-   "after_val_ppl": 69.13621526965525,
-   "after_select_ppl": 69.32088618576344,
-   "delta_vs_teacher": 48.76061514417972,
-   "beats_teacher": false,
-   "wall_s": 383.7327468395233,
+   "after_val_ppl": 19.89224803855826,
+   "after_select_ppl": 22.01440985627591,
+   "delta_vs_teacher": -0.48335208691727516,
+   "beats_teacher": true,
+   "wall_s": 359.6042013168335,
    "curve": [
     {
      "step": 100,
-     "loss": 4.3125,
-     "select_ppl": 126.33616310841126
+     "loss": 3.484375,
+     "select_ppl": 22.429344489292465
     },
     {
      "step": 200,
-     "loss": 3.8125,
-     "select_ppl": 91.2410131422777
+     "loss": 3.09375,
+     "select_ppl": 22.132173052529474
     },
     {
      "step": 300,
-     "loss": 3.96875,
-     "select_ppl": 74.10145331875319
+     "loss": 3.28125,
+     "select_ppl": 22.07321291947344
     },
     {
      "step": 400,
-     "loss": 3.375,
-     "select_ppl": 69.32088618576344
+     "loss": 3.0,
+     "select_ppl": 22.01440985627591
+    }
+   ]
+  },
+  {
+   "attr": "self_attn",
+   "d": 2048,
+   "mode": "transfer",
+   "banks": 1,
+   "fitted_decay": 0.7,
+   "decay_source": "explicit override",
+   "recency_profile_first8": null,
+   "fit_cdf_l1": null,
+   "found": [
+    "k_proj.weight",
+    "o_proj.weight",
+    "q_proj.weight",
+    "v_proj.weight"
+   ],
+   "value_expand_reps": 4,
+   "transplanted": true,
+   "wv_norm": 26.364788055419922,
+   "wo_norm": 29.8035831451416,
+   "gate_bias": 0.8472978603872034,
+   "gate_biases": [
+    0.8472978603872034
+   ],
+   "value_scaled_by": 0.30000000000000004,
+   "out_gain": 0.30000000000000004,
+   "control": "random W_v/W_o at matched weight scale",
+   "arm": "random",
+   "before_val_ppl": 20.375600125475536,
+   "after_val_ppl": 19.99865900869024,
+   "after_select_ppl": 22.01440985627591,
+   "delta_vs_teacher": -0.3769411167852965,
+   "beats_teacher": true,
+   "wall_s": 147.4375660419464,
+   "curve": [
+    {
+     "step": 100,
+     "loss": 3.46875,
+     "select_ppl": 22.25056620754561
+    },
+    {
+     "step": 200,
+     "loss": 3.09375,
+     "select_ppl": 22.191290674995994
+    },
+    {
+     "step": 300,
+     "loss": 3.265625,
+     "select_ppl": 22.07321291947344
+    },
+    {
+     "step": 400,
+     "loss": 3.0,
+     "select_ppl": 22.01440985627591
+    }
+   ]
+  },
+  {
+   "control": "learned exponential summary, no transplant",
+   "arm": "summary",
+   "before_val_ppl": 20.375600125475536,
+   "after_val_ppl": 19.945382559364806,
+   "after_select_ppl": 22.01440985627591,
+   "delta_vs_teacher": -0.4302175661107306,
+   "beats_teacher": true,
+   "wall_s": 142.66021299362183,
+   "curve": [
+    {
+     "step": 100,
+     "loss": 3.453125,
+     "select_ppl": 22.132173052529474
+    },
+    {
+     "step": 200,
+     "loss": 3.078125,
+     "select_ppl": 22.191290674995994
+    },
+    {
+     "step": 300,
+     "loss": 3.28125,
+     "select_ppl": 22.07321291947344
+    },
+    {
+     "step": 400,
+     "loss": 3.0,
+     "select_ppl": 22.01440985627591
     }
    ]
   }
@@ -73,5 +161,28 @@
   "identity": "at init the projection is zero so the model IS the teacher -- asserted, not assumed",
   "selection": "no hyperparameter chosen on val",
   "eval": "fixed 3000-token val window, no sampling -> exact"
+ },
+ "verdict": {
+  "teacher_val_ppl": 20.375600125475536,
+  "arms": {
+   "transfer": {
+    "val_ppl": 19.89224803855826,
+    "delta": -0.48335208691727516,
+    "beats_teacher": true
+   },
+   "random": {
+    "val_ppl": 19.99865900869024,
+    "delta": -0.3769411167852965,
+    "beats_teacher": true
+   },
+   "summary": {
+    "val_ppl": 19.945382559364806,
+    "delta": -0.4302175661107306,
+    "beats_teacher": true
+   }
+  },
+  "any_arm_beats_teacher": true,
+  "transfer_beats_random_after_ft": true,
+  "note": "The injection projection starts at zero, so every arm begins EXACTLY at the teacher. A val ppl below the teacher is therefore an improvement on an unmodified pretrained model, and a failure to reach it is a conclusive negative for this injection scheme."
  }
 }

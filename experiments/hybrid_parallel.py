@@ -95,7 +95,13 @@ class ParallelCarrier(nn.Module):
         base = self.inner(x, *args, **kwargs)
         if self.gain == 0.0:
             return base
-        return base + self.gain * self.mem(x)
+        branch = self.gain * self.mem(x)
+        # dtype promotion here would silently switch the residual stream from
+        # bfloat16 to float32 and move perplexity by ~0.23 on its own -- see
+        # docs/DTYPE_BUG.md
+        if branch.dtype != base.dtype:
+            branch = branch.astype(base.dtype)
+        return base + branch
 
 
 def main():
@@ -147,8 +153,15 @@ def main():
     mx.eval(model.parameters())
     ident = perplexity(model, val)["ppl"]
     setattr(layer, attr, original)
-    print(f"  gain=0 identity check: val {ident:.6f} vs teacher {base_val:.6f}  "
-          f"-> {'EXACT' if abs(ident-base_val) < 1e-9 else 'MISMATCH'}\n", flush=True)
+    if abs(ident - base_val) > 1e-12:
+        raise RuntimeError(
+            f"gain=0 identity check FAILED: {ident} vs {base_val}. The branch "
+            f"contributes nothing at gain 0, so this must be exact; a mismatch "
+            f"means the comparison is contaminated (dtype promotion is the "
+            f"usual cause -- see docs/DTYPE_BUG.md), and every teacher-relative "
+            f"delta below would be measuring the bug rather than the module.")
+    print(f"  gain=0 identity check: val {ident:.6f} vs teacher {base_val:.6f}"
+          f"  -> EXACT\n", flush=True)
 
     out = dict(teacher=TEACHER, layer=LAYER, n_layers=len(model.model.layers),
                teacher_val_ppl=base_val, teacher_select_ppl=base_sel,
