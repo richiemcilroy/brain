@@ -1,0 +1,1646 @@
+{
+  "status": "complete",
+  "meta": {
+    "snapshot_revision": "9535bd9b1d1dea6acafbdc4813b728796aeb28da",
+    "config_sha256": "8f028e2cd88148fad38c7dece460947681adf6178e46e11ece9742aa49b378dd",
+    "weight_blob_id": "68a2e4be76fa709455a60272fba8e512c02d81c46e6c671cc9449e374fd6809a",
+    "source_sha256": "f10a7a494d4e6597b36dce92ffd83dbec2a22bb48e640835636e378a555d820a",
+    "protocol_sha256": "10151859868e11b12ad7d1b3571f6d488ff86fea00638b077f88a2a7fe84c10b",
+    "data_source_sha256": "c0c661af2f4265a3765da26ba341aa34ab4a7bb250bd3a67fd96f8b32d887ed4",
+    "lora_builder_source_sha256": "30a6ec68d15cb37d353885c2008a4d165dd8b7683083f7a9cf0a5df59953b023",
+    "trainer_source_sha256": "44fbaeff46aec9df6887233463480186a5f7eda1454cb409401c4ab1f2083184",
+    "quality_harness_source_sha256": "5e9db0b645bfbfa2988a0681d38eae0b26782e7d9188dc5e998419889343fe23",
+    "cache_parity_harness_sha256": "2622eb7a952d42936cc267dc329d13d5e0bb80c71f5908f6dc9232ee6a37d6f1",
+    "stage1_result_sha256": "60ffcc59b04e1b1bd486219c23f369e2b79f502cf56fa2b91affdc9b5f30d1e9",
+    "stage1_weights_sha256": "286774b2ef85435c59fec3eb4fe453d885d8347dc42df483714b2c6aa78d9a97",
+    "stage2_result_sha256": "e18a97fb3e2bc37de809d9755cffd2df128a94e1342d2b6b9304d33df37d3514",
+    "lora_weight_sha256_by_arm": {
+      "full_lora": "c1b6142c0dc1a9cac3d114afdab458239c15b17888b6cd3c5c84e5ee2c841b55",
+      "local_lora": "656af42c5dd4e212f8463e719f23581ceb4a53b31867ebeb9123049edf2a217a",
+      "query_lora": "0b6c919c3bd797e93eafa57c36ca0d71f8461f8c6d69a7cb737a310c2baa8434"
+    },
+    "shakespeare_sha256": "86c4e6aa9db7c042ec79f339dcb96d42b0075e16b8fc2e86bf0ca57e2dc565ed",
+    "wiki_zip_sha256": "ef7edb566e3e2b2d31b29c1fdb0c89a4cc683597484c3dc2517919c615435a11",
+    "wiki_test_member_sha256": "173c87a53759e0201f33e0ccf978e510c2042d7f2cb78229d9a50d79b9e7dd08",
+    "wiki_dataset_url": "https://huggingface.co/datasets/ggml-org/ci/resolve/927b3642933080f1b0e811e2f916e14c292992f9/wikitext-2-raw-v1.zip",
+    "wiki_dataset_card": "https://huggingface.co/datasets/Salesforce/wikitext",
+    "mlx": "0.32.2",
+    "mlx_lm": "0.31.3",
+    "window_tokens": 3000,
+    "scored_tokens_per_window": 2999,
+    "percentages_fixed_before_primary_stage2": {
+      "shakespeare": [
+        77,
+        88,
+        93
+      ],
+      "wikitext2_raw_test": [
+        5,
+        25,
+        45,
+        65,
+        85
+      ]
+    },
+    "previously_inspected_percentages": {
+      "shakespeare": [
+        70,
+        72,
+        74,
+        75,
+        80,
+        82,
+        84,
+        85,
+        86,
+        90,
+        95,
+        96,
+        97,
+        98,
+        99
+      ],
+      "wikitext2_raw_test": [
+        10,
+        15,
+        30,
+        35,
+        50,
+        55,
+        70,
+        75,
+        90,
+        95
+      ]
+    },
+    "wiki_test_not_used_for_training_or_selection": true,
+    "quality_note": "new windows within a previously inspected WikiText test split; one-layer cached next-token quality only",
+    "started_epoch": 1789548887.513767,
+    "finished_epoch": 1789548945.279615
+  },
+  "windows": {
+    "shakespeare": {
+      "77": {
+        "token_window": [
+          232362,
+          235362
+        ],
+        "token_ids_sha256": "064d706837e659d8baa3de30b82c2e9d23bc7b82d85fc1a9549a7946523a5d31"
+      },
+      "88": {
+        "token_window": [
+          265556,
+          268556
+        ],
+        "token_ids_sha256": "80b483311e7dfed59f3decb8c6f7cc52b2ab9108d64962fc709ecc08de6f12a8"
+      },
+      "93": {
+        "token_window": [
+          280645,
+          283645
+        ],
+        "token_ids_sha256": "4847e55bf2aa216fb9f6f1118a6e4aee88f1bfd343781bdd87e5f8785e9b7b5c"
+      }
+    },
+    "wikitext2_raw_test": {
+      "5": {
+        "token_window": [
+          14453,
+          17453
+        ],
+        "token_ids_sha256": "c98d3a0356833fef0c0832fc7b29d2cc4b05922804518fbf01ff6c813fe07e0f"
+      },
+      "25": {
+        "token_window": [
+          72269,
+          75269
+        ],
+        "token_ids_sha256": "f4caec523b4c344a11acfb49e5c2ef0f90e2011ff1c00a4ad7ed20911f510188"
+      },
+      "45": {
+        "token_window": [
+          130084,
+          133084
+        ],
+        "token_ids_sha256": "cc109c277501a443bfc345b6151258a5da9705dac603281cbc96bb79637b2296"
+      },
+      "65": {
+        "token_window": [
+          187900,
+          190900
+        ],
+        "token_ids_sha256": "dc96194c3bcc99a9da3e04707f2e2507ecef17fc4d2cf36886c52f2e639cedd0"
+      },
+      "85": {
+        "token_window": [
+          245715,
+          248715
+        ],
+        "token_ids_sha256": "3b125ac5053b0d1ee04df491aaf2ed54a573d0b49f44868a9e46c4a4441fb92a"
+      }
+    }
+  },
+  "conversion": {
+    "full_lora": {
+      "arm": "full_lora",
+      "rank": 8,
+      "lora_alpha": 16.0,
+      "lora_scale": 2.0,
+      "lora_init_seed": 7,
+      "trainable_keys": [
+        "k_proj.lora_a",
+        "k_proj.lora_b",
+        "o_proj.lora_a",
+        "o_proj.lora_b",
+        "q_proj.lora_a",
+        "q_proj.lora_b",
+        "v_proj.lora_a",
+        "v_proj.lora_b"
+      ],
+      "trainable_parameters": 106496,
+      "stage1_feature_maps_frozen": false,
+      "original_pretrained_projections_shared_and_frozen": true
+    },
+    "local_lora": {
+      "arm": "local_lora",
+      "rank": 8,
+      "lora_alpha": 16.0,
+      "lora_scale": 2.0,
+      "lora_init_seed": 7,
+      "trainable_keys": [
+        "original.k_proj.lora_a",
+        "original.k_proj.lora_b",
+        "original.o_proj.lora_a",
+        "original.o_proj.lora_b",
+        "original.q_proj.lora_a",
+        "original.q_proj.lora_b",
+        "original.v_proj.lora_a",
+        "original.v_proj.lora_b"
+      ],
+      "trainable_parameters": 106496,
+      "stage1_feature_maps_frozen": false,
+      "original_pretrained_projections_shared_and_frozen": true
+    },
+    "query_lora": {
+      "arm": "query_lora",
+      "rank": 8,
+      "lora_alpha": 16.0,
+      "lora_scale": 2.0,
+      "lora_init_seed": 7,
+      "trainable_keys": [
+        "original.k_proj.lora_a",
+        "original.k_proj.lora_b",
+        "original.o_proj.lora_a",
+        "original.o_proj.lora_b",
+        "original.q_proj.lora_a",
+        "original.q_proj.lora_b",
+        "original.v_proj.lora_a",
+        "original.v_proj.lora_b"
+      ],
+      "trainable_parameters": 106496,
+      "stage1_feature_maps_frozen": true,
+      "original_pretrained_projections_shared_and_frozen": true
+    }
+  },
+  "cache_parity": {
+    "teacher": {
+      "split_vs_whole_max_abs_logit": 0.15625,
+      "split_top1_equal": true,
+      "decode_vs_whole_max_abs_logit": 0.125,
+      "decode_top1_equal": true,
+      "offsets_128": [
+        128,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128
+      ],
+      "offsets_129": [
+        129,
+        129,
+        129,
+        129,
+        129,
+        129,
+        129,
+        129,
+        129,
+        129,
+        129,
+        129,
+        129,
+        129,
+        129,
+        129
+      ]
+    },
+    "stage1_query": {
+      "split_vs_whole_max_abs_logit": 0.125,
+      "split_top1_equal": true,
+      "decode_vs_whole_max_abs_logit": 0.125,
+      "decode_top1_equal": true,
+      "offsets_128": [
+        128,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128
+      ],
+      "offsets_129": [
+        129,
+        129,
+        129,
+        129,
+        129,
+        129,
+        129,
+        129,
+        129,
+        129,
+        129,
+        129,
+        129,
+        129,
+        129,
+        129
+      ],
+      "layer8_local_old_kv": 63,
+      "layer8_global_count": 66
+    },
+    "full_lora": {
+      "split_vs_whole_max_abs_logit": 0.125,
+      "split_top1_equal": true,
+      "decode_vs_whole_max_abs_logit": 0.125,
+      "decode_top1_equal": true,
+      "offsets_128": [
+        128,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128
+      ],
+      "offsets_129": [
+        129,
+        129,
+        129,
+        129,
+        129,
+        129,
+        129,
+        129,
+        129,
+        129,
+        129,
+        129,
+        129,
+        129,
+        129,
+        129
+      ]
+    },
+    "local_lora": {
+      "split_vs_whole_max_abs_logit": 0.15625,
+      "split_top1_equal": true,
+      "decode_vs_whole_max_abs_logit": 0.125,
+      "decode_top1_equal": true,
+      "offsets_128": [
+        128,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128
+      ],
+      "offsets_129": [
+        129,
+        129,
+        129,
+        129,
+        129,
+        129,
+        129,
+        129,
+        129,
+        129,
+        129,
+        129,
+        129,
+        129,
+        129,
+        129
+      ],
+      "layer8_local_old_kv": 63,
+      "layer8_global_count": 0
+    },
+    "query_lora": {
+      "split_vs_whole_max_abs_logit": 0.15625,
+      "split_top1_equal": true,
+      "decode_vs_whole_max_abs_logit": 0.125,
+      "decode_top1_equal": true,
+      "offsets_128": [
+        128,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128,
+        128
+      ],
+      "offsets_129": [
+        129,
+        129,
+        129,
+        129,
+        129,
+        129,
+        129,
+        129,
+        129,
+        129,
+        129,
+        129,
+        129,
+        129,
+        129,
+        129
+      ],
+      "layer8_local_old_kv": 63,
+      "layer8_global_count": 66
+    }
+  },
+  "rows": {
+    "shakespeare": {
+      "teacher": {
+        "77": {
+          "nll": 2.5566379029419313,
+          "ppl": 12.892398871613144,
+          "scored_tokens": 2999,
+          "cache_offsets": [
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999
+          ],
+          "active_logical_cache_bytes": 98271232,
+          "layer8_local_old_kv_tokens": null,
+          "layer8_global_older_keys_summarized": null,
+          "wall_s": 1.0839848750038072
+        },
+        "88": {
+          "nll": 2.965021742069948,
+          "ppl": 19.395124927049984,
+          "scored_tokens": 2999,
+          "cache_offsets": [
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999
+          ],
+          "active_logical_cache_bytes": 98271232,
+          "layer8_local_old_kv_tokens": null,
+          "layer8_global_older_keys_summarized": null,
+          "wall_s": 2.131724708015099
+        },
+        "93": {
+          "nll": 2.912417257575442,
+          "ppl": 18.401225351272668,
+          "scored_tokens": 2999,
+          "cache_offsets": [
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999
+          ],
+          "active_logical_cache_bytes": 98271232,
+          "layer8_local_old_kv_tokens": null,
+          "layer8_global_older_keys_summarized": null,
+          "wall_s": 1.633219375013141
+        }
+      },
+      "stage1_query": {
+        "77": {
+          "nll": 2.5756059514955507,
+          "ppl": 13.139276511007992,
+          "scored_tokens": 2999,
+          "cache_offsets": [
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999
+          ],
+          "active_logical_cache_bytes": 92524544,
+          "layer8_local_old_kv_tokens": 63,
+          "layer8_global_older_keys_summarized": 2936,
+          "wall_s": 1.1415390000038315
+        },
+        "88": {
+          "nll": 3.0003450246761942,
+          "ppl": 20.0924681247098,
+          "scored_tokens": 2999,
+          "cache_offsets": [
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999
+          ],
+          "active_logical_cache_bytes": 92524544,
+          "layer8_local_old_kv_tokens": 63,
+          "layer8_global_older_keys_summarized": 2936,
+          "wall_s": 1.4914596250164323
+        },
+        "93": {
+          "nll": 2.9357497217496977,
+          "ppl": 18.835619316389927,
+          "scored_tokens": 2999,
+          "cache_offsets": [
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999
+          ],
+          "active_logical_cache_bytes": 92524544,
+          "layer8_local_old_kv_tokens": 63,
+          "layer8_global_older_keys_summarized": 2936,
+          "wall_s": 1.808622040989576
+        }
+      },
+      "full_lora": {
+        "77": {
+          "nll": 2.572554458256919,
+          "ppl": 13.099243209313398,
+          "scored_tokens": 2999,
+          "cache_offsets": [
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999
+          ],
+          "active_logical_cache_bytes": 98271232,
+          "layer8_local_old_kv_tokens": null,
+          "layer8_global_older_keys_summarized": null,
+          "wall_s": 1.5666680829890538
+        },
+        "88": {
+          "nll": 2.982633157585732,
+          "ppl": 19.739726081377533,
+          "scored_tokens": 2999,
+          "cache_offsets": [
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999
+          ],
+          "active_logical_cache_bytes": 98271232,
+          "layer8_local_old_kv_tokens": null,
+          "layer8_global_older_keys_summarized": null,
+          "wall_s": 1.2616869159974158
+        },
+        "93": {
+          "nll": 2.928359410412195,
+          "ppl": 18.696931330327796,
+          "scored_tokens": 2999,
+          "cache_offsets": [
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999
+          ],
+          "active_logical_cache_bytes": 98271232,
+          "layer8_local_old_kv_tokens": null,
+          "layer8_global_older_keys_summarized": null,
+          "wall_s": 1.3367627919942606
+        }
+      },
+      "local_lora": {
+        "77": {
+          "nll": 2.5948462414717666,
+          "ppl": 13.394527680202637,
+          "scored_tokens": 2999,
+          "cache_offsets": [
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999
+          ],
+          "active_logical_cache_bytes": 92258304,
+          "layer8_local_old_kv_tokens": 63,
+          "layer8_global_older_keys_summarized": 0,
+          "wall_s": 1.6343800000031479
+        },
+        "88": {
+          "nll": 3.0231455020325786,
+          "ppl": 20.55584856250358,
+          "scored_tokens": 2999,
+          "cache_offsets": [
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999
+          ],
+          "active_logical_cache_bytes": 92258304,
+          "layer8_local_old_kv_tokens": 63,
+          "layer8_global_older_keys_summarized": 0,
+          "wall_s": 1.3745006659883074
+        },
+        "93": {
+          "nll": 2.964033986060132,
+          "ppl": 19.375976734270253,
+          "scored_tokens": 2999,
+          "cache_offsets": [
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999
+          ],
+          "active_logical_cache_bytes": 92258304,
+          "layer8_local_old_kv_tokens": 63,
+          "layer8_global_older_keys_summarized": 0,
+          "wall_s": 1.2084060000197496
+        }
+      },
+      "query_lora": {
+        "77": {
+          "nll": 2.5818222926115344,
+          "ppl": 13.221209132536975,
+          "scored_tokens": 2999,
+          "cache_offsets": [
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999
+          ],
+          "active_logical_cache_bytes": 92524544,
+          "layer8_local_old_kv_tokens": 63,
+          "layer8_global_older_keys_summarized": 2936,
+          "wall_s": 1.5001665420131758
+        },
+        "88": {
+          "nll": 3.0032786807842196,
+          "ppl": 20.15149906244801,
+          "scored_tokens": 2999,
+          "cache_offsets": [
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999
+          ],
+          "active_logical_cache_bytes": 92524544,
+          "layer8_local_old_kv_tokens": 63,
+          "layer8_global_older_keys_summarized": 2936,
+          "wall_s": 1.2354509999859147
+        },
+        "93": {
+          "nll": 2.947740357015164,
+          "ppl": 19.06282983457211,
+          "scored_tokens": 2999,
+          "cache_offsets": [
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999
+          ],
+          "active_logical_cache_bytes": 92524544,
+          "layer8_local_old_kv_tokens": 63,
+          "layer8_global_older_keys_summarized": 2936,
+          "wall_s": 1.4112778750131838
+        }
+      }
+    },
+    "wikitext2_raw_test": {
+      "teacher": {
+        "5": {
+          "nll": 2.2116311618032833,
+          "ppl": 9.130597735068996,
+          "scored_tokens": 2999,
+          "cache_offsets": [
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999
+          ],
+          "active_logical_cache_bytes": 98271232,
+          "layer8_local_old_kv_tokens": null,
+          "layer8_global_older_keys_summarized": null,
+          "wall_s": 1.5036926250031684
+        },
+        "25": {
+          "nll": 1.559597940117409,
+          "ppl": 4.756908298612059,
+          "scored_tokens": 2999,
+          "cache_offsets": [
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999
+          ],
+          "active_logical_cache_bytes": 98271232,
+          "layer8_local_old_kv_tokens": null,
+          "layer8_global_older_keys_summarized": null,
+          "wall_s": 1.4647251249989495
+        },
+        "45": {
+          "nll": 2.159850519631218,
+          "ppl": 8.669841590479283,
+          "scored_tokens": 2999,
+          "cache_offsets": [
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999
+          ],
+          "active_logical_cache_bytes": 98271232,
+          "layer8_local_old_kv_tokens": null,
+          "layer8_global_older_keys_summarized": null,
+          "wall_s": 1.2256913750024978
+        },
+        "65": {
+          "nll": 2.7755068950392316,
+          "ppl": 16.046758956967157,
+          "scored_tokens": 2999,
+          "cache_offsets": [
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999
+          ],
+          "active_logical_cache_bytes": 98271232,
+          "layer8_local_old_kv_tokens": null,
+          "layer8_global_older_keys_summarized": null,
+          "wall_s": 1.3746009170135949
+        },
+        "85": {
+          "nll": 2.051052936835065,
+          "ppl": 7.776084523067153,
+          "scored_tokens": 2999,
+          "cache_offsets": [
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999
+          ],
+          "active_logical_cache_bytes": 98271232,
+          "layer8_local_old_kv_tokens": null,
+          "layer8_global_older_keys_summarized": null,
+          "wall_s": 1.2613922500167973
+        }
+      },
+      "stage1_query": {
+        "5": {
+          "nll": 2.2427079473268434,
+          "ppl": 9.4188024054508,
+          "scored_tokens": 2999,
+          "cache_offsets": [
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999
+          ],
+          "active_logical_cache_bytes": 92524544,
+          "layer8_local_old_kv_tokens": 63,
+          "layer8_global_older_keys_summarized": 2936,
+          "wall_s": 1.4611171249998733
+        },
+        "25": {
+          "nll": 1.5938408887557245,
+          "ppl": 4.9226198998982085,
+          "scored_tokens": 2999,
+          "cache_offsets": [
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999
+          ],
+          "active_logical_cache_bytes": 92524544,
+          "layer8_local_old_kv_tokens": 63,
+          "layer8_global_older_keys_summarized": 2936,
+          "wall_s": 1.5093728750071023
+        },
+        "45": {
+          "nll": 2.1860124054412995,
+          "ppl": 8.89965405218229,
+          "scored_tokens": 2999,
+          "cache_offsets": [
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999
+          ],
+          "active_logical_cache_bytes": 92524544,
+          "layer8_local_old_kv_tokens": 63,
+          "layer8_global_older_keys_summarized": 2936,
+          "wall_s": 1.3848549999820534
+        },
+        "65": {
+          "nll": 2.809018019637731,
+          "ppl": 16.593615611007333,
+          "scored_tokens": 2999,
+          "cache_offsets": [
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999
+          ],
+          "active_logical_cache_bytes": 92524544,
+          "layer8_local_old_kv_tokens": 63,
+          "layer8_global_older_keys_summarized": 2936,
+          "wall_s": 1.4753743750043213
+        },
+        "85": {
+          "nll": 2.088469281121865,
+          "ppl": 8.072548899087364,
+          "scored_tokens": 2999,
+          "cache_offsets": [
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999
+          ],
+          "active_logical_cache_bytes": 92524544,
+          "layer8_local_old_kv_tokens": 63,
+          "layer8_global_older_keys_summarized": 2936,
+          "wall_s": 1.4661594169738237
+        }
+      },
+      "full_lora": {
+        "5": {
+          "nll": 2.173896161187844,
+          "ppl": 8.79247428920115,
+          "scored_tokens": 2999,
+          "cache_offsets": [
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999
+          ],
+          "active_logical_cache_bytes": 98271232,
+          "layer8_local_old_kv_tokens": null,
+          "layer8_global_older_keys_summarized": null,
+          "wall_s": 1.256158583011711
+        },
+        "25": {
+          "nll": 1.515325199647441,
+          "ppl": 4.550900837579821,
+          "scored_tokens": 2999,
+          "cache_offsets": [
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999
+          ],
+          "active_logical_cache_bytes": 98271232,
+          "layer8_local_old_kv_tokens": null,
+          "layer8_global_older_keys_summarized": null,
+          "wall_s": 1.2976045830000658
+        },
+        "45": {
+          "nll": 2.1229627964774065,
+          "ppl": 8.355857554669628,
+          "scored_tokens": 2999,
+          "cache_offsets": [
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999
+          ],
+          "active_logical_cache_bytes": 98271232,
+          "layer8_local_old_kv_tokens": null,
+          "layer8_global_older_keys_summarized": null,
+          "wall_s": 1.1341092910151929
+        },
+        "65": {
+          "nll": 2.733504783475188,
+          "ppl": 15.386719749888176,
+          "scored_tokens": 2999,
+          "cache_offsets": [
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999
+          ],
+          "active_logical_cache_bytes": 98271232,
+          "layer8_local_old_kv_tokens": null,
+          "layer8_global_older_keys_summarized": null,
+          "wall_s": 1.1566667910083197
+        },
+        "85": {
+          "nll": 2.011346601414339,
+          "ppl": 7.473374230801806,
+          "scored_tokens": 2999,
+          "cache_offsets": [
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999
+          ],
+          "active_logical_cache_bytes": 98271232,
+          "layer8_local_old_kv_tokens": null,
+          "layer8_global_older_keys_summarized": null,
+          "wall_s": 1.3379479169961996
+        }
+      },
+      "local_lora": {
+        "5": {
+          "nll": 2.1979784989364943,
+          "ppl": 9.006787852835394,
+          "scored_tokens": 2999,
+          "cache_offsets": [
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999
+          ],
+          "active_logical_cache_bytes": 92258304,
+          "layer8_local_old_kv_tokens": 63,
+          "layer8_global_older_keys_summarized": 0,
+          "wall_s": 1.3117828340036795
+        },
+        "25": {
+          "nll": 1.551607488751133,
+          "ppl": 4.719049908440395,
+          "scored_tokens": 2999,
+          "cache_offsets": [
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999
+          ],
+          "active_logical_cache_bytes": 92258304,
+          "layer8_local_old_kv_tokens": 63,
+          "layer8_global_older_keys_summarized": 0,
+          "wall_s": 1.3842915419954807
+        },
+        "45": {
+          "nll": 2.1549186006948604,
+          "ppl": 8.627187903286128,
+          "scored_tokens": 2999,
+          "cache_offsets": [
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999
+          ],
+          "active_logical_cache_bytes": 92258304,
+          "layer8_local_old_kv_tokens": 63,
+          "layer8_global_older_keys_summarized": 0,
+          "wall_s": 1.5575626250065397
+        },
+        "65": {
+          "nll": 2.7651630209540876,
+          "ppl": 15.88162881787389,
+          "scored_tokens": 2999,
+          "cache_offsets": [
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999
+          ],
+          "active_logical_cache_bytes": 92258304,
+          "layer8_local_old_kv_tokens": 63,
+          "layer8_global_older_keys_summarized": 0,
+          "wall_s": 1.5522102499962784
+        },
+        "85": {
+          "nll": 2.0494549513737654,
+          "ppl": 7.7636683761067316,
+          "scored_tokens": 2999,
+          "cache_offsets": [
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999
+          ],
+          "active_logical_cache_bytes": 92258304,
+          "layer8_local_old_kv_tokens": 63,
+          "layer8_global_older_keys_summarized": 0,
+          "wall_s": 1.6516097919957247
+        }
+      },
+      "query_lora": {
+        "5": {
+          "nll": 2.1972731042997404,
+          "ppl": 9.000436753268758,
+          "scored_tokens": 2999,
+          "cache_offsets": [
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999
+          ],
+          "active_logical_cache_bytes": 92524544,
+          "layer8_local_old_kv_tokens": 63,
+          "layer8_global_older_keys_summarized": 2936,
+          "wall_s": 1.3484720419801306
+        },
+        "25": {
+          "nll": 1.541072437150274,
+          "ppl": 4.66959543426735,
+          "scored_tokens": 2999,
+          "cache_offsets": [
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999
+          ],
+          "active_logical_cache_bytes": 92524544,
+          "layer8_local_old_kv_tokens": 63,
+          "layer8_global_older_keys_summarized": 2936,
+          "wall_s": 1.4329622079967521
+        },
+        "45": {
+          "nll": 2.1428362346164542,
+          "ppl": 8.523578246154027,
+          "scored_tokens": 2999,
+          "cache_offsets": [
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999
+          ],
+          "active_logical_cache_bytes": 92524544,
+          "layer8_local_old_kv_tokens": 63,
+          "layer8_global_older_keys_summarized": 2936,
+          "wall_s": 1.3371580830134917
+        },
+        "65": {
+          "nll": 2.7561012260434468,
+          "ppl": 15.738362858419654,
+          "scored_tokens": 2999,
+          "cache_offsets": [
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999
+          ],
+          "active_logical_cache_bytes": 92524544,
+          "layer8_local_old_kv_tokens": 63,
+          "layer8_global_older_keys_summarized": 2936,
+          "wall_s": 1.428777208988322
+        },
+        "85": {
+          "nll": 2.044238587545132,
+          "ppl": 7.723275700250613,
+          "scored_tokens": 2999,
+          "cache_offsets": [
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999,
+            2999
+          ],
+          "active_logical_cache_bytes": 92524544,
+          "layer8_local_old_kv_tokens": 63,
+          "layer8_global_older_keys_summarized": 2936,
+          "wall_s": 1.5989432079950348
+        }
+      }
+    }
+  },
+  "aggregate": {
+    "shakespeare": {
+      "teacher": {
+        "scored_tokens": 8997,
+        "nll": 2.811358967529107,
+        "ppl": 16.632505902795483
+      },
+      "stage1_query": {
+        "scored_tokens": 8997,
+        "nll": 2.8372335659738144,
+        "ppl": 17.068481335448055
+      },
+      "full_lora": {
+        "scored_tokens": 8997,
+        "nll": 2.827849008751615,
+        "ppl": 16.909050459834006
+      },
+      "local_lora": {
+        "scored_tokens": 8997,
+        "nll": 2.860675243188159,
+        "ppl": 17.473321695415898
+      },
+      "query_lora": {
+        "scored_tokens": 8997,
+        "nll": 2.844280443470306,
+        "ppl": 17.189185627149662
+      }
+    },
+    "wikitext2_raw_test": {
+      "teacher": {
+        "scored_tokens": 14995,
+        "nll": 2.1515278906852413,
+        "ppl": 8.597985147923508
+      },
+      "stage1_query": {
+        "scored_tokens": 14995,
+        "nll": 2.1840097084566925,
+        "ppl": 8.88184857728456
+      },
+      "full_lora": {
+        "scored_tokens": 14995,
+        "nll": 2.1114071084404435,
+        "ppl": 8.259855623958204
+      },
+      "local_lora": {
+        "scored_tokens": 14995,
+        "nll": 2.1438245121420683,
+        "ppl": 8.53200607080141
+      },
+      "query_lora": {
+        "scored_tokens": 14995,
+        "nll": 2.1363043179310095,
+        "ppl": 8.468084381147667
+      }
+    }
+  },
+  "paired": {
+    "shakespeare": {
+      "query_minus_teacher_nll_by_window": {
+        "77": 0.025184389669603124,
+        "88": 0.038256938714271715,
+        "93": 0.03532309943972223
+      },
+      "query_minus_full_lora_nll_by_window": {
+        "77": 0.009267834354615534,
+        "88": 0.02064552319848767,
+        "93": 0.019380946602969296
+      },
+      "query_minus_local_lora_nll_by_window": {
+        "77": -0.01302394886023217,
+        "88": -0.019866821248359035,
+        "93": -0.016293629044967783
+      },
+      "query_minus_stage1_query_nll_by_window": {
+        "77": 0.006216341115983681,
+        "88": 0.0029336561080253176,
+        "93": 0.011990635265466398
+      }
+    },
+    "wikitext2_raw_test": {
+      "query_minus_teacher_nll_by_window": {
+        "5": -0.01435805750354291,
+        "25": -0.018525502967134955,
+        "45": -0.017014285014763875,
+        "65": -0.019405668995784886,
+        "85": -0.006814349289932853
+      },
+      "query_minus_full_lora_nll_by_window": {
+        "5": 0.02337694311189642,
+        "25": 0.02574723750283292,
+        "45": 0.01987343813904774,
+        "65": 0.022596442568258546,
+        "85": 0.03289198613079325
+      },
+      "query_minus_local_lora_nll_by_window": {
+        "5": -0.0007053946367538977,
+        "25": -0.010535051600859102,
+        "45": -0.012082366078406181,
+        "65": -0.009061794910640852,
+        "85": -0.00521636382863333
+      },
+      "query_minus_stage1_query_nll_by_window": {
+        "5": -0.04543484302710299,
+        "25": -0.05276845160545052,
+        "45": -0.04317617082484526,
+        "65": -0.05291679359428425,
+        "85": -0.044230693576732705
+      }
+    }
+  },
+  "decision": {
+    "full_attention_control_within_teacher_plus_0_01_both_texts": false,
+    "query_within_teacher_and_full_plus_0_01_both_texts": false,
+    "query_no_window_worse_than_teacher_plus_0_03": false,
+    "query_ready_for_multilayer_quality_attempt": false,
+    "interpretation_if_full_control_fails": "general training-recipe overfit; query-specific failure inconclusive"
+  }
+}
