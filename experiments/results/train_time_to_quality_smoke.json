@@ -1,0 +1,350 @@
+{
+  "status": "complete",
+  "source": {
+    "train_script_sha256": "33d68529e1a76ef1c221c24f94ebec7c2c8254d00955fa919d6cd1213b39a5b1",
+    "content_gate_sha256": "528a64d63e81548ce408991984b55b36cc622af42cd3a4eceaea9552b47a8a66",
+    "llm_efficiency_sha256": "7d2217b6cf4f1f32b07535893562d4420c1d532c5ba4dca752af5b10f582219c",
+    "llm_tuned_sha256": "685cea50c94df09b0269a43dc23fabd814ad79ea215572feb81dfef8bcb362b3"
+  },
+  "protocol": {
+    "primary": false,
+    "seeds": [
+      0
+    ],
+    "steps": 2,
+    "eval_every": 1,
+    "max_val_windows": 2,
+    "compiled": false,
+    "quality_bpc": 2.4,
+    "ctx": 512,
+    "d": 128,
+    "layers": 2,
+    "heads": 4,
+    "mlp": 4,
+    "batch": 16,
+    "lr": 0.001,
+    "warmup": 100,
+    "weight_decay": 0.01,
+    "grad_clip": 1.0,
+    "min_speedup": 2.0,
+    "min_pair_wins": 4,
+    "arms": [
+      "A_attn",
+      "B_match"
+    ],
+    "checkpoint_crossing": "first full-validation bpc <= target; observed upper bound with preceding failing checkpoint"
+  },
+  "host": {
+    "platform": "macOS-27.0-arm64-arm-64bit-Mach-O",
+    "machine": "arm64",
+    "mlx_version": "0.31.0",
+    "device": "Device(gpu, 0)",
+    "started_utc": "2026-09-16T00:30:57Z",
+    "memory_load_start": {
+      "load_avg_1_5_15": [
+        3.63,
+        4.1,
+        3.94
+      ],
+      "cpu_count": 16,
+      "mlx_active_bytes": 8208,
+      "mlx_cache_bytes": 2500812,
+      "mlx_peak_bytes_since_arm_reset": 1956884,
+      "process_peak_rss_bytes_cumulative": 87375872
+    },
+    "finished_utc": "2026-09-16T00:30:57Z",
+    "memory_load_end": {
+      "load_avg_1_5_15": [
+        3.63,
+        4.1,
+        3.94
+      ],
+      "cpu_count": 16,
+      "mlx_active_bytes": 8220,
+      "mlx_cache_bytes": 1045216364,
+      "mlx_peak_bytes_since_arm_reset": 1007366748,
+      "process_peak_rss_bytes_cumulative": 98172928
+    }
+  },
+  "corpus": {
+    "path": "/Users/richie/Documents/github/human-brain/data/tinyshakespeare.txt",
+    "chars": 1115394,
+    "vocab": 65,
+    "train_chars": 1003854,
+    "val_chars": 111540,
+    "train_sha256": "06f76e39c9e06c76dcbd747e5c74fda882600c526ff4c3a15d335c1dec4a626c",
+    "val_sha256": "456be81362fa5b40fac7041bd771d70c0abbd3c377f13b0da75a507a5b9b5573",
+    "val_windows": 2,
+    "val_tokens": 1024
+  },
+  "unigram_bpc": 4.829176877807436,
+  "bigram_bpc": 3.580577474174118,
+  "params": {
+    "A_attn": 478976,
+    "B_match": 478464
+  },
+  "parameter_spread": 0.0010689470871191875,
+  "estimated_train_flops_per_token": {
+    "A_attn": 3982080.0,
+    "B_match": 2226432.0
+  },
+  "scan_reference_max_abs_error": 4.76837158203125e-07,
+  "limitations": [
+    "One 1 MB character corpus and one tiny architecture; no claim for modern OSS model inference or training.",
+    "A_attn and B_match are parameter-matched within 2%, but do not have equal per-token analytic FLOPs.",
+    "The B_match extra trainable input projection is mathematically redundant; its runtime need not represent an optimized input-only gate.",
+    "Full validation is checked only every 100 steps in the primary run; the first observed pass is an upper bound, not the exact crossing.",
+    "FLOPs are analytic estimates from content_gate.py, not measured hardware counters or energy.",
+    "Primary synchronized training seconds include the first-step JIT compilation cost; first_step_wall_s is reported per arm."
+  ],
+  "runs": {
+    "0": {
+      "A_attn": {
+        "arm": "A_attn",
+        "seed": 0,
+        "params": 478976,
+        "estimated_train_flops_per_token": 3982080.0,
+        "schedule_sha256": "ea589eceaef270289177c08972fb2a8ce991933f60f5482c8c2865a05ad2ed33",
+        "compiled": false,
+        "setup_wall_s": 0.002174624998588115,
+        "first_step_wall_s": 0.027177082985872403,
+        "checkpoints": [
+          {
+            "step": 0,
+            "train_tokens": 0,
+            "train_loss_nats": null,
+            "val_bpc": 6.136505742164539,
+            "training_wall_s": 0.0,
+            "validation_wall_s": 0.011191208002856001,
+            "after_setup_wall_s": 0.01119354201364331,
+            "estimated_train_flops": 0.0,
+            "estimated_val_flops": 1359216640.0,
+            "memory_load": {
+              "load_avg_1_5_15": [
+                3.63,
+                4.1,
+                3.94
+              ],
+              "cpu_count": 16,
+              "mlx_active_bytes": 1955880,
+              "mlx_cache_bytes": 17464300,
+              "mlx_peak_bytes_since_arm_reset": 19419204,
+              "process_peak_rss_bytes_cumulative": 96157696
+            }
+          },
+          {
+            "step": 1,
+            "train_tokens": 8192,
+            "train_loss_nats": 4.291864395141602,
+            "val_bpc": 6.0618945087407266,
+            "training_wall_s": 0.027177082985872403,
+            "validation_wall_s": 0.012829957995563745,
+            "after_setup_wall_s": 0.04006320799817331,
+            "estimated_train_flops": 32621199360.0,
+            "estimated_val_flops": 2718433280.0,
+            "memory_load": {
+              "load_avg_1_5_15": [
+                3.63,
+                4.1,
+                3.94
+              ],
+              "cpu_count": 16,
+              "mlx_active_bytes": 5933100,
+              "mlx_cache_bytes": 940250224,
+              "mlx_peak_bytes_since_arm_reset": 935828212,
+              "process_peak_rss_bytes_cumulative": 97910784
+            }
+          },
+          {
+            "step": 2,
+            "train_tokens": 16384,
+            "train_loss_nats": 4.242563724517822,
+            "val_bpc": 5.874741612210611,
+            "training_wall_s": 0.04078220797237009,
+            "validation_wall_s": 0.01449525001225993,
+            "after_setup_wall_s": 0.055382291990099475,
+            "estimated_train_flops": 65242398720.0,
+            "estimated_val_flops": 4077649920.0,
+            "memory_load": {
+              "load_avg_1_5_15": [
+                3.63,
+                4.1,
+                3.94
+              ],
+              "cpu_count": 16,
+              "mlx_active_bytes": 5949484,
+              "mlx_cache_bytes": 942571120,
+              "mlx_peak_bytes_since_arm_reset": 939772364,
+              "process_peak_rss_bytes_cumulative": 98009088
+            }
+          }
+        ],
+        "first_observed_quality": null,
+        "final_bpc": 5.874741612210611,
+        "training_wall_s": 0.04078220797237009,
+        "validation_wall_s": 0.01449525001225993,
+        "after_setup_wall_s": 0.05542945800698362,
+        "total_train_tokens": 16384,
+        "memory_start": {
+          "load_avg_1_5_15": [
+            3.63,
+            4.1,
+            3.94
+          ],
+          "cpu_count": 16,
+          "mlx_active_bytes": 1955868,
+          "mlx_cache_bytes": 1016,
+          "mlx_peak_bytes_since_arm_reset": 1956884,
+          "process_peak_rss_bytes_cumulative": 93913088
+        },
+        "memory_end": {
+          "load_avg_1_5_15": [
+            3.63,
+            4.1,
+            3.94
+          ],
+          "cpu_count": 16,
+          "mlx_active_bytes": 5949484,
+          "mlx_cache_bytes": 942571120,
+          "mlx_peak_bytes_since_arm_reset": 939772364,
+          "process_peak_rss_bytes_cumulative": 98009088
+        },
+        "right_censored_at_step": 2
+      },
+      "B_match": {
+        "arm": "B_match",
+        "seed": 0,
+        "params": 478464,
+        "estimated_train_flops_per_token": 2226432.0,
+        "schedule_sha256": "ea589eceaef270289177c08972fb2a8ce991933f60f5482c8c2865a05ad2ed33",
+        "compiled": false,
+        "setup_wall_s": 0.0017393750022165477,
+        "first_step_wall_s": 0.019595000019762665,
+        "checkpoints": [
+          {
+            "step": 0,
+            "train_tokens": 0,
+            "train_loss_nats": null,
+            "val_bpc": 6.361563270979516,
+            "training_wall_s": 0.0,
+            "validation_wall_s": 0.0022857080039102584,
+            "after_setup_wall_s": 0.0022868750093039125,
+            "estimated_train_flops": 0.0,
+            "estimated_val_flops": 759955456.0,
+            "memory_load": {
+              "load_avg_1_5_15": [
+                3.63,
+                4.1,
+                3.94
+              ],
+              "cpu_count": 16,
+              "mlx_active_bytes": 1953320,
+              "mlx_cache_bytes": 15402788,
+              "mlx_peak_bytes_since_arm_reset": 17355460,
+              "process_peak_rss_bytes_cumulative": 98009088
+            }
+          },
+          {
+            "step": 1,
+            "train_tokens": 8192,
+            "train_loss_nats": 4.3982062339782715,
+            "val_bpc": 6.313092368590945,
+            "training_wall_s": 0.019595000019762665,
+            "validation_wall_s": 0.004181166994385421,
+            "after_setup_wall_s": 0.02382225001929328,
+            "estimated_train_flops": 18238930944.0,
+            "estimated_val_flops": 1519910912.0,
+            "memory_load": {
+              "load_avg_1_5_15": [
+                3.63,
+                4.1,
+                3.94
+              ],
+              "cpu_count": 16,
+              "mlx_active_bytes": 9507388,
+              "mlx_cache_bytes": 1034763852,
+              "mlx_peak_bytes_since_arm_reset": 1007366748,
+              "process_peak_rss_bytes_cumulative": 98091008
+            }
+          },
+          {
+            "step": 2,
+            "train_tokens": 16384,
+            "train_loss_nats": 4.380851745605469,
+            "val_bpc": 6.188190312367132,
+            "training_wall_s": 0.029615875042509288,
+            "validation_wall_s": 0.006113124982221052,
+            "after_setup_wall_s": 0.035821666999254376,
+            "estimated_train_flops": 36477861888.0,
+            "estimated_val_flops": 2279866368.0,
+            "memory_load": {
+              "load_avg_1_5_15": [
+                3.63,
+                4.1,
+                3.94
+              ],
+              "cpu_count": 16,
+              "mlx_active_bytes": 7127096,
+              "mlx_cache_bytes": 1038359632,
+              "mlx_peak_bytes_since_arm_reset": 1007366748,
+              "process_peak_rss_bytes_cumulative": 98172928
+            }
+          }
+        ],
+        "first_observed_quality": null,
+        "final_bpc": 6.188190312367132,
+        "training_wall_s": 0.029615875042509288,
+        "validation_wall_s": 0.006113124982221052,
+        "after_setup_wall_s": 0.035860167001374066,
+        "total_train_tokens": 16384,
+        "memory_start": {
+          "load_avg_1_5_15": [
+            3.63,
+            4.1,
+            3.94
+          ],
+          "cpu_count": 16,
+          "mlx_active_bytes": 1953320,
+          "mlx_cache_bytes": 804,
+          "mlx_peak_bytes_since_arm_reset": 1954124,
+          "process_peak_rss_bytes_cumulative": 98009088
+        },
+        "memory_end": {
+          "load_avg_1_5_15": [
+            3.63,
+            4.1,
+            3.94
+          ],
+          "cpu_count": 16,
+          "mlx_active_bytes": 5926956,
+          "mlx_cache_bytes": 1039297628,
+          "mlx_peak_bytes_since_arm_reset": 1007366748,
+          "process_peak_rss_bytes_cumulative": 98172928
+        },
+        "right_censored_at_step": 2
+      }
+    }
+  },
+  "summary": {
+    "pairs": [
+      {
+        "seed": 0,
+        "attention_hit": false,
+        "memory_hit": false,
+        "attention_final_bpc": 5.874741612210611,
+        "memory_final_bpc": 6.188190312367132
+      }
+    ],
+    "complete": true,
+    "n_both_hit": 0,
+    "n_attention_only": 0,
+    "n_memory_only": 0,
+    "n_neither": 1,
+    "high_host_load_observed": false,
+    "host_load_rule": "1-minute load average > 1.5 x logical CPUs",
+    "wall_clock_note": "Synchronized train time includes the one-time compiled first step; its cost is recorded per arm. Host load is only a coarse contention indicator; other GPU work may be invisible to it.",
+    "primary_verdict_eligible": false,
+    "primary_efficiency_gate_passed": false,
+    "verdict_reason": "diagnostic protocol, incomplete/censored pairs, failed attention bigram control, or high host load; inspect separate fields"
+  }
+}
