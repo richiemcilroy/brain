@@ -1,0 +1,549 @@
+{
+  "status": "complete",
+  "meta": {
+    "snapshot_revision": "9535bd9b1d1dea6acafbdc4813b728796aeb28da",
+    "config_sha256": "8f028e2cd88148fad38c7dece460947681adf6178e46e11ece9742aa49b378dd",
+    "weight_blob_id": "68a2e4be76fa709455a60272fba8e512c02d81c46e6c671cc9449e374fd6809a",
+    "source_sha256": "a01f4281ab6a469c994ae9efbec41cbee7f9e9e313fd052cdf4619ca2f4409ee",
+    "fast_decode_source_sha256": "1bc31f39dbe3347228fdd871e5656c47bbc075c0ff62e70b3d42aa5514af625f",
+    "layer_harness_source_sha256": "82fa47db3f84f7d37e44131c6ccb5329bc8d8cdba9ae88302195a19b13fcf6ea",
+    "query_attention_source_sha256": "f58beb44fc9cea9328c8f678d97d0706e94df644fac84ecf5423a193219481f6",
+    "trainable_source_sha256": "ce85dfa66754269a2e786125337e9bc3d7e9f0cf920d42c531497d3a88f606b6",
+    "stage1_result_sha256": "60ffcc59b04e1b1bd486219c23f369e2b79f502cf56fa2b91affdc9b5f30d1e9",
+    "stage1_weights_sha256": "286774b2ef85435c59fec3eb4fe453d885d8347dc42df483714b2c6aa78d9a97",
+    "corpus_sha256": "86c4e6aa9db7c042ec79f339dcb96d42b0075e16b8fc2e86bf0ca57e2dc565ed",
+    "mlx": "0.32.2",
+    "mlx_lm": "0.31.3",
+    "hardware": "macOS-27.0-arm64-arm-64bit-Mach-O",
+    "dtype": "mlx.core.bfloat16",
+    "contexts": [
+      8192,
+      32768
+    ],
+    "decode_tokens": 32,
+    "repeats_by_context": {
+      "8192": 5,
+      "32768": 3
+    },
+    "gain": 0.44968487725044576,
+    "chunk": 256,
+    "inference_sync_blocks": 2,
+    "workload": "genuine teacher layer-8 inputs; one-token output and global state checked for bit equality before timings",
+    "limitation": "layer-only decode with teacher-derived upstream activations on a busy host; full model and quality gates separate",
+    "host_load_at_start": [
+      23.88037109375,
+      21.43017578125,
+      20.85009765625
+    ],
+    "started_epoch": 1789524757.263932,
+    "finished_epoch": 1789524771.797293
+  },
+  "rows": [
+    {
+      "context": 8192,
+      "activation_capture_s": 0.8274735410232097,
+      "exact_decode": {
+        "max_abs_layer_output_across_32_decodes": 0.0,
+        "max_abs_final_state": 0.0,
+        "general_global_count": 8161,
+        "fast_global_count": 8161,
+        "general_offset": 8224,
+        "fast_offset": 8224,
+        "general_cache_bytes": 395264,
+        "fast_cache_bytes": 395264
+      },
+      "repeats": [
+        {
+          "index": 0,
+          "order": [
+            "teacher_layer",
+            "general_query_layer",
+            "fast_query_layer"
+          ],
+          "readings": {
+            "teacher_layer": {
+              "prefill_s": 0.035896957997465506,
+              "decode_s": 0.011477084015496075,
+              "decode_ms_per_token": 0.35865887548425235,
+              "prefill_active_logical_cache_bytes": 16777216,
+              "final_active_logical_cache_bytes": 16842752,
+              "prefill_peak_metal_bytes": 2699040224,
+              "final_peak_metal_bytes": 2699040224,
+              "cache_offset": 8224,
+              "host_load_average": [
+                23.9697265625,
+                21.4892578125,
+                20.8740234375
+              ]
+            },
+            "general_query_layer": {
+              "prefill_s": 0.09389312501298264,
+              "decode_s": 0.016962666995823383,
+              "decode_ms_per_token": 0.5300833436194807,
+              "prefill_active_logical_cache_bytes": 395264,
+              "final_active_logical_cache_bytes": 395264,
+              "prefill_peak_metal_bytes": 3347405392,
+              "final_peak_metal_bytes": 3347405392,
+              "cache_offset": 8224,
+              "host_load_average": [
+                23.9697265625,
+                21.4892578125,
+                20.8740234375
+              ]
+            },
+            "fast_query_layer": {
+              "prefill_s": 0.0961885419965256,
+              "decode_s": 0.01346420799382031,
+              "decode_ms_per_token": 0.4207564998068847,
+              "prefill_active_logical_cache_bytes": 395264,
+              "final_active_logical_cache_bytes": 395264,
+              "prefill_peak_metal_bytes": 3347405392,
+              "final_peak_metal_bytes": 3347405392,
+              "cache_offset": 8224,
+              "host_load_average": [
+                23.9697265625,
+                21.4892578125,
+                20.8740234375
+              ]
+            }
+          },
+          "fast_decode_speed_ratio_to_general": 1.25983399867328,
+          "fast_decode_speed_ratio_to_teacher": 0.8524143433289008,
+          "fast_prefill_time_ratio_to_general": 1.024447125209919
+        },
+        {
+          "index": 1,
+          "order": [
+            "general_query_layer",
+            "fast_query_layer",
+            "teacher_layer"
+          ],
+          "readings": {
+            "general_query_layer": {
+              "prefill_s": 0.0979746250086464,
+              "decode_s": 0.019271875004051253,
+              "decode_ms_per_token": 0.6022460938766017,
+              "prefill_active_logical_cache_bytes": 395264,
+              "final_active_logical_cache_bytes": 395264,
+              "prefill_peak_metal_bytes": 3347405392,
+              "final_peak_metal_bytes": 3347405392,
+              "cache_offset": 8224,
+              "host_load_average": [
+                23.9697265625,
+                21.4892578125,
+                20.8740234375
+              ]
+            },
+            "fast_query_layer": {
+              "prefill_s": 0.09638012500363402,
+              "decode_s": 0.016470667003886774,
+              "decode_ms_per_token": 0.5147083438714617,
+              "prefill_active_logical_cache_bytes": 395264,
+              "final_active_logical_cache_bytes": 395264,
+              "prefill_peak_metal_bytes": 3347405392,
+              "final_peak_metal_bytes": 3347405392,
+              "cache_offset": 8224,
+              "host_load_average": [
+                23.9697265625,
+                21.4892578125,
+                20.8740234375
+              ]
+            },
+            "teacher_layer": {
+              "prefill_s": 0.03596766700502485,
+              "decode_s": 0.013147416000720114,
+              "decode_ms_per_token": 0.41085675002250355,
+              "prefill_active_logical_cache_bytes": 16777216,
+              "final_active_logical_cache_bytes": 16842752,
+              "prefill_peak_metal_bytes": 2699040224,
+              "final_peak_metal_bytes": 2699040224,
+              "cache_offset": 8224,
+              "host_load_average": [
+                23.9697265625,
+                21.4892578125,
+                20.8740234375
+              ]
+            }
+          },
+          "fast_decode_speed_ratio_to_general": 1.1700725295158627,
+          "fast_decode_speed_ratio_to_teacher": 0.7982321540237299,
+          "fast_prefill_time_ratio_to_general": 0.9837253778223529
+        },
+        {
+          "index": 2,
+          "order": [
+            "fast_query_layer",
+            "teacher_layer",
+            "general_query_layer"
+          ],
+          "readings": {
+            "fast_query_layer": {
+              "prefill_s": 0.09640620902064256,
+              "decode_s": 0.013784416019916534,
+              "decode_ms_per_token": 0.4307630006223917,
+              "prefill_active_logical_cache_bytes": 395264,
+              "final_active_logical_cache_bytes": 395264,
+              "prefill_peak_metal_bytes": 3347405392,
+              "final_peak_metal_bytes": 3347405392,
+              "cache_offset": 8224,
+              "host_load_average": [
+                23.9697265625,
+                21.4892578125,
+                20.8740234375
+              ]
+            },
+            "teacher_layer": {
+              "prefill_s": 0.03719358300440945,
+              "decode_s": 0.011215083010029048,
+              "decode_ms_per_token": 0.35047134406340774,
+              "prefill_active_logical_cache_bytes": 16777216,
+              "final_active_logical_cache_bytes": 16842752,
+              "prefill_peak_metal_bytes": 2699040224,
+              "final_peak_metal_bytes": 2699040224,
+              "cache_offset": 8224,
+              "host_load_average": [
+                23.9697265625,
+                21.4892578125,
+                20.8740234375
+              ]
+            },
+            "general_query_layer": {
+              "prefill_s": 0.09306304197525606,
+              "decode_s": 0.017086208012187853,
+              "decode_ms_per_token": 0.5339440003808704,
+              "prefill_active_logical_cache_bytes": 395264,
+              "final_active_logical_cache_bytes": 395264,
+              "prefill_peak_metal_bytes": 3347405392,
+              "final_peak_metal_bytes": 3347405392,
+              "cache_offset": 8224,
+              "host_load_average": [
+                23.9697265625,
+                21.4892578125,
+                20.8740234375
+              ]
+            }
+          },
+          "fast_decode_speed_ratio_to_general": 1.2395307851635278,
+          "fast_decode_speed_ratio_to_teacher": 0.8136059586292838,
+          "fast_prefill_time_ratio_to_general": 1.0359236811351535
+        },
+        {
+          "index": 3,
+          "order": [
+            "teacher_layer",
+            "general_query_layer",
+            "fast_query_layer"
+          ],
+          "readings": {
+            "teacher_layer": {
+              "prefill_s": 0.03605479098041542,
+              "decode_s": 0.011814833007520065,
+              "decode_ms_per_token": 0.369213531485002,
+              "prefill_active_logical_cache_bytes": 16777216,
+              "final_active_logical_cache_bytes": 16842752,
+              "prefill_peak_metal_bytes": 2699040224,
+              "final_peak_metal_bytes": 2699040224,
+              "cache_offset": 8224,
+              "host_load_average": [
+                23.9697265625,
+                21.4892578125,
+                20.8740234375
+              ]
+            },
+            "general_query_layer": {
+              "prefill_s": 0.09582866600248963,
+              "decode_s": 0.015459791000466794,
+              "decode_ms_per_token": 0.4831184687645873,
+              "prefill_active_logical_cache_bytes": 395264,
+              "final_active_logical_cache_bytes": 395264,
+              "prefill_peak_metal_bytes": 3347405392,
+              "final_peak_metal_bytes": 3347405392,
+              "cache_offset": 8224,
+              "host_load_average": [
+                23.9697265625,
+                21.4892578125,
+                20.8740234375
+              ]
+            },
+            "fast_query_layer": {
+              "prefill_s": 0.09608037502039224,
+              "decode_s": 0.013871458009816706,
+              "decode_ms_per_token": 0.43348306280677207,
+              "prefill_active_logical_cache_bytes": 395264,
+              "final_active_logical_cache_bytes": 395264,
+              "prefill_peak_metal_bytes": 3347405392,
+              "final_peak_metal_bytes": 3347405392,
+              "cache_offset": 8224,
+              "host_load_average": [
+                23.9697265625,
+                21.4892578125,
+                20.8740234375
+              ]
+            }
+          },
+          "fast_decode_speed_ratio_to_general": 1.1145036801125043,
+          "fast_decode_speed_ratio_to_teacher": 0.8517369262235314,
+          "fast_prefill_time_ratio_to_general": 1.0026266568074325
+        },
+        {
+          "index": 4,
+          "order": [
+            "general_query_layer",
+            "fast_query_layer",
+            "teacher_layer"
+          ],
+          "readings": {
+            "general_query_layer": {
+              "prefill_s": 0.09539975001825951,
+              "decode_s": 0.016510959016159177,
+              "decode_ms_per_token": 0.5159674692549743,
+              "prefill_active_logical_cache_bytes": 395264,
+              "final_active_logical_cache_bytes": 395264,
+              "prefill_peak_metal_bytes": 3347405392,
+              "final_peak_metal_bytes": 3347405392,
+              "cache_offset": 8224,
+              "host_load_average": [
+                23.9697265625,
+                21.4892578125,
+                20.8740234375
+              ]
+            },
+            "fast_query_layer": {
+              "prefill_s": 0.09497212499263696,
+              "decode_s": 0.015456374996574596,
+              "decode_ms_per_token": 0.4830117186429561,
+              "prefill_active_logical_cache_bytes": 395264,
+              "final_active_logical_cache_bytes": 395264,
+              "prefill_peak_metal_bytes": 3347405392,
+              "final_peak_metal_bytes": 3347405392,
+              "cache_offset": 8224,
+              "host_load_average": [
+                23.9697265625,
+                21.4892578125,
+                20.8740234375
+              ]
+            },
+            "teacher_layer": {
+              "prefill_s": 0.03525258298031986,
+              "decode_s": 0.011916957999346778,
+              "decode_ms_per_token": 0.3724049374795868,
+              "prefill_active_logical_cache_bytes": 16777216,
+              "final_active_logical_cache_bytes": 16842752,
+              "prefill_peak_metal_bytes": 2699040224,
+              "final_peak_metal_bytes": 2699040224,
+              "cache_offset": 8224,
+              "host_load_average": [
+                23.9697265625,
+                21.4892578125,
+                20.8740234375
+              ]
+            }
+          },
+          "fast_decode_speed_ratio_to_general": 1.068229712323769,
+          "fast_decode_speed_ratio_to_teacher": 0.7710060089760882,
+          "fast_prefill_time_ratio_to_general": 0.9955175456377957
+        }
+      ],
+      "median": {
+        "fast_decode_speed_ratio_to_general": 1.1700725295158627,
+        "fast_decode_speed_ratio_to_teacher": 0.8136059586292838,
+        "fast_prefill_time_ratio_to_general": 1.0026266568074325
+      }
+    },
+    {
+      "context": 32768,
+      "activation_capture_s": 5.652291709004203,
+      "exact_decode": {
+        "max_abs_layer_output_across_32_decodes": 0.0,
+        "max_abs_final_state": 0.0,
+        "general_global_count": 32737,
+        "fast_global_count": 32737,
+        "general_offset": 32800,
+        "fast_offset": 32800,
+        "general_cache_bytes": 395264,
+        "fast_cache_bytes": 395264
+      },
+      "repeats": [
+        {
+          "index": 0,
+          "order": [
+            "teacher_layer",
+            "general_query_layer",
+            "fast_query_layer"
+          ],
+          "readings": {
+            "teacher_layer": {
+              "prefill_s": 0.466923667001538,
+              "decode_s": 0.01888537497143261,
+              "decode_ms_per_token": 0.5901679678572691,
+              "prefill_active_logical_cache_bytes": 67108864,
+              "final_active_logical_cache_bytes": 67174400,
+              "prefill_peak_metal_bytes": 3378517472,
+              "final_peak_metal_bytes": 3378517472,
+              "cache_offset": 32800,
+              "host_load_average": [
+                24.1318359375,
+                21.56396484375,
+                20.90380859375
+              ]
+            },
+            "general_query_layer": {
+              "prefill_s": 0.3967414580110926,
+              "decode_s": 0.016693374986061826,
+              "decode_ms_per_token": 0.5216679683144321,
+              "prefill_active_logical_cache_bytes": 395264,
+              "final_active_logical_cache_bytes": 395264,
+              "prefill_peak_metal_bytes": 3649395280,
+              "final_peak_metal_bytes": 3649395280,
+              "cache_offset": 32800,
+              "host_load_average": [
+                24.521484375,
+                21.68701171875,
+                20.951171875
+              ]
+            },
+            "fast_query_layer": {
+              "prefill_s": 0.3908340829948429,
+              "decode_s": 0.014658125001005828,
+              "decode_ms_per_token": 0.45806640628143214,
+              "prefill_active_logical_cache_bytes": 395264,
+              "final_active_logical_cache_bytes": 395264,
+              "prefill_peak_metal_bytes": 3649395280,
+              "final_peak_metal_bytes": 3649395280,
+              "cache_offset": 32800,
+              "host_load_average": [
+                24.521484375,
+                21.68701171875,
+                20.951171875
+              ]
+            }
+          },
+          "fast_decode_speed_ratio_to_general": 1.1388479075540932,
+          "fast_decode_speed_ratio_to_teacher": 1.2883895430102221,
+          "fast_prefill_time_ratio_to_general": 0.9851102653958475
+        },
+        {
+          "index": 1,
+          "order": [
+            "general_query_layer",
+            "fast_query_layer",
+            "teacher_layer"
+          ],
+          "readings": {
+            "general_query_layer": {
+              "prefill_s": 0.3861963750096038,
+              "decode_s": 0.01681845900020562,
+              "decode_ms_per_token": 0.5255768437564257,
+              "prefill_active_logical_cache_bytes": 395264,
+              "final_active_logical_cache_bytes": 395264,
+              "prefill_peak_metal_bytes": 3649395280,
+              "final_peak_metal_bytes": 3649395280,
+              "cache_offset": 32800,
+              "host_load_average": [
+                24.521484375,
+                21.68701171875,
+                20.951171875
+              ]
+            },
+            "fast_query_layer": {
+              "prefill_s": 0.3910301249998156,
+              "decode_s": 0.014222832978703082,
+              "decode_ms_per_token": 0.4444635305844713,
+              "prefill_active_logical_cache_bytes": 395264,
+              "final_active_logical_cache_bytes": 395264,
+              "prefill_peak_metal_bytes": 3649395280,
+              "final_peak_metal_bytes": 3649395280,
+              "cache_offset": 32800,
+              "host_load_average": [
+                24.521484375,
+                21.68701171875,
+                20.951171875
+              ]
+            },
+            "teacher_layer": {
+              "prefill_s": 0.5117759580025449,
+              "decode_s": 0.02044962500804104,
+              "decode_ms_per_token": 0.6390507815012825,
+              "prefill_active_logical_cache_bytes": 67108864,
+              "final_active_logical_cache_bytes": 67174400,
+              "prefill_peak_metal_bytes": 3378517472,
+              "final_peak_metal_bytes": 3378517472,
+              "cache_offset": 32800,
+              "host_load_average": [
+                24.521484375,
+                21.68701171875,
+                20.951171875
+              ]
+            }
+          },
+          "fast_decode_speed_ratio_to_general": 1.1824971175144336,
+          "fast_decode_speed_ratio_to_teacher": 1.4378025136526458,
+          "fast_prefill_time_ratio_to_general": 1.0125163007811546
+        },
+        {
+          "index": 2,
+          "order": [
+            "fast_query_layer",
+            "teacher_layer",
+            "general_query_layer"
+          ],
+          "readings": {
+            "fast_query_layer": {
+              "prefill_s": 0.41907012500450946,
+              "decode_s": 0.014778084005229175,
+              "decode_ms_per_token": 0.4618151251634117,
+              "prefill_active_logical_cache_bytes": 395264,
+              "final_active_logical_cache_bytes": 395264,
+              "prefill_peak_metal_bytes": 3649395280,
+              "final_peak_metal_bytes": 3649395280,
+              "cache_offset": 32800,
+              "host_load_average": [
+                24.521484375,
+                21.68701171875,
+                20.951171875
+              ]
+            },
+            "teacher_layer": {
+              "prefill_s": 0.546030041994527,
+              "decode_s": 0.020086500007892027,
+              "decode_ms_per_token": 0.6277031252466259,
+              "prefill_active_logical_cache_bytes": 67108864,
+              "final_active_logical_cache_bytes": 67174400,
+              "prefill_peak_metal_bytes": 3378517472,
+              "final_peak_metal_bytes": 3378517472,
+              "cache_offset": 32800,
+              "host_load_average": [
+                24.521484375,
+                21.68701171875,
+                20.951171875
+              ]
+            },
+            "general_query_layer": {
+              "prefill_s": 0.4192102909728419,
+              "decode_s": 0.017520458000944927,
+              "decode_ms_per_token": 0.547514312529529,
+              "prefill_active_logical_cache_bytes": 395264,
+              "final_active_logical_cache_bytes": 395264,
+              "prefill_peak_metal_bytes": 3649395280,
+              "final_peak_metal_bytes": 3649395280,
+              "cache_offset": 32800,
+              "host_load_average": [
+                24.521484375,
+                21.68701171875,
+                20.951171875
+              ]
+            }
+          },
+          "fast_decode_speed_ratio_to_general": 1.185570334743352,
+          "fast_decode_speed_ratio_to_teacher": 1.3592086769018559,
+          "fast_prefill_time_ratio_to_general": 0.9996656428256874
+        }
+      ],
+      "median": {
+        "fast_decode_speed_ratio_to_general": 1.1824971175144336,
+        "fast_decode_speed_ratio_to_teacher": 1.3592086769018559,
+        "fast_prefill_time_ratio_to_general": 0.9996656428256874
+      }
+    }
+  ]
+}

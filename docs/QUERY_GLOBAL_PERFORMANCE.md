@@ -74,6 +74,15 @@ memory, and a complete-model speed gain at matched quality. [MLX
 documents custom Metal kernels](https://ml-explore.github.io/mlx/build/html/dev/custom_metal_kernels.html),
 including the need for a separate VJP if one is used for training.
 
+An [opt-in exact one-token path](QUERY_GLOBAL_FAST_DECODE.md) later
+removed the general block's prefix-sum and gather work from cached
+decode. It raised selected-map *layer-only* decode throughput by
+median paired ratios of **1.170× at 8K** and **1.182× at 32K**, with
+zero difference across 32 decoded layer outputs and the final state.
+The paired complete-model ratios were **1.005× at 8K** and **0.962× at
+32K** to the general query path. The 32K complete readings conflicted,
+and no whole-model serving speed gain is established.
+
 The raw layer records are
 `experiments/results/query_global_layer_profile_b1.json` and
 `query_global_layer_profile_long_b1.json`; both store arm order,
@@ -95,4 +104,7 @@ cd /Users/richie/Documents/github/human-brain
 ~/zbrain/venv/bin/python experiments/benchmark_query_global_opt.py \
   --contexts 512,2048,8192 --decode-tokens 32 --repeats 5 \
   --output experiments/results/query_global_opt_benchmark_b1.json
+~/zbrain/venv/bin/python experiments/verify_fast_decode_generation.py
+~/zbrain/venv/bin/python experiments/profile_query_global_fast_decode.py
+~/zbrain/venv/bin/python experiments/benchmark_query_global_fast_decode.py
 ```
