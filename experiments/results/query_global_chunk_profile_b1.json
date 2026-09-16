@@ -1,0 +1,377 @@
+{
+  "status": "complete",
+  "meta": {
+    "snapshot_revision": "9535bd9b1d1dea6acafbdc4813b728796aeb28da",
+    "config_sha256": "8f028e2cd88148fad38c7dece460947681adf6178e46e11ece9742aa49b378dd",
+    "weight_blob_id": "68a2e4be76fa709455a60272fba8e512c02d81c46e6c671cc9449e374fd6809a",
+    "source_sha256": "d7ca069f3ce7d77b12dc9ef1e02e0e69d775850bcaa2379abfb611f5ee096b65",
+    "layer_harness_source_sha256": "82fa47db3f84f7d37e44131c6ccb5329bc8d8cdba9ae88302195a19b13fcf6ea",
+    "query_attention_source_sha256": "f58beb44fc9cea9328c8f678d97d0706e94df644fac84ecf5423a193219481f6",
+    "trainable_source_sha256": "ce85dfa66754269a2e786125337e9bc3d7e9f0cf920d42c531497d3a88f606b6",
+    "stage1_result_sha256": "60ffcc59b04e1b1bd486219c23f369e2b79f502cf56fa2b91affdc9b5f30d1e9",
+    "stage1_weights_sha256": "286774b2ef85435c59fec3eb4fe453d885d8347dc42df483714b2c6aa78d9a97",
+    "corpus_sha256": "86c4e6aa9db7c042ec79f339dcb96d42b0075e16b8fc2e86bf0ca57e2dc565ed",
+    "mlx": "0.32.2",
+    "mlx_lm": "0.31.3",
+    "hardware": "macOS-27.0-arm64-arm-64bit-Mach-O",
+    "dtype": "mlx.core.bfloat16",
+    "context": 8192,
+    "decode_tokens": 32,
+    "repeats": 5,
+    "configs": {
+      "base_64_8": {
+        "chunk": 64,
+        "inference_sync_blocks": 8,
+        "tokens_per_sync": 512
+      },
+      "chunk128_sync4": {
+        "chunk": 128,
+        "inference_sync_blocks": 4,
+        "tokens_per_sync": 512
+      },
+      "chunk256_sync2": {
+        "chunk": 256,
+        "inference_sync_blocks": 2,
+        "tokens_per_sync": 512
+      }
+    },
+    "teacher_activation_capture_s": 0.8813883750117384,
+    "host_load_at_start": [
+      30.25927734375,
+      21.8583984375,
+      19.56201171875
+    ],
+    "started_epoch": 1789524103.075139,
+    "limitation": "layer-only paired tuning on one busy Apple host; complete-model and quality gate separate",
+    "finished_epoch": 1789524106.943199
+  },
+  "numerical_parity": {
+    "base_64_8": {
+      "max_abs_layer_output_vs_base": 0.0,
+      "mean_abs_layer_output_vs_base": 0.0
+    },
+    "chunk128_sync4": {
+      "max_abs_layer_output_vs_base": 0.0078125,
+      "mean_abs_layer_output_vs_base": 3.353517513460247e-06
+    },
+    "chunk256_sync2": {
+      "max_abs_layer_output_vs_base": 0.0078125,
+      "mean_abs_layer_output_vs_base": 3.348694008309394e-06
+    }
+  },
+  "repeats": [
+    {
+      "index": 0,
+      "order": [
+        "base_64_8",
+        "chunk128_sync4",
+        "chunk256_sync2"
+      ],
+      "readings": {
+        "base_64_8": {
+          "prefill_s": 0.14588370901765302,
+          "decode_s": 0.03580120901460759,
+          "decode_ms_per_token": 1.1187877817064873,
+          "prefill_active_logical_cache_bytes": 395264,
+          "final_active_logical_cache_bytes": 395264,
+          "prefill_peak_metal_bytes": 3420933292,
+          "final_peak_metal_bytes": 3420933292,
+          "cache_offset": 8224,
+          "host_load_average": [
+            30.23828125,
+            21.9931640625,
+            19.623046875
+          ]
+        },
+        "chunk128_sync4": {
+          "prefill_s": 0.13180145900696516,
+          "decode_s": 0.038490167004056275,
+          "decode_ms_per_token": 1.2028177188767586,
+          "prefill_active_logical_cache_bytes": 395264,
+          "final_active_logical_cache_bytes": 395264,
+          "prefill_peak_metal_bytes": 3441301676,
+          "final_peak_metal_bytes": 3441301676,
+          "cache_offset": 8224,
+          "host_load_average": [
+            30.23828125,
+            21.9931640625,
+            19.623046875
+          ]
+        },
+        "chunk256_sync2": {
+          "prefill_s": 0.1524609159969259,
+          "decode_s": 0.03814337501535192,
+          "decode_ms_per_token": 1.1919804692297475,
+          "prefill_active_logical_cache_bytes": 395264,
+          "final_active_logical_cache_bytes": 395264,
+          "prefill_peak_metal_bytes": 3541089900,
+          "final_peak_metal_bytes": 3541089900,
+          "cache_offset": 8224,
+          "host_load_average": [
+            30.23828125,
+            21.9931640625,
+            19.623046875
+          ]
+        }
+      },
+      "chunk128_sync4_prefill_time_ratio_to_base": 0.9034693448259956,
+      "chunk128_sync4_decode_speed_ratio_to_base": 0.9301390926891716,
+      "chunk128_sync4_peak_metal_ratio_to_base": 1.005954043023181,
+      "chunk256_sync2_prefill_time_ratio_to_base": 1.0450852739045522,
+      "chunk256_sync2_decode_speed_ratio_to_base": 0.9385957325537749,
+      "chunk256_sync2_peak_metal_ratio_to_base": 1.0351239260587137
+    },
+    {
+      "index": 1,
+      "order": [
+        "chunk128_sync4",
+        "chunk256_sync2",
+        "base_64_8"
+      ],
+      "readings": {
+        "chunk128_sync4": {
+          "prefill_s": 0.13666404198738746,
+          "decode_s": 0.03955237500485964,
+          "decode_ms_per_token": 1.2360117189018638,
+          "prefill_active_logical_cache_bytes": 395264,
+          "final_active_logical_cache_bytes": 395264,
+          "prefill_peak_metal_bytes": 3445495980,
+          "final_peak_metal_bytes": 3445495980,
+          "cache_offset": 8224,
+          "host_load_average": [
+            30.23828125,
+            21.9931640625,
+            19.623046875
+          ]
+        },
+        "chunk256_sync2": {
+          "prefill_s": 0.11745433299802244,
+          "decode_s": 0.03973908300395124,
+          "decode_ms_per_token": 1.2418463438734761,
+          "prefill_active_logical_cache_bytes": 395264,
+          "final_active_logical_cache_bytes": 395264,
+          "prefill_peak_metal_bytes": 3448053856,
+          "final_peak_metal_bytes": 3448053856,
+          "cache_offset": 8224,
+          "host_load_average": [
+            30.23828125,
+            21.9931640625,
+            19.623046875
+          ]
+        },
+        "base_64_8": {
+          "prefill_s": 0.1653289170062635,
+          "decode_s": 0.037516708980547264,
+          "decode_ms_per_token": 1.172397155642102,
+          "prefill_active_logical_cache_bytes": 395264,
+          "final_active_logical_cache_bytes": 395264,
+          "prefill_peak_metal_bytes": 3414281388,
+          "final_peak_metal_bytes": 3414281388,
+          "cache_offset": 8224,
+          "host_load_average": [
+            30.23828125,
+            21.9931640625,
+            19.623046875
+          ]
+        }
+      },
+      "chunk128_sync4_prefill_time_ratio_to_base": 0.826619108514513,
+      "chunk128_sync4_decode_speed_ratio_to_base": 0.9485323947281987,
+      "chunk128_sync4_peak_metal_ratio_to_base": 1.0091423607057428,
+      "chunk256_sync2_prefill_time_ratio_to_base": 0.7104282488802165,
+      "chunk256_sync2_decode_speed_ratio_to_base": 0.9440758604524668,
+      "chunk256_sync2_peak_metal_ratio_to_base": 1.009891530357954
+    },
+    {
+      "index": 2,
+      "order": [
+        "chunk256_sync2",
+        "base_64_8",
+        "chunk128_sync4"
+      ],
+      "readings": {
+        "chunk256_sync2": {
+          "prefill_s": 0.1178409589920193,
+          "decode_s": 0.04273145800107159,
+          "decode_ms_per_token": 1.335358062533487,
+          "prefill_active_logical_cache_bytes": 395264,
+          "final_active_logical_cache_bytes": 395264,
+          "prefill_peak_metal_bytes": 3445956704,
+          "final_peak_metal_bytes": 3445956704,
+          "cache_offset": 8224,
+          "host_load_average": [
+            30.23828125,
+            21.9931640625,
+            19.623046875
+          ]
+        },
+        "base_64_8": {
+          "prefill_s": 0.16798741699312814,
+          "decode_s": 0.0377745000005234,
+          "decode_ms_per_token": 1.1804531250163564,
+          "prefill_active_logical_cache_bytes": 395264,
+          "final_active_logical_cache_bytes": 395264,
+          "prefill_peak_metal_bytes": 3418688684,
+          "final_peak_metal_bytes": 3418688684,
+          "cache_offset": 8224,
+          "host_load_average": [
+            30.23828125,
+            21.9931640625,
+            19.623046875
+          ]
+        },
+        "chunk128_sync4": {
+          "prefill_s": 0.13403566600754857,
+          "decode_s": 0.04006654201657511,
+          "decode_ms_per_token": 1.2520794380179723,
+          "prefill_active_logical_cache_bytes": 395264,
+          "final_active_logical_cache_bytes": 395264,
+          "prefill_peak_metal_bytes": 3445495980,
+          "final_peak_metal_bytes": 3445495980,
+          "cache_offset": 8224,
+          "host_load_average": [
+            30.23828125,
+            21.9931640625,
+            19.623046875
+          ]
+        }
+      },
+      "chunk128_sync4_prefill_time_ratio_to_base": 0.7978911064096639,
+      "chunk128_sync4_decode_speed_ratio_to_base": 0.9427941144732801,
+      "chunk128_sync4_peak_metal_ratio_to_base": 1.0078413972367424,
+      "chunk256_sync2_prefill_time_ratio_to_base": 0.7014868202708291,
+      "chunk256_sync2_decode_speed_ratio_to_base": 0.8839974521715623,
+      "chunk256_sync2_peak_metal_ratio_to_base": 1.0079761635294897
+    },
+    {
+      "index": 3,
+      "order": [
+        "base_64_8",
+        "chunk128_sync4",
+        "chunk256_sync2"
+      ],
+      "readings": {
+        "base_64_8": {
+          "prefill_s": 0.16807191699626856,
+          "decode_s": 0.03877895898767747,
+          "decode_ms_per_token": 1.211842468364921,
+          "prefill_active_logical_cache_bytes": 395264,
+          "final_active_logical_cache_bytes": 395264,
+          "prefill_peak_metal_bytes": 3419627996,
+          "final_peak_metal_bytes": 3419627996,
+          "cache_offset": 8224,
+          "host_load_average": [
+            30.23828125,
+            21.9931640625,
+            19.623046875
+          ]
+        },
+        "chunk128_sync4": {
+          "prefill_s": 0.18541958299465477,
+          "decode_s": 0.04054541699588299,
+          "decode_ms_per_token": 1.2670442811213434,
+          "prefill_active_logical_cache_bytes": 395264,
+          "final_active_logical_cache_bytes": 395264,
+          "prefill_peak_metal_bytes": 3934599392,
+          "final_peak_metal_bytes": 3934599392,
+          "cache_offset": 8224,
+          "host_load_average": [
+            30.23828125,
+            21.9931640625,
+            19.623046875
+          ]
+        },
+        "chunk256_sync2": {
+          "prefill_s": 0.12322437501279637,
+          "decode_s": 0.04365266699460335,
+          "decode_ms_per_token": 1.3641458435813547,
+          "prefill_active_logical_cache_bytes": 395264,
+          "final_active_logical_cache_bytes": 395264,
+          "prefill_peak_metal_bytes": 3448053856,
+          "final_peak_metal_bytes": 3448053856,
+          "cache_offset": 8224,
+          "host_load_average": [
+            30.23828125,
+            21.9931640625,
+            19.623046875
+          ]
+        }
+      },
+      "chunk128_sync4_prefill_time_ratio_to_base": 1.1032157323389806,
+      "chunk128_sync4_decode_speed_ratio_to_base": 0.956432609673619,
+      "chunk128_sync4_peak_metal_ratio_to_base": 1.150592812025861,
+      "chunk256_sync2_prefill_time_ratio_to_base": 0.7331645715419081,
+      "chunk256_sync2_decode_speed_ratio_to_base": 0.8883525717333971,
+      "chunk256_sync2_peak_metal_ratio_to_base": 1.0083125591535835
+    },
+    {
+      "index": 4,
+      "order": [
+        "chunk128_sync4",
+        "chunk256_sync2",
+        "base_64_8"
+      ],
+      "readings": {
+        "chunk128_sync4": {
+          "prefill_s": 0.18281158298486844,
+          "decode_s": 0.047717625013319775,
+          "decode_ms_per_token": 1.491175781666243,
+          "prefill_active_logical_cache_bytes": 395264,
+          "final_active_logical_cache_bytes": 395264,
+          "prefill_peak_metal_bytes": 3480154320,
+          "final_peak_metal_bytes": 3480154320,
+          "cache_offset": 8224,
+          "host_load_average": [
+            30.23828125,
+            21.9931640625,
+            19.623046875
+          ]
+        },
+        "chunk256_sync2": {
+          "prefill_s": 0.12414308299776167,
+          "decode_s": 0.04112691699992865,
+          "decode_ms_per_token": 1.2852161562477704,
+          "prefill_active_logical_cache_bytes": 395264,
+          "final_active_logical_cache_bytes": 395264,
+          "prefill_peak_metal_bytes": 3448053856,
+          "final_peak_metal_bytes": 3448053856,
+          "cache_offset": 8224,
+          "host_load_average": [
+            30.23828125,
+            21.9931640625,
+            19.623046875
+          ]
+        },
+        "base_64_8": {
+          "prefill_s": 0.17261616702307947,
+          "decode_s": 0.039218791003804654,
+          "decode_ms_per_token": 1.2255872188688954,
+          "prefill_active_logical_cache_bytes": 395264,
+          "final_active_logical_cache_bytes": 395264,
+          "prefill_peak_metal_bytes": 3418672300,
+          "final_peak_metal_bytes": 3418672300,
+          "cache_offset": 8224,
+          "host_load_average": [
+            30.23828125,
+            21.9931640625,
+            19.623046875
+          ]
+        }
+      },
+      "chunk128_sync4_prefill_time_ratio_to_base": 1.0590640850021065,
+      "chunk128_sync4_decode_speed_ratio_to_base": 0.8218931892116849,
+      "chunk128_sync4_peak_metal_ratio_to_base": 1.0179841805837897,
+      "chunk256_sync2_prefill_time_ratio_to_base": 0.7191857236707339,
+      "chunk256_sync2_decode_speed_ratio_to_base": 0.9536039621903264,
+      "chunk256_sync2_peak_metal_ratio_to_base": 1.00859443474591
+    }
+  ],
+  "median": {
+    "chunk128_sync4_prefill_time_ratio_to_base": 0.9034693448259956,
+    "chunk128_sync4_decode_speed_ratio_to_base": 0.9427941144732801,
+    "chunk128_sync4_peak_metal_ratio_to_base": 1.0091423607057428,
+    "chunk256_sync2_prefill_time_ratio_to_base": 0.7191857236707339,
+    "chunk256_sync2_decode_speed_ratio_to_base": 0.9385957325537749,
+    "chunk256_sync2_peak_metal_ratio_to_base": 1.00859443474591
+  }
+}

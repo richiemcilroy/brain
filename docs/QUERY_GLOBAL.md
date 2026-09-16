@@ -201,6 +201,10 @@ forwards, LoRA, peak/resident memory and conversion time. Only then
 could this work support a lower-compute claim. The current mechanism
 is not a claimed major unlock.
 
+The [layer timing profile](QUERY_GLOBAL_PERFORMANCE.md) locates the
+current MLX bottleneck and a long-context layer-only crossover; it
+does not alter the held-out quality or complete-model verdict above.
+
 ## Reproduce
 
 ```sh
