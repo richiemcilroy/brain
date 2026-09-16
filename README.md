@@ -10,12 +10,14 @@ This repository tests whether swapping attention for that mechanism — and
 against a pretrained model — actually helps, with an **adversarial control at
 every step**.
 
-**The current result:** a single-layer attention transplant recovers some
-quality against a random carrier at 1B, but that result fails to replicate at
-8B. A matched static adapter beats the added recurrent branch in the complete
-five-seed 1B control, and neither the pure trace nor a 64-token local-window
-hybrid has made the complete 1B model materially faster. The earlier results
-and their controls are retained below so each claim can be checked.
+**The current result:** a bounded, query-addressable state beside an exact
+64-token local window recovers some quality lost by converting one pretrained
+1B Llama layer. A small teacher-output transfer improves held-out Shakespeare
+and WikiText quality, but the converted model still trails the unchanged
+teacher and has not shown a material complete-model speed gain. Earlier
+recurrent-transplant results also failed an 8B replication and matched static
+adapter control. The results and controls are retained below so each claim can
+be checked.
 
 Everything runs locally on one Apple M4 Max, 128 GB, MLX/Metal. No cluster.
 The first [complete-model cached-inference baseline](docs/OSS_BASELINE.md)
@@ -30,6 +32,11 @@ complete-model speed gain was verified. A separate [five-seed small-model
 training test](docs/TRAINING_PARETO.md) reaches the same loss in less time
 and estimated compute. That training signal has not transferred to the
 pretrained 1B model.
+The newer [query-addressable local/global conversion](docs/QUERY_GLOBAL.md)
+uses an exact 64-token window and a constant-size global feature state.
+Attention-output training improves five fixed WikiText-2 test windows without
+WikiText training data, but teacher perplexity remains better and the
+one-layer serving benchmark does not yet show a speed win.
 
 > **Scope, up front.** This is not a simulated human brain and does not claim to
 > be one. The 86-billion-neuron gap cannot be closed on a laptop, and the Human
