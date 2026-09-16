@@ -54,19 +54,32 @@ time **0.719×** the 64/8 default (about **28% less**), and median
 transient Metal peak **1.009×**. The maximum bf16 layer-output
 difference was **0.0078125**. Decode used a one-token block regardless
 of the configured chunk and showed no improvement in this run. Host
-load began above **30**, so the paired trend needs complete-model
-verification (`experiments/results/query_global_chunk_profile_b1.json`).
-The next implementation gate is a paired cached-model test of that
-configuration, followed by a custom Metal scan only if
-its correctness and memory behavior can be demonstrated. [MLX
+load began above **30**
+(`experiments/results/query_global_chunk_profile_b1.json`).
+
+The paired complete-model run at 8K did not preserve that layer gain.
+The tuned map had
+median within-repeat prefill-time ratios **0.996×** to Llama and
+**1.006×** to the 64/8 map, with decode-speed ratio **0.996×** to
+Llama. Those are ties within the observed repeat spread. At 512 and
+2,048 tokens, tuned prefill still took about **1.05×** the teacher.
+The tuned setting used the same **253.037 MB** active complete-model
+cache at 8K plus 32 decodes; transient Metal peak rose to **3.876 GB**
+from **3.748 GB** for the 64/8 setting in the co-resident benchmark.
+The layer-only 28% prefill improvement therefore did not survive as a
+material complete-model speed gain
+(`experiments/results/query_global_opt_benchmark_b1.json`). A custom
+Metal scan would require numerical and cache parity, measured peak
+memory, and a complete-model speed gain at matched quality. [MLX
 documents custom Metal kernels](https://ml-explore.github.io/mlx/build/html/dev/custom_metal_kernels.html),
 including the need for a separate VJP if one is used for training.
 
-The raw records are
+The raw layer records are
 `experiments/results/query_global_layer_profile_b1.json` and
-`query_global_layer_profile_long_b1.json`; each stores arm order,
+`query_global_layer_profile_long_b1.json`; both store arm order,
 per-repeat times, cache bytes, source/model/corpus hashes, host load,
-activation-capture time and Metal peak. They do not establish
+activation-capture time and Metal peak. The chunk and complete-model
+tuning records use the same paired-order approach. They do not establish
 long-context perplexity, retrieval quality, multi-layer conversion,
 deployment resident memory or reduced dollars per token.
 
@@ -79,4 +92,7 @@ cd /Users/richie/Documents/github/human-brain
   --contexts 16384,32768 --decode-tokens 32 --repeats 3 \
   --output experiments/results/query_global_layer_profile_long_b1.json
 ~/zbrain/venv/bin/python experiments/profile_query_global_chunks.py
+~/zbrain/venv/bin/python experiments/benchmark_query_global_opt.py \
+  --contexts 512,2048,8192 --decode-tokens 32 --repeats 5 \
+  --output experiments/results/query_global_opt_benchmark_b1.json
 ```
