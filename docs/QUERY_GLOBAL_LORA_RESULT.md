@@ -81,3 +81,8 @@ quality, changing more layers would amplify the risk rather than
 demonstrate an efficiency unlock. A query-state model that meets
 quality must then beat complete-model prefill/decode and training
 baselines after all conversion work is counted.
+
+The next [larger-data matched protocol](QUERY_GLOBAL_LORA_BROAD_PROTOCOL.md)
+uses disjoint WikiText train/validation splits and more Shakespeare
+windows; its checkpoint rule and fresh quality windows were fixed
+before the primary run.
