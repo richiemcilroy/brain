@@ -1,0 +1,257 @@
+{
+  "status": "complete",
+  "meta": {
+    "revision": "9535bd9b1d1dea6acafbdc4813b728796aeb28da",
+    "config_sha256": "8f028e2cd88148fad38c7dece460947681adf6178e46e11ece9742aa49b378dd",
+    "weight_blob_id": "68a2e4be76fa709455a60272fba8e512c02d81c46e6c671cc9449e374fd6809a",
+    "source_sha256": "d52eb8f5effbd1282bfd24c33a97acd39cf0240e274a74f0f5f7f8446d64f3dc",
+    "local_window_source_sha256": "f4fad1cc94227a762a1144090727072f62c757b25e3cf4898678691b42fbef7f",
+    "corpus_sha256": "86c4e6aa9db7c042ec79f339dcb96d42b0075e16b8fc2e86bf0ca57e2dc565ed",
+    "mlx": "0.32.2",
+    "prefix": 2048,
+    "layer": 8,
+    "local_window": 64,
+    "sampled_positions": [
+      127,
+      255,
+      511,
+      1023,
+      1535,
+      2047
+    ],
+    "feature_maps": [
+      "elu_plus_one",
+      "relu_plus_one",
+      "identity_hedgehog_temp1",
+      "identity_hedgehog_temp2"
+    ],
+    "quality_note": "attention-output diagnostic on sampled genuine layer inputs; scalar map gains fit on 60% only; no next-token model score, training or timing",
+    "started_epoch": 1789520132.2213912,
+    "finished_epoch": 1789520133.9110458
+  },
+  "windows": {
+    "selection": {
+      "token_window": [
+        181061,
+        183109
+      ],
+      "token_ids_sha256": "da15a1776a8b010c1aa9f7ce81782523d08976492004946a4e723172aeb53f5f"
+    },
+    "fresh_75": {
+      "token_window": [
+        226326,
+        228374
+      ],
+      "token_ids_sha256": "e946bce4dbd0b4437a3eb6a638df538871b66bd6b07ce71526a5161bb664fa80"
+    },
+    "fresh_85": {
+      "token_window": [
+        256503,
+        258551
+      ],
+      "token_ids_sha256": "51d1b87549ad215222829ce4a41afb6692fe3e891d87ab5a1ad94e635f8a182a"
+    },
+    "inspected_90": {
+      "token_window": [
+        271592,
+        273640
+      ],
+      "token_ids_sha256": "a322042374cfcfe011d0ebb84f47a5f626980e897e9ad89b93e3bf1ca8aa1a6f"
+    }
+  },
+  "selection_fits": {
+    "trace": {
+      "unconstrained_gain": -0.39735819282041124,
+      "selected_gain": -0.39735819282041124,
+      "allowed_gain_range": [
+        -1.0,
+        1.0
+      ]
+    },
+    "elu_plus_one": {
+      "unconstrained_gain": 0.4084606010094891,
+      "selected_gain": 0.4084606010094891,
+      "allowed_gain_range": [
+        0.0,
+        1.0
+      ]
+    },
+    "relu_plus_one": {
+      "unconstrained_gain": 0.4062280691060014,
+      "selected_gain": 0.4062280691060014,
+      "allowed_gain_range": [
+        0.0,
+        1.0
+      ]
+    },
+    "identity_hedgehog_temp1": {
+      "unconstrained_gain": 0.4446285745236177,
+      "selected_gain": 0.4446285745236177,
+      "allowed_gain_range": [
+        0.0,
+        1.0
+      ]
+    },
+    "identity_hedgehog_temp2": {
+      "unconstrained_gain": 0.44968487725044576,
+      "selected_gain": 0.44968487725044576,
+      "allowed_gain_range": [
+        0.0,
+        1.0
+      ]
+    }
+  },
+  "rows": {
+    "selection": {
+      "local_mse": 0.002472467323145584,
+      "state_bytes_by_map": {
+        "elu_plus_one": 133120,
+        "relu_plus_one": 133120,
+        "identity_hedgehog_temp1": 266240,
+        "identity_hedgehog_temp2": 266240
+      },
+      "trace": {
+        "selected_gain": -0.39735819282041124,
+        "mse": 0.0018558067238359094,
+        "fraction_of_local_mse_recovered": 0.2494110209412722
+      },
+      "maps": {
+        "elu_plus_one": {
+          "selected_gain": 0.4084606010094891,
+          "mse": 0.0017854240033502817,
+          "fraction_of_local_mse_recovered": 0.27787761373574593
+        },
+        "relu_plus_one": {
+          "selected_gain": 0.4062280691060014,
+          "mse": 0.0017894765911688152,
+          "fraction_of_local_mse_recovered": 0.2762385272327228
+        },
+        "identity_hedgehog_temp1": {
+          "selected_gain": 0.4446285745236177,
+          "mse": 0.0016575971488787488,
+          "fraction_of_local_mse_recovered": 0.32957773259066603
+        },
+        "identity_hedgehog_temp2": {
+          "selected_gain": 0.44968487725044576,
+          "mse": 0.0013982619996890926,
+          "fraction_of_local_mse_recovered": 0.43446694457819535
+        }
+      }
+    },
+    "fresh_75": {
+      "local_mse": 0.0015981344823053957,
+      "state_bytes_by_map": {
+        "elu_plus_one": 133120,
+        "relu_plus_one": 133120,
+        "identity_hedgehog_temp1": 266240,
+        "identity_hedgehog_temp2": 266240
+      },
+      "trace": {
+        "selected_gain": -0.39735819282041124,
+        "mse": 0.0011916425533531573,
+        "fraction_of_local_mse_recovered": 0.25435401929745727
+      },
+      "maps": {
+        "elu_plus_one": {
+          "selected_gain": 0.4084606010094891,
+          "mse": 0.0012186474215557669,
+          "fraction_of_local_mse_recovered": 0.2374562747699419
+        },
+        "relu_plus_one": {
+          "selected_gain": 0.4062280691060014,
+          "mse": 0.0012223454747190365,
+          "fraction_of_local_mse_recovered": 0.2351422935598405
+        },
+        "identity_hedgehog_temp1": {
+          "selected_gain": 0.4446285745236177,
+          "mse": 0.0011397670274087676,
+          "fraction_of_local_mse_recovered": 0.2868140697617688
+        },
+        "identity_hedgehog_temp2": {
+          "selected_gain": 0.44968487725044576,
+          "mse": 0.0008812127979282554,
+          "fraction_of_local_mse_recovered": 0.4485990962055595
+        }
+      }
+    },
+    "fresh_85": {
+      "local_mse": 0.001969858080196988,
+      "state_bytes_by_map": {
+        "elu_plus_one": 133120,
+        "relu_plus_one": 133120,
+        "identity_hedgehog_temp1": 266240,
+        "identity_hedgehog_temp2": 266240
+      },
+      "trace": {
+        "selected_gain": -0.39735819282041124,
+        "mse": 0.0015472959660760167,
+        "fraction_of_local_mse_recovered": 0.21451398878375783
+      },
+      "maps": {
+        "elu_plus_one": {
+          "selected_gain": 0.4084606010094891,
+          "mse": 0.0015134854976534128,
+          "fraction_of_local_mse_recovered": 0.23167789960682728
+        },
+        "relu_plus_one": {
+          "selected_gain": 0.4062280691060014,
+          "mse": 0.0015173373500008476,
+          "fraction_of_local_mse_recovered": 0.22972250374041558
+        },
+        "identity_hedgehog_temp1": {
+          "selected_gain": 0.4446285745236177,
+          "mse": 0.0014175864140128756,
+          "fraction_of_local_mse_recovered": 0.2803611446611852
+        },
+        "identity_hedgehog_temp2": {
+          "selected_gain": 0.44968487725044576,
+          "mse": 0.0011796933182878237,
+          "fraction_of_local_mse_recovered": 0.40112776136144135
+        }
+      }
+    },
+    "inspected_90": {
+      "local_mse": 0.002068987043473728,
+      "state_bytes_by_map": {
+        "elu_plus_one": 133120,
+        "relu_plus_one": 133120,
+        "identity_hedgehog_temp1": 266240,
+        "identity_hedgehog_temp2": 266240
+      },
+      "trace": {
+        "selected_gain": -0.39735819282041124,
+        "mse": 0.0015626263009501302,
+        "fraction_of_local_mse_recovered": 0.24473847920934444
+      },
+      "maps": {
+        "elu_plus_one": {
+          "selected_gain": 0.4084606010094891,
+          "mse": 0.0014995683820101882,
+          "fraction_of_local_mse_recovered": 0.2752161562633635
+        },
+        "relu_plus_one": {
+          "selected_gain": 0.4062280691060014,
+          "mse": 0.001504113218881285,
+          "fraction_of_local_mse_recovered": 0.27301950796368823
+        },
+        "identity_hedgehog_temp1": {
+          "selected_gain": 0.4446285745236177,
+          "mse": 0.0014009958714433942,
+          "fraction_of_local_mse_recovered": 0.32285904067761073
+        },
+        "identity_hedgehog_temp2": {
+          "selected_gain": 0.44968487725044576,
+          "mse": 0.0011701481159233859,
+          "fraction_of_local_mse_recovered": 0.4344342949781046
+        }
+      }
+    }
+  },
+  "choice": {
+    "map": "identity_hedgehog_temp2",
+    "criterion": "largest local residual MSE recovery on the 60% selection window",
+    "selected_gain": 0.44968487725044576,
+    "fresh_75_recovery": 0.4485990962055595,
+    "fresh_85_recovery": 0.40112776136144135
+  }
+}
