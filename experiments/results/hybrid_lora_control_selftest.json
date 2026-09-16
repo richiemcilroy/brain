@@ -1,0 +1,16 @@
+{
+ "teacher": "unsloth/Llama-3.2-1B",
+ "layer": 8,
+ "d": 2048,
+ "arms": [
+  "T",
+  "R",
+  "L1",
+  "L2"
+ ],
+ "fails": [],
+ "determinism_sha256": [
+  "b44976ec8f7f5193af0993d05bacad8aa096f1dcfddd07682e7ef22a4eed7a38",
+  "b44976ec8f7f5193af0993d05bacad8aa096f1dcfddd07682e7ef22a4eed7a38"
+ ]
+}

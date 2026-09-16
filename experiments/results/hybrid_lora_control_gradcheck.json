@@ -1,0 +1,174 @@
+{
+ "teacher": "unsloth/Llama-3.2-1B",
+ "layer": 8,
+ "d": 2048,
+ "seeds": [
+  0,
+  1,
+  2
+ ],
+ "arms": [
+  "T",
+  "R",
+  "L1",
+  "L2"
+ ],
+ "rows": [
+  {
+   "arm": "T",
+   "seed": 0,
+   "grad_norm_down_init": 0.0,
+   "grad_norm_up_init": 0.28642828418138283,
+   "rms_branch_input": 0.05049945414066315,
+   "rms_target_attention_out": 0.05049945414066315,
+   "input_scale": 0.24295795574587123,
+   "trainable_params": 262144
+  },
+  {
+   "arm": "R",
+   "seed": 0,
+   "grad_norm_down_init": 0.0,
+   "grad_norm_up_init": 0.3042406570426384,
+   "rms_branch_input": 0.05049945414066315,
+   "rms_target_attention_out": 0.05049945414066315,
+   "input_scale": 0.10519584034284864,
+   "trainable_params": 262144
+  },
+  {
+   "arm": "L1",
+   "seed": 0,
+   "grad_norm_down_init": 0.0,
+   "grad_norm_up_init": 0.2706246761050381,
+   "rms_branch_input": 0.05049945414066315,
+   "rms_target_attention_out": 0.05049945414066315,
+   "input_scale": 1.0,
+   "trainable_params": 262144
+  },
+  {
+   "arm": "L2",
+   "seed": 0,
+   "grad_norm_down_init": 0.0,
+   "grad_norm_up_init": 0.2856321181551842,
+   "rms_branch_input": 0.05049945414066315,
+   "rms_target_attention_out": 0.05049945414066315,
+   "input_scale": 0.09728572293051739,
+   "trainable_params": 262144
+  },
+  {
+   "arm": "T",
+   "seed": 1,
+   "grad_norm_down_init": 0.0,
+   "grad_norm_up_init": 0.1985635896772351,
+   "rms_branch_input": 0.05049945414066315,
+   "rms_target_attention_out": 0.05049945414066315,
+   "input_scale": 0.24295541275975793,
+   "trainable_params": 262144
+  },
+  {
+   "arm": "R",
+   "seed": 1,
+   "grad_norm_down_init": 0.0,
+   "grad_norm_up_init": 0.19986365062965444,
+   "rms_branch_input": 0.05049945414066315,
+   "rms_target_attention_out": 0.05049945414066315,
+   "input_scale": 0.10537861239179679,
+   "trainable_params": 262144
+  },
+  {
+   "arm": "L1",
+   "seed": 1,
+   "grad_norm_down_init": 0.0,
+   "grad_norm_up_init": 0.21215129547045655,
+   "rms_branch_input": 0.05049945414066315,
+   "rms_target_attention_out": 0.05049945414066315,
+   "input_scale": 1.0,
+   "trainable_params": 262144
+  },
+  {
+   "arm": "L2",
+   "seed": 1,
+   "grad_norm_down_init": 0.0,
+   "grad_norm_up_init": 0.20387329561754236,
+   "rms_branch_input": 0.05049945414066315,
+   "rms_target_attention_out": 0.05049945414066315,
+   "input_scale": 0.09728572293051739,
+   "trainable_params": 262144
+  },
+  {
+   "arm": "T",
+   "seed": 2,
+   "grad_norm_down_init": 0.0,
+   "grad_norm_up_init": 0.2292137730950608,
+   "rms_branch_input": 0.05049945414066315,
+   "rms_target_attention_out": 0.05049945414066315,
+   "input_scale": 0.24317060519323389,
+   "trainable_params": 262144
+  },
+  {
+   "arm": "R",
+   "seed": 2,
+   "grad_norm_down_init": 0.0,
+   "grad_norm_up_init": 0.2380866932503971,
+   "rms_branch_input": 0.05049945414066315,
+   "rms_target_attention_out": 0.05049945414066315,
+   "input_scale": 0.1040616059165891,
+   "trainable_params": 262144
+  },
+  {
+   "arm": "L1",
+   "seed": 2,
+   "grad_norm_down_init": 0.0,
+   "grad_norm_up_init": 0.2349105597568887,
+   "rms_branch_input": 0.05049945414066315,
+   "rms_target_attention_out": 0.05049945414066315,
+   "input_scale": 1.0,
+   "trainable_params": 262144
+  },
+  {
+   "arm": "L2",
+   "seed": 2,
+   "grad_norm_down_init": 0.0,
+   "grad_norm_up_init": 0.23150028329401914,
+   "rms_branch_input": 0.05049945414066315,
+   "rms_target_attention_out": 0.05049945414066315,
+   "input_scale": 0.09728572293051739,
+   "trainable_params": 262144
+  }
+ ],
+ "summary": {
+  "T": {
+   "n": 3,
+   "mean_grad_norm_up": 0.23806854898455956,
+   "mean_grad_norm_down": 0.0,
+   "min_grad_norm_up": 0.1985635896772351,
+   "mean_branch_input_rms": 0.05049945414066315
+  },
+  "R": {
+   "n": 3,
+   "mean_grad_norm_up": 0.24739700030756331,
+   "mean_grad_norm_down": 0.0,
+   "min_grad_norm_up": 0.19986365062965444,
+   "mean_branch_input_rms": 0.05049945414066315
+  },
+  "L1": {
+   "n": 3,
+   "mean_grad_norm_up": 0.23922884377746112,
+   "mean_grad_norm_down": 0.0,
+   "min_grad_norm_up": 0.21215129547045655,
+   "mean_branch_input_rms": 0.05049945414066315
+  },
+  "L2": {
+   "n": 3,
+   "mean_grad_norm_up": 0.24033523235558188,
+   "mean_grad_norm_down": 0.0,
+   "min_grad_norm_up": 0.20387329561754236,
+   "mean_branch_input_rms": 0.05049945414066315
+  },
+  "gradient_spread": {
+   "min_mean_grad_norm_up": 0.23806854898455956,
+   "max_mean_grad_norm_up": 0.24739700030756331,
+   "max_over_min_ratio": 1.0391838878457178,
+   "note": "if one arm's init gradient were orders of magnitude smaller, a worse final loss could be undertraining rather than mechanism; a ratio near 1 removes that explanation"
+  }
+ }
+}

@@ -1,0 +1,2172 @@
+{
+ "teacher": "unsloth/Llama-3.2-1B",
+ "layer": 8,
+ "n_layers": 16,
+ "d": 2048,
+ "rank": 64,
+ "steps": 400,
+ "bs": 2,
+ "ctx": 128,
+ "lr": 1e-05,
+ "decay": 0.7,
+ "seeds": [
+  0,
+  1,
+  2,
+  3,
+  4
+ ],
+ "arms": [
+  "T",
+  "R",
+  "L1",
+  "L2"
+ ],
+ "lrs": [
+  1e-05
+ ],
+ "config_lr0": 1e-05,
+ "val_tokens": 3000,
+ "select_tokens": 3000,
+ "teacher_val_ppl": 20.375600125475536,
+ "teacher_select_ppl": 22.66995199094904,
+ "teacher_val_ppl_hp": 20.442662129791795,
+ "protocol": {
+  "split": "train=first 50%, select=60-80%, val=last 10%, disjoint",
+  "trained": "ONLY the rank-64 projection; model frozen; trainable set asserted",
+  "identity": "up=0 at init -> bit-identical to the teacher; asserted on val ppl and on max abs logit diff",
+  "matching": "trainable params matched exactly (2*rank*d); branch input rms matched to attention output rms",
+  "total_params": "T/R carry a frozen ~12.6M-param carrier; L1/L2 do not -- trainable capacity is matched, total is not; stated in docs/LORA_CONTROL.md",
+  "eval": "fixed 3000-token held-out window, no sampling"
+ },
+ "runs": [
+  {
+   "arm": "T",
+   "description": "rank-64 zero-init projection on the gated-memory branch, W_v/W_o transplanted from this layer's attention (repro of the headline)",
+   "source": "mem(x) (gated trace of ln1(x))",
+   "rank": 64,
+   "transplanted": true,
+   "value_expand_reps": 4,
+   "wv_norm": 26.364788055419922,
+   "wo_norm": 29.8035831451416,
+   "gate_bias": 0.8472978603872034,
+   "fitted_decay": 0.7,
+   "decay_source": "explicit override",
+   "rms_branch_input_before_scale": 0.19643013179302216,
+   "rms_target_attention_out": 0.04969434440135956,
+   "time_dependent": true,
+   "input_scale": 0.25298738003048504,
+   "rms_branch_input_after_scale": 0.04969434440135956,
+   "input_scale_max_rel_dev": 0.0,
+   "trainable_params": 262144,
+   "trainable_names": [
+    "down.weight",
+    "up.weight"
+   ],
+   "frozen_params_added": 12584960,
+   "total_params_this_arm": 1261246464,
+   "init_val_ppl": 20.375600125475536,
+   "init_val_ppl_hp": 20.442662129791795,
+   "teacher_val_ppl_hp": 20.442662129791795,
+   "init_max_abs_logit_diff_vs_teacher": 0.0,
+   "seed": 0,
+   "steps": 400,
+   "before_val_ppl": 20.375600125475536,
+   "after_val_ppl": 19.52424875780827,
+   "after_select_ppl": 21.66486658966384,
+   "before_select_ppl": 22.66995199094904,
+   "delta_vs_teacher": -0.8513513676672666,
+   "rel_delta_pct": -4.178288553095549,
+   "beats_teacher": true,
+   "after_val_ppl_hp": 19.538084766788625,
+   "delta_vs_teacher_hp": -0.9045773630031704,
+   "beats_teacher_hp": true,
+   "wall_s": 53.28858304023743,
+   "curve": [
+    {
+     "step": 100,
+     "loss": 3.3125,
+     "select_ppl": 21.49218175596199
+    },
+    {
+     "step": 200,
+     "loss": 2.984375,
+     "select_ppl": 21.37782389277172
+    },
+    {
+     "step": 300,
+     "loss": 3.21875,
+     "select_ppl": 21.607151361532544
+    },
+    {
+     "step": 400,
+     "loss": 2.953125,
+     "select_ppl": 21.66486658966384
+    }
+   ],
+   "branch_out_rms": 0.037980519235134125,
+   "attn_out_rms": 0.04925120994448662,
+   "lr": 0.0001
+  },
+  {
+   "arm": "R",
+   "description": "identical module, W_v/W_o random at the same per-matrix weight scale",
+   "source": "mem(x) (gated trace of ln1(x))",
+   "rank": 64,
+   "transplanted": true,
+   "value_expand_reps": 4,
+   "wv_norm": 26.364788055419922,
+   "wo_norm": 29.8035831451416,
+   "gate_bias": 0.8472978603872034,
+   "fitted_decay": 0.7,
+   "decay_source": "explicit override",
+   "random_w_std_v": 0.012873442843556404,
+   "random_w_std_o": 0.014552559703588486,
+   "control": "random W_v/W_o, each drawn at its own transplanted counterpart's std",
+   "note_previous_impl": "hybrid_inject.py drew BOTH matrices at std(W_v); the two stds differ by design here and per-matrix matching is the tighter control on weight scale",
+   "rms_branch_input_before_scale": 0.46687906980514526,
+   "rms_target_attention_out": 0.04969434440135956,
+   "time_dependent": true,
+   "input_scale": 0.10643943499566126,
+   "rms_branch_input_after_scale": 0.04969434440135956,
+   "input_scale_max_rel_dev": 0.0,
+   "trainable_params": 262144,
+   "trainable_names": [
+    "down.weight",
+    "up.weight"
+   ],
+   "frozen_params_added": 12584960,
+   "total_params_this_arm": 1261246464,
+   "init_val_ppl": 20.375600125475536,
+   "init_val_ppl_hp": 20.442662129791795,
+   "teacher_val_ppl_hp": 20.442662129791795,
+   "init_max_abs_logit_diff_vs_teacher": 0.0,
+   "seed": 0,
+   "steps": 400,
+   "before_val_ppl": 20.375600125475536,
+   "after_val_ppl": 19.42036207968082,
+   "after_select_ppl": 21.49218175596199,
+   "before_select_ppl": 22.66995199094904,
+   "delta_vs_teacher": -0.9552380457947152,
+   "rel_delta_pct": -4.688146802608207,
+   "beats_teacher": true,
+   "after_val_ppl_hp": 19.4371828707231,
+   "delta_vs_teacher_hp": -1.0054792590686965,
+   "beats_teacher_hp": true,
+   "wall_s": 110.35238718986511,
+   "curve": [
+    {
+     "step": 100,
+     "loss": 3.328125,
+     "select_ppl": 21.434926560415292
+    },
+    {
+     "step": 200,
+     "loss": 3.0,
+     "select_ppl": 21.37782389277172
+    },
+    {
+     "step": 300,
+     "loss": 3.203125,
+     "select_ppl": 21.37782389277172
+    },
+    {
+     "step": 400,
+     "loss": 2.953125,
+     "select_ppl": 21.49218175596199
+    }
+   ],
+   "branch_out_rms": 0.0353272520005703,
+   "attn_out_rms": 0.04925120994448662,
+   "lr": 0.0001
+  },
+  {
+   "arm": "L1",
+   "description": "rank-64 zero-init low-rank branch on the attention output -- no memory, no recurrent state",
+   "source": "attn(ln1(x)) -- sublayer output",
+   "rank": 64,
+   "time_dependent": false,
+   "rms_branch_input_before_scale": 0.04969434440135956,
+   "rms_target_attention_out": 0.04969434440135956,
+   "control": "no memory, no recurrent state",
+   "input_scale": 1.0,
+   "rms_branch_input_after_scale": 0.04969434440135956,
+   "input_scale_max_rel_dev": 0.0,
+   "trainable_params": 262144,
+   "trainable_names": [
+    "down.weight",
+    "up.weight"
+   ],
+   "frozen_params_added": 0,
+   "total_params_this_arm": 1236076544,
+   "init_val_ppl": 20.375600125475536,
+   "init_val_ppl_hp": 20.442662129791795,
+   "teacher_val_ppl_hp": 20.442662129791795,
+   "init_max_abs_logit_diff_vs_teacher": 0.0,
+   "seed": 0,
+   "steps": 400,
+   "before_val_ppl": 20.375600125475536,
+   "after_val_ppl": 19.52424875780827,
+   "after_select_ppl": 21.607151361532544,
+   "before_select_ppl": 22.66995199094904,
+   "delta_vs_teacher": -0.8513513676672666,
+   "rel_delta_pct": -4.178288553095549,
+   "beats_teacher": true,
+   "after_val_ppl_hp": 19.50427126894434,
+   "delta_vs_teacher_hp": -0.9383908608474556,
+   "beats_teacher_hp": true,
+   "wall_s": 131.23510313034058,
+   "curve": [
+    {
+     "step": 100,
+     "loss": 3.296875,
+     "select_ppl": 21.434926560415292
+    },
+    {
+     "step": 200,
+     "loss": 2.96875,
+     "select_ppl": 21.549589886831704
+    },
+    {
+     "step": 300,
+     "loss": 3.21875,
+     "select_ppl": 21.607151361532544
+    },
+    {
+     "step": 400,
+     "loss": 2.9375,
+     "select_ppl": 21.607151361532544
+    }
+   ],
+   "branch_out_rms": 0.02947605773806572,
+   "attn_out_rms": 0.04925120994448662,
+   "lr": 0.0001
+  },
+  {
+   "arm": "L2",
+   "description": "rank-64 zero-init low-rank branch on the layer input ln1(x) -- no memory, no recurrent state",
+   "source": "ln1(x) -- sublayer input",
+   "rank": 64,
+   "time_dependent": false,
+   "rms_branch_input_before_scale": 0.5090377926826477,
+   "rms_target_attention_out": 0.04969434440135956,
+   "control": "no memory, no recurrent state",
+   "input_scale": 0.09762407647469268,
+   "rms_branch_input_after_scale": 0.04969434440135956,
+   "input_scale_max_rel_dev": 0.0,
+   "trainable_params": 262144,
+   "trainable_names": [
+    "down.weight",
+    "up.weight"
+   ],
+   "frozen_params_added": 0,
+   "total_params_this_arm": 1236076544,
+   "init_val_ppl": 20.375600125475536,
+   "init_val_ppl_hp": 20.442662129791795,
+   "teacher_val_ppl_hp": 20.442662129791795,
+   "init_max_abs_logit_diff_vs_teacher": 0.0,
+   "seed": 0,
+   "steps": 400,
+   "before_val_ppl": 20.375600125475536,
+   "after_val_ppl": 19.42036207968082,
+   "after_select_ppl": 21.320873346696793,
+   "before_select_ppl": 22.66995199094904,
+   "delta_vs_teacher": -0.9552380457947152,
+   "rel_delta_pct": -4.688146802608207,
+   "beats_teacher": true,
+   "after_val_ppl_hp": 19.421771556754305,
+   "delta_vs_teacher_hp": -1.0208905730374909,
+   "beats_teacher_hp": true,
+   "wall_s": 127.57257914543152,
+   "curve": [
+    {
+     "step": 100,
+     "loss": 3.28125,
+     "select_ppl": 21.264074516938475
+    },
+    {
+     "step": 200,
+     "loss": 2.96875,
+     "select_ppl": 21.150930390758674
+    },
+    {
+     "step": 300,
+     "loss": 3.15625,
+     "select_ppl": 21.150930390758674
+    },
+    {
+     "step": 400,
+     "loss": 2.921875,
+     "select_ppl": 21.320873346696793
+    }
+   ],
+   "branch_out_rms": 0.03475474938750267,
+   "attn_out_rms": 0.04925120994448662,
+   "lr": 0.0001
+  },
+  {
+   "arm": "T",
+   "description": "rank-64 zero-init projection on the gated-memory branch, W_v/W_o transplanted from this layer's attention (repro of the headline)",
+   "source": "mem(x) (gated trace of ln1(x))",
+   "rank": 64,
+   "transplanted": true,
+   "value_expand_reps": 4,
+   "wv_norm": 26.364788055419922,
+   "wo_norm": 29.8035831451416,
+   "gate_bias": 0.8472978603872034,
+   "fitted_decay": 0.7,
+   "decay_source": "explicit override",
+   "rms_branch_input_before_scale": 0.19638031721115112,
+   "rms_target_attention_out": 0.04969434440135956,
+   "time_dependent": true,
+   "input_scale": 0.25305155377627503,
+   "rms_branch_input_after_scale": 0.04969434440135956,
+   "input_scale_max_rel_dev": 0.0,
+   "trainable_params": 262144,
+   "trainable_names": [
+    "down.weight",
+    "up.weight"
+   ],
+   "frozen_params_added": 12584960,
+   "total_params_this_arm": 1261246464,
+   "init_val_ppl": 20.375600125475536,
+   "init_val_ppl_hp": 20.442662129791795,
+   "teacher_val_ppl_hp": 20.442662129791795,
+   "init_max_abs_logit_diff_vs_teacher": 0.0,
+   "seed": 1,
+   "steps": 400,
+   "before_val_ppl": 20.375600125475536,
+   "after_val_ppl": 19.628691164085797,
+   "after_select_ppl": 21.434926560415292,
+   "before_select_ppl": 22.66995199094904,
+   "delta_vs_teacher": -0.7469089613897388,
+   "rel_delta_pct": -3.665702883793255,
+   "beats_teacher": true,
+   "after_val_ppl_hp": 19.628820596001436,
+   "delta_vs_teacher_hp": -0.8138415337903595,
+   "beats_teacher_hp": true,
+   "wall_s": 84.00415682792664,
+   "curve": [
+    {
+     "step": 100,
+     "loss": 3.625,
+     "select_ppl": 21.320873346696793
+    },
+    {
+     "step": 200,
+     "loss": 3.59375,
+     "select_ppl": 21.434926560415292
+    },
+    {
+     "step": 300,
+     "loss": 3.625,
+     "select_ppl": 21.434926560415292
+    },
+    {
+     "step": 400,
+     "loss": 3.640625,
+     "select_ppl": 21.434926560415292
+    }
+   ],
+   "branch_out_rms": 0.04536508023738861,
+   "attn_out_rms": 0.05038245767354965,
+   "lr": 0.0001
+  },
+  {
+   "arm": "R",
+   "description": "identical module, W_v/W_o random at the same per-matrix weight scale",
+   "source": "mem(x) (gated trace of ln1(x))",
+   "rank": 64,
+   "transplanted": true,
+   "value_expand_reps": 4,
+   "wv_norm": 26.364788055419922,
+   "wo_norm": 29.8035831451416,
+   "gate_bias": 0.8472978603872034,
+   "fitted_decay": 0.7,
+   "decay_source": "explicit override",
+   "random_w_std_v": 0.012873442843556404,
+   "random_w_std_o": 0.014552559703588486,
+   "control": "random W_v/W_o, each drawn at its own transplanted counterpart's std",
+   "note_previous_impl": "hybrid_inject.py drew BOTH matrices at std(W_v); the two stds differ by design here and per-matrix matching is the tighter control on weight scale",
+   "rms_branch_input_before_scale": 0.45713043212890625,
+   "rms_target_attention_out": 0.04969434440135956,
+   "time_dependent": true,
+   "input_scale": 0.10870933306699267,
+   "rms_branch_input_after_scale": 0.04969434440135956,
+   "input_scale_max_rel_dev": 0.0,
+   "trainable_params": 262144,
+   "trainable_names": [
+    "down.weight",
+    "up.weight"
+   ],
+   "frozen_params_added": 12584960,
+   "total_params_this_arm": 1261246464,
+   "init_val_ppl": 20.375600125475536,
+   "init_val_ppl_hp": 20.442662129791795,
+   "teacher_val_ppl_hp": 20.442662129791795,
+   "init_max_abs_logit_diff_vs_teacher": 0.0,
+   "seed": 1,
+   "steps": 400,
+   "before_val_ppl": 20.375600125475536,
+   "after_val_ppl": 19.576400309500325,
+   "after_select_ppl": 21.549589886831704,
+   "before_select_ppl": 22.66995199094904,
+   "delta_vs_teacher": -0.7991998159752107,
+   "rel_delta_pct": -3.9223375559671205,
+   "beats_teacher": true,
+   "after_val_ppl_hp": 19.567818723372113,
+   "delta_vs_teacher_hp": -0.8748434064196822,
+   "beats_teacher_hp": true,
+   "wall_s": 90.96945905685425,
+   "curve": [
+    {
+     "step": 100,
+     "loss": 3.625,
+     "select_ppl": 21.607151361532544
+    },
+    {
+     "step": 200,
+     "loss": 3.59375,
+     "select_ppl": 21.434926560415292
+    },
+    {
+     "step": 300,
+     "loss": 3.640625,
+     "select_ppl": 21.549589886831704
+    },
+    {
+     "step": 400,
+     "loss": 3.640625,
+     "select_ppl": 21.549589886831704
+    }
+   ],
+   "branch_out_rms": 0.04989024996757507,
+   "attn_out_rms": 0.05038245767354965,
+   "lr": 0.0001
+  },
+  {
+   "arm": "L1",
+   "description": "rank-64 zero-init low-rank branch on the attention output -- no memory, no recurrent state",
+   "source": "attn(ln1(x)) -- sublayer output",
+   "rank": 64,
+   "time_dependent": false,
+   "rms_branch_input_before_scale": 0.04969434440135956,
+   "rms_target_attention_out": 0.04969434440135956,
+   "control": "no memory, no recurrent state",
+   "input_scale": 1.0,
+   "rms_branch_input_after_scale": 0.04969434440135956,
+   "input_scale_max_rel_dev": 0.0,
+   "trainable_params": 262144,
+   "trainable_names": [
+    "down.weight",
+    "up.weight"
+   ],
+   "frozen_params_added": 0,
+   "total_params_this_arm": 1236076544,
+   "init_val_ppl": 20.375600125475536,
+   "init_val_ppl_hp": 20.442662129791795,
+   "teacher_val_ppl_hp": 20.442662129791795,
+   "init_max_abs_logit_diff_vs_teacher": 0.0,
+   "seed": 1,
+   "steps": 400,
+   "before_val_ppl": 20.375600125475536,
+   "after_val_ppl": 19.628691164085797,
+   "after_select_ppl": 21.320873346696793,
+   "before_select_ppl": 22.66995199094904,
+   "delta_vs_teacher": -0.7469089613897388,
+   "rel_delta_pct": -3.665702883793255,
+   "beats_teacher": true,
+   "after_val_ppl_hp": 19.616466093832067,
+   "delta_vs_teacher_hp": -0.8261960359597289,
+   "beats_teacher_hp": true,
+   "wall_s": 120.77402377128601,
+   "curve": [
+    {
+     "step": 100,
+     "loss": 3.625,
+     "select_ppl": 21.207426999324348
+    },
+    {
+     "step": 200,
+     "loss": 3.59375,
+     "select_ppl": 21.264074516938475
+    },
+    {
+     "step": 300,
+     "loss": 3.59375,
+     "select_ppl": 21.320873346696793
+    },
+    {
+     "step": 400,
+     "loss": 3.640625,
+     "select_ppl": 21.320873346696793
+    }
+   ],
+   "branch_out_rms": 0.039366740733385086,
+   "attn_out_rms": 0.05038245767354965,
+   "lr": 0.0001
+  },
+  {
+   "arm": "L2",
+   "description": "rank-64 zero-init low-rank branch on the layer input ln1(x) -- no memory, no recurrent state",
+   "source": "ln1(x) -- sublayer input",
+   "rank": 64,
+   "time_dependent": false,
+   "rms_branch_input_before_scale": 0.5090377926826477,
+   "rms_target_attention_out": 0.04969434440135956,
+   "control": "no memory, no recurrent state",
+   "input_scale": 0.09762407647469268,
+   "rms_branch_input_after_scale": 0.04969434440135956,
+   "input_scale_max_rel_dev": 0.0,
+   "trainable_params": 262144,
+   "trainable_names": [
+    "down.weight",
+    "up.weight"
+   ],
+   "frozen_params_added": 0,
+   "total_params_this_arm": 1236076544,
+   "init_val_ppl": 20.375600125475536,
+   "init_val_ppl_hp": 20.442662129791795,
+   "teacher_val_ppl_hp": 20.442662129791795,
+   "init_max_abs_logit_diff_vs_teacher": 0.0,
+   "seed": 1,
+   "steps": 400,
+   "before_val_ppl": 20.375600125475536,
+   "after_val_ppl": 19.472236137906588,
+   "after_select_ppl": 21.150930390758674,
+   "before_select_ppl": 22.66995199094904,
+   "delta_vs_teacher": -0.9033639875689481,
+   "rel_delta_pct": -4.433557696489516,
+   "beats_teacher": true,
+   "after_val_ppl_hp": 19.454200357306316,
+   "delta_vs_teacher_hp": -0.9884617724854792,
+   "beats_teacher_hp": true,
+   "wall_s": 137.82221484184265,
+   "curve": [
+    {
+     "step": 100,
+     "loss": 3.625,
+     "select_ppl": 21.207426999324348
+    },
+    {
+     "step": 200,
+     "loss": 3.578125,
+     "select_ppl": 21.150930390758674
+    },
+    {
+     "step": 300,
+     "loss": 3.5625,
+     "select_ppl": 21.150930390758674
+    },
+    {
+     "step": 400,
+     "loss": 3.625,
+     "select_ppl": 21.150930390758674
+    }
+   ],
+   "branch_out_rms": 0.044545598328113556,
+   "attn_out_rms": 0.05038245767354965,
+   "lr": 0.0001
+  },
+  {
+   "arm": "T",
+   "description": "rank-64 zero-init projection on the gated-memory branch, W_v/W_o transplanted from this layer's attention (repro of the headline)",
+   "source": "mem(x) (gated trace of ln1(x))",
+   "rank": 64,
+   "transplanted": true,
+   "value_expand_reps": 4,
+   "wv_norm": 26.364788055419922,
+   "wo_norm": 29.8035831451416,
+   "gate_bias": 0.8472978603872034,
+   "fitted_decay": 0.7,
+   "decay_source": "explicit override",
+   "rms_branch_input_before_scale": 0.19644443690776825,
+   "rms_target_attention_out": 0.04969434440135956,
+   "time_dependent": true,
+   "input_scale": 0.252968957449741,
+   "rms_branch_input_after_scale": 0.04969434440135956,
+   "input_scale_max_rel_dev": 0.0,
+   "trainable_params": 262144,
+   "trainable_names": [
+    "down.weight",
+    "up.weight"
+   ],
+   "frozen_params_added": 12584960,
+   "total_params_this_arm": 1261246464,
+   "init_val_ppl": 20.375600125475536,
+   "init_val_ppl_hp": 20.442662129791795,
+   "teacher_val_ppl_hp": 20.442662129791795,
+   "init_max_abs_logit_diff_vs_teacher": 0.0,
+   "seed": 2,
+   "steps": 400,
+   "before_val_ppl": 20.375600125475536,
+   "after_val_ppl": 19.42036207968082,
+   "after_select_ppl": 21.549589886831704,
+   "before_select_ppl": 22.66995199094904,
+   "delta_vs_teacher": -0.9552380457947152,
+   "rel_delta_pct": -4.688146802608207,
+   "beats_teacher": true,
+   "after_val_ppl_hp": 19.400693046027968,
+   "delta_vs_teacher_hp": -1.0419690837638278,
+   "beats_teacher_hp": true,
+   "wall_s": 104.95186591148376,
+   "curve": [
+    {
+     "step": 100,
+     "loss": 3.4375,
+     "select_ppl": 21.434926560415292
+    },
+    {
+     "step": 200,
+     "loss": 2.625,
+     "select_ppl": 21.434926560415292
+    },
+    {
+     "step": 300,
+     "loss": 3.6875,
+     "select_ppl": 21.549589886831704
+    },
+    {
+     "step": 400,
+     "loss": 3.828125,
+     "select_ppl": 21.549589886831704
+    }
+   ],
+   "branch_out_rms": 0.039490312337875366,
+   "attn_out_rms": 0.04830347001552582,
+   "lr": 0.0001
+  },
+  {
+   "arm": "R",
+   "description": "identical module, W_v/W_o random at the same per-matrix weight scale",
+   "source": "mem(x) (gated trace of ln1(x))",
+   "rank": 64,
+   "transplanted": true,
+   "value_expand_reps": 4,
+   "wv_norm": 26.364788055419922,
+   "wo_norm": 29.8035831451416,
+   "gate_bias": 0.8472978603872034,
+   "fitted_decay": 0.7,
+   "decay_source": "explicit override",
+   "random_w_std_v": 0.012873442843556404,
+   "random_w_std_o": 0.014552559703588486,
+   "control": "random W_v/W_o, each drawn at its own transplanted counterpart's std",
+   "note_previous_impl": "hybrid_inject.py drew BOTH matrices at std(W_v); the two stds differ by design here and per-matrix matching is the tighter control on weight scale",
+   "rms_branch_input_before_scale": 0.4627886414527893,
+   "rms_target_attention_out": 0.04969434440135956,
+   "time_dependent": true,
+   "input_scale": 0.10738021625889246,
+   "rms_branch_input_after_scale": 0.04969434440135956,
+   "input_scale_max_rel_dev": 0.0,
+   "trainable_params": 262144,
+   "trainable_names": [
+    "down.weight",
+    "up.weight"
+   ],
+   "frozen_params_added": 12584960,
+   "total_params_this_arm": 1261246464,
+   "init_val_ppl": 20.375600125475536,
+   "init_val_ppl_hp": 20.442662129791795,
+   "teacher_val_ppl_hp": 20.442662129791795,
+   "init_max_abs_logit_diff_vs_teacher": 0.0,
+   "seed": 2,
+   "steps": 400,
+   "before_val_ppl": 20.375600125475536,
+   "after_val_ppl": 19.36862621400253,
+   "after_select_ppl": 21.37782389277172,
+   "before_select_ppl": 22.66995199094904,
+   "delta_vs_teacher": -1.0069739114730076,
+   "rel_delta_pct": -4.942057683071587,
+   "beats_teacher": true,
+   "after_val_ppl_hp": 19.39495371522869,
+   "delta_vs_teacher_hp": -1.047708414563104,
+   "beats_teacher_hp": true,
+   "wall_s": 216.99179792404175,
+   "curve": [
+    {
+     "step": 100,
+     "loss": 3.4375,
+     "select_ppl": 21.37782389277172
+    },
+    {
+     "step": 200,
+     "loss": 2.625,
+     "select_ppl": 21.37782389277172
+    },
+    {
+     "step": 300,
+     "loss": 3.703125,
+     "select_ppl": 21.49218175596199
+    },
+    {
+     "step": 400,
+     "loss": 3.8125,
+     "select_ppl": 21.37782389277172
+    }
+   ],
+   "branch_out_rms": 0.03734126687049866,
+   "attn_out_rms": 0.04830347001552582,
+   "lr": 0.0001
+  },
+  {
+   "arm": "L1",
+   "description": "rank-64 zero-init low-rank branch on the attention output -- no memory, no recurrent state",
+   "source": "attn(ln1(x)) -- sublayer output",
+   "rank": 64,
+   "time_dependent": false,
+   "rms_branch_input_before_scale": 0.04969434440135956,
+   "rms_target_attention_out": 0.04969434440135956,
+   "control": "no memory, no recurrent state",
+   "input_scale": 1.0,
+   "rms_branch_input_after_scale": 0.04969434440135956,
+   "input_scale_max_rel_dev": 0.0,
+   "trainable_params": 262144,
+   "trainable_names": [
+    "down.weight",
+    "up.weight"
+   ],
+   "frozen_params_added": 0,
+   "total_params_this_arm": 1236076544,
+   "init_val_ppl": 20.375600125475536,
+   "init_val_ppl_hp": 20.442662129791795,
+   "teacher_val_ppl_hp": 20.442662129791795,
+   "init_max_abs_logit_diff_vs_teacher": 0.0,
+   "seed": 2,
+   "steps": 400,
+   "before_val_ppl": 20.375600125475536,
+   "after_val_ppl": 19.52424875780827,
+   "after_select_ppl": 21.320873346696793,
+   "before_select_ppl": 22.66995199094904,
+   "delta_vs_teacher": -0.8513513676672666,
+   "rel_delta_pct": -4.178288553095549,
+   "beats_teacher": true,
+   "after_val_ppl_hp": 19.50595598786976,
+   "delta_vs_teacher_hp": -0.9367061419220342,
+   "beats_teacher_hp": true,
+   "wall_s": 478.0669569969177,
+   "curve": [
+    {
+     "step": 100,
+     "loss": 3.40625,
+     "select_ppl": 21.320873346696793
+    },
+    {
+     "step": 200,
+     "loss": 2.609375,
+     "select_ppl": 21.207426999324348
+    },
+    {
+     "step": 300,
+     "loss": 3.6875,
+     "select_ppl": 21.49218175596199
+    },
+    {
+     "step": 400,
+     "loss": 3.8125,
+     "select_ppl": 21.320873346696793
+    }
+   ],
+   "branch_out_rms": 0.030674811452627182,
+   "attn_out_rms": 0.04830347001552582,
+   "lr": 0.0001
+  },
+  {
+   "arm": "L2",
+   "description": "rank-64 zero-init low-rank branch on the layer input ln1(x) -- no memory, no recurrent state",
+   "source": "ln1(x) -- sublayer input",
+   "rank": 64,
+   "time_dependent": false,
+   "rms_branch_input_before_scale": 0.5090377926826477,
+   "rms_target_attention_out": 0.04969434440135956,
+   "control": "no memory, no recurrent state",
+   "input_scale": 0.09762407647469268,
+   "rms_branch_input_after_scale": 0.04969434440135956,
+   "input_scale_max_rel_dev": 0.0,
+   "trainable_params": 262144,
+   "trainable_names": [
+    "down.weight",
+    "up.weight"
+   ],
+   "frozen_params_added": 0,
+   "total_params_this_arm": 1236076544,
+   "init_val_ppl": 20.375600125475536,
+   "init_val_ppl_hp": 20.442662129791795,
+   "teacher_val_ppl_hp": 20.442662129791795,
+   "init_max_abs_logit_diff_vs_teacher": 0.0,
+   "seed": 2,
+   "steps": 400,
+   "before_val_ppl": 20.375600125475536,
+   "after_val_ppl": 19.36862621400253,
+   "after_select_ppl": 21.094584289219604,
+   "before_select_ppl": 22.66995199094904,
+   "delta_vs_teacher": -1.0069739114730076,
+   "rel_delta_pct": -4.942057683071587,
+   "beats_teacher": true,
+   "after_val_ppl_hp": 19.393845364945804,
+   "delta_vs_teacher_hp": -1.0488167648459914,
+   "beats_teacher_hp": true,
+   "wall_s": 392.36517095565796,
+   "curve": [
+    {
+     "step": 100,
+     "loss": 3.40625,
+     "select_ppl": 21.094584289219604
+    },
+    {
+     "step": 200,
+     "loss": 2.59375,
+     "select_ppl": 21.094584289219604
+    },
+    {
+     "step": 300,
+     "loss": 3.671875,
+     "select_ppl": 21.264074516938475
+    },
+    {
+     "step": 400,
+     "loss": 3.78125,
+     "select_ppl": 21.094584289219604
+    }
+   ],
+   "branch_out_rms": 0.03920678421854973,
+   "attn_out_rms": 0.04830347001552582,
+   "lr": 0.0001
+  },
+  {
+   "arm": "T",
+   "description": "rank-64 zero-init projection on the gated-memory branch, W_v/W_o transplanted from this layer's attention (repro of the headline)",
+   "source": "mem(x) (gated trace of ln1(x))",
+   "rank": 64,
+   "transplanted": true,
+   "value_expand_reps": 4,
+   "wv_norm": 26.364788055419922,
+   "wo_norm": 29.8035831451416,
+   "gate_bias": 0.8472978603872034,
+   "fitted_decay": 0.7,
+   "decay_source": "explicit override",
+   "rms_branch_input_before_scale": 0.19649940729141235,
+   "rms_target_attention_out": 0.04969434440135956,
+   "time_dependent": true,
+   "input_scale": 0.25289818980299467,
+   "rms_branch_input_after_scale": 0.04969434440135956,
+   "input_scale_max_rel_dev": 0.0,
+   "trainable_params": 262144,
+   "trainable_names": [
+    "down.weight",
+    "up.weight"
+   ],
+   "frozen_params_added": 12584960,
+   "total_params_this_arm": 1261246464,
+   "init_val_ppl": 20.375600125475536,
+   "init_val_ppl_hp": 20.442662129791795,
+   "teacher_val_ppl_hp": 20.442662129791795,
+   "init_max_abs_logit_diff_vs_teacher": 0.0,
+   "seed": 0,
+   "lr": 1e-05,
+   "steps": 400,
+   "before_val_ppl": 20.375600125475536,
+   "after_val_ppl": 19.89224803855826,
+   "after_select_ppl": 22.01440985627591,
+   "before_select_ppl": 22.66995199094904,
+   "delta_vs_teacher": -0.48335208691727516,
+   "rel_delta_pct": -2.372210310080349,
+   "beats_teacher": true,
+   "after_val_ppl_hp": 19.911354498877024,
+   "delta_vs_teacher_hp": -0.5313076309147711,
+   "beats_teacher_hp": true,
+   "wall_s": 158.8044879436493,
+   "curve": [
+    {
+     "step": 100,
+     "loss": 3.484375,
+     "select_ppl": 22.36959269120604
+    },
+    {
+     "step": 200,
+     "loss": 3.09375,
+     "select_ppl": 22.191290674995994
+    },
+    {
+     "step": 300,
+     "loss": 3.28125,
+     "select_ppl": 22.01440985627591
+    },
+    {
+     "step": 400,
+     "loss": 3.0,
+     "select_ppl": 22.01440985627591
+    }
+   ],
+   "branch_out_rms": 0.02442430704832077,
+   "attn_out_rms": 0.04925120994448662
+  },
+  {
+   "arm": "R",
+   "description": "identical module, W_v/W_o random at the same per-matrix weight scale",
+   "source": "mem(x) (gated trace of ln1(x))",
+   "rank": 64,
+   "transplanted": true,
+   "value_expand_reps": 4,
+   "wv_norm": 26.364788055419922,
+   "wo_norm": 29.8035831451416,
+   "gate_bias": 0.8472978603872034,
+   "fitted_decay": 0.7,
+   "decay_source": "explicit override",
+   "random_w_std_v": 0.012873442843556404,
+   "random_w_std_o": 0.014552559703588486,
+   "control": "random W_v/W_o, each drawn at its own transplanted counterpart's std",
+   "note_previous_impl": "hybrid_inject.py drew BOTH matrices at std(W_v); the two stds differ by design here and per-matrix matching is the tighter control on weight scale",
+   "rms_branch_input_before_scale": 0.4671679437160492,
+   "rms_target_attention_out": 0.04969434440135956,
+   "time_dependent": true,
+   "input_scale": 0.10637361803138709,
+   "rms_branch_input_after_scale": 0.04969434440135956,
+   "input_scale_max_rel_dev": 0.0,
+   "trainable_params": 262144,
+   "trainable_names": [
+    "down.weight",
+    "up.weight"
+   ],
+   "frozen_params_added": 12584960,
+   "total_params_this_arm": 1261246464,
+   "init_val_ppl": 20.375600125475536,
+   "init_val_ppl_hp": 20.442662129791795,
+   "teacher_val_ppl_hp": 20.442662129791795,
+   "init_max_abs_logit_diff_vs_teacher": 0.0,
+   "seed": 0,
+   "lr": 1e-05,
+   "steps": 400,
+   "before_val_ppl": 20.375600125475536,
+   "after_val_ppl": 19.99865900869024,
+   "after_select_ppl": 21.955763444502633,
+   "before_select_ppl": 22.66995199094904,
+   "delta_vs_teacher": -0.3769411167852965,
+   "rel_delta_pct": -1.8499632622550757,
+   "beats_teacher": true,
+   "after_val_ppl_hp": 19.95555357694771,
+   "delta_vs_teacher_hp": -0.4871085528440844,
+   "beats_teacher_hp": true,
+   "wall_s": 246.34382724761963,
+   "curve": [
+    {
+     "step": 100,
+     "loss": 3.46875,
+     "select_ppl": 22.191290674995994
+    },
+    {
+     "step": 200,
+     "loss": 3.078125,
+     "select_ppl": 22.132173052529474
+    },
+    {
+     "step": 300,
+     "loss": 3.265625,
+     "select_ppl": 22.01440985627591
+    },
+    {
+     "step": 400,
+     "loss": 3.0,
+     "select_ppl": 21.955763444502633
+    }
+   ],
+   "branch_out_rms": 0.03003612719476223,
+   "attn_out_rms": 0.04925120994448662
+  },
+  {
+   "arm": "L1",
+   "description": "rank-64 zero-init low-rank branch on the attention output -- no memory, no recurrent state",
+   "source": "attn(ln1(x)) -- sublayer output",
+   "rank": 64,
+   "time_dependent": false,
+   "rms_branch_input_before_scale": 0.04969434440135956,
+   "rms_target_attention_out": 0.04969434440135956,
+   "control": "no memory, no recurrent state",
+   "input_scale": 1.0,
+   "rms_branch_input_after_scale": 0.04969434440135956,
+   "input_scale_max_rel_dev": 0.0,
+   "trainable_params": 262144,
+   "trainable_names": [
+    "down.weight",
+    "up.weight"
+   ],
+   "frozen_params_added": 0,
+   "total_params_this_arm": 1236076544,
+   "init_val_ppl": 20.375600125475536,
+   "init_val_ppl_hp": 20.442662129791795,
+   "teacher_val_ppl_hp": 20.442662129791795,
+   "init_max_abs_logit_diff_vs_teacher": 0.0,
+   "seed": 0,
+   "lr": 1e-05,
+   "steps": 400,
+   "before_val_ppl": 20.375600125475536,
+   "after_val_ppl": 19.7336922713082,
+   "after_select_ppl": 21.83893890706227,
+   "before_select_ppl": 22.66995199094904,
+   "delta_vs_teacher": -0.6419078541673358,
+   "rel_delta_pct": -3.150375204727152,
+   "beats_teacher": true,
+   "after_val_ppl_hp": 19.76515670070703,
+   "delta_vs_teacher_hp": -0.6775054290847642,
+   "beats_teacher_hp": true,
+   "wall_s": 199.23424625396729,
+   "curve": [
+    {
+     "step": 100,
+     "loss": 3.484375,
+     "select_ppl": 22.36959269120604
+    },
+    {
+     "step": 200,
+     "loss": 3.09375,
+     "select_ppl": 22.07321291947344
+    },
+    {
+     "step": 300,
+     "loss": 3.28125,
+     "select_ppl": 21.78075995008833
+    },
+    {
+     "step": 400,
+     "loss": 3.0,
+     "select_ppl": 21.83893890706227
+    }
+   ],
+   "branch_out_rms": 0.02333042211830616,
+   "attn_out_rms": 0.04925120994448662
+  },
+  {
+   "arm": "L2",
+   "description": "rank-64 zero-init low-rank branch on the layer input ln1(x) -- no memory, no recurrent state",
+   "source": "ln1(x) -- sublayer input",
+   "rank": 64,
+   "time_dependent": false,
+   "rms_branch_input_before_scale": 0.5090377926826477,
+   "rms_target_attention_out": 0.04969434440135956,
+   "control": "no memory, no recurrent state",
+   "input_scale": 0.09762407647469268,
+   "rms_branch_input_after_scale": 0.04969434440135956,
+   "input_scale_max_rel_dev": 0.0,
+   "trainable_params": 262144,
+   "trainable_names": [
+    "down.weight",
+    "up.weight"
+   ],
+   "frozen_params_added": 0,
+   "total_params_this_arm": 1236076544,
+   "init_val_ppl": 20.375600125475536,
+   "init_val_ppl_hp": 20.442662129791795,
+   "teacher_val_ppl_hp": 20.442662129791795,
+   "init_max_abs_logit_diff_vs_teacher": 0.0,
+   "seed": 0,
+   "lr": 1e-05,
+   "steps": 400,
+   "before_val_ppl": 20.375600125475536,
+   "after_val_ppl": 19.78640327111815,
+   "after_select_ppl": 21.66486658966384,
+   "before_select_ppl": 22.66995199094904,
+   "delta_vs_teacher": -0.589196854357386,
+   "rel_delta_pct": -2.891678530836083,
+   "beats_teacher": true,
+   "after_val_ppl_hp": 19.739113237026753,
+   "delta_vs_teacher_hp": -0.703548892765042,
+   "beats_teacher_hp": true,
+   "wall_s": 157.85839891433716,
+   "curve": [
+    {
+     "step": 100,
+     "loss": 3.46875,
+     "select_ppl": 22.132173052529474
+    },
+    {
+     "step": 200,
+     "loss": 3.0625,
+     "select_ppl": 21.78075995008833
+    },
+    {
+     "step": 300,
+     "loss": 3.265625,
+     "select_ppl": 21.78075995008833
+    },
+    {
+     "step": 400,
+     "loss": 2.984375,
+     "select_ppl": 21.66486658966384
+    }
+   ],
+   "branch_out_rms": 0.024706747382879257,
+   "attn_out_rms": 0.04925120994448662
+  },
+  {
+   "arm": "T",
+   "description": "rank-64 zero-init projection on the gated-memory branch, W_v/W_o transplanted from this layer's attention (repro of the headline)",
+   "source": "mem(x) (gated trace of ln1(x))",
+   "rank": 64,
+   "transplanted": true,
+   "value_expand_reps": 4,
+   "wv_norm": 26.364788055419922,
+   "wo_norm": 29.8035831451416,
+   "gate_bias": 0.8472978603872034,
+   "fitted_decay": 0.7,
+   "decay_source": "explicit override",
+   "rms_branch_input_before_scale": 0.1964988112449646,
+   "rms_target_attention_out": 0.04969434440135956,
+   "time_dependent": true,
+   "input_scale": 0.2528989569275728,
+   "rms_branch_input_after_scale": 0.04969434440135956,
+   "input_scale_max_rel_dev": 0.0,
+   "trainable_params": 262144,
+   "trainable_names": [
+    "down.weight",
+    "up.weight"
+   ],
+   "frozen_params_added": 12584960,
+   "total_params_this_arm": 1261246464,
+   "init_val_ppl": 20.375600125475536,
+   "init_val_ppl_hp": 20.442662129791795,
+   "teacher_val_ppl_hp": 20.442662129791795,
+   "init_max_abs_logit_diff_vs_teacher": 0.0,
+   "seed": 1,
+   "lr": 1e-05,
+   "steps": 400,
+   "before_val_ppl": 20.375600125475536,
+   "after_val_ppl": 19.945382559364806,
+   "after_select_ppl": 21.897273266834024,
+   "before_select_ppl": 22.66995199094904,
+   "delta_vs_teacher": -0.4302175661107306,
+   "rel_delta_pct": -2.111435066753353,
+   "beats_teacher": true,
+   "after_val_ppl_hp": 19.944813460416132,
+   "delta_vs_teacher_hp": -0.49784866937566363,
+   "beats_teacher_hp": true,
+   "wall_s": 173.2161021232605,
+   "curve": [
+    {
+     "step": 100,
+     "loss": 3.828125,
+     "select_ppl": 22.36959269120604
+    },
+    {
+     "step": 200,
+     "loss": 3.65625,
+     "select_ppl": 22.132173052529474
+    },
+    {
+     "step": 300,
+     "loss": 3.75,
+     "select_ppl": 22.01440985627591
+    },
+    {
+     "step": 400,
+     "loss": 3.75,
+     "select_ppl": 21.897273266834024
+    }
+   ],
+   "branch_out_rms": 0.027549365535378456,
+   "attn_out_rms": 0.05038245767354965
+  },
+  {
+   "arm": "R",
+   "description": "identical module, W_v/W_o random at the same per-matrix weight scale",
+   "source": "mem(x) (gated trace of ln1(x))",
+   "rank": 64,
+   "transplanted": true,
+   "value_expand_reps": 4,
+   "wv_norm": 26.364788055419922,
+   "wo_norm": 29.8035831451416,
+   "gate_bias": 0.8472978603872034,
+   "fitted_decay": 0.7,
+   "decay_source": "explicit override",
+   "random_w_std_v": 0.012873442843556404,
+   "random_w_std_o": 0.014552559703588486,
+   "control": "random W_v/W_o, each drawn at its own transplanted counterpart's std",
+   "note_previous_impl": "hybrid_inject.py drew BOTH matrices at std(W_v); the two stds differ by design here and per-matrix matching is the tighter control on weight scale",
+   "rms_branch_input_before_scale": 0.45749351382255554,
+   "rms_target_attention_out": 0.04969434440135956,
+   "time_dependent": true,
+   "input_scale": 0.10862305781374229,
+   "rms_branch_input_after_scale": 0.04969434440135956,
+   "input_scale_max_rel_dev": 0.0,
+   "trainable_params": 262144,
+   "trainable_names": [
+    "down.weight",
+    "up.weight"
+   ],
+   "frozen_params_added": 12584960,
+   "total_params_this_arm": 1261246464,
+   "init_val_ppl": 20.375600125475536,
+   "init_val_ppl_hp": 20.442662129791795,
+   "teacher_val_ppl_hp": 20.442662129791795,
+   "init_max_abs_logit_diff_vs_teacher": 0.0,
+   "seed": 1,
+   "lr": 1e-05,
+   "steps": 400,
+   "before_val_ppl": 20.375600125475536,
+   "after_val_ppl": 20.052077765642217,
+   "after_select_ppl": 21.897273266834024,
+   "before_select_ppl": 22.66995199094904,
+   "delta_vs_teacher": -0.32352235983331923,
+   "rel_delta_pct": -1.5877930359892587,
+   "beats_teacher": true,
+   "after_val_ppl_hp": 20.021890751884442,
+   "delta_vs_teacher_hp": -0.42077137790735364,
+   "beats_teacher_hp": true,
+   "wall_s": 159.0256679058075,
+   "curve": [
+    {
+     "step": 100,
+     "loss": 3.78125,
+     "select_ppl": 22.25056620754561
+    },
+    {
+     "step": 200,
+     "loss": 3.640625,
+     "select_ppl": 22.01440985627591
+    },
+    {
+     "step": 300,
+     "loss": 3.75,
+     "select_ppl": 21.955763444502633
+    },
+    {
+     "step": 400,
+     "loss": 3.71875,
+     "select_ppl": 21.897273266834024
+    }
+   ],
+   "branch_out_rms": 0.035957735031843185,
+   "attn_out_rms": 0.05038245767354965
+  },
+  {
+   "arm": "L1",
+   "description": "rank-64 zero-init low-rank branch on the attention output -- no memory, no recurrent state",
+   "source": "attn(ln1(x)) -- sublayer output",
+   "rank": 64,
+   "time_dependent": false,
+   "rms_branch_input_before_scale": 0.04969434440135956,
+   "rms_target_attention_out": 0.04969434440135956,
+   "control": "no memory, no recurrent state",
+   "input_scale": 1.0,
+   "rms_branch_input_after_scale": 0.04969434440135956,
+   "input_scale_max_rel_dev": 0.0,
+   "trainable_params": 262144,
+   "trainable_names": [
+    "down.weight",
+    "up.weight"
+   ],
+   "frozen_params_added": 0,
+   "total_params_this_arm": 1236076544,
+   "init_val_ppl": 20.375600125475536,
+   "init_val_ppl_hp": 20.442662129791795,
+   "teacher_val_ppl_hp": 20.442662129791795,
+   "init_max_abs_logit_diff_vs_teacher": 0.0,
+   "seed": 1,
+   "lr": 1e-05,
+   "steps": 400,
+   "before_val_ppl": 20.375600125475536,
+   "after_val_ppl": 19.89224803855826,
+   "after_select_ppl": 21.83893890706227,
+   "before_select_ppl": 22.66995199094904,
+   "delta_vs_teacher": -0.48335208691727516,
+   "rel_delta_pct": -2.372210310080349,
+   "beats_teacher": true,
+   "after_val_ppl_hp": 19.841299033233607,
+   "delta_vs_teacher_hp": -0.6013630965581882,
+   "beats_teacher_hp": true,
+   "wall_s": 169.78418111801147,
+   "curve": [
+    {
+     "step": 100,
+     "loss": 3.84375,
+     "select_ppl": 22.36959269120604
+    },
+    {
+     "step": 200,
+     "loss": 3.65625,
+     "select_ppl": 22.01440985627591
+    },
+    {
+     "step": 300,
+     "loss": 3.71875,
+     "select_ppl": 21.78075995008833
+    },
+    {
+     "step": 400,
+     "loss": 3.71875,
+     "select_ppl": 21.83893890706227
+    }
+   ],
+   "branch_out_rms": 0.025667406618595123,
+   "attn_out_rms": 0.05038245767354965
+  },
+  {
+   "arm": "L2",
+   "description": "rank-64 zero-init low-rank branch on the layer input ln1(x) -- no memory, no recurrent state",
+   "source": "ln1(x) -- sublayer input",
+   "rank": 64,
+   "time_dependent": false,
+   "rms_branch_input_before_scale": 0.5090377926826477,
+   "rms_target_attention_out": 0.04969434440135956,
+   "control": "no memory, no recurrent state",
+   "input_scale": 0.09762407647469268,
+   "rms_branch_input_after_scale": 0.04969434440135956,
+   "input_scale_max_rel_dev": 0.0,
+   "trainable_params": 262144,
+   "trainable_names": [
+    "down.weight",
+    "up.weight"
+   ],
+   "frozen_params_added": 0,
+   "total_params_this_arm": 1236076544,
+   "init_val_ppl": 20.375600125475536,
+   "init_val_ppl_hp": 20.442662129791795,
+   "teacher_val_ppl_hp": 20.442662129791795,
+   "init_max_abs_logit_diff_vs_teacher": 0.0,
+   "seed": 1,
+   "lr": 1e-05,
+   "steps": 400,
+   "before_val_ppl": 20.375600125475536,
+   "after_val_ppl": 19.78640327111815,
+   "after_select_ppl": 21.72273598191896,
+   "before_select_ppl": 22.66995199094904,
+   "delta_vs_teacher": -0.589196854357386,
+   "rel_delta_pct": -2.891678530836083,
+   "beats_teacher": true,
+   "after_val_ppl_hp": 19.74761400751348,
+   "delta_vs_teacher_hp": -0.6950481222783154,
+   "beats_teacher_hp": true,
+   "wall_s": 165.83244585990906,
+   "curve": [
+    {
+     "step": 100,
+     "loss": 3.84375,
+     "select_ppl": 22.36959269120604
+    },
+    {
+     "step": 200,
+     "loss": 3.65625,
+     "select_ppl": 21.83893890706227
+    },
+    {
+     "step": 300,
+     "loss": 3.71875,
+     "select_ppl": 21.78075995008833
+    },
+    {
+     "step": 400,
+     "loss": 3.71875,
+     "select_ppl": 21.72273598191896
+    }
+   ],
+   "branch_out_rms": 0.027599720284342766,
+   "attn_out_rms": 0.05038245767354965
+  },
+  {
+   "arm": "T",
+   "description": "rank-64 zero-init projection on the gated-memory branch, W_v/W_o transplanted from this layer's attention (repro of the headline)",
+   "source": "mem(x) (gated trace of ln1(x))",
+   "rank": 64,
+   "transplanted": true,
+   "value_expand_reps": 4,
+   "wv_norm": 26.364788055419922,
+   "wo_norm": 29.8035831451416,
+   "gate_bias": 0.8472978603872034,
+   "fitted_decay": 0.7,
+   "decay_source": "explicit override",
+   "rms_branch_input_before_scale": 0.1961856335401535,
+   "rms_target_attention_out": 0.04969434440135956,
+   "time_dependent": true,
+   "input_scale": 0.2533026680120722,
+   "rms_branch_input_after_scale": 0.04969434440135956,
+   "input_scale_max_rel_dev": 0.0,
+   "trainable_params": 262144,
+   "trainable_names": [
+    "down.weight",
+    "up.weight"
+   ],
+   "frozen_params_added": 12584960,
+   "total_params_this_arm": 1261246464,
+   "init_val_ppl": 20.375600125475536,
+   "init_val_ppl_hp": 20.442662129791795,
+   "teacher_val_ppl_hp": 20.442662129791795,
+   "init_max_abs_logit_diff_vs_teacher": 0.0,
+   "seed": 2,
+   "lr": 1e-05,
+   "steps": 400,
+   "before_val_ppl": 20.375600125475536,
+   "after_val_ppl": 19.839255068172864,
+   "after_select_ppl": 21.955763444502633,
+   "before_select_ppl": 22.66995199094904,
+   "delta_vs_teacher": -0.5363450573026718,
+   "rel_delta_pct": -2.6322908478758453,
+   "beats_teacher": true,
+   "after_val_ppl_hp": 19.850808540174842,
+   "delta_vs_teacher_hp": -0.591853589616953,
+   "beats_teacher_hp": true,
+   "wall_s": 163.4528148174286,
+   "curve": [
+    {
+     "step": 100,
+     "loss": 3.5625,
+     "select_ppl": 22.310000071974645
+    },
+    {
+     "step": 200,
+     "loss": 2.75,
+     "select_ppl": 22.191290674995994
+    },
+    {
+     "step": 300,
+     "loss": 3.828125,
+     "select_ppl": 22.07321291947344
+    },
+    {
+     "step": 400,
+     "loss": 3.859375,
+     "select_ppl": 21.955763444502633
+    }
+   ],
+   "branch_out_rms": 0.027531512081623077,
+   "attn_out_rms": 0.04830347001552582
+  },
+  {
+   "arm": "R",
+   "description": "identical module, W_v/W_o random at the same per-matrix weight scale",
+   "source": "mem(x) (gated trace of ln1(x))",
+   "rank": 64,
+   "transplanted": true,
+   "value_expand_reps": 4,
+   "wv_norm": 26.364788055419922,
+   "wo_norm": 29.8035831451416,
+   "gate_bias": 0.8472978603872034,
+   "fitted_decay": 0.7,
+   "decay_source": "explicit override",
+   "random_w_std_v": 0.012873442843556404,
+   "random_w_std_o": 0.014552559703588486,
+   "control": "random W_v/W_o, each drawn at its own transplanted counterpart's std",
+   "note_previous_impl": "hybrid_inject.py drew BOTH matrices at std(W_v); the two stds differ by design here and per-matrix matching is the tighter control on weight scale",
+   "rms_branch_input_before_scale": 0.46283188462257385,
+   "rms_target_attention_out": 0.04969434440135956,
+   "time_dependent": true,
+   "input_scale": 0.10737018354274333,
+   "rms_branch_input_after_scale": 0.04969434440135956,
+   "input_scale_max_rel_dev": 0.0,
+   "trainable_params": 262144,
+   "trainable_names": [
+    "down.weight",
+    "up.weight"
+   ],
+   "frozen_params_added": 12584960,
+   "total_params_this_arm": 1261246464,
+   "init_val_ppl": 20.375600125475536,
+   "init_val_ppl_hp": 20.442662129791795,
+   "teacher_val_ppl_hp": 20.442662129791795,
+   "init_max_abs_logit_diff_vs_teacher": 0.0,
+   "seed": 2,
+   "lr": 1e-05,
+   "steps": 400,
+   "before_val_ppl": 20.375600125475536,
+   "after_val_ppl": 19.78640327111815,
+   "after_select_ppl": 21.897273266834024,
+   "before_select_ppl": 22.66995199094904,
+   "delta_vs_teacher": -0.589196854357386,
+   "rel_delta_pct": -2.891678530836083,
+   "beats_teacher": true,
+   "after_val_ppl_hp": 19.893183249650953,
+   "delta_vs_teacher_hp": -0.5494788801408426,
+   "beats_teacher_hp": true,
+   "wall_s": 173.12178301811218,
+   "curve": [
+    {
+     "step": 100,
+     "loss": 3.546875,
+     "select_ppl": 22.25056620754561
+    },
+    {
+     "step": 200,
+     "loss": 2.75,
+     "select_ppl": 22.01440985627591
+    },
+    {
+     "step": 300,
+     "loss": 3.828125,
+     "select_ppl": 22.01440985627591
+    },
+    {
+     "step": 400,
+     "loss": 3.84375,
+     "select_ppl": 21.897273266834024
+    }
+   ],
+   "branch_out_rms": 0.03261793032288551,
+   "attn_out_rms": 0.04830347001552582
+  },
+  {
+   "arm": "L1",
+   "description": "rank-64 zero-init low-rank branch on the attention output -- no memory, no recurrent state",
+   "source": "attn(ln1(x)) -- sublayer output",
+   "rank": 64,
+   "time_dependent": false,
+   "rms_branch_input_before_scale": 0.04969434440135956,
+   "rms_target_attention_out": 0.04969434440135956,
+   "control": "no memory, no recurrent state",
+   "input_scale": 1.0,
+   "rms_branch_input_after_scale": 0.04969434440135956,
+   "input_scale_max_rel_dev": 0.0,
+   "trainable_params": 262144,
+   "trainable_names": [
+    "down.weight",
+    "up.weight"
+   ],
+   "frozen_params_added": 0,
+   "total_params_this_arm": 1236076544,
+   "init_val_ppl": 20.375600125475536,
+   "init_val_ppl_hp": 20.442662129791795,
+   "teacher_val_ppl_hp": 20.442662129791795,
+   "init_max_abs_logit_diff_vs_teacher": 0.0,
+   "seed": 2,
+   "lr": 1e-05,
+   "steps": 400,
+   "before_val_ppl": 20.375600125475536,
+   "after_val_ppl": 19.7336922713082,
+   "after_select_ppl": 21.66486658966384,
+   "before_select_ppl": 22.66995199094904,
+   "delta_vs_teacher": -0.6419078541673358,
+   "rel_delta_pct": -3.150375204727152,
+   "beats_teacher": true,
+   "after_val_ppl_hp": 19.724159386894563,
+   "delta_vs_teacher_hp": -0.7185027428972326,
+   "beats_teacher_hp": true,
+   "wall_s": 167.40191888809204,
+   "curve": [
+    {
+     "step": 100,
+     "loss": 3.5625,
+     "select_ppl": 22.429344489292465
+    },
+    {
+     "step": 200,
+     "loss": 2.75,
+     "select_ppl": 22.07321291947344
+    },
+    {
+     "step": 300,
+     "loss": 3.828125,
+     "select_ppl": 21.897273266834024
+    },
+    {
+     "step": 400,
+     "loss": 3.859375,
+     "select_ppl": 21.66486658966384
+    }
+   ],
+   "branch_out_rms": 0.024573031812906265,
+   "attn_out_rms": 0.04830347001552582
+  },
+  {
+   "arm": "L2",
+   "description": "rank-64 zero-init low-rank branch on the layer input ln1(x) -- no memory, no recurrent state",
+   "source": "ln1(x) -- sublayer input",
+   "rank": 64,
+   "time_dependent": false,
+   "rms_branch_input_before_scale": 0.5090377926826477,
+   "rms_target_attention_out": 0.04969434440135956,
+   "control": "no memory, no recurrent state",
+   "input_scale": 0.09762407647469268,
+   "rms_branch_input_after_scale": 0.04969434440135956,
+   "input_scale_max_rel_dev": 0.0,
+   "trainable_params": 262144,
+   "trainable_names": [
+    "down.weight",
+    "up.weight"
+   ],
+   "frozen_params_added": 0,
+   "total_params_this_arm": 1236076544,
+   "init_val_ppl": 20.375600125475536,
+   "init_val_ppl_hp": 20.442662129791795,
+   "teacher_val_ppl_hp": 20.442662129791795,
+   "init_max_abs_logit_diff_vs_teacher": 0.0,
+   "seed": 2,
+   "lr": 1e-05,
+   "steps": 400,
+   "before_val_ppl": 20.375600125475536,
+   "after_val_ppl": 19.628691164085797,
+   "after_select_ppl": 21.72273598191896,
+   "before_select_ppl": 22.66995199094904,
+   "delta_vs_teacher": -0.7469089613897388,
+   "rel_delta_pct": -3.665702883793255,
+   "beats_teacher": true,
+   "after_val_ppl_hp": 19.696530355215245,
+   "delta_vs_teacher_hp": -0.7461317745765506,
+   "beats_teacher_hp": true,
+   "wall_s": 159.10153007507324,
+   "curve": [
+    {
+     "step": 100,
+     "loss": 3.5625,
+     "select_ppl": 22.36959269120604
+    },
+    {
+     "step": 200,
+     "loss": 2.734375,
+     "select_ppl": 21.83893890706227
+    },
+    {
+     "step": 300,
+     "loss": 3.8125,
+     "select_ppl": 21.78075995008833
+    },
+    {
+     "step": 400,
+     "loss": 3.84375,
+     "select_ppl": 21.72273598191896
+    }
+   ],
+   "branch_out_rms": 0.025984011590480804,
+   "attn_out_rms": 0.04830347001552582
+  },
+  {
+   "arm": "T",
+   "description": "rank-64 zero-init projection on the gated-memory branch, W_v/W_o transplanted from this layer's attention (repro of the headline)",
+   "source": "mem(x) (gated trace of ln1(x))",
+   "rank": 64,
+   "transplanted": true,
+   "value_expand_reps": 4,
+   "wv_norm": 26.364788055419922,
+   "wo_norm": 29.8035831451416,
+   "gate_bias": 0.8472978603872034,
+   "fitted_decay": 0.7,
+   "decay_source": "explicit override",
+   "rms_branch_input_before_scale": 0.19636887311935425,
+   "rms_target_attention_out": 0.04969434440135956,
+   "time_dependent": true,
+   "input_scale": 0.25306630125210844,
+   "rms_branch_input_after_scale": 0.04969434440135956,
+   "input_scale_max_rel_dev": 0.0,
+   "trainable_params": 262144,
+   "trainable_names": [
+    "down.weight",
+    "up.weight"
+   ],
+   "frozen_params_added": 12584960,
+   "total_params_this_arm": 1261246464,
+   "init_val_ppl": 20.375600125475536,
+   "init_val_ppl_hp": 20.442662129791795,
+   "teacher_val_ppl_hp": 20.442662129791795,
+   "init_max_abs_logit_diff_vs_teacher": 0.0,
+   "grad_norm_down_init": 0.0,
+   "grad_norm_up_init": 0.2569839517110728,
+   "seed": 3,
+   "lr": 1e-05,
+   "steps": 400,
+   "before_val_ppl": 20.375600125475536,
+   "after_val_ppl": 19.89224803855826,
+   "after_select_ppl": 21.897273266834024,
+   "before_select_ppl": 22.66995199094904,
+   "delta_vs_teacher": -0.48335208691727516,
+   "rel_delta_pct": -2.372210310080349,
+   "beats_teacher": true,
+   "after_val_ppl_hp": 19.88860073060138,
+   "delta_vs_teacher_hp": -0.5540613991904166,
+   "beats_teacher_hp": true,
+   "wall_s": 144.8844153881073,
+   "curve": [
+    {
+     "step": 100,
+     "loss": 3.96875,
+     "select_ppl": 22.25056620754561
+    },
+    {
+     "step": 200,
+     "loss": 3.40625,
+     "select_ppl": 22.132173052529474
+    },
+    {
+     "step": 300,
+     "loss": 3.5,
+     "select_ppl": 21.897273266834024
+    },
+    {
+     "step": 400,
+     "loss": 3.40625,
+     "select_ppl": 21.897273266834024
+    }
+   ],
+   "branch_out_rms": 0.029423918575048447,
+   "attn_out_rms": 0.049286291003227234
+  },
+  {
+   "arm": "R",
+   "description": "identical module, W_v/W_o random at the same per-matrix weight scale",
+   "source": "mem(x) (gated trace of ln1(x))",
+   "rank": 64,
+   "transplanted": true,
+   "value_expand_reps": 4,
+   "wv_norm": 26.364788055419922,
+   "wo_norm": 29.8035831451416,
+   "gate_bias": 0.8472978603872034,
+   "fitted_decay": 0.7,
+   "decay_source": "explicit override",
+   "random_w_std_v": 0.012873442843556404,
+   "random_w_std_o": 0.014552559703588486,
+   "control": "random W_v/W_o, each drawn at its own transplanted counterpart's std",
+   "note_previous_impl": "hybrid_inject.py drew BOTH matrices at std(W_v); the two stds differ by design here and per-matrix matching is the tighter control on weight scale",
+   "rms_branch_input_before_scale": 0.46130284667015076,
+   "rms_target_attention_out": 0.04969434440135956,
+   "time_dependent": true,
+   "input_scale": 0.10772607357633092,
+   "rms_branch_input_after_scale": 0.04969434440135956,
+   "input_scale_max_rel_dev": 0.0,
+   "trainable_params": 262144,
+   "trainable_names": [
+    "down.weight",
+    "up.weight"
+   ],
+   "frozen_params_added": 12584960,
+   "total_params_this_arm": 1261246464,
+   "init_val_ppl": 20.375600125475536,
+   "init_val_ppl_hp": 20.442662129791795,
+   "teacher_val_ppl_hp": 20.442662129791795,
+   "init_max_abs_logit_diff_vs_teacher": 0.0,
+   "grad_norm_down_init": 0.0,
+   "grad_norm_up_init": 0.2515888982140399,
+   "seed": 3,
+   "lr": 1e-05,
+   "steps": 400,
+   "before_val_ppl": 20.375600125475536,
+   "after_val_ppl": 19.945382559364806,
+   "after_select_ppl": 21.897273266834024,
+   "before_select_ppl": 22.66995199094904,
+   "delta_vs_teacher": -0.4302175661107306,
+   "rel_delta_pct": -2.111435066753353,
+   "beats_teacher": true,
+   "after_val_ppl_hp": 19.88763497392528,
+   "delta_vs_teacher_hp": -0.5550271558665152,
+   "beats_teacher_hp": true,
+   "wall_s": 150.93893098831177,
+   "curve": [
+    {
+     "step": 100,
+     "loss": 3.953125,
+     "select_ppl": 22.25056620754561
+    },
+    {
+     "step": 200,
+     "loss": 3.40625,
+     "select_ppl": 22.01440985627591
+    },
+    {
+     "step": 300,
+     "loss": 3.5,
+     "select_ppl": 21.897273266834024
+    },
+    {
+     "step": 400,
+     "loss": 3.390625,
+     "select_ppl": 21.897273266834024
+    }
+   ],
+   "branch_out_rms": 0.03352902829647064,
+   "attn_out_rms": 0.049286291003227234
+  },
+  {
+   "arm": "L1",
+   "description": "rank-64 zero-init low-rank branch on the attention output -- no memory, no recurrent state",
+   "source": "attn(ln1(x)) -- sublayer output",
+   "rank": 64,
+   "time_dependent": false,
+   "rms_branch_input_before_scale": 0.04969434440135956,
+   "rms_target_attention_out": 0.04969434440135956,
+   "control": "no memory, no recurrent state",
+   "input_scale": 1.0,
+   "rms_branch_input_after_scale": 0.04969434440135956,
+   "input_scale_max_rel_dev": 0.0,
+   "trainable_params": 262144,
+   "trainable_names": [
+    "down.weight",
+    "up.weight"
+   ],
+   "frozen_params_added": 0,
+   "total_params_this_arm": 1236076544,
+   "init_val_ppl": 20.375600125475536,
+   "init_val_ppl_hp": 20.442662129791795,
+   "teacher_val_ppl_hp": 20.442662129791795,
+   "init_max_abs_logit_diff_vs_teacher": 0.0,
+   "grad_norm_down_init": 0.0,
+   "grad_norm_up_init": 0.2459483773693878,
+   "seed": 3,
+   "lr": 1e-05,
+   "steps": 400,
+   "before_val_ppl": 20.375600125475536,
+   "after_val_ppl": 19.78640327111815,
+   "after_select_ppl": 21.72273598191896,
+   "before_select_ppl": 22.66995199094904,
+   "delta_vs_teacher": -0.589196854357386,
+   "rel_delta_pct": -2.891678530836083,
+   "beats_teacher": true,
+   "after_val_ppl_hp": 19.756173925100263,
+   "delta_vs_teacher_hp": -0.6864882046915319,
+   "beats_teacher_hp": true,
+   "wall_s": 166.98386406898499,
+   "curve": [
+    {
+     "step": 100,
+     "loss": 3.96875,
+     "select_ppl": 22.25056620754561
+    },
+    {
+     "step": 200,
+     "loss": 3.390625,
+     "select_ppl": 21.955763444502633
+    },
+    {
+     "step": 300,
+     "loss": 3.46875,
+     "select_ppl": 21.78075995008833
+    },
+    {
+     "step": 400,
+     "loss": 3.390625,
+     "select_ppl": 21.72273598191896
+    }
+   ],
+   "branch_out_rms": 0.024736246094107628,
+   "attn_out_rms": 0.049286291003227234
+  },
+  {
+   "arm": "L2",
+   "description": "rank-64 zero-init low-rank branch on the layer input ln1(x) -- no memory, no recurrent state",
+   "source": "ln1(x) -- sublayer input",
+   "rank": 64,
+   "time_dependent": false,
+   "rms_branch_input_before_scale": 0.5090377926826477,
+   "rms_target_attention_out": 0.04969434440135956,
+   "control": "no memory, no recurrent state",
+   "input_scale": 0.09762407647469268,
+   "rms_branch_input_after_scale": 0.04969434440135956,
+   "input_scale_max_rel_dev": 0.0,
+   "trainable_params": 262144,
+   "trainable_names": [
+    "down.weight",
+    "up.weight"
+   ],
+   "frozen_params_added": 0,
+   "total_params_this_arm": 1236076544,
+   "init_val_ppl": 20.375600125475536,
+   "init_val_ppl_hp": 20.442662129791795,
+   "teacher_val_ppl_hp": 20.442662129791795,
+   "init_max_abs_logit_diff_vs_teacher": 0.0,
+   "grad_norm_down_init": 0.0,
+   "grad_norm_up_init": 0.23379220980090193,
+   "seed": 3,
+   "lr": 1e-05,
+   "steps": 400,
+   "before_val_ppl": 20.375600125475536,
+   "after_val_ppl": 19.68112169365902,
+   "after_select_ppl": 21.607151361532544,
+   "before_select_ppl": 22.66995199094904,
+   "delta_vs_teacher": -0.6944784318165169,
+   "rel_delta_pct": -3.40838271039788,
+   "beats_teacher": true,
+   "after_val_ppl_hp": 19.702063809737208,
+   "delta_vs_teacher_hp": -0.7405983200545876,
+   "beats_teacher_hp": true,
+   "wall_s": 193.62505865097046,
+   "curve": [
+    {
+     "step": 100,
+     "loss": 3.96875,
+     "select_ppl": 22.36959269120604
+    },
+    {
+     "step": 200,
+     "loss": 3.375,
+     "select_ppl": 21.83893890706227
+    },
+    {
+     "step": 300,
+     "loss": 3.46875,
+     "select_ppl": 21.72273598191896
+    },
+    {
+     "step": 400,
+     "loss": 3.390625,
+     "select_ppl": 21.607151361532544
+    }
+   ],
+   "branch_out_rms": 0.026674294844269753,
+   "attn_out_rms": 0.049286291003227234
+  },
+  {
+   "arm": "T",
+   "description": "rank-64 zero-init projection on the gated-memory branch, W_v/W_o transplanted from this layer's attention (repro of the headline)",
+   "source": "mem(x) (gated trace of ln1(x))",
+   "rank": 64,
+   "transplanted": true,
+   "value_expand_reps": 4,
+   "wv_norm": 26.364788055419922,
+   "wo_norm": 29.8035831451416,
+   "gate_bias": 0.8472978603872034,
+   "fitted_decay": 0.7,
+   "decay_source": "explicit override",
+   "rms_branch_input_before_scale": 0.19632317125797272,
+   "rms_target_attention_out": 0.04969434440135956,
+   "time_dependent": true,
+   "input_scale": 0.25312521228612467,
+   "rms_branch_input_after_scale": 0.04969434440135955,
+   "input_scale_max_rel_dev": 1.3963146083314445e-16,
+   "trainable_params": 262144,
+   "trainable_names": [
+    "down.weight",
+    "up.weight"
+   ],
+   "frozen_params_added": 12584960,
+   "total_params_this_arm": 1261246464,
+   "init_val_ppl": 20.375600125475536,
+   "init_val_ppl_hp": 20.442662129791795,
+   "teacher_val_ppl_hp": 20.442662129791795,
+   "init_max_abs_logit_diff_vs_teacher": 0.0,
+   "grad_norm_down_init": 0.0,
+   "grad_norm_up_init": 0.22071148372053384,
+   "seed": 4,
+   "lr": 1e-05,
+   "steps": 400,
+   "before_val_ppl": 20.375600125475536,
+   "after_val_ppl": 19.89224803855826,
+   "after_select_ppl": 21.955763444502633,
+   "before_select_ppl": 22.66995199094904,
+   "delta_vs_teacher": -0.48335208691727516,
+   "rel_delta_pct": -2.372210310080349,
+   "beats_teacher": true,
+   "after_val_ppl_hp": 19.88471694134384,
+   "delta_vs_teacher_hp": -0.557945188447956,
+   "beats_teacher_hp": true,
+   "wall_s": 171.7210292816162,
+   "curve": [
+    {
+     "step": 100,
+     "loss": 3.40625,
+     "select_ppl": 22.36959269120604
+    },
+    {
+     "step": 200,
+     "loss": 3.34375,
+     "select_ppl": 22.25056620754561
+    },
+    {
+     "step": 300,
+     "loss": 3.625,
+     "select_ppl": 22.01440985627591
+    },
+    {
+     "step": 400,
+     "loss": 3.203125,
+     "select_ppl": 21.955763444502633
+    }
+   ],
+   "branch_out_rms": 0.026929199695587158,
+   "attn_out_rms": 0.04834919050335884
+  },
+  {
+   "arm": "R",
+   "description": "identical module, W_v/W_o random at the same per-matrix weight scale",
+   "source": "mem(x) (gated trace of ln1(x))",
+   "rank": 64,
+   "transplanted": true,
+   "value_expand_reps": 4,
+   "wv_norm": 26.364788055419922,
+   "wo_norm": 29.8035831451416,
+   "gate_bias": 0.8472978603872034,
+   "fitted_decay": 0.7,
+   "decay_source": "explicit override",
+   "random_w_std_v": 0.012873442843556404,
+   "random_w_std_o": 0.014552559703588486,
+   "control": "random W_v/W_o, each drawn at its own transplanted counterpart's std",
+   "note_previous_impl": "hybrid_inject.py drew BOTH matrices at std(W_v); the two stds differ by design here and per-matrix matching is the tighter control on weight scale",
+   "rms_branch_input_before_scale": 0.4681479334831238,
+   "rms_target_attention_out": 0.04969434440135956,
+   "time_dependent": true,
+   "input_scale": 0.10615094256984686,
+   "rms_branch_input_after_scale": 0.04969434440135956,
+   "input_scale_max_rel_dev": 0.0,
+   "trainable_params": 262144,
+   "trainable_names": [
+    "down.weight",
+    "up.weight"
+   ],
+   "frozen_params_added": 12584960,
+   "total_params_this_arm": 1261246464,
+   "init_val_ppl": 20.375600125475536,
+   "init_val_ppl_hp": 20.442662129791795,
+   "teacher_val_ppl_hp": 20.442662129791795,
+   "init_max_abs_logit_diff_vs_teacher": 0.0,
+   "grad_norm_down_init": 0.0,
+   "grad_norm_up_init": 0.2205362019659903,
+   "seed": 4,
+   "lr": 1e-05,
+   "steps": 400,
+   "before_val_ppl": 20.375600125475536,
+   "after_val_ppl": 19.945382559364806,
+   "after_select_ppl": 21.897273266834024,
+   "before_select_ppl": 22.66995199094904,
+   "delta_vs_teacher": -0.4302175661107306,
+   "rel_delta_pct": -2.111435066753353,
+   "beats_teacher": true,
+   "after_val_ppl_hp": 19.947805267819913,
+   "delta_vs_teacher_hp": -0.4948568619718827,
+   "beats_teacher_hp": true,
+   "wall_s": 138.01691102981567,
+   "curve": [
+    {
+     "step": 100,
+     "loss": 3.375,
+     "select_ppl": 22.36959269120604
+    },
+    {
+     "step": 200,
+     "loss": 3.34375,
+     "select_ppl": 22.132173052529474
+    },
+    {
+     "step": 300,
+     "loss": 3.609375,
+     "select_ppl": 21.897273266834024
+    },
+    {
+     "step": 400,
+     "loss": 3.21875,
+     "select_ppl": 21.897273266834024
+    }
+   ],
+   "branch_out_rms": 0.033768441528081894,
+   "attn_out_rms": 0.04834919050335884
+  },
+  {
+   "arm": "L1",
+   "description": "rank-64 zero-init low-rank branch on the attention output -- no memory, no recurrent state",
+   "source": "attn(ln1(x)) -- sublayer output",
+   "rank": 64,
+   "time_dependent": false,
+   "rms_branch_input_before_scale": 0.04969434440135956,
+   "rms_target_attention_out": 0.04969434440135956,
+   "control": "no memory, no recurrent state",
+   "input_scale": 1.0,
+   "rms_branch_input_after_scale": 0.04969434440135956,
+   "input_scale_max_rel_dev": 0.0,
+   "trainable_params": 262144,
+   "trainable_names": [
+    "down.weight",
+    "up.weight"
+   ],
+   "frozen_params_added": 0,
+   "total_params_this_arm": 1236076544,
+   "init_val_ppl": 20.375600125475536,
+   "init_val_ppl_hp": 20.442662129791795,
+   "teacher_val_ppl_hp": 20.442662129791795,
+   "init_max_abs_logit_diff_vs_teacher": 0.0,
+   "grad_norm_down_init": 0.0,
+   "grad_norm_up_init": 0.22356638967846368,
+   "seed": 4,
+   "lr": 1e-05,
+   "steps": 400,
+   "before_val_ppl": 20.375600125475536,
+   "after_val_ppl": 19.839255068172864,
+   "after_select_ppl": 21.78075995008833,
+   "before_select_ppl": 22.66995199094904,
+   "delta_vs_teacher": -0.5363450573026718,
+   "rel_delta_pct": -2.6322908478758453,
+   "beats_teacher": true,
+   "after_val_ppl_hp": 19.80244003544962,
+   "delta_vs_teacher_hp": -0.6402220943421746,
+   "beats_teacher_hp": true,
+   "wall_s": 142.12173199653625,
+   "curve": [
+    {
+     "step": 100,
+     "loss": 3.390625,
+     "select_ppl": 22.36959269120604
+    },
+    {
+     "step": 200,
+     "loss": 3.359375,
+     "select_ppl": 22.132173052529474
+    },
+    {
+     "step": 300,
+     "loss": 3.609375,
+     "select_ppl": 21.897273266834024
+    },
+    {
+     "step": 400,
+     "loss": 3.21875,
+     "select_ppl": 21.78075995008833
+    }
+   ],
+   "branch_out_rms": 0.022864200174808502,
+   "attn_out_rms": 0.04834919050335884
+  },
+  {
+   "arm": "L2",
+   "description": "rank-64 zero-init low-rank branch on the layer input ln1(x) -- no memory, no recurrent state",
+   "source": "ln1(x) -- sublayer input",
+   "rank": 64,
+   "time_dependent": false,
+   "rms_branch_input_before_scale": 0.5090377926826477,
+   "rms_target_attention_out": 0.04969434440135956,
+   "control": "no memory, no recurrent state",
+   "input_scale": 0.09762407647469268,
+   "rms_branch_input_after_scale": 0.04969434440135956,
+   "input_scale_max_rel_dev": 0.0,
+   "trainable_params": 262144,
+   "trainable_names": [
+    "down.weight",
+    "up.weight"
+   ],
+   "frozen_params_added": 0,
+   "total_params_this_arm": 1236076544,
+   "init_val_ppl": 20.375600125475536,
+   "init_val_ppl_hp": 20.442662129791795,
+   "teacher_val_ppl_hp": 20.442662129791795,
+   "init_max_abs_logit_diff_vs_teacher": 0.0,
+   "grad_norm_down_init": 0.0,
+   "grad_norm_up_init": 0.20848844069181796,
+   "seed": 4,
+   "lr": 1e-05,
+   "steps": 400,
+   "before_val_ppl": 20.375600125475536,
+   "after_val_ppl": 19.7336922713082,
+   "after_select_ppl": 21.72273598191896,
+   "before_select_ppl": 22.66995199094904,
+   "delta_vs_teacher": -0.6419078541673358,
+   "rel_delta_pct": -3.150375204727152,
+   "beats_teacher": true,
+   "after_val_ppl_hp": 19.71786447551088,
+   "delta_vs_teacher_hp": -0.7247976542809162,
+   "beats_teacher_hp": true,
+   "wall_s": 178.8070080280304,
+   "curve": [
+    {
+     "step": 100,
+     "loss": 3.40625,
+     "select_ppl": 22.36959269120604
+    },
+    {
+     "step": 200,
+     "loss": 3.34375,
+     "select_ppl": 21.955763444502633
+    },
+    {
+     "step": 300,
+     "loss": 3.59375,
+     "select_ppl": 21.72273598191896
+    },
+    {
+     "step": 400,
+     "loss": 3.1875,
+     "select_ppl": 21.72273598191896
+    }
+   ],
+   "branch_out_rms": 0.025452150031924248,
+   "attn_out_rms": 0.04834919050335884
+  }
+ ]
+}

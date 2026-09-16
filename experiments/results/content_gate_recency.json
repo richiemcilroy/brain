@@ -1,0 +1,108 @@
+{
+ "profile_first16": [
+  0.013609108848000661,
+  0.013662477902306545,
+  0.013716267185386493,
+  0.013770481680190393,
+  0.013825126448762578,
+  0.013880206633817407,
+  0.013935727460352678,
+  0.013991694237301884,
+  0.014048112359226489,
+  0.014104987308049268,
+  0.014162324654829958,
+  0.014220130061584367,
+  0.014278409283148235,
+  0.014337168169087117,
+  0.014396412665653592,
+  0.014456148817793234
+ ],
+ "profile_mass_4": 0.05475833561588409,
+ "profile_mass_16": 0.2243947837154909,
+ "profile_dominant_distance": 63,
+ "attn_bpc": 6.095670186298954,
+ "decays": [
+  0.5,
+  0.9
+ ],
+ "steps": 1,
+ "seeds": [
+  0
+ ],
+ "rows": [
+  {
+   "decay": 0.5,
+   "cdf_l1": 32.028360634357185,
+   "arms": {
+    "B_plain": {
+     "bpc_mean": 6.126749920885625,
+     "bpc_sd": 0.0,
+     "per_seed": [
+      6.126749920885625
+     ]
+    },
+    "C_statedep": {
+     "bpc_mean": 6.277364223513013,
+     "bpc_sd": 0.0,
+     "per_seed": [
+      6.277364223513013
+     ]
+    }
+   }
+  },
+  {
+   "decay": 0.9,
+   "cdf_l1": 24.103906886079894,
+   "arms": {
+    "B_plain": {
+     "bpc_mean": 6.078887003321897,
+     "bpc_sd": 0.0,
+     "per_seed": [
+      6.078887003321897
+     ]
+    },
+    "C_statedep": {
+     "bpc_mean": 6.284965783766845,
+     "bpc_sd": 0.0,
+     "per_seed": [
+      6.284965783766845
+     ]
+    }
+   }
+  }
+ ],
+ "corr_cdf_l1_vs_bpc_B_plain": 1.0,
+ "best_fit_decay_B_plain": 0.9,
+ "best_bpc_decay_B_plain": 0.9,
+ "corr_cdf_l1_vs_bpc_C_statedep": -1.0,
+ "best_fit_decay_C_statedep": 0.9,
+ "best_bpc_decay_C_statedep": 0.5,
+ "meta": {
+  "host": "macOS-27.0-arm64-arm-64bit-Mach-O",
+  "driver": "experiments/content_gate_recency.py",
+  "steps": 1,
+  "seeds": [
+   0
+  ],
+  "bank": 1,
+  "ctx": 512,
+  "d": 128,
+  "n_layer": 2,
+  "val_windows": 217,
+  "bigram_bpc": 3.580577474174118,
+  "unigram_bpc": 4.829176877807436,
+  "scan_verify_max_abs_err": 4.76837158203125e-07,
+  "criterion": "cdf_l1 of a single exponential vs the trained attention recency profile (llm_hybrid.py:244), one bank, architecture and recipe fixed across arms",
+  "confound_removed": "the repo's table mixes bank count with decay placement; here bank=1 for every row",
+  "elapsed_s": 220.90092515945435,
+  "preregistered_falsifier": "r>0 in BOTH families -> state-dependence does NOT explain the anti-correlation (F3); r~0 in both -> the anti-correlation was a bank-count artifact, not a kernel property"
+ },
+ "verdict": {
+  "corr_input_only": 1.0,
+  "corr_state_dep": -1.0,
+  "anti_correlation_present_input_only": true,
+  "anti_correlation_present_state_dep": false,
+  "explains_anti_correlation": true,
+  "statement": "SUPPORTED: anti-correlation present with the input-only gate (r=+1.000) and absent with the state-dependent gate (r=-1.000); the anti-correlation tracks the gate, not the kernel."
+ }
+}

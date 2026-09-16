@@ -1,0 +1,708 @@
+{
+ "meta": {
+  "host": "macOS-27.0-arm64-arm-64bit-Mach-O",
+  "machine": "arm64",
+  "load_avg_at_start": 74.64,
+  "driver": "experiments/content_gate.py",
+  "mlx": "0.31.0",
+  "device": "Device(gpu, 0)",
+  "corpus": "tinyshakespeare.txt",
+  "corpus_tokens": 1115394,
+  "vocab": 65,
+  "ctx": 512,
+  "d": 128,
+  "n_layer": 2,
+  "mlp": 4,
+  "n_head": 4,
+  "chunk": 64,
+  "steps": 1500,
+  "seeds": [
+   0,
+   1,
+   2,
+   3,
+   4
+  ],
+  "bs": 16,
+  "lr": 0.001,
+  "warmup": 100,
+  "grad_clip": 1.0,
+  "weight_decay": 0.01,
+  "val_windows": 217,
+  "val_tokens": 111104,
+  "val_sha1": "5d83497060d477c87258ab350b945636bfa0c2ed",
+  "bigram_bpc": 3.580577474174118,
+  "unigram_bpc": 4.829176877807436,
+  "scan_verify_max_abs_err": 4.76837158203125e-07,
+  "compile_train_step": true,
+  "causality_max_delta": {
+   "A_attn": {
+    "p11": 0.0,
+    "p30": 0.0
+   },
+   "B_plain": {
+    "p11": 0.0,
+    "p30": 0.0
+   },
+   "B_match": {
+    "p11": 0.0,
+    "p30": 0.0
+   },
+   "C_statedep": {
+    "p11": 0.0,
+    "p30": 0.0
+   },
+   "D_multiscale": {
+    "p11": 0.0,
+    "p30": 0.0
+   }
+  },
+  "compile_equivalence": {
+   "C_statedep": {
+    "eager": {
+     "first": 4.407808303833008,
+     "last": 3.3428585529327393
+    },
+    "compiled": {
+     "first": 4.407808303833008,
+     "last": 3.34285831451416
+    },
+    "loss_moves": true,
+    "agrees": true,
+    "delta": 2.384185791015625e-07
+   },
+   "B_match": {
+    "eager": {
+     "first": 4.407808303833008,
+     "last": 3.176051139831543
+    },
+    "compiled": {
+     "first": 4.407808303833008,
+     "last": 3.176076650619507
+    },
+    "loss_moves": true,
+    "agrees": true,
+    "delta": 2.5510787963867188e-05
+   },
+   "A_attn": {
+    "eager": {
+     "first": 4.2808380126953125,
+     "last": 2.6145870685577393
+    },
+    "compiled": {
+     "first": 4.2808380126953125,
+     "last": 2.6145870685577393
+    },
+    "loss_moves": true,
+    "agrees": true,
+    "delta": 0.0
+   }
+  },
+  "started": "2026-09-13T21:55:31"
+ },
+ "param_table": {
+  "A_attn": {
+   "params": 478976,
+   "flops_per_token": 3982080.0,
+   "spec": {
+    "kind": "attn",
+    "match": false,
+    "state_dep": false,
+    "bias": "zero"
+   },
+   "pct_vs_max": 0.0
+  },
+  "B_plain": {
+   "params": 445696,
+   "flops_per_token": 2029824.0,
+   "spec": {
+    "kind": "mem",
+    "match": false,
+    "state_dep": false,
+    "bias": "0.9"
+   },
+   "pct_vs_max": -6.948156066274719
+  },
+  "B_match": {
+   "params": 478464,
+   "flops_per_token": 2226432.0,
+   "spec": {
+    "kind": "mem",
+    "match": true,
+    "state_dep": false,
+    "bias": "0.9"
+   },
+   "pct_vs_max": -0.10689470871191876
+  },
+  "C_statedep": {
+   "params": 478464,
+   "flops_per_token": 2226432.0,
+   "spec": {
+    "kind": "mem",
+    "match": false,
+    "state_dep": true,
+    "bias": "0.9"
+   },
+   "pct_vs_max": -0.10689470871191876
+  },
+  "D_multiscale": {
+   "params": 478464,
+   "flops_per_token": 2226432.0,
+   "spec": {
+    "kind": "mem",
+    "match": false,
+    "state_dep": true,
+    "bias": "multiscale"
+   },
+   "pct_vs_max": -0.10689470871191876
+  }
+ },
+ "arms": {
+  "A_attn": [
+   {
+    "arm": "A_attn",
+    "seed": 0,
+    "params": 478976,
+    "flops_per_token": 3982080.0,
+    "effective_decay": null,
+    "bpc": 2.314002034073572,
+    "steps": 1500,
+    "bs": 16,
+    "lr": 0.001,
+    "ctx": 512,
+    "d": 128,
+    "n_layer": 2,
+    "tokens": 12288000,
+    "wall_s": 96.90474700927734,
+    "tok_s": 126804.93349643219,
+    "cum_flops": 48931799040000.0,
+    "curve": [
+     {
+      "step": 1500,
+      "train_loss": 1.4548540115356445,
+      "tok_s": 126804.94129601242
+     }
+    ],
+    "wd": 0.01,
+    "warmup": 100,
+    "grad_clip": 1.0,
+    "compiled": true
+   },
+   {
+    "arm": "A_attn",
+    "seed": 1,
+    "params": 478976,
+    "flops_per_token": 3982080.0,
+    "effective_decay": null,
+    "bpc": 2.335597880484026,
+    "steps": 1500,
+    "bs": 16,
+    "lr": 0.001,
+    "ctx": 512,
+    "d": 128,
+    "n_layer": 2,
+    "tokens": 12288000,
+    "wall_s": 101.08492517471313,
+    "tok_s": 121561.15245435132,
+    "cum_flops": 48931799040000.0,
+    "curve": [
+     {
+      "step": 1500,
+      "train_loss": 1.416050672531128,
+      "tok_s": 121561.16105576423
+     }
+    ],
+    "wd": 0.01,
+    "warmup": 100,
+    "grad_clip": 1.0,
+    "compiled": true
+   },
+   {
+    "arm": "A_attn",
+    "seed": 2,
+    "params": 478976,
+    "flops_per_token": 3982080.0,
+    "effective_decay": null,
+    "bpc": 2.334422961587261,
+    "steps": 1500,
+    "bs": 16,
+    "lr": 0.001,
+    "ctx": 512,
+    "d": 128,
+    "n_layer": 2,
+    "tokens": 12288000,
+    "wall_s": 102.83085012435913,
+    "tok_s": 119497.21299726133,
+    "cum_flops": 48931799040000.0,
+    "curve": [
+     {
+      "step": 1500,
+      "train_loss": 1.4080374240875244,
+      "tok_s": 119497.21909259028
+     }
+    ],
+    "wd": 0.01,
+    "warmup": 100,
+    "grad_clip": 1.0,
+    "compiled": true
+   },
+   {
+    "arm": "A_attn",
+    "seed": 3,
+    "params": 478976,
+    "flops_per_token": 3982080.0,
+    "effective_decay": null,
+    "bpc": 2.34458780595528,
+    "steps": 1500,
+    "bs": 16,
+    "lr": 0.001,
+    "ctx": 512,
+    "d": 128,
+    "n_layer": 2,
+    "tokens": 12288000,
+    "wall_s": 80.08423900604248,
+    "tok_s": 153438.4312382971,
+    "cum_flops": 48931799040000.0,
+    "curve": [
+     {
+      "step": 1500,
+      "train_loss": 1.4242615699768066,
+      "tok_s": 153438.44083112193
+     }
+    ],
+    "wd": 0.01,
+    "warmup": 100,
+    "grad_clip": 1.0,
+    "compiled": true
+   },
+   {
+    "arm": "A_attn",
+    "seed": 4,
+    "params": 478976,
+    "flops_per_token": 3982080.0,
+    "effective_decay": null,
+    "bpc": 2.335612175650264,
+    "steps": 1500,
+    "bs": 16,
+    "lr": 0.001,
+    "ctx": 512,
+    "d": 128,
+    "n_layer": 2,
+    "tokens": 12288000,
+    "wall_s": 80.81166696548462,
+    "tok_s": 152057.25189715877,
+    "cum_flops": 48931799040000.0,
+    "curve": [
+     {
+      "step": 1500,
+      "train_loss": 1.3551257848739624,
+      "tok_s": 152057.26131806086
+     }
+    ],
+    "wd": 0.01,
+    "warmup": 100,
+    "grad_clip": 1.0,
+    "compiled": true
+   }
+  ],
+  "B_plain": [
+   {
+    "arm": "B_plain",
+    "seed": 0,
+    "params": 445696,
+    "flops_per_token": 2029824.0,
+    "effective_decay": null,
+    "bpc": 2.208716211220809,
+    "steps": 1500,
+    "bs": 16,
+    "lr": 0.001,
+    "ctx": 512,
+    "d": 128,
+    "n_layer": 2,
+    "tokens": 12288000,
+    "wall_s": 77.58485817909241,
+    "tok_s": 158381.41988524474,
+    "cum_flops": 24942477312000.0,
+    "curve": [
+     {
+      "step": 1500,
+      "train_loss": 1.366119146347046,
+      "tok_s": 158381.43059279365
+     }
+    ],
+    "wd": 0.01,
+    "warmup": 100,
+    "grad_clip": 1.0,
+    "compiled": true
+   },
+   {
+    "arm": "B_plain",
+    "seed": 1,
+    "params": 445696,
+    "flops_per_token": 2029824.0,
+    "effective_decay": null,
+    "bpc": 2.20907727413418,
+    "steps": 1500,
+    "bs": 16,
+    "lr": 0.001,
+    "ctx": 512,
+    "d": 128,
+    "n_layer": 2,
+    "tokens": 12288000,
+    "wall_s": 63.76911997795105,
+    "tok_s": 192695.14781211855,
+    "cum_flops": 24942477312000.0,
+    "curve": [
+     {
+      "step": 1500,
+      "train_loss": 1.3115615844726562,
+      "tok_s": 192695.1542961181
+     }
+    ],
+    "wd": 0.01,
+    "warmup": 100,
+    "grad_clip": 1.0,
+    "compiled": true
+   },
+   {
+    "arm": "B_plain",
+    "seed": 2,
+    "params": 445696,
+    "flops_per_token": 2029824.0,
+    "effective_decay": null,
+    "bpc": 2.2039760975194853,
+    "steps": 1500,
+    "bs": 16,
+    "lr": 0.001,
+    "ctx": 512,
+    "d": 128,
+    "n_layer": 2,
+    "tokens": 12288000,
+    "wall_s": 53.4071831703186,
+    "tok_s": 230081.40985104674,
+    "cum_flops": 24942477312000.0,
+    "curve": [
+     {
+      "step": 1500,
+      "train_loss": 1.3019955158233643,
+      "tok_s": 230081.43244772885
+     }
+    ],
+    "wd": 0.01,
+    "warmup": 100,
+    "grad_clip": 1.0,
+    "compiled": true
+   },
+   {
+    "arm": "B_plain",
+    "seed": 3,
+    "params": 445696,
+    "flops_per_token": 2029824.0,
+    "effective_decay": null,
+    "bpc": 2.236188136555205,
+    "steps": 1500,
+    "bs": 16,
+    "lr": 0.001,
+    "ctx": 512,
+    "d": 128,
+    "n_layer": 2,
+    "tokens": 12288000,
+    "wall_s": 90.36488699913025,
+    "tok_s": 135982.02142518334,
+    "cum_flops": 24942477312000.0,
+    "curve": [
+     {
+      "step": 1500,
+      "train_loss": 1.350684404373169,
+      "tok_s": 135982.03039455283
+     }
+    ],
+    "wd": 0.01,
+    "warmup": 100,
+    "grad_clip": 1.0,
+    "compiled": true
+   },
+   {
+    "arm": "B_plain",
+    "seed": 4,
+    "params": 445696,
+    "flops_per_token": 2029824.0,
+    "effective_decay": null,
+    "bpc": 2.1997472240428873,
+    "steps": 1500,
+    "bs": 16,
+    "lr": 0.001,
+    "ctx": 512,
+    "d": 128,
+    "n_layer": 2,
+    "tokens": 12288000,
+    "wall_s": 110.16415405273438,
+    "tok_s": 111542.63476772915,
+    "cum_flops": 24942477312000.0,
+    "curve": [
+     {
+      "step": 1500,
+      "train_loss": 1.252964973449707,
+      "tok_s": 111542.63766455208
+     }
+    ],
+    "wd": 0.01,
+    "warmup": 100,
+    "grad_clip": 1.0,
+    "compiled": true
+   }
+  ],
+  "B_match": [
+   {
+    "arm": "B_match",
+    "seed": 0,
+    "params": 478464,
+    "flops_per_token": 2226432.0,
+    "effective_decay": null,
+    "bpc": 2.210617782178967,
+    "steps": 1500,
+    "bs": 16,
+    "lr": 0.001,
+    "ctx": 512,
+    "d": 128,
+    "n_layer": 2,
+    "tokens": 12288000,
+    "wall_s": 121.0497510433197,
+    "tok_s": 101511.9807689859,
+    "cum_flops": 27358396416000.0,
+    "curve": [
+     {
+      "step": 1500,
+      "train_loss": 1.362439751625061,
+      "tok_s": 101511.9839679804
+     }
+    ],
+    "wd": 0.01,
+    "warmup": 100,
+    "grad_clip": 1.0,
+    "compiled": true
+   },
+   {
+    "arm": "B_match",
+    "seed": 1,
+    "params": 478464,
+    "flops_per_token": 2226432.0,
+    "effective_decay": null,
+    "bpc": 2.1943302999619565,
+    "steps": 1500,
+    "bs": 16,
+    "lr": 0.001,
+    "ctx": 512,
+    "d": 128,
+    "n_layer": 2,
+    "tokens": 12288000,
+    "wall_s": 126.55442810058594,
+    "tok_s": 97096.56299211792,
+    "cum_flops": 27358396416000.0,
+    "curve": [
+     {
+      "step": 1500,
+      "train_loss": 1.301028847694397,
+      "tok_s": 97096.56610179678
+     }
+    ],
+    "wd": 0.01,
+    "warmup": 100,
+    "grad_clip": 1.0,
+    "compiled": true
+   },
+   {
+    "arm": "B_match",
+    "seed": 2,
+    "params": 478464,
+    "flops_per_token": 2226432.0,
+    "effective_decay": null,
+    "bpc": 2.1914439753660813,
+    "steps": 1500,
+    "bs": 16,
+    "lr": 0.001,
+    "ctx": 512,
+    "d": 128,
+    "n_layer": 2,
+    "tokens": 12288000,
+    "wall_s": 141.1603000164032,
+    "tok_s": 87049.97083862887,
+    "cum_flops": 27358396416000.0,
+    "curve": [
+     {
+      "step": 1500,
+      "train_loss": 1.2951231002807617,
+      "tok_s": 87049.9733380825
+     }
+    ],
+    "wd": 0.01,
+    "warmup": 100,
+    "grad_clip": 1.0,
+    "compiled": true
+   },
+   {
+    "arm": "B_match",
+    "seed": 3,
+    "params": 478464,
+    "flops_per_token": 2226432.0,
+    "effective_decay": null,
+    "bpc": 2.218400726273545,
+    "steps": 1500,
+    "bs": 16,
+    "lr": 0.001,
+    "ctx": 512,
+    "d": 128,
+    "n_layer": 2,
+    "tokens": 12288000,
+    "wall_s": 146.9128701686859,
+    "tok_s": 83641.41266786818,
+    "cum_flops": 27358396416000.0,
+    "curve": [
+     {
+      "step": 1500,
+      "train_loss": 1.3345482349395752,
+      "tok_s": 83641.41565410543
+     }
+    ],
+    "wd": 0.01,
+    "warmup": 100,
+    "grad_clip": 1.0,
+    "compiled": true
+   },
+   {
+    "arm": "B_match",
+    "seed": 4,
+    "params": 478464,
+    "flops_per_token": 2226432.0,
+    "effective_decay": null,
+    "bpc": 2.2081034378283317,
+    "steps": 1500,
+    "bs": 16,
+    "lr": 0.001,
+    "ctx": 512,
+    "d": 128,
+    "n_layer": 2,
+    "tokens": 12288000,
+    "wall_s": 126.26854991912842,
+    "tok_s": 97316.39436637334,
+    "cum_flops": 27358396416000.0,
+    "curve": [
+     {
+      "step": 1500,
+      "train_loss": 1.2459495067596436,
+      "tok_s": 97316.39749014909
+     }
+    ],
+    "wd": 0.01,
+    "warmup": 100,
+    "grad_clip": 1.0,
+    "compiled": true
+   }
+  ],
+  "C_statedep": [
+   {
+    "arm": "C_statedep",
+    "seed": 0,
+    "params": 478464,
+    "flops_per_token": 2226432.0,
+    "effective_decay": null,
+    "bpc": 2.211813788367859,
+    "steps": 1500,
+    "bs": 16,
+    "lr": 0.001,
+    "ctx": 512,
+    "d": 128,
+    "n_layer": 2,
+    "tokens": 12288000,
+    "wall_s": 743.1036169528961,
+    "tok_s": 16536.051930936723,
+    "cum_flops": 27358396416000.0,
+    "curve": [
+     {
+      "step": 1500,
+      "train_loss": 1.3650093078613281,
+      "tok_s": 16536.05206357307
+     }
+    ],
+    "wd": 0.01,
+    "warmup": 100,
+    "grad_clip": 1.0,
+    "compiled": true
+   },
+   {
+    "arm": "C_statedep",
+    "seed": 1,
+    "params": 478464,
+    "flops_per_token": 2226432.0,
+    "effective_decay": null,
+    "bpc": 2.218388849960074,
+    "steps": 1500,
+    "bs": 16,
+    "lr": 0.001,
+    "ctx": 512,
+    "d": 128,
+    "n_layer": 2,
+    "tokens": 12288000,
+    "wall_s": 243.10305094718933,
+    "tok_s": 50546.46559194929,
+    "cum_flops": 27358396416000.0,
+    "curve": [
+     {
+      "step": 1500,
+      "train_loss": 1.3135349750518799,
+      "tok_s": 50546.46663297099
+     }
+    ],
+    "wd": 0.01,
+    "warmup": 100,
+    "grad_clip": 1.0,
+    "compiled": true
+   },
+   {
+    "arm": "C_statedep",
+    "seed": 2,
+    "params": 478464,
+    "flops_per_token": 2226432.0,
+    "effective_decay": null,
+    "bpc": 2.203302814765588,
+    "steps": 1500,
+    "bs": 16,
+    "lr": 0.001,
+    "ctx": 512,
+    "d": 128,
+    "n_layer": 2,
+    "tokens": 12288000,
+    "wall_s": 255.1636199951172,
+    "tok_s": 48157.33528249498,
+    "cum_flops": 27358396416000.0,
+    "curve": [
+     {
+      "step": 1500,
+      "train_loss": 1.2883906364440918,
+      "tok_s": 48157.336227432505
+     }
+    ],
+    "wd": 0.01,
+    "warmup": 100,
+    "grad_clip": 1.0,
+    "compiled": true
+   }
+  ]
+ },
+ "timing": {},
+ "recency": {},
+ "matched_set": {
+  "exact_set": [
+   "B_match",
+   "C_statedep",
+   "D_multiscale"
+  ],
+  "exact_params": true,
+  "exact_macs": true,
+  "attention_params_within_2pct": true,
+  "attention_macs_ratio_vs_C": 1.7885477750948604,
+  "attention_macs_note": "attention is NOT MAC-matched and structurally cannot be at fixed ctx: its 2*2*ctx*d score+AV term is 67% of its MACs, and shrinking d to match MACs would drop its parameters to ~51% of C's. It is reported as the floor/harness control at matched parameters.",
+  "B_plain_params_delta_pct_vs_C": -6.848582129481006,
+  "B_plain_note": "B_plain is the architecture as shipped, and is the only memory arm NOT parameter-matched (it lacks the extra d x d projection). It is reported for reference; the hypothesis is tested against B_match."
+ }
+}
