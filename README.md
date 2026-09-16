@@ -1,20 +1,35 @@
-# Making a pretrained LLM better by giving it a brain's memory
+# Testing recurrent memory against pretrained transformer attention
 
-A pretrained transformer processes the past by recomputing it. Every token, it
-rebuilds its context from scratch through the attention matrix. A brain does
-something different: it carries a **running trace** of the past that decays at
-multiple timescales, updated in one operation per token.
+A pretrained transformer uses attention over the past. During cached
+autoregressive generation it **stores prior keys and values**, rather than
+recomputing all prior projections, but each new query still reads a growing
+cache. Prefill and training also pay for causal attention over the sequence.
+A gated recurrent trace instead carries a bounded state forward.
 
 This repository tests whether swapping attention for that mechanism — and
 against a pretrained model — actually helps, with an **adversarial control at
 every step**.
 
-**The short version: it works at 1B and fails to replicate at 8B.** Both results
-are reported here with their controls, because the interesting part of a result
-is what survives when you try to kill it, and the failure to replicate is the
-more informative of the two.
+**The current result:** a single-layer attention transplant recovers some
+quality against a random carrier at 1B, but that result fails to replicate at
+8B. A matched static adapter beats the added recurrent branch in the complete
+five-seed 1B control, and neither the pure trace nor a 64-token local-window
+hybrid has made the complete 1B model materially faster. The earlier results
+and their controls are retained below so each claim can be checked.
 
 Everything runs locally on one Apple M4 Max, 128 GB, MLX/Metal. No cluster.
+The first [complete-model cached-inference baseline](docs/OSS_BASELINE.md)
+finds **no material throughput gain** from an untrained one-layer replacement:
+the cache shrinks, but held-out perplexity worsens and peak Metal memory rises.
+The [matched-adapter control audit](docs/CONTROL_STATUS.md) further limits the
+claim that the injected trace itself improves next-token quality.
+The [local-window conversion](docs/LOCAL_HYBRID.md) keeps a bounded cache.
+A signed recurrent gain beats its local-only control on four fresh cached
+windows, but the unchanged 1B teacher still has better quality and no
+complete-model speed gain was verified. A separate [five-seed small-model
+training test](docs/TRAINING_PARETO.md) reaches the same loss in less time
+and estimated compute. That training signal has not transferred to the
+pretrained 1B model.
 
 > **Scope, up front.** This is not a simulated human brain and does not claim to
 > be one. The 86-billion-neuron gap cannot be closed on a laptop, and the Human
@@ -34,13 +49,15 @@ Everything runs locally on one Apple M4 Max, 128 GB, MLX/Metal. No cluster.
 
 A gated multi-timescale memory trace, inserted beside attention as a
 **zero-initialised low-rank branch**, improves a frozen pretrained Llama-3.2-1B
-from **20.3756 to 19.8922 perplexity** on held-out text. When attention is
+from **20.3756 to 19.8922 perplexity** on held-out text. The newer matched
+rank-64 static adapter improves it further, so this injection result is not
+evidence that the added recurrent memory is necessary. When attention is
 *deleted* and the memory must take over, a carrier whose weights are
 **transplanted from the attention it replaced** recovers **38.6%** of the
 lost performance, while an otherwise identical carrier with **random weights**
 makes things *worse than deleting attention entirely* (−53.1%).
 
-That is the 1B result, and it is real. **At 8B it does not replicate**: under the
+That is the narrow 1B transplant result. **At 8B it does not replicate**: under the
 same held-out selection protocol the transplanted carrier *loses* to the random
 control at every control seed ([§4](#4-does-it-survive-at-8b-no--and-that-is-the-most-important-result-here)).
 This repository reports both, because the failure to replicate is the more
@@ -56,7 +73,7 @@ remaining suspect is the single-layer design of the 8B test.
 
 | experiment | teacher | our arm | control | verdict |
 |---|---|---|---|---|
-| **Injection** (attention kept, 1B, layer 8) | 20.3756 | **19.8922** | 19.9987 (random) | any trained low-rank branch helps; only 22% of the gain is from our weights |
+| **Injection** (attention kept, 1B, layer 8) | 20.3756 | **19.8922** | 19.9987 (random); newer matched static adapter beats transfer | an added trainable branch helps; recurrent memory has not shown a unique gain |
 | **Finetune** (attention deleted, 1B, layer 8) | 20.3756 | **22.6638** | 26.0826 (random) | transplant recovers 38.6%; random is worse than deletion |
 | **Decay sweep** (same, decay chosen per arm) | 20.3756 | 23.0357 @ g=0.6 | 25.2227 @ g=1.0 | interior optimum for transplant; control pinned to the grid edge |
 | **8B replication** (attention deleted, Llama-3.1-8B-4bit, layer 16) | 6.4999 | 8.7064 | **8.6875** (random) | **the effect does NOT replicate at 8B** — see below |
@@ -114,9 +131,11 @@ Attention is **untouched**. Only the low-rank injection projection trains.
 **The honest decomposition.** A trained low-rank branch helps almost regardless
 of its content: `random` already gains 0.3769. Only **0.1065 of the 0.4834**
 improvement — about **22%** — is attributable to the transplanted weights rather
-than to "having a trainable branch at all". A reader who quotes −0.4834 as
-"our method's gain" is quoting a number that mostly measures the branch, not the
-brain-derived content.
+than to "having a trainable branch at all" *against that random-branch control*.
+A newer five-seed rank-matched **static attention-output adapter** does better
+than the transferred memory branch in every seed
+([control audit](docs/CONTROL_STATUS.md)). Thus the random comparison is not
+enough to establish a unique gain from the memory content.
 
 ---
 
