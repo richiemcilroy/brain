@@ -13,7 +13,8 @@ every step**.
 **The current result:** a bounded, query-addressable state beside an exact
 64-token local window recovers some quality lost by converting one pretrained
 1B Llama layer. A small teacher-output transfer improves held-out Shakespeare
-and WikiText quality, but the converted model still trails the unchanged
+and WikiText quality; a matched rank-8 next-token adjustment then overfits
+and worsens fresh quality. The converted model still trails the unchanged
 teacher and has not shown a material complete-model speed gain. Earlier
 recurrent-transplant results also failed an 8B replication and matched static
 adapter control. The results and controls are retained below so each claim can
@@ -37,6 +38,10 @@ uses an exact 64-token window and a constant-size global feature state.
 Attention-output training improves five fixed WikiText-2 test windows without
 WikiText training data, but teacher perplexity remains better and the
 one-layer serving benchmark does not yet show a speed win.
+The [matched rank-8 LoRA follow-up](docs/QUERY_GLOBAL_LORA_RESULT.md)
+overfit on the tiny Shakespeare adjustment set: query state still beat
+local-only LoRA on nine fresh windows, but every LoRA arm lost to the
+unchanged teacher and query LoRA worsened its frozen stage-1 map.
 
 > **Scope, up front.** This is not a simulated human brain and does not claim to
 > be one. The 86-billion-neuron gap cannot be closed on a laptop, and the Human

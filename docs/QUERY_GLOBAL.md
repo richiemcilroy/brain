@@ -191,8 +191,10 @@ deployment resident memory or dollar cost
 The one-layer transfer is reproducible and generalizes across the two
 texts tested, but it has not met the unchanged teacher's held-out
 quality. The [predeclared rank-8 LoRA control](QUERY_GLOBAL_LORA_PROTOCOL.md)
-compares query-state, local-only and full-attention adjustments on fresh
-next-token windows. Retrieval tests remain a separate requirement. A
+compared query-state, local-only and full-attention adjustments on fresh
+next-token windows; [all three arms overfit](QUERY_GLOBAL_LORA_RESULT.md),
+and query LoRA fell below its unadjusted stage-1 starting point. Retrieval
+tests remain a separate requirement. A
 quality-preserving multi-layer conversion must
 then beat a strong complete-model serving baseline and count teacher
 forwards, LoRA, peak/resident memory and conversion time. Only then
