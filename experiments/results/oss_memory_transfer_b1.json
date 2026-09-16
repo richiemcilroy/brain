@@ -1,0 +1,217 @@
+{
+  "status": "complete",
+  "meta": {
+    "arm": "transfer",
+    "snapshot": "/Users/richie/zbrain/hf/hub/models--unsloth--Llama-3.2-1B/snapshots/9535bd9b1d1dea6acafbdc4813b728796aeb28da",
+    "snapshot_revision": "9535bd9b1d1dea6acafbdc4813b728796aeb28da",
+    "config_sha256": "8f028e2cd88148fad38c7dece460947681adf6178e46e11ece9742aa49b378dd",
+    "weight_blob_id": "68a2e4be76fa709455a60272fba8e512c02d81c46e6c671cc9449e374fd6809a",
+    "tokenizer_blob_id": "6b9e4e7fb171f92fd137b777cc2714bf87d11576700a1dcd7a399e7bbe39537b",
+    "benchmark_source_sha256": "5841b92c34c9316a5286333bf9e069939b9d84af64ff8d06c58f79c41b01a9eb",
+    "streaming_memory_source_sha256": "2b4924f9e4d334564ae87286a6f54cc2306c2969c887c00404501f2fd4b32b56",
+    "llm_hybrid_source_sha256": "69ef0626880df77ce7d5d5f70e57105c6f2babd2f760d36663c35c35a050885d",
+    "corpus_sha256": "86c4e6aa9db7c042ec79f339dcb96d42b0075e16b8fc2e86bf0ca57e2dc565ed",
+    "corpus_tokens": 301769,
+    "model_type": "Model",
+    "model_args": {
+      "hidden_size": 2048,
+      "num_hidden_layers": 16,
+      "vocab_size": 128256
+    },
+    "layer": 8,
+    "decay": 0.7,
+    "conversion_mlx_seed": 0,
+    "dtype": "mlx.core.bfloat16",
+    "hardware": "macOS-27.0-arm64-arm-64bit-Mach-O",
+    "python": "3.14.3",
+    "mlx": "0.32.2",
+    "mlx_lm": "0.31.3",
+    "load_s": 0.560656415997073,
+    "baseline_active_memory_bytes": 2500999056,
+    "max_rss_bytes": 3139518464,
+    "workload": "cached prefill with last-token vocabulary head and teacher-forced single-token decode; same corpus tokens and precision in both arms",
+    "cache_bytes": "active logical KV positions plus trace state",
+    "cache_storage_bytes": "whole allocated KV tensors including spare capacity",
+    "batch": 1,
+    "contexts": [
+      8192
+    ],
+    "decode_tokens": 32,
+    "repeats": 3,
+    "load_average_at_start": [
+      3.93408203125,
+      5.57275390625,
+      5.5048828125
+    ],
+    "finished_epoch": 1789516936.17096
+  },
+  "conversion": {
+    "attr": "self_attn",
+    "d": 2048,
+    "mode": "transfer",
+    "banks": 1,
+    "fitted_decay": 0.7,
+    "decay_source": "explicit override",
+    "recency_profile_first8": null,
+    "fit_cdf_l1": null,
+    "found": [
+      "k_proj.weight",
+      "o_proj.weight",
+      "q_proj.weight",
+      "v_proj.weight"
+    ],
+    "quantized": false,
+    "value_expand_reps": 4,
+    "transplanted": true,
+    "wv_norm": 26.364788055419922,
+    "wo_norm": 29.8035831451416,
+    "gate_bias": 0.8472978603872034,
+    "gate_biases": [
+      0.8472978603872034
+    ],
+    "value_scaled_by": 0.30000000000000004,
+    "out_gain": 0.30000000000000004
+  },
+  "parity": {
+    "max_abs_logit_diff": 0.125,
+    "mean_abs_logit_diff": 0.025836432352662086,
+    "top1_equal": true,
+    "decode_max_abs_logit_diff": 0.125,
+    "decode_top1_equal": true,
+    "one_cache_bytes": 3940352,
+    "split_cache_bytes": 3940352,
+    "one_cache_storage_bytes": 7872512,
+    "split_cache_storage_bytes": 7872512,
+    "offsets_equal": true,
+    "decode_offset_correct": true
+  },
+  "quality": {
+    "nll": 3.1530510170056685,
+    "ppl": 23.407372035638005,
+    "n_tokens": 2999
+  },
+  "rows": [
+    {
+      "context": 8192,
+      "batch": 1,
+      "decode_tokens": 32,
+      "repeats": [
+        {
+          "prefill_s": 2.2905783750175033,
+          "prefill_tok_s": 3576.3893038313527,
+          "decode_s": 0.26051287501468323,
+          "decode_tok_s": 122.83461997107203,
+          "decode_ms_per_token": 8.141027344208851,
+          "prefill_cache_bytes": 251666432,
+          "final_cache_bytes": 252649472,
+          "prefill_cache_storage_bytes": 251666432,
+          "final_cache_storage_bytes": 259530752,
+          "prefill_peak_bytes": 4293564468,
+          "final_peak_bytes": 4293564468,
+          "final_active_bytes": 2760791952,
+          "cache_offsets": [
+            8224,
+            8224,
+            8224,
+            8224,
+            8224,
+            8224,
+            8224,
+            8224,
+            8224,
+            8224,
+            8224,
+            8224,
+            8224,
+            8224,
+            8224,
+            8224
+          ],
+          "load_average": [
+            3.77880859375,
+            5.51318359375,
+            5.48388671875
+          ]
+        },
+        {
+          "prefill_s": 2.6976170830021147,
+          "prefill_tok_s": 3036.7541974798423,
+          "decode_s": 0.2621944999846164,
+          "decode_tok_s": 122.04680114143324,
+          "decode_ms_per_token": 8.193578124519263,
+          "prefill_cache_bytes": 251666432,
+          "final_cache_bytes": 252649472,
+          "prefill_cache_storage_bytes": 251666432,
+          "final_cache_storage_bytes": 259530752,
+          "prefill_peak_bytes": 4293564468,
+          "final_peak_bytes": 4293564468,
+          "final_active_bytes": 2760791952,
+          "cache_offsets": [
+            8224,
+            8224,
+            8224,
+            8224,
+            8224,
+            8224,
+            8224,
+            8224,
+            8224,
+            8224,
+            8224,
+            8224,
+            8224,
+            8224,
+            8224,
+            8224
+          ],
+          "load_average": [
+            3.55615234375,
+            5.43798828125,
+            5.45751953125
+          ]
+        },
+        {
+          "prefill_s": 2.615587542008143,
+          "prefill_tok_s": 3131.992284116215,
+          "decode_s": 0.2564018330012914,
+          "decode_tok_s": 124.80409997630099,
+          "decode_ms_per_token": 8.012557281290356,
+          "prefill_cache_bytes": 251666432,
+          "final_cache_bytes": 252649472,
+          "prefill_cache_storage_bytes": 251666432,
+          "final_cache_storage_bytes": 259530752,
+          "prefill_peak_bytes": 4293564468,
+          "final_peak_bytes": 4293564468,
+          "final_active_bytes": 2760791952,
+          "cache_offsets": [
+            8224,
+            8224,
+            8224,
+            8224,
+            8224,
+            8224,
+            8224,
+            8224,
+            8224,
+            8224,
+            8224,
+            8224,
+            8224,
+            8224,
+            8224,
+            8224
+          ],
+          "load_average": [
+            3.55615234375,
+            5.43798828125,
+            5.45751953125
+          ]
+        }
+      ],
+      "median_prefill_s": 2.615587542008143,
+      "median_decode_s": 0.26051287501468323,
+      "median_decode_tok_s": 122.83461997107203,
+      "median_final_cache_bytes": 252649472
+    }
+  ]
+}

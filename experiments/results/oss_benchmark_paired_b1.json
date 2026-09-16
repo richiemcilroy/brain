@@ -1,0 +1,2260 @@
+{
+  "status": "complete",
+  "meta": {
+    "snapshot": "/Users/richie/zbrain/hf/hub/models--unsloth--Llama-3.2-1B/snapshots/9535bd9b1d1dea6acafbdc4813b728796aeb28da",
+    "snapshot_revision": "9535bd9b1d1dea6acafbdc4813b728796aeb28da",
+    "config_sha256": "8f028e2cd88148fad38c7dece460947681adf6178e46e11ece9742aa49b378dd",
+    "weight_blob_id": "68a2e4be76fa709455a60272fba8e512c02d81c46e6c671cc9449e374fd6809a",
+    "tokenizer_blob_id": "6b9e4e7fb171f92fd137b777cc2714bf87d11576700a1dcd7a399e7bbe39537b",
+    "benchmark_source_sha256": "806b3cfeccd0e882c73cc908e0b47487e810c7d00e8599dac04503b50f97b038",
+    "oss_benchmark_source_sha256": "5841b92c34c9316a5286333bf9e069939b9d84af64ff8d06c58f79c41b01a9eb",
+    "streaming_memory_source_sha256": "2b4924f9e4d334564ae87286a6f54cc2306c2969c887c00404501f2fd4b32b56",
+    "corpus_sha256": "86c4e6aa9db7c042ec79f339dcb96d42b0075e16b8fc2e86bf0ca57e2dc565ed",
+    "layer": 8,
+    "decay": 0.7,
+    "conversion_mlx_seed": 0,
+    "batch": 1,
+    "contexts": [
+      128,
+      512,
+      2048,
+      4096,
+      8192
+    ],
+    "decode_tokens": 64,
+    "repeats": 5,
+    "dtype": "mlx.core.bfloat16",
+    "workload": "cached prefill with last-token vocabulary head and teacher-forced single-token decode",
+    "memory_note": "both original and replacement modules are retained; compare logical cache bytes, not allocator peak",
+    "cache_bytes": "active logical KV positions plus trace state",
+    "cache_storage_bytes": "whole allocated KV tensors including spare capacity",
+    "started_epoch": 1789516718.53893,
+    "load_average_at_start": [
+      7.55810546875,
+      7.41015625,
+      6.005859375
+    ],
+    "finished_epoch": 1789516794.4062421
+  },
+  "conversion": {
+    "attr": "self_attn",
+    "d": 2048,
+    "mode": "transfer",
+    "banks": 1,
+    "fitted_decay": 0.7,
+    "decay_source": "explicit override",
+    "recency_profile_first8": null,
+    "fit_cdf_l1": null,
+    "found": [
+      "k_proj.weight",
+      "o_proj.weight",
+      "q_proj.weight",
+      "v_proj.weight"
+    ],
+    "quantized": false,
+    "value_expand_reps": 4,
+    "transplanted": true,
+    "wv_norm": 26.364788055419922,
+    "wo_norm": 29.8035831451416,
+    "gate_bias": 0.8472978603872034,
+    "gate_biases": [
+      0.8472978603872034
+    ],
+    "value_scaled_by": 0.30000000000000004,
+    "out_gain": 0.30000000000000004
+  },
+  "controls": {
+    "teacher": {
+      "parity": {
+        "max_abs_logit_diff": 0.125,
+        "mean_abs_logit_diff": 0.021568283438682556,
+        "top1_equal": true,
+        "decode_max_abs_logit_diff": 0.125,
+        "decode_top1_equal": true,
+        "one_cache_bytes": 4194304,
+        "split_cache_bytes": 4194304,
+        "one_cache_storage_bytes": 8388608,
+        "split_cache_storage_bytes": 8388608,
+        "offsets_equal": true,
+        "decode_offset_correct": true
+      },
+      "quality": {
+        "nll": 3.014338112704235,
+        "ppl": 20.375600125475536,
+        "n_tokens": 2999
+      }
+    },
+    "transfer": {
+      "parity": {
+        "max_abs_logit_diff": 0.125,
+        "mean_abs_logit_diff": 0.025836432352662086,
+        "top1_equal": true,
+        "decode_max_abs_logit_diff": 0.125,
+        "decode_top1_equal": true,
+        "one_cache_bytes": 3940352,
+        "split_cache_bytes": 3940352,
+        "one_cache_storage_bytes": 7872512,
+        "split_cache_storage_bytes": 7872512,
+        "offsets_equal": true,
+        "decode_offset_correct": true
+      },
+      "quality": {
+        "nll": 3.1530510170056685,
+        "ppl": 23.407372035638005,
+        "n_tokens": 2999
+      }
+    }
+  },
+  "rows": [
+    {
+      "context": 128,
+      "batch": 1,
+      "pairs": [
+        {
+          "order": [
+            "teacher",
+            "transfer"
+          ],
+          "teacher": {
+            "prefill_s": 0.028815792000386864,
+            "prefill_tok_s": 4442.008742924073,
+            "decode_s": 0.4148910000221804,
+            "decode_tok_s": 154.25738325627336,
+            "decode_ms_per_token": 6.482671875346568,
+            "prefill_cache_bytes": 4194304,
+            "final_cache_bytes": 6291456,
+            "prefill_cache_storage_bytes": 8388608,
+            "final_cache_storage_bytes": 8388608,
+            "prefill_peak_bytes": 2702981780,
+            "final_peak_bytes": 2702981780,
+            "final_active_bytes": 2530621456,
+            "cache_offsets": [
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192
+            ],
+            "load_average": [
+              7.55810546875,
+              7.41015625,
+              6.005859375
+            ]
+          },
+          "transfer": {
+            "prefill_s": 0.03014049999183044,
+            "prefill_tok_s": 4246.7775927637,
+            "decode_s": 0.42014295799890533,
+            "decode_tok_s": 152.32910318150982,
+            "decode_ms_per_token": 6.564733718732896,
+            "prefill_cache_bytes": 3940352,
+            "final_cache_bytes": 5906432,
+            "prefill_cache_storage_bytes": 7872512,
+            "final_cache_storage_bytes": 7872512,
+            "prefill_peak_bytes": 2706930360,
+            "final_peak_bytes": 2706930360,
+            "final_active_bytes": 2530105360,
+            "cache_offsets": [
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192
+            ],
+            "load_average": [
+              7.55810546875,
+              7.41015625,
+              6.005859375
+            ]
+          },
+          "prefill_time_ratio_transfer_over_teacher": 1.0459715974985448,
+          "decode_speed_ratio_transfer_over_teacher": 0.9874995929915392,
+          "cache_bytes_saved": 385024,
+          "cache_storage_bytes_saved": 516096
+        },
+        {
+          "order": [
+            "transfer",
+            "teacher"
+          ],
+          "teacher": {
+            "prefill_s": 0.035216291988035664,
+            "prefill_tok_s": 3634.6813583748835,
+            "decode_s": 0.44529162501567043,
+            "decode_tok_s": 143.7260357136691,
+            "decode_ms_per_token": 6.9576816408698505,
+            "prefill_cache_bytes": 4194304,
+            "final_cache_bytes": 6291456,
+            "prefill_cache_storage_bytes": 8388608,
+            "final_cache_storage_bytes": 8388608,
+            "prefill_peak_bytes": 2702981780,
+            "final_peak_bytes": 2702981780,
+            "final_active_bytes": 2530621456,
+            "cache_offsets": [
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192
+            ],
+            "load_average": [
+              7.55810546875,
+              7.41015625,
+              6.005859375
+            ]
+          },
+          "transfer": {
+            "prefill_s": 0.0315582089824602,
+            "prefill_tok_s": 4055.996969636058,
+            "decode_s": 0.42559304198948666,
+            "decode_tok_s": 150.37839834228535,
+            "decode_ms_per_token": 6.649891281085729,
+            "prefill_cache_bytes": 3940352,
+            "final_cache_bytes": 5906432,
+            "prefill_cache_storage_bytes": 7872512,
+            "final_cache_storage_bytes": 7872512,
+            "prefill_peak_bytes": 2706930360,
+            "final_peak_bytes": 2706930360,
+            "final_active_bytes": 2530105360,
+            "cache_offsets": [
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192
+            ],
+            "load_average": [
+              7.55810546875,
+              7.41015625,
+              6.005859375
+            ]
+          },
+          "prefill_time_ratio_transfer_over_teacher": 0.8961252647831789,
+          "decode_speed_ratio_transfer_over_teacher": 1.046285021329532,
+          "cache_bytes_saved": 385024,
+          "cache_storage_bytes_saved": 516096
+        },
+        {
+          "order": [
+            "teacher",
+            "transfer"
+          ],
+          "teacher": {
+            "prefill_s": 0.05546045899973251,
+            "prefill_tok_s": 2307.950606766838,
+            "decode_s": 0.5164031670137774,
+            "decode_tok_s": 123.93417408745773,
+            "decode_ms_per_token": 8.068799484590272,
+            "prefill_cache_bytes": 4194304,
+            "final_cache_bytes": 6291456,
+            "prefill_cache_storage_bytes": 8388608,
+            "final_cache_storage_bytes": 8388608,
+            "prefill_peak_bytes": 2702981780,
+            "final_peak_bytes": 2702981780,
+            "final_active_bytes": 2530621456,
+            "cache_offsets": [
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192
+            ],
+            "load_average": [
+              7.11279296875,
+              7.3203125,
+              5.98193359375
+            ]
+          },
+          "transfer": {
+            "prefill_s": 0.09643525001592934,
+            "prefill_tok_s": 1327.3154783013135,
+            "decode_s": 0.6615157079941127,
+            "decode_tok_s": 96.74751366685548,
+            "decode_ms_per_token": 10.336182937408012,
+            "prefill_cache_bytes": 3940352,
+            "final_cache_bytes": 5906432,
+            "prefill_cache_storage_bytes": 7872512,
+            "final_cache_storage_bytes": 7872512,
+            "prefill_peak_bytes": 2706930360,
+            "final_peak_bytes": 2706930360,
+            "final_active_bytes": 2530105360,
+            "cache_offsets": [
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192
+            ],
+            "load_average": [
+              7.11279296875,
+              7.3203125,
+              5.98193359375
+            ]
+          },
+          "prefill_time_ratio_transfer_over_teacher": 1.7388108889685614,
+          "decode_speed_ratio_transfer_over_teacher": 0.7806362884105138,
+          "cache_bytes_saved": 385024,
+          "cache_storage_bytes_saved": 516096
+        },
+        {
+          "order": [
+            "transfer",
+            "teacher"
+          ],
+          "teacher": {
+            "prefill_s": 0.051721416995860636,
+            "prefill_tok_s": 2474.7968527282246,
+            "decode_s": 0.46754291700199246,
+            "decode_tok_s": 136.88582945579574,
+            "decode_ms_per_token": 7.305358078156132,
+            "prefill_cache_bytes": 4194304,
+            "final_cache_bytes": 6291456,
+            "prefill_cache_storage_bytes": 8388608,
+            "final_cache_storage_bytes": 8388608,
+            "prefill_peak_bytes": 2702981780,
+            "final_peak_bytes": 2702981780,
+            "final_active_bytes": 2530621456,
+            "cache_offsets": [
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192
+            ],
+            "load_average": [
+              7.11279296875,
+              7.3203125,
+              5.98193359375
+            ]
+          },
+          "transfer": {
+            "prefill_s": 0.06430470800842158,
+            "prefill_tok_s": 1990.5229953495261,
+            "decode_s": 0.48856175001128577,
+            "decode_tok_s": 130.99674708165674,
+            "decode_ms_per_token": 7.63377734392634,
+            "prefill_cache_bytes": 3940352,
+            "final_cache_bytes": 5906432,
+            "prefill_cache_storage_bytes": 7872512,
+            "final_cache_storage_bytes": 7872512,
+            "prefill_peak_bytes": 2706930360,
+            "final_peak_bytes": 2706930360,
+            "final_active_bytes": 2530105360,
+            "cache_offsets": [
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192
+            ],
+            "load_average": [
+              7.11279296875,
+              7.3203125,
+              5.98193359375
+            ]
+          },
+          "prefill_time_ratio_transfer_over_teacher": 1.2432897577722593,
+          "decode_speed_ratio_transfer_over_teacher": 0.9569781445051567,
+          "cache_bytes_saved": 385024,
+          "cache_storage_bytes_saved": 516096
+        },
+        {
+          "order": [
+            "teacher",
+            "transfer"
+          ],
+          "teacher": {
+            "prefill_s": 0.041185750014847144,
+            "prefill_tok_s": 3107.8710465114023,
+            "decode_s": 0.4476593330036849,
+            "decode_tok_s": 142.9658565824499,
+            "decode_ms_per_token": 6.994677078182576,
+            "prefill_cache_bytes": 4194304,
+            "final_cache_bytes": 6291456,
+            "prefill_cache_storage_bytes": 8388608,
+            "final_cache_storage_bytes": 8388608,
+            "prefill_peak_bytes": 2702981780,
+            "final_peak_bytes": 2702981780,
+            "final_active_bytes": 2530621456,
+            "cache_offsets": [
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192
+            ],
+            "load_average": [
+              7.11279296875,
+              7.3203125,
+              5.98193359375
+            ]
+          },
+          "transfer": {
+            "prefill_s": 0.04014699999243021,
+            "prefill_tok_s": 3188.2830603565553,
+            "decode_s": 0.4469334169989452,
+            "decode_tok_s": 143.19806388554528,
+            "decode_ms_per_token": 6.983334640608518,
+            "prefill_cache_bytes": 3940352,
+            "final_cache_bytes": 5906432,
+            "prefill_cache_storage_bytes": 7872512,
+            "final_cache_storage_bytes": 7872512,
+            "prefill_peak_bytes": 2706930360,
+            "final_peak_bytes": 2706930360,
+            "final_active_bytes": 2530105360,
+            "cache_offsets": [
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192,
+              192
+            ],
+            "load_average": [
+              7.11279296875,
+              7.3203125,
+              5.98193359375
+            ]
+          },
+          "prefill_time_ratio_transfer_over_teacher": 0.9747788975059949,
+          "decode_speed_ratio_transfer_over_teacher": 1.0016242151003478,
+          "cache_bytes_saved": 385024,
+          "cache_storage_bytes_saved": 516096
+        }
+      ],
+      "median_prefill_time_ratio_transfer_over_teacher": 1.0459715974985448,
+      "median_decode_speed_ratio_transfer_over_teacher": 0.9874995929915392,
+      "median_cache_bytes_saved": 385024,
+      "median_cache_storage_bytes_saved": 516096
+    },
+    {
+      "context": 512,
+      "batch": 1,
+      "pairs": [
+        {
+          "order": [
+            "teacher",
+            "transfer"
+          ],
+          "teacher": {
+            "prefill_s": 0.14730425001471303,
+            "prefill_tok_s": 3475.7992383034466,
+            "decode_s": 0.4630980830115732,
+            "decode_tok_s": 138.19966514178074,
+            "decode_ms_per_token": 7.235907547055831,
+            "prefill_cache_bytes": 16777216,
+            "final_cache_bytes": 18874368,
+            "prefill_cache_storage_bytes": 16777216,
+            "final_cache_storage_bytes": 25165824,
+            "prefill_peak_bytes": 2849439824,
+            "final_peak_bytes": 2849439824,
+            "final_active_bytes": 2547398672,
+            "cache_offsets": [
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576
+            ],
+            "load_average": [
+              7.11279296875,
+              7.3203125,
+              5.98193359375
+            ]
+          },
+          "transfer": {
+            "prefill_s": 0.15116045798640698,
+            "prefill_tok_s": 3387.1291925170094,
+            "decode_s": 0.45070175000000745,
+            "decode_tok_s": 142.00077989490597,
+            "decode_ms_per_token": 7.042214843750116,
+            "prefill_cache_bytes": 15736832,
+            "final_cache_bytes": 17702912,
+            "prefill_cache_storage_bytes": 15736832,
+            "final_cache_storage_bytes": 23601152,
+            "prefill_peak_bytes": 2885869716,
+            "final_peak_bytes": 2885869716,
+            "final_active_bytes": 2545834000,
+            "cache_offsets": [
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576
+            ],
+            "load_average": [
+              7.34375,
+              7.36474609375,
+              6.00537109375
+            ]
+          },
+          "prefill_time_ratio_transfer_over_teacher": 1.026178524864753,
+          "decode_speed_ratio_transfer_over_teacher": 1.0275045149293642,
+          "cache_bytes_saved": 1171456,
+          "cache_storage_bytes_saved": 1564672
+        },
+        {
+          "order": [
+            "transfer",
+            "teacher"
+          ],
+          "teacher": {
+            "prefill_s": 0.14266808298998512,
+            "prefill_tok_s": 3588.749419419485,
+            "decode_s": 0.43754120901576243,
+            "decode_tok_s": 146.2719366341889,
+            "decode_ms_per_token": 6.836581390871288,
+            "prefill_cache_bytes": 16777216,
+            "final_cache_bytes": 18874368,
+            "prefill_cache_storage_bytes": 16777216,
+            "final_cache_storage_bytes": 25165824,
+            "prefill_peak_bytes": 2849439824,
+            "final_peak_bytes": 2849439824,
+            "final_active_bytes": 2547398672,
+            "cache_offsets": [
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576
+            ],
+            "load_average": [
+              7.34375,
+              7.36474609375,
+              6.00537109375
+            ]
+          },
+          "transfer": {
+            "prefill_s": 0.14597166600287892,
+            "prefill_tok_s": 3507.5300160642278,
+            "decode_s": 0.44934200000716373,
+            "decode_tok_s": 142.43048724352423,
+            "decode_ms_per_token": 7.020968750111933,
+            "prefill_cache_bytes": 15736832,
+            "final_cache_bytes": 17702912,
+            "prefill_cache_storage_bytes": 15736832,
+            "final_cache_storage_bytes": 23601152,
+            "prefill_peak_bytes": 2885869716,
+            "final_peak_bytes": 2885869716,
+            "final_active_bytes": 2545834000,
+            "cache_offsets": [
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576
+            ],
+            "load_average": [
+              7.34375,
+              7.36474609375,
+              6.00537109375
+            ]
+          },
+          "prefill_time_ratio_transfer_over_teacher": 1.023155725819388,
+          "decode_speed_ratio_transfer_over_teacher": 0.973737618581808,
+          "cache_bytes_saved": 1171456,
+          "cache_storage_bytes_saved": 1564672
+        },
+        {
+          "order": [
+            "teacher",
+            "transfer"
+          ],
+          "teacher": {
+            "prefill_s": 0.1387320829962846,
+            "prefill_tok_s": 3690.566658713774,
+            "decode_s": 0.43539358300040476,
+            "decode_tok_s": 146.99343880761904,
+            "decode_ms_per_token": 6.803024734381324,
+            "prefill_cache_bytes": 16777216,
+            "final_cache_bytes": 18874368,
+            "prefill_cache_storage_bytes": 16777216,
+            "final_cache_storage_bytes": 25165824,
+            "prefill_peak_bytes": 2849439824,
+            "final_peak_bytes": 2849439824,
+            "final_active_bytes": 2547398672,
+            "cache_offsets": [
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576
+            ],
+            "load_average": [
+              7.34375,
+              7.36474609375,
+              6.00537109375
+            ]
+          },
+          "transfer": {
+            "prefill_s": 0.13752904199645855,
+            "prefill_tok_s": 3722.850043652484,
+            "decode_s": 0.4399083750031423,
+            "decode_tok_s": 145.48484101841171,
+            "decode_ms_per_token": 6.873568359424098,
+            "prefill_cache_bytes": 15736832,
+            "final_cache_bytes": 17702912,
+            "prefill_cache_storage_bytes": 15736832,
+            "final_cache_storage_bytes": 23601152,
+            "prefill_peak_bytes": 2885869716,
+            "final_peak_bytes": 2885869716,
+            "final_active_bytes": 2545834000,
+            "cache_offsets": [
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576
+            ],
+            "load_average": [
+              7.34375,
+              7.36474609375,
+              6.00537109375
+            ]
+          },
+          "prefill_time_ratio_transfer_over_teacher": 0.9913283144472194,
+          "decode_speed_ratio_transfer_over_teacher": 0.9897369719257896,
+          "cache_bytes_saved": 1171456,
+          "cache_storage_bytes_saved": 1564672
+        },
+        {
+          "order": [
+            "transfer",
+            "teacher"
+          ],
+          "teacher": {
+            "prefill_s": 0.1312319999851752,
+            "prefill_tok_s": 3901.4874425280323,
+            "decode_s": 0.44273754200548865,
+            "decode_tok_s": 144.5551685318942,
+            "decode_ms_per_token": 6.91777409383576,
+            "prefill_cache_bytes": 16777216,
+            "final_cache_bytes": 18874368,
+            "prefill_cache_storage_bytes": 16777216,
+            "final_cache_storage_bytes": 25165824,
+            "prefill_peak_bytes": 2849439824,
+            "final_peak_bytes": 2849439824,
+            "final_active_bytes": 2547398672,
+            "cache_offsets": [
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576
+            ],
+            "load_average": [
+              7.34375,
+              7.36474609375,
+              6.00537109375
+            ]
+          },
+          "transfer": {
+            "prefill_s": 0.13943049998488277,
+            "prefill_tok_s": 3672.080355844035,
+            "decode_s": 0.449551124998834,
+            "decode_tok_s": 142.36423054255732,
+            "decode_ms_per_token": 7.024236328106781,
+            "prefill_cache_bytes": 15736832,
+            "final_cache_bytes": 17702912,
+            "prefill_cache_storage_bytes": 15736832,
+            "final_cache_storage_bytes": 23601152,
+            "prefill_peak_bytes": 2885869716,
+            "final_peak_bytes": 2885869716,
+            "final_active_bytes": 2545834000,
+            "cache_offsets": [
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576
+            ],
+            "load_average": [
+              7.34375,
+              7.36474609375,
+              6.00537109375
+            ]
+          },
+          "prefill_time_ratio_transfer_over_teacher": 1.0624733296805178,
+          "decode_speed_ratio_transfer_over_teacher": 0.9848435859361647,
+          "cache_bytes_saved": 1171456,
+          "cache_storage_bytes_saved": 1564672
+        },
+        {
+          "order": [
+            "teacher",
+            "transfer"
+          ],
+          "teacher": {
+            "prefill_s": 0.1457989579939749,
+            "prefill_tok_s": 3511.6849053280494,
+            "decode_s": 0.4463522500009276,
+            "decode_tok_s": 143.3845130160473,
+            "decode_ms_per_token": 6.974253906264494,
+            "prefill_cache_bytes": 16777216,
+            "final_cache_bytes": 18874368,
+            "prefill_cache_storage_bytes": 16777216,
+            "final_cache_storage_bytes": 25165824,
+            "prefill_peak_bytes": 2849439824,
+            "final_peak_bytes": 2849439824,
+            "final_active_bytes": 2547398672,
+            "cache_offsets": [
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576
+            ],
+            "load_average": [
+              7.34375,
+              7.36474609375,
+              6.00537109375
+            ]
+          },
+          "transfer": {
+            "prefill_s": 0.15643933400860988,
+            "prefill_tok_s": 3272.834183580846,
+            "decode_s": 0.4651437080174219,
+            "decode_tok_s": 137.59188589863263,
+            "decode_ms_per_token": 7.267870437772217,
+            "prefill_cache_bytes": 15736832,
+            "final_cache_bytes": 17702912,
+            "prefill_cache_storage_bytes": 15736832,
+            "final_cache_storage_bytes": 23601152,
+            "prefill_peak_bytes": 2885869716,
+            "final_peak_bytes": 2885869716,
+            "final_active_bytes": 2545834000,
+            "cache_offsets": [
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576,
+              576
+            ],
+            "load_average": [
+              6.91552734375,
+              7.275390625,
+              5.9814453125
+            ]
+          },
+          "prefill_time_ratio_transfer_over_teacher": 1.0729797809328285,
+          "decode_speed_ratio_transfer_over_teacher": 0.9596007476988371,
+          "cache_bytes_saved": 1171456,
+          "cache_storage_bytes_saved": 1564672
+        }
+      ],
+      "median_prefill_time_ratio_transfer_over_teacher": 1.026178524864753,
+      "median_decode_speed_ratio_transfer_over_teacher": 0.9848435859361647,
+      "median_cache_bytes_saved": 1171456,
+      "median_cache_storage_bytes_saved": 1564672
+    },
+    {
+      "context": 2048,
+      "batch": 1,
+      "pairs": [
+        {
+          "order": [
+            "teacher",
+            "transfer"
+          ],
+          "teacher": {
+            "prefill_s": 0.48841087499749847,
+            "prefill_tok_s": 4193.190825266717,
+            "decode_s": 0.4437642080010846,
+            "decode_tok_s": 144.2207344487854,
+            "decode_ms_per_token": 6.933815750016947,
+            "prefill_cache_bytes": 67108864,
+            "final_cache_bytes": 69206016,
+            "prefill_cache_storage_bytes": 67108864,
+            "final_cache_storage_bytes": 75497472,
+            "prefill_peak_bytes": 3109181488,
+            "final_peak_bytes": 3109181488,
+            "final_active_bytes": 2597730320,
+            "cache_offsets": [
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112
+            ],
+            "load_average": [
+              6.91552734375,
+              7.275390625,
+              5.9814453125
+            ]
+          },
+          "transfer": {
+            "prefill_s": 0.48918599999160506,
+            "prefill_tok_s": 4186.54663059684,
+            "decode_s": 0.4577694580075331,
+            "decode_tok_s": 139.80836615567046,
+            "decode_ms_per_token": 7.152647781367705,
+            "prefill_cache_bytes": 62922752,
+            "final_cache_bytes": 64888832,
+            "prefill_cache_storage_bytes": 62922752,
+            "final_cache_storage_bytes": 70787072,
+            "prefill_peak_bytes": 3308796068,
+            "final_peak_bytes": 3308796068,
+            "final_active_bytes": 2593019920,
+            "cache_offsets": [
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112
+            ],
+            "load_average": [
+              6.91552734375,
+              7.275390625,
+              5.9814453125
+            ]
+          },
+          "prefill_time_ratio_transfer_over_teacher": 1.0015870346746694,
+          "decode_speed_ratio_transfer_over_teacher": 0.9694054512343242,
+          "cache_bytes_saved": 4317184,
+          "cache_storage_bytes_saved": 4710400
+        },
+        {
+          "order": [
+            "transfer",
+            "teacher"
+          ],
+          "teacher": {
+            "prefill_s": 0.5042795409972314,
+            "prefill_tok_s": 4061.239517966572,
+            "decode_s": 0.4474276670080144,
+            "decode_tok_s": 143.03988045257296,
+            "decode_ms_per_token": 6.991057297000225,
+            "prefill_cache_bytes": 67108864,
+            "final_cache_bytes": 69206016,
+            "prefill_cache_storage_bytes": 67108864,
+            "final_cache_storage_bytes": 75497472,
+            "prefill_peak_bytes": 3109181488,
+            "final_peak_bytes": 3109181488,
+            "final_active_bytes": 2597730320,
+            "cache_offsets": [
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112
+            ],
+            "load_average": [
+              6.521484375,
+              7.1875,
+              5.9580078125
+            ]
+          },
+          "transfer": {
+            "prefill_s": 0.4849365419941023,
+            "prefill_tok_s": 4223.232985450924,
+            "decode_s": 0.44841487501980737,
+            "decode_tok_s": 142.7249709260269,
+            "decode_ms_per_token": 7.00648242218449,
+            "prefill_cache_bytes": 62922752,
+            "final_cache_bytes": 64888832,
+            "prefill_cache_storage_bytes": 62922752,
+            "final_cache_storage_bytes": 70787072,
+            "prefill_peak_bytes": 3308796068,
+            "final_peak_bytes": 3308796068,
+            "final_active_bytes": 2593019920,
+            "cache_offsets": [
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112
+            ],
+            "load_average": [
+              6.521484375,
+              7.1875,
+              5.9580078125
+            ]
+          },
+          "prefill_time_ratio_transfer_over_teacher": 0.9616423086193868,
+          "decode_speed_ratio_transfer_over_teacher": 0.9977984494565454,
+          "cache_bytes_saved": 4317184,
+          "cache_storage_bytes_saved": 4710400
+        },
+        {
+          "order": [
+            "teacher",
+            "transfer"
+          ],
+          "teacher": {
+            "prefill_s": 0.5029261660238262,
+            "prefill_tok_s": 4072.168318844193,
+            "decode_s": 0.4452716249797959,
+            "decode_tok_s": 143.73249138187055,
+            "decode_ms_per_token": 6.957369140309311,
+            "prefill_cache_bytes": 67108864,
+            "final_cache_bytes": 69206016,
+            "prefill_cache_storage_bytes": 67108864,
+            "final_cache_storage_bytes": 75497472,
+            "prefill_peak_bytes": 3109181488,
+            "final_peak_bytes": 3109181488,
+            "final_active_bytes": 2597730320,
+            "cache_offsets": [
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112
+            ],
+            "load_average": [
+              6.521484375,
+              7.1875,
+              5.9580078125
+            ]
+          },
+          "transfer": {
+            "prefill_s": 0.504279916989617,
+            "prefill_tok_s": 4061.2364898960823,
+            "decode_s": 0.45228024999960326,
+            "decode_tok_s": 141.50518400937503,
+            "decode_ms_per_token": 7.066878906243801,
+            "prefill_cache_bytes": 62922752,
+            "final_cache_bytes": 64888832,
+            "prefill_cache_storage_bytes": 62922752,
+            "final_cache_storage_bytes": 70787072,
+            "prefill_peak_bytes": 3308796068,
+            "final_peak_bytes": 3308796068,
+            "final_active_bytes": 2593019920,
+            "cache_offsets": [
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112
+            ],
+            "load_average": [
+              6.521484375,
+              7.1875,
+              5.9580078125
+            ]
+          },
+          "prefill_time_ratio_transfer_over_teacher": 1.0026917489230949,
+          "decode_speed_ratio_transfer_over_teacher": 0.9845038004206162,
+          "cache_bytes_saved": 4317184,
+          "cache_storage_bytes_saved": 4710400
+        },
+        {
+          "order": [
+            "transfer",
+            "teacher"
+          ],
+          "teacher": {
+            "prefill_s": 0.4988582500081975,
+            "prefill_tok_s": 4105.374622884048,
+            "decode_s": 0.4487107500026468,
+            "decode_tok_s": 142.63085963423538,
+            "decode_ms_per_token": 7.0111054687913565,
+            "prefill_cache_bytes": 67108864,
+            "final_cache_bytes": 69206016,
+            "prefill_cache_storage_bytes": 67108864,
+            "final_cache_storage_bytes": 75497472,
+            "prefill_peak_bytes": 3109181488,
+            "final_peak_bytes": 3109181488,
+            "final_active_bytes": 2597730320,
+            "cache_offsets": [
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112
+            ],
+            "load_average": [
+              6.521484375,
+              7.1875,
+              5.9580078125
+            ]
+          },
+          "transfer": {
+            "prefill_s": 0.49780625000130385,
+            "prefill_tok_s": 4114.05039610217,
+            "decode_s": 0.4518755829776637,
+            "decode_tok_s": 141.63190579643143,
+            "decode_ms_per_token": 7.060555984025996,
+            "prefill_cache_bytes": 62922752,
+            "final_cache_bytes": 64888832,
+            "prefill_cache_storage_bytes": 62922752,
+            "final_cache_storage_bytes": 70787072,
+            "prefill_peak_bytes": 3308796068,
+            "final_peak_bytes": 3308796068,
+            "final_active_bytes": 2593019920,
+            "cache_offsets": [
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112
+            ],
+            "load_average": [
+              6.521484375,
+              7.1875,
+              5.9580078125
+            ]
+          },
+          "prefill_time_ratio_transfer_over_teacher": 0.9978911845060668,
+          "decode_speed_ratio_transfer_over_teacher": 0.9929962292847025,
+          "cache_bytes_saved": 4317184,
+          "cache_storage_bytes_saved": 4710400
+        },
+        {
+          "order": [
+            "teacher",
+            "transfer"
+          ],
+          "teacher": {
+            "prefill_s": 0.5021052090160083,
+            "prefill_tok_s": 4078.826435625974,
+            "decode_s": 0.4488880829885602,
+            "decode_tok_s": 142.57451339297646,
+            "decode_ms_per_token": 7.013876296696253,
+            "prefill_cache_bytes": 67108864,
+            "final_cache_bytes": 69206016,
+            "prefill_cache_storage_bytes": 67108864,
+            "final_cache_storage_bytes": 75497472,
+            "prefill_peak_bytes": 3109181488,
+            "final_peak_bytes": 3109181488,
+            "final_active_bytes": 2597730320,
+            "cache_offsets": [
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112
+            ],
+            "load_average": [
+              6.1591796875,
+              7.10107421875,
+              5.9345703125
+            ]
+          },
+          "transfer": {
+            "prefill_s": 0.5097850410093088,
+            "prefill_tok_s": 4017.379552654632,
+            "decode_s": 0.4510160000063479,
+            "decode_tok_s": 141.90183940059603,
+            "decode_ms_per_token": 7.047125000099186,
+            "prefill_cache_bytes": 62922752,
+            "final_cache_bytes": 64888832,
+            "prefill_cache_storage_bytes": 62922752,
+            "final_cache_storage_bytes": 70787072,
+            "prefill_peak_bytes": 3308796068,
+            "final_peak_bytes": 3308796068,
+            "final_active_bytes": 2593019920,
+            "cache_offsets": [
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112,
+              2112
+            ],
+            "load_average": [
+              6.1591796875,
+              7.10107421875,
+              5.9345703125
+            ]
+          },
+          "prefill_time_ratio_transfer_over_teacher": 1.0152952645290234,
+          "decode_speed_ratio_transfer_over_teacher": 0.9952819478294389,
+          "cache_bytes_saved": 4317184,
+          "cache_storage_bytes_saved": 4710400
+        }
+      ],
+      "median_prefill_time_ratio_transfer_over_teacher": 1.0015870346746694,
+      "median_decode_speed_ratio_transfer_over_teacher": 0.9929962292847025,
+      "median_cache_bytes_saved": 4317184,
+      "median_cache_storage_bytes_saved": 4710400
+    },
+    {
+      "context": 4096,
+      "batch": 1,
+      "pairs": [
+        {
+          "order": [
+            "teacher",
+            "transfer"
+          ],
+          "teacher": {
+            "prefill_s": 1.0146435000060592,
+            "prefill_tok_s": 4036.8858618574304,
+            "decode_s": 0.4561985000036657,
+            "decode_tok_s": 140.28980805391893,
+            "decode_ms_per_token": 7.128101562557276,
+            "prefill_cache_bytes": 134217728,
+            "final_cache_bytes": 136314880,
+            "prefill_cache_storage_bytes": 134217728,
+            "final_cache_storage_bytes": 142606336,
+            "prefill_peak_bytes": 3335682080,
+            "final_peak_bytes": 3335682080,
+            "final_active_bytes": 2664839184,
+            "cache_offsets": [
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160
+            ],
+            "load_average": [
+              5.98583984375,
+              7.04931640625,
+              5.9228515625
+            ]
+          },
+          "transfer": {
+            "prefill_s": 1.0154339169966988,
+            "prefill_tok_s": 4033.743537062999,
+            "decode_s": 0.4619501660054084,
+            "decode_tok_s": 138.54308258707434,
+            "decode_ms_per_token": 7.217971343834506,
+            "prefill_cache_bytes": 125837312,
+            "final_cache_bytes": 127803392,
+            "prefill_cache_storage_bytes": 125837312,
+            "final_cache_storage_bytes": 133701632,
+            "prefill_peak_bytes": 3748550828,
+            "final_peak_bytes": 3748550828,
+            "final_active_bytes": 2655934480,
+            "cache_offsets": [
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160
+            ],
+            "load_average": [
+              5.98583984375,
+              7.04931640625,
+              5.9228515625
+            ]
+          },
+          "prefill_time_ratio_transfer_over_teacher": 1.0007790095640832,
+          "decode_speed_ratio_transfer_over_teacher": 0.9875491634704264,
+          "cache_bytes_saved": 8511488,
+          "cache_storage_bytes_saved": 8904704
+        },
+        {
+          "order": [
+            "transfer",
+            "teacher"
+          ],
+          "teacher": {
+            "prefill_s": 1.0226679999905173,
+            "prefill_tok_s": 4005.2099019798998,
+            "decode_s": 0.4597096669895109,
+            "decode_tok_s": 139.21830362871242,
+            "decode_ms_per_token": 7.1829635467111075,
+            "prefill_cache_bytes": 134217728,
+            "final_cache_bytes": 136314880,
+            "prefill_cache_storage_bytes": 134217728,
+            "final_cache_storage_bytes": 142606336,
+            "prefill_peak_bytes": 3335682080,
+            "final_peak_bytes": 3335682080,
+            "final_active_bytes": 2664839184,
+            "cache_offsets": [
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160
+            ],
+            "load_average": [
+              5.74658203125,
+              6.98193359375,
+              5.9052734375
+            ]
+          },
+          "transfer": {
+            "prefill_s": 0.9975411670166068,
+            "prefill_tok_s": 4106.096204781302,
+            "decode_s": 0.4569001659983769,
+            "decode_tok_s": 140.07436364167867,
+            "decode_ms_per_token": 7.139065093724639,
+            "prefill_cache_bytes": 125837312,
+            "final_cache_bytes": 127803392,
+            "prefill_cache_storage_bytes": 125837312,
+            "final_cache_storage_bytes": 133701632,
+            "prefill_peak_bytes": 3748550828,
+            "final_peak_bytes": 3748550828,
+            "final_active_bytes": 2655934480,
+            "cache_offsets": [
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160
+            ],
+            "load_average": [
+              5.98583984375,
+              7.04931640625,
+              5.9228515625
+            ]
+          },
+          "prefill_time_ratio_transfer_over_teacher": 0.975430117130737,
+          "decode_speed_ratio_transfer_over_teacher": 1.0061490478669337,
+          "cache_bytes_saved": 8511488,
+          "cache_storage_bytes_saved": 8904704
+        },
+        {
+          "order": [
+            "teacher",
+            "transfer"
+          ],
+          "teacher": {
+            "prefill_s": 1.0309831670019776,
+            "prefill_tok_s": 3972.9067661801537,
+            "decode_s": 0.4589295409969054,
+            "decode_tok_s": 139.45495829485415,
+            "decode_ms_per_token": 7.170774078076647,
+            "prefill_cache_bytes": 134217728,
+            "final_cache_bytes": 136314880,
+            "prefill_cache_storage_bytes": 134217728,
+            "final_cache_storage_bytes": 142606336,
+            "prefill_peak_bytes": 3335682080,
+            "final_peak_bytes": 3335682080,
+            "final_active_bytes": 2664839184,
+            "cache_offsets": [
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160
+            ],
+            "load_average": [
+              5.74658203125,
+              6.98193359375,
+              5.9052734375
+            ]
+          },
+          "transfer": {
+            "prefill_s": 1.041743374982616,
+            "prefill_tok_s": 3931.870457125155,
+            "decode_s": 0.4612807499943301,
+            "decode_tok_s": 138.74413792638575,
+            "decode_ms_per_token": 7.207511718661408,
+            "prefill_cache_bytes": 125837312,
+            "final_cache_bytes": 127803392,
+            "prefill_cache_storage_bytes": 125837312,
+            "final_cache_storage_bytes": 133701632,
+            "prefill_peak_bytes": 3748550828,
+            "final_peak_bytes": 3748550828,
+            "final_active_bytes": 2655934480,
+            "cache_offsets": [
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160
+            ],
+            "load_average": [
+              5.74658203125,
+              6.98193359375,
+              5.9052734375
+            ]
+          },
+          "prefill_time_ratio_transfer_over_teacher": 1.0104368415751426,
+          "decode_speed_ratio_transfer_over_teacher": 0.9949028677276178,
+          "cache_bytes_saved": 8511488,
+          "cache_storage_bytes_saved": 8904704
+        },
+        {
+          "order": [
+            "transfer",
+            "teacher"
+          ],
+          "teacher": {
+            "prefill_s": 1.048985375004122,
+            "prefill_tok_s": 3904.7255544281584,
+            "decode_s": 0.4558808330039028,
+            "decode_tok_s": 140.3875648341901,
+            "decode_ms_per_token": 7.123138015685981,
+            "prefill_cache_bytes": 134217728,
+            "final_cache_bytes": 136314880,
+            "prefill_cache_storage_bytes": 134217728,
+            "final_cache_storage_bytes": 142606336,
+            "prefill_peak_bytes": 3335682080,
+            "final_peak_bytes": 3335682080,
+            "final_active_bytes": 2664839184,
+            "cache_offsets": [
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160
+            ],
+            "load_average": [
+              5.6064453125,
+              6.93212890625,
+              5.89404296875
+            ]
+          },
+          "transfer": {
+            "prefill_s": 1.0199417919793632,
+            "prefill_tok_s": 4015.9154494993727,
+            "decode_s": 0.458582541992655,
+            "decode_tok_s": 139.56048069755144,
+            "decode_ms_per_token": 7.165352218635235,
+            "prefill_cache_bytes": 125837312,
+            "final_cache_bytes": 127803392,
+            "prefill_cache_storage_bytes": 125837312,
+            "final_cache_storage_bytes": 133701632,
+            "prefill_peak_bytes": 3748550828,
+            "final_peak_bytes": 3748550828,
+            "final_active_bytes": 2655934480,
+            "cache_offsets": [
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160
+            ],
+            "load_average": [
+              5.6064453125,
+              6.93212890625,
+              5.89404296875
+            ]
+          },
+          "prefill_time_ratio_transfer_over_teacher": 0.9723126902273116,
+          "decode_speed_ratio_transfer_over_teacher": 0.9941085655441383,
+          "cache_bytes_saved": 8511488,
+          "cache_storage_bytes_saved": 8904704
+        },
+        {
+          "order": [
+            "teacher",
+            "transfer"
+          ],
+          "teacher": {
+            "prefill_s": 1.0189716250170022,
+            "prefill_tok_s": 4019.7390186715506,
+            "decode_s": 0.4554998340026941,
+            "decode_tok_s": 140.5049908308451,
+            "decode_ms_per_token": 7.1171849062920955,
+            "prefill_cache_bytes": 134217728,
+            "final_cache_bytes": 136314880,
+            "prefill_cache_storage_bytes": 134217728,
+            "final_cache_storage_bytes": 142606336,
+            "prefill_peak_bytes": 3335682080,
+            "final_peak_bytes": 3335682080,
+            "final_active_bytes": 2664839184,
+            "cache_offsets": [
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160
+            ],
+            "load_average": [
+              5.6064453125,
+              6.93212890625,
+              5.89404296875
+            ]
+          },
+          "transfer": {
+            "prefill_s": 1.006341208005324,
+            "prefill_tok_s": 4070.1900780936026,
+            "decode_s": 0.45888941700104624,
+            "decode_tok_s": 139.4671518429332,
+            "decode_ms_per_token": 7.1701471406413475,
+            "prefill_cache_bytes": 125837312,
+            "final_cache_bytes": 127803392,
+            "prefill_cache_storage_bytes": 125837312,
+            "final_cache_storage_bytes": 133701632,
+            "prefill_peak_bytes": 3748550828,
+            "final_peak_bytes": 3748550828,
+            "final_active_bytes": 2655934480,
+            "cache_offsets": [
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160,
+              4160
+            ],
+            "load_average": [
+              5.6064453125,
+              6.93212890625,
+              5.89404296875
+            ]
+          },
+          "prefill_time_ratio_transfer_over_teacher": 0.9876047411904454,
+          "decode_speed_ratio_transfer_over_teacher": 0.992613508020072,
+          "cache_bytes_saved": 8511488,
+          "cache_storage_bytes_saved": 8904704
+        }
+      ],
+      "median_prefill_time_ratio_transfer_over_teacher": 0.9876047411904454,
+      "median_decode_speed_ratio_transfer_over_teacher": 0.9941085655441383,
+      "median_cache_bytes_saved": 8511488,
+      "median_cache_storage_bytes_saved": 8904704
+    },
+    {
+      "context": 8192,
+      "batch": 1,
+      "pairs": [
+        {
+          "order": [
+            "teacher",
+            "transfer"
+          ],
+          "teacher": {
+            "prefill_s": 2.227464957977645,
+            "prefill_tok_s": 3677.7234006130725,
+            "decode_s": 0.49053529198863544,
+            "decode_tok_s": 130.46971552351167,
+            "decode_ms_per_token": 7.664613937322429,
+            "prefill_cache_bytes": 268435456,
+            "final_cache_bytes": 270532608,
+            "prefill_cache_storage_bytes": 268435456,
+            "final_cache_storage_bytes": 276824064,
+            "prefill_peak_bytes": 3813849120,
+            "final_peak_bytes": 3813849120,
+            "final_active_bytes": 2799056912,
+            "cache_offsets": [
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256
+            ],
+            "load_average": [
+              5.2724609375,
+              6.818359375,
+              5.86572265625
+            ]
+          },
+          "transfer": {
+            "prefill_s": 2.2369675409863703,
+            "prefill_tok_s": 3662.100522204186,
+            "decode_s": 0.4878997920022812,
+            "decode_tok_s": 131.17447690918624,
+            "decode_ms_per_token": 7.623434250035643,
+            "prefill_cache_bytes": 251666432,
+            "final_cache_bytes": 253632512,
+            "prefill_cache_storage_bytes": 251666432,
+            "final_cache_storage_bytes": 259530752,
+            "prefill_peak_bytes": 4314536116,
+            "final_peak_bytes": 4314536116,
+            "final_active_bytes": 2781763600,
+            "cache_offsets": [
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256
+            ],
+            "load_average": [
+              5.01025390625,
+              6.73828125,
+              5.8427734375
+            ]
+          },
+          "prefill_time_ratio_transfer_over_teacher": 1.0042660976437325,
+          "decode_speed_ratio_transfer_over_teacher": 1.005401723939128,
+          "cache_bytes_saved": 16900096,
+          "cache_storage_bytes_saved": 17293312
+        },
+        {
+          "order": [
+            "transfer",
+            "teacher"
+          ],
+          "teacher": {
+            "prefill_s": 2.2255695420026314,
+            "prefill_tok_s": 3680.8555497342954,
+            "decode_s": 0.48927225000807084,
+            "decode_tok_s": 130.8065192721318,
+            "decode_ms_per_token": 7.644878906376107,
+            "prefill_cache_bytes": 268435456,
+            "final_cache_bytes": 270532608,
+            "prefill_cache_storage_bytes": 268435456,
+            "final_cache_storage_bytes": 276824064,
+            "prefill_peak_bytes": 3813849120,
+            "final_peak_bytes": 3813849120,
+            "final_active_bytes": 2799056912,
+            "cache_offsets": [
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256
+            ],
+            "load_average": [
+              4.92919921875,
+              6.6923828125,
+              5.83154296875
+            ]
+          },
+          "transfer": {
+            "prefill_s": 2.271093708986882,
+            "prefill_tok_s": 3607.0726485585615,
+            "decode_s": 0.4881397499993909,
+            "decode_tok_s": 131.1099946277267,
+            "decode_ms_per_token": 7.627183593740483,
+            "prefill_cache_bytes": 251666432,
+            "final_cache_bytes": 253632512,
+            "prefill_cache_storage_bytes": 251666432,
+            "final_cache_storage_bytes": 259530752,
+            "prefill_peak_bytes": 4314536116,
+            "final_peak_bytes": 4314536116,
+            "final_active_bytes": 2781763600,
+            "cache_offsets": [
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256
+            ],
+            "load_average": [
+              5.01025390625,
+              6.73828125,
+              5.8427734375
+            ]
+          },
+          "prefill_time_ratio_transfer_over_teacher": 1.020455063805055,
+          "decode_speed_ratio_transfer_over_teacher": 1.0023200323445924,
+          "cache_bytes_saved": 16900096,
+          "cache_storage_bytes_saved": 17293312
+        },
+        {
+          "order": [
+            "teacher",
+            "transfer"
+          ],
+          "teacher": {
+            "prefill_s": 2.2411869580100756,
+            "prefill_tok_s": 3655.2059928429994,
+            "decode_s": 0.49895049998303875,
+            "decode_tok_s": 128.26923713309358,
+            "decode_ms_per_token": 7.7961015622349805,
+            "prefill_cache_bytes": 268435456,
+            "final_cache_bytes": 270532608,
+            "prefill_cache_storage_bytes": 268435456,
+            "final_cache_storage_bytes": 276824064,
+            "prefill_peak_bytes": 3813849120,
+            "final_peak_bytes": 3813849120,
+            "final_active_bytes": 2799056912,
+            "cache_offsets": [
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256
+            ],
+            "load_average": [
+              4.92919921875,
+              6.6923828125,
+              5.83154296875
+            ]
+          },
+          "transfer": {
+            "prefill_s": 2.4168320419848897,
+            "prefill_tok_s": 3389.5611518258816,
+            "decode_s": 0.4982159170031082,
+            "decode_tok_s": 128.45836075446127,
+            "decode_ms_per_token": 7.7846237031735654,
+            "prefill_cache_bytes": 251666432,
+            "final_cache_bytes": 253632512,
+            "prefill_cache_storage_bytes": 251666432,
+            "final_cache_storage_bytes": 259530752,
+            "prefill_peak_bytes": 4314536116,
+            "final_peak_bytes": 4314536116,
+            "final_active_bytes": 2781763600,
+            "cache_offsets": [
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256
+            ],
+            "load_average": [
+              5.0947265625,
+              6.697265625,
+              5.83837890625
+            ]
+          },
+          "prefill_time_ratio_transfer_over_teacher": 1.0783714555124697,
+          "decode_speed_ratio_transfer_over_teacher": 1.0014744269600002,
+          "cache_bytes_saved": 16900096,
+          "cache_storage_bytes_saved": 17293312
+        },
+        {
+          "order": [
+            "transfer",
+            "teacher"
+          ],
+          "teacher": {
+            "prefill_s": 2.2252600000065286,
+            "prefill_tok_s": 3681.3675705202836,
+            "decode_s": 0.488434958999278,
+            "decode_tok_s": 131.03075203938178,
+            "decode_ms_per_token": 7.631796234363719,
+            "prefill_cache_bytes": 268435456,
+            "final_cache_bytes": 270532608,
+            "prefill_cache_storage_bytes": 268435456,
+            "final_cache_storage_bytes": 276824064,
+            "prefill_peak_bytes": 3813849120,
+            "final_peak_bytes": 3813849120,
+            "final_active_bytes": 2799056912,
+            "cache_offsets": [
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256
+            ],
+            "load_average": [
+              5.0068359375,
+              6.65234375,
+              5.8271484375
+            ]
+          },
+          "transfer": {
+            "prefill_s": 2.283213540998986,
+            "prefill_tok_s": 3587.92546246713,
+            "decode_s": 0.4903618340031244,
+            "decode_tok_s": 130.51586718633615,
+            "decode_ms_per_token": 7.6619036562988185,
+            "prefill_cache_bytes": 251666432,
+            "final_cache_bytes": 253632512,
+            "prefill_cache_storage_bytes": 251666432,
+            "final_cache_storage_bytes": 259530752,
+            "prefill_peak_bytes": 4314536116,
+            "final_peak_bytes": 4314536116,
+            "final_active_bytes": 2781763600,
+            "cache_offsets": [
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256
+            ],
+            "load_average": [
+              5.0947265625,
+              6.697265625,
+              5.83837890625
+            ]
+          },
+          "prefill_time_ratio_transfer_over_teacher": 1.0260434919929748,
+          "decode_speed_ratio_transfer_over_teacher": 0.9960705037173955,
+          "cache_bytes_saved": 16900096,
+          "cache_storage_bytes_saved": 17293312
+        },
+        {
+          "order": [
+            "teacher",
+            "transfer"
+          ],
+          "teacher": {
+            "prefill_s": 2.2365552080154885,
+            "prefill_tok_s": 3662.775669762617,
+            "decode_s": 0.48958749999292195,
+            "decode_tok_s": 130.72229172706668,
+            "decode_ms_per_token": 7.6498046873894054,
+            "prefill_cache_bytes": 268435456,
+            "final_cache_bytes": 270532608,
+            "prefill_cache_storage_bytes": 268435456,
+            "final_cache_storage_bytes": 276824064,
+            "prefill_peak_bytes": 3813849120,
+            "final_peak_bytes": 3813849120,
+            "final_active_bytes": 2799056912,
+            "cache_offsets": [
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256
+            ],
+            "load_average": [
+              4.765625,
+              6.57470703125,
+              5.8046875
+            ]
+          },
+          "transfer": {
+            "prefill_s": 2.3046450420224573,
+            "prefill_tok_s": 3554.560398945884,
+            "decode_s": 0.49232804198982194,
+            "decode_tok_s": 129.99462663417228,
+            "decode_ms_per_token": 7.692625656090968,
+            "prefill_cache_bytes": 251666432,
+            "final_cache_bytes": 253632512,
+            "prefill_cache_storage_bytes": 251666432,
+            "final_cache_storage_bytes": 259530752,
+            "prefill_peak_bytes": 4314536116,
+            "final_peak_bytes": 4314536116,
+            "final_active_bytes": 2781763600,
+            "cache_offsets": [
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256,
+              8256
+            ],
+            "load_average": [
+              4.765625,
+              6.57470703125,
+              5.8046875
+            ]
+          },
+          "prefill_time_ratio_transfer_over_teacher": 1.0304440658397096,
+          "decode_speed_ratio_transfer_over_teacher": 0.9944335041615268,
+          "cache_bytes_saved": 16900096,
+          "cache_storage_bytes_saved": 17293312
+        }
+      ],
+      "median_prefill_time_ratio_transfer_over_teacher": 1.0260434919929748,
+      "median_decode_speed_ratio_transfer_over_teacher": 1.0014744269600002,
+      "median_cache_bytes_saved": 16900096,
+      "median_cache_storage_bytes_saved": 17293312
+    }
+  ]
+}
