@@ -166,7 +166,13 @@ The unsynchronized current-source control gave **1.015×** prefill time
 and **0.968×** decode speed. Different host loads (**11.48** and
 **22.77**) make the small timing differences inconclusive; neither
 run demonstrates a material faster complete model. The trained map's
-serving speed has not yet been measured.
+serving speed was measured separately with the same paired workload and
+five rotated-order repeats. Its median prefill-time ratios to Llama were
+**1.065×/1.073×/1.019×** at 512/2,048/8,192 tokens; median decode-speed
+ratios were **0.974×/0.978×/1.005×**. The trained and untrained maps
+were close within that run. The one-minute host load was about **17**,
+and the near-tie at 8,192 tokens does not establish a speed gain
+(`experiments/results/query_global_trained_benchmark_sync8_b1.json`).
 
 At 8,192 prefix plus 32 decoded tokens, the active logical cache was
 **269.484 MB** for the teacher and **253.037 MB** for query state:
@@ -214,6 +220,9 @@ curl -fL --silent --show-error \
 ~/zbrain/venv/bin/python experiments/benchmark_query_global.py \
   --sync-blocks 8 --repeats 5 \
   --output experiments/results/query_global_benchmark_sync8_b1.json
+~/zbrain/venv/bin/python experiments/benchmark_trained_query_global.py \
+  --contexts 512,2048,8192 --decode-tokens 32 --repeats 5 --sync-blocks 8 \
+  --output experiments/results/query_global_trained_benchmark_sync8_b1.json
 ```
 
 The scripts require the pinned offline model snapshot and the vendored
