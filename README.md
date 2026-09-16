@@ -42,9 +42,18 @@ The [matched rank-8 LoRA follow-up](docs/QUERY_GLOBAL_LORA_RESULT.md)
 overfit on the tiny Shakespeare adjustment set: query state still beat
 local-only LoRA on nine fresh windows, but every LoRA arm lost to the
 unchanged teacher and query LoRA worsened its frozen stage-1 map.
+The [broader two-text LoRA run](docs/QUERY_GLOBAL_LORA_BROAD_RESULT.md)
+improved fresh WikiText quality but degraded Shakespeare, including its
+full-attention control, and query-state training was about 9% slower.
+A [balanced feature-map transfer](docs/QUERY_GLOBAL_TRANSFER_BROAD_RESULT.md)
+then reduced attention-output error on every fresh prefix but slightly
+worsened next-token quality on both texts; its predeclared gate rejected
+the new map.
 The [layer and complete-model timing profile](docs/QUERY_GLOBAL_PERFORMANCE.md)
 finds a layer-only prefill crossover near 32K context, but that one
 attention layer is only about 3.5% of complete-model prefill time there.
+An [exact one-token decode path](docs/QUERY_GLOBAL_FAST_DECODE.md) sped up
+the converted layer by about 17–18% but gave no reliable whole-model gain.
 
 > **Scope, up front.** This is not a simulated human brain and does not claim to
 > be one. The 86-billion-neuron gap cannot be closed on a laptop, and the Human

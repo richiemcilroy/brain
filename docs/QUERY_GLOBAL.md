@@ -201,6 +201,12 @@ forwards, LoRA, peak/resident memory and conversion time. Only then
 could this work support a lower-compute claim. The current mechanism
 is not a claimed major unlock.
 
+A later [balanced two-text attention-transfer run](QUERY_GLOBAL_TRANSFER_BROAD_RESULT.md)
+warm-started this selected map with 12 times more distinct stage-1
+training positions. It reduced teacher-attention output error on every
+fresh prefix, but slightly worsened cached next-token quality on both
+texts; its predeclared quality gate rejected the broader map.
+
 The [layer timing profile](QUERY_GLOBAL_PERFORMANCE.md) locates the
 current MLX bottleneck and a long-context layer-only crossover; it
 does not alter the held-out quality or complete-model verdict above.
