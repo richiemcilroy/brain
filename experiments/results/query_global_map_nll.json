@@ -1,0 +1,2846 @@
+{
+  "status": "complete",
+  "meta": {
+    "primary": true,
+    "snapshot_revision": "9535bd9b1d1dea6acafbdc4813b728796aeb28da",
+    "config_sha256": "8f028e2cd88148fad38c7dece460947681adf6178e46e11ece9742aa49b378dd",
+    "weight_blob_id": "68a2e4be76fa709455a60272fba8e512c02d81c46e6c671cc9449e374fd6809a",
+    "source_sha256": "1072986f7775751810a7a1c13b83ef8025f53d3089868b80cc8a0a249eb4951a",
+    "protocol_sha256": "2d9679c7ad46350d541d4184d533aa9f9e24300d9ee47a5ceedb184b9334fff7",
+    "data_source_sha256": "c0c661af2f4265a3765da26ba341aa34ab4a7bb250bd3a67fd96f8b32d887ed4",
+    "map_source_sha256": "ce85dfa66754269a2e786125337e9bc3d7e9f0cf920d42c531497d3a88f606b6",
+    "attention_source_sha256": "f58beb44fc9cea9328c8f678d97d0706e94df644fac84ecf5423a193219481f6",
+    "prefix_and_nll_source_sha256": "003b80729cd905ed2298f83807fa5be426f07c53c2a1b2666cb8769d052c16d6",
+    "old_result_sha256": "60ffcc59b04e1b1bd486219c23f369e2b79f502cf56fa2b91affdc9b5f30d1e9",
+    "old_weights_sha256": "286774b2ef85435c59fec3eb4fe453d885d8347dc42df483714b2c6aa78d9a97",
+    "shakespeare_sha256": "86c4e6aa9db7c042ec79f339dcb96d42b0075e16b8fc2e86bf0ca57e2dc565ed",
+    "wiki_zip_sha256": "ef7edb566e3e2b2d31b29c1fdb0c89a4cc683597484c3dc2517919c615435a11",
+    "wiki_member_sha256": {
+      "train": "6707892fa3788b5ab9ed78ab5ff37d9fe825f6011a2ad4fcd6a6d467f0e7da57",
+      "valid": "4cd0f6876d07a413aa911261ff6d363c72d757d47f0fdd6015702014c89cb9c7"
+    },
+    "wiki_dataset_url": "https://huggingface.co/datasets/ggml-org/ci/resolve/927b3642933080f1b0e811e2f916e14c292992f9/wikitext-2-raw-v1.zip",
+    "wiki_dataset_card": "https://huggingface.co/datasets/Salesforce/wikitext",
+    "token_counts": {
+      "shakespeare": 301769,
+      "wikitext_train": 2436214,
+      "wikitext_valid": 252854
+    },
+    "token_ids_sha256": {
+      "shakespeare": "c695b75d887f4029a6c1af6b07e2d317dff004f6e9f9caadeb4d97a46a48cdcd",
+      "wikitext_train": "57f1c69af08bb97029ba65c77848a96aa71d433fcd9f7fae2621d1aa8fafc7c0",
+      "wikitext_valid": "1651a82705df60b3b700e61e39fe63986202d2e2dbcd1184caf81fbc427516b3"
+    },
+    "mlx": "0.32.2",
+    "mlx_lm": "0.31.3",
+    "hardware": "macOS-27.0-arm64-arm-64bit-Mach-O",
+    "dtype": "mlx.core.bfloat16",
+    "layer": 8,
+    "context": 512,
+    "train_windows": {
+      "shakespeare": 128,
+      "wikitext_train": 192
+    },
+    "training_distinct_input_positions": 163840,
+    "teacher_prefix_capture_input_positions": 168448,
+    "training_input_exposures": 204800,
+    "steps": 400,
+    "steps_by_domain": {
+      "shakespeare": 200,
+      "wikitext_train": 200
+    },
+    "every_train_window_visited": true,
+    "eval_every": 50,
+    "learning_rate": 0.0001,
+    "optimizer": "AdamW constant LR, zero weight decay",
+    "grad_clip_norm": 1.0,
+    "schedule_seed": 37,
+    "schedule_sha256": "908489343d39732a487b2a3adf8c0eaf24c82f8fbcf47e93770de32bf04d5e94",
+    "selection_percentages": {
+      "shakespeare": [
+        55,
+        58,
+        61
+      ],
+      "wikitext_valid": [
+        10,
+        20,
+        40,
+        60,
+        80,
+        90
+      ]
+    },
+    "selection_score": "0.5 * mean Shakespeare NLL + 0.5 * mean WikiText-valid NLL",
+    "trainable_keys": [
+      "delta_k",
+      "delta_q"
+    ],
+    "trainable_parameter_count": 163840,
+    "no_wikitext_test_or_alice_training_or_selection": true,
+    "host_load_at_start": [
+      4.208984375,
+      4.45849609375,
+      4.80029296875
+    ],
+    "started_epoch": 1789564839.855864,
+    "host_load_at_end": [
+      4.39208984375,
+      4.48193359375,
+      4.77294921875
+    ],
+    "finished_epoch": 1789564937.8583941
+  },
+  "windows": {
+    "train": {
+      "shakespeare": {
+        "0": {
+          "token_window": [
+            589,
+            1102
+          ],
+          "token_ids_sha256": "8cac3f3fb72289718f8b4aa0d5eb68b98ec599bca2172ec7cae0eaa0841518db"
+        },
+        "1": {
+          "token_window": [
+            1767,
+            2280
+          ],
+          "token_ids_sha256": "7990e7037b2c29363b81e8822471e592f121562c1b3625392fe7c434853ba05f"
+        },
+        "2": {
+          "token_window": [
+            2945,
+            3458
+          ],
+          "token_ids_sha256": "a491b9bd582d80c5f40a57afe33e7be43131eabeeca1e65351e67173ea8d503f"
+        },
+        "3": {
+          "token_window": [
+            4123,
+            4636
+          ],
+          "token_ids_sha256": "4d9fca0e451f4c01a901e675f2396d95e89bd97ae053c8a2eb83a024d0657d79"
+        },
+        "4": {
+          "token_window": [
+            5301,
+            5814
+          ],
+          "token_ids_sha256": "e3ef1feab8717adceef7dffea891647f6143773829bfc2dfeb8c0996c93cc346"
+        },
+        "5": {
+          "token_window": [
+            6479,
+            6992
+          ],
+          "token_ids_sha256": "2bc0a6d92a1711028d8027a1483dbc47c4da8c2eed98e40e61ec6eb31152d5d3"
+        },
+        "6": {
+          "token_window": [
+            7657,
+            8170
+          ],
+          "token_ids_sha256": "972b7c039c557de4e792eab6f2de2d348f19987fcb80e92645ef5dc1b7f17449"
+        },
+        "7": {
+          "token_window": [
+            8835,
+            9348
+          ],
+          "token_ids_sha256": "99135f726275b69e979f7ae7009056418edd5ae177014ac40803de3c737214ed"
+        },
+        "8": {
+          "token_window": [
+            10013,
+            10526
+          ],
+          "token_ids_sha256": "3f4ee8c953d3a01c075409ddc8c11754e0d7df1b11ed17cfa8047bfc5ab14cd1"
+        },
+        "9": {
+          "token_window": [
+            11191,
+            11704
+          ],
+          "token_ids_sha256": "39e556f0a40b8aa00f9e9455b1892af1c79288fdbc82fd2a0f0c8bd0daa35d67"
+        },
+        "10": {
+          "token_window": [
+            12369,
+            12882
+          ],
+          "token_ids_sha256": "cc489c13de68b049ffc66eb2080a186622537af041661bc4ea53b3c8a70c4928"
+        },
+        "11": {
+          "token_window": [
+            13547,
+            14060
+          ],
+          "token_ids_sha256": "d65e4c83cab254afb77f13a7f3f18de41844b84d7b2271565da10bce7b85e060"
+        },
+        "12": {
+          "token_window": [
+            14725,
+            15238
+          ],
+          "token_ids_sha256": "5c2c4de99284d7234ee66e15cae5fc5a9dc598c7ad26cb172fb34349dc19e9aa"
+        },
+        "13": {
+          "token_window": [
+            15903,
+            16416
+          ],
+          "token_ids_sha256": "e328f13bac244e5986c8cd66582aa2eafecdef4ae28b8a759734c48f7276a475"
+        },
+        "14": {
+          "token_window": [
+            17081,
+            17594
+          ],
+          "token_ids_sha256": "bc8fe7b96dce032ac9d6cb8159526937bed0db7c8cabcb154cb066e340bfa315"
+        },
+        "15": {
+          "token_window": [
+            18259,
+            18772
+          ],
+          "token_ids_sha256": "49d40bd1b228faed7253a0771f10492324e1040d3f876af5103673bc01d50ff2"
+        },
+        "16": {
+          "token_window": [
+            19437,
+            19950
+          ],
+          "token_ids_sha256": "eebdbbc9d33b1d7e044f141c0d3f28ad996ad06c0d34979f185e93fb0b92c8ee"
+        },
+        "17": {
+          "token_window": [
+            20615,
+            21128
+          ],
+          "token_ids_sha256": "ba5c8584bf1205dd4f87ee64ed65f750faf105c880aaaf771c1329c2ab141175"
+        },
+        "18": {
+          "token_window": [
+            21793,
+            22306
+          ],
+          "token_ids_sha256": "2c9264f581effbacfb621269f1fcb4e8855f1077e7f1f41c064ec97bbcb5d419"
+        },
+        "19": {
+          "token_window": [
+            22971,
+            23484
+          ],
+          "token_ids_sha256": "c0cd5b29f4e59b270c622ef56d163bdc53ae70f074fde4a3c4a9c390eda9cadc"
+        },
+        "20": {
+          "token_window": [
+            24149,
+            24662
+          ],
+          "token_ids_sha256": "47a17d91f9f2a888f4e498710b117b19db633659d1b73b84d2f4db17eb9082b7"
+        },
+        "21": {
+          "token_window": [
+            25327,
+            25840
+          ],
+          "token_ids_sha256": "7a46f797fecc960f001c9797657ea24e9c35f11eb90705ded570f1f644e6989b"
+        },
+        "22": {
+          "token_window": [
+            26505,
+            27018
+          ],
+          "token_ids_sha256": "e13bc9a79f0616603f96304c69030d207e4828426625fb2235cc8e1fb1e3c209"
+        },
+        "23": {
+          "token_window": [
+            27683,
+            28196
+          ],
+          "token_ids_sha256": "aee913b1f3a261195b374649ed50e9603895ae57e00660d90fb9e0ff7720187c"
+        },
+        "24": {
+          "token_window": [
+            28861,
+            29374
+          ],
+          "token_ids_sha256": "7985243a85dc7c9311f97eb89ebbc8340dbee8ac40986535f55965e35d0fe03c"
+        },
+        "25": {
+          "token_window": [
+            30039,
+            30552
+          ],
+          "token_ids_sha256": "189722560b75a86934b22b71b689cb527158d91b896962b22cab95e01d6eeeae"
+        },
+        "26": {
+          "token_window": [
+            31217,
+            31730
+          ],
+          "token_ids_sha256": "878b58f4912793ebf30b49887015630794a12c55c43c69f909888e326dba672c"
+        },
+        "27": {
+          "token_window": [
+            32395,
+            32908
+          ],
+          "token_ids_sha256": "98fe0137f0cc8a9ded408a7943512eea254e84d71186b4699e99939fea52a3dd"
+        },
+        "28": {
+          "token_window": [
+            33573,
+            34086
+          ],
+          "token_ids_sha256": "d90d70838af419515d9eaebc93c907031c47d17f5f8548eeb7850035bea452c0"
+        },
+        "29": {
+          "token_window": [
+            34751,
+            35264
+          ],
+          "token_ids_sha256": "257f2a3efd11cd35751ae118ef684c9f3cc81333c49678aa99bfe1b0fa0ee352"
+        },
+        "30": {
+          "token_window": [
+            35929,
+            36442
+          ],
+          "token_ids_sha256": "1680ad7c90943b281b1da5b22c8682007f00df9a5e858d006e0d0bd022fc0193"
+        },
+        "31": {
+          "token_window": [
+            37107,
+            37620
+          ],
+          "token_ids_sha256": "b571f7c0073fae8c811a44ae7e3135d1b9d32d6f5af6c82b751283f3370b57e8"
+        },
+        "32": {
+          "token_window": [
+            38285,
+            38798
+          ],
+          "token_ids_sha256": "c67fb7e8d783e5775d285c75d341c24a1e224e1b166d2210dfcd125120bb8e75"
+        },
+        "33": {
+          "token_window": [
+            39463,
+            39976
+          ],
+          "token_ids_sha256": "1d2b6e0a05bb9e1103f69e1bddc02c4aadd7b178221a6c49ba4f049adc225144"
+        },
+        "34": {
+          "token_window": [
+            40641,
+            41154
+          ],
+          "token_ids_sha256": "a8f4f336cb529b80326ec295a7cb5c2ff8b55467c6d9d03c46ca43e9e37b01d5"
+        },
+        "35": {
+          "token_window": [
+            41819,
+            42332
+          ],
+          "token_ids_sha256": "0a10b99e101863e7fd437c89f73429e112b52df46cf7a2e10df82d3888e49f58"
+        },
+        "36": {
+          "token_window": [
+            42997,
+            43510
+          ],
+          "token_ids_sha256": "b7bbbbca56e432605c37b8196ca13439af95224935629f6b29a5954fbc4f9847"
+        },
+        "37": {
+          "token_window": [
+            44175,
+            44688
+          ],
+          "token_ids_sha256": "4f1e784c10e5e44f6603a3db6af4c33853e9b5cce750e4f61c406c7943d85f48"
+        },
+        "38": {
+          "token_window": [
+            45353,
+            45866
+          ],
+          "token_ids_sha256": "35568f247b10a54754e3e865547b5c0145ff768a57b955040e323bca3f1778b7"
+        },
+        "39": {
+          "token_window": [
+            46531,
+            47044
+          ],
+          "token_ids_sha256": "6d848a694295ac072bdea6d4e624f060bc949a363c5c2bbd8cf30c88c7dbaee4"
+        },
+        "40": {
+          "token_window": [
+            47709,
+            48222
+          ],
+          "token_ids_sha256": "e31cd2ea4750a8f84f212f1c937024b429bcd4b6e3beeadddcdfa72a8b660ce5"
+        },
+        "41": {
+          "token_window": [
+            48887,
+            49400
+          ],
+          "token_ids_sha256": "c259942a4f28448d901c59c54c84c980270fa5153a4c614c8d4ec41fd81488bf"
+        },
+        "42": {
+          "token_window": [
+            50065,
+            50578
+          ],
+          "token_ids_sha256": "e5fa931a577ae79420932a75037df1f60f903bcf7ce7d18aaab29a85e42daeab"
+        },
+        "43": {
+          "token_window": [
+            51243,
+            51756
+          ],
+          "token_ids_sha256": "dff28be9e0a3fd25fe71115bb74918b0215bd0a035969a962af3e45e89ac1eae"
+        },
+        "44": {
+          "token_window": [
+            52421,
+            52934
+          ],
+          "token_ids_sha256": "d3cf256ed8994b8581daaa72f99e0d7ac193f703fff0b80b114ebb99800d1955"
+        },
+        "45": {
+          "token_window": [
+            53599,
+            54112
+          ],
+          "token_ids_sha256": "17aaabeb5b2894a81130f509296acca3bff8dbd0fa610afa49fad98a015fdb4f"
+        },
+        "46": {
+          "token_window": [
+            54777,
+            55290
+          ],
+          "token_ids_sha256": "1361cb0bdf61f7a741fbf5ff436221aadbcd7c18e86b1f30790865bbdb21d052"
+        },
+        "47": {
+          "token_window": [
+            55955,
+            56468
+          ],
+          "token_ids_sha256": "b36cc4e2dd639c90122a86f764ff14f3cb278f9cdd87fa5d71eed681afcb33af"
+        },
+        "48": {
+          "token_window": [
+            57133,
+            57646
+          ],
+          "token_ids_sha256": "5272ef6acf6c51416ec8a4a5de8fc39644452540327f25384704a4fe810120f0"
+        },
+        "49": {
+          "token_window": [
+            58311,
+            58824
+          ],
+          "token_ids_sha256": "20f19a3bdf1a91539342fb876a83b6f04d382fb858873360474b295a6da087d6"
+        },
+        "50": {
+          "token_window": [
+            59489,
+            60002
+          ],
+          "token_ids_sha256": "82589ece6748e40326e69db12cdb9d5ddb370c608a54f290f49d524b9911c7a1"
+        },
+        "51": {
+          "token_window": [
+            60667,
+            61180
+          ],
+          "token_ids_sha256": "8252daebdffab601d87a2917a964bb3a1b0385ac130572eccce3f62b88ff129e"
+        },
+        "52": {
+          "token_window": [
+            61845,
+            62358
+          ],
+          "token_ids_sha256": "086da9ee79411464e03741ec584532ef94f8ac7162dbb21ed1dc8a3cb9174826"
+        },
+        "53": {
+          "token_window": [
+            63023,
+            63536
+          ],
+          "token_ids_sha256": "c7e55a2c79f9a0bb07ffb4f0f9733f938e3f35bc1efedc3751b5cd8840f71e8d"
+        },
+        "54": {
+          "token_window": [
+            64201,
+            64714
+          ],
+          "token_ids_sha256": "cf34ee4bb7ac1cc8f64df22d4c01e363a6009e80160784e2f00b5eb59c999662"
+        },
+        "55": {
+          "token_window": [
+            65379,
+            65892
+          ],
+          "token_ids_sha256": "8a65c8d068b2ce56fa9ba7281ba799e61eb2d664d0e7b5eb73b429098bf21961"
+        },
+        "56": {
+          "token_window": [
+            66557,
+            67070
+          ],
+          "token_ids_sha256": "19a6b22b4c17d5493db9194c9fe87df138eded3f75dae2f319c381174cfe17ec"
+        },
+        "57": {
+          "token_window": [
+            67735,
+            68248
+          ],
+          "token_ids_sha256": "a852737ef607aab6d4d835aeeb407fbea387c7858bf01eb6cd34c3af8ba2fc56"
+        },
+        "58": {
+          "token_window": [
+            68913,
+            69426
+          ],
+          "token_ids_sha256": "e0ec61f6e0a4ed9a1a28fd20c87f1f9ccb190d45ca8110b0fa701f1b71dc89f9"
+        },
+        "59": {
+          "token_window": [
+            70091,
+            70604
+          ],
+          "token_ids_sha256": "cf0d3a05df67dd93015fad5da6c1c089baa522a332facd70856685307ca070af"
+        },
+        "60": {
+          "token_window": [
+            71269,
+            71782
+          ],
+          "token_ids_sha256": "fe0acd633874ee73e7dd19789c8c0884f14c5f13d09fa42d97ef8d38ee4de0cc"
+        },
+        "61": {
+          "token_window": [
+            72447,
+            72960
+          ],
+          "token_ids_sha256": "52dce5d2948f66fceb0130009043271cdd602e89ea29e63deb5f0b8e25c125ba"
+        },
+        "62": {
+          "token_window": [
+            73625,
+            74138
+          ],
+          "token_ids_sha256": "3b4f450989b022f442eacc33d90b057dfdbf9899c2f1c68cc0b978cb8e0aa462"
+        },
+        "63": {
+          "token_window": [
+            74803,
+            75316
+          ],
+          "token_ids_sha256": "8cd80ac68c7983525ae3925aeadaf3ebefc38b5f7ee3848e333ac4b0668366e4"
+        },
+        "64": {
+          "token_window": [
+            75981,
+            76494
+          ],
+          "token_ids_sha256": "08553c82622c01a49ddcc37469503197e1ad5518310286176686ba633b01029b"
+        },
+        "65": {
+          "token_window": [
+            77159,
+            77672
+          ],
+          "token_ids_sha256": "ef32056de68af31c03354120ddc1488f338277e7e9ccf93909e3cc1008cebe41"
+        },
+        "66": {
+          "token_window": [
+            78337,
+            78850
+          ],
+          "token_ids_sha256": "0cb293e0337d1dec33f16231853ab20d3f6cb27627af5c3580f519a8663be3b1"
+        },
+        "67": {
+          "token_window": [
+            79515,
+            80028
+          ],
+          "token_ids_sha256": "df332adbf6b6c990d60b7a0ca508561369f16dcc283607c18cf7f0d52d1a6b17"
+        },
+        "68": {
+          "token_window": [
+            80693,
+            81206
+          ],
+          "token_ids_sha256": "7ccb4106315f64df428362d8b2fcc381332ac48de2d17b22501801003eb0a8d2"
+        },
+        "69": {
+          "token_window": [
+            81871,
+            82384
+          ],
+          "token_ids_sha256": "2602bbcc6b9be0f9b5b0ce4bd118118c9d752361031377d49b6f6a888de33293"
+        },
+        "70": {
+          "token_window": [
+            83049,
+            83562
+          ],
+          "token_ids_sha256": "a4fa6327768907981b8f85e5d9cfc79458bf43cdb56007ebcae4ad5233d8f615"
+        },
+        "71": {
+          "token_window": [
+            84227,
+            84740
+          ],
+          "token_ids_sha256": "10baf6762c73c68931fe16c9e1a7c7ce316eae16a3df05f81902e346211daa99"
+        },
+        "72": {
+          "token_window": [
+            85405,
+            85918
+          ],
+          "token_ids_sha256": "8c52a4a03f42d3fa5deecfbe0c4b691f348a55cf3f270ce871da1fca0bc5900c"
+        },
+        "73": {
+          "token_window": [
+            86583,
+            87096
+          ],
+          "token_ids_sha256": "3ffce19cfaea6187b554ab0c6bf7637cd7163b2ecc21f3ff3eedd673356c5696"
+        },
+        "74": {
+          "token_window": [
+            87761,
+            88274
+          ],
+          "token_ids_sha256": "f9904b469164535881549eae1f32f976fa2c16f2e8ebb81ab65eb362e58928da"
+        },
+        "75": {
+          "token_window": [
+            88939,
+            89452
+          ],
+          "token_ids_sha256": "a8952671257b3e5ecda422a11f26189b907c2fe75a97043e5ed7191391332eb4"
+        },
+        "76": {
+          "token_window": [
+            90117,
+            90630
+          ],
+          "token_ids_sha256": "37960ec16d035b6c782fa55a471834e05cf460e89fa4887eef021b6a9416acd9"
+        },
+        "77": {
+          "token_window": [
+            91295,
+            91808
+          ],
+          "token_ids_sha256": "5b704f9e5562456cd25ff130c3d8ba316880b068731dd6137bd09bc16fe60f69"
+        },
+        "78": {
+          "token_window": [
+            92473,
+            92986
+          ],
+          "token_ids_sha256": "e0507d11a3db66ddd6327c0f3382ca59e2fdd5fb7e748b99d30c62b3cb3af9a8"
+        },
+        "79": {
+          "token_window": [
+            93651,
+            94164
+          ],
+          "token_ids_sha256": "7e35bfdc5003c3fdf8ae91781e160c50206159a57eaee075aed6a594c301af65"
+        },
+        "80": {
+          "token_window": [
+            94829,
+            95342
+          ],
+          "token_ids_sha256": "90c079c9ef772d37a4e2150b5e9d6693b10331e9dddbf81d1595f26233ee4193"
+        },
+        "81": {
+          "token_window": [
+            96007,
+            96520
+          ],
+          "token_ids_sha256": "c78629b239233c36ccd3edd5bcf0a89097353a1b92a9df46fdf631d53236728b"
+        },
+        "82": {
+          "token_window": [
+            97185,
+            97698
+          ],
+          "token_ids_sha256": "9855be64de61143202e1ff46c4644dcbc6f89cfa50d041e5709ccdb538f1e66c"
+        },
+        "83": {
+          "token_window": [
+            98363,
+            98876
+          ],
+          "token_ids_sha256": "627c969d208dbdee334db5df09d4ba6b1ac988d4a8128937aad60672456e5f91"
+        },
+        "84": {
+          "token_window": [
+            99541,
+            100054
+          ],
+          "token_ids_sha256": "b0a2dcaf040589f853415bd643c70dfd1c90809b1cb3100a252511b2b0a5eb57"
+        },
+        "85": {
+          "token_window": [
+            100719,
+            101232
+          ],
+          "token_ids_sha256": "557e757b4fe8e1a08845c69f9d8a017c05ae18e41889e6e15be4e4d55e805cbb"
+        },
+        "86": {
+          "token_window": [
+            101897,
+            102410
+          ],
+          "token_ids_sha256": "c515293c519450a1dd274b2eadc37399823d7479b144ec950c8a08dcd7b02511"
+        },
+        "87": {
+          "token_window": [
+            103075,
+            103588
+          ],
+          "token_ids_sha256": "62afae6e2bde134c5411d327ea2debd748c7dccc9910c0fe55901f19cd905f62"
+        },
+        "88": {
+          "token_window": [
+            104253,
+            104766
+          ],
+          "token_ids_sha256": "a926aab5e01742ddb81cf99a4fd9a4cbdfa86b4e70b223d038e1ae8af3dd2063"
+        },
+        "89": {
+          "token_window": [
+            105431,
+            105944
+          ],
+          "token_ids_sha256": "b280699130e0c81a5ec9bea04ac687e148d714fc8a546dbf829219f0a4bd4795"
+        },
+        "90": {
+          "token_window": [
+            106609,
+            107122
+          ],
+          "token_ids_sha256": "e7619ddc2e62bd1fa60ea16c5ba5942d83b9703fa6e40faaa9fcd1d73fe17491"
+        },
+        "91": {
+          "token_window": [
+            107787,
+            108300
+          ],
+          "token_ids_sha256": "52212827211886b26965815989de18e61c02c31ad4b56e1c8e8f308680db5e9a"
+        },
+        "92": {
+          "token_window": [
+            108965,
+            109478
+          ],
+          "token_ids_sha256": "d02f18dc4841adbebcff515f93b578a9c69a767da313e14f4f7e06a7a409c97f"
+        },
+        "93": {
+          "token_window": [
+            110143,
+            110656
+          ],
+          "token_ids_sha256": "3effca6bf5554f199ce5d7a63e545d676f77fad88f10e5bcb2cf10273a001848"
+        },
+        "94": {
+          "token_window": [
+            111321,
+            111834
+          ],
+          "token_ids_sha256": "a449c0e30971e21caf1be0fb4af099e63d221094f5547863bcce656fc5d100bd"
+        },
+        "95": {
+          "token_window": [
+            112499,
+            113012
+          ],
+          "token_ids_sha256": "207727560f91c88e1bbf4487c53eeb17f69b6a6b56c34b4e9f79bdcf283b4be9"
+        },
+        "96": {
+          "token_window": [
+            113677,
+            114190
+          ],
+          "token_ids_sha256": "70b4cf40bf310eee61325949ead83b2d3fba0ea62b0d5e828a3cafa78212ec0a"
+        },
+        "97": {
+          "token_window": [
+            114855,
+            115368
+          ],
+          "token_ids_sha256": "9f8647f862fd3720b603504c007f7976aafe70479e2584e1d42bef62d766c4fc"
+        },
+        "98": {
+          "token_window": [
+            116033,
+            116546
+          ],
+          "token_ids_sha256": "d331aaf2f684929e071cbd57d9e809767a5a63f2d4045075c6f9379e20c58b9e"
+        },
+        "99": {
+          "token_window": [
+            117211,
+            117724
+          ],
+          "token_ids_sha256": "fa076e089582ffc6143ef88ad583387ef9ebc33a08730e503830426f119162da"
+        },
+        "100": {
+          "token_window": [
+            118389,
+            118902
+          ],
+          "token_ids_sha256": "f47bc93bdac68c09aaa131ccf0ed7bec02381dc1d126c7bfacdb90198ae53875"
+        },
+        "101": {
+          "token_window": [
+            119567,
+            120080
+          ],
+          "token_ids_sha256": "7d30792150b7cdf9c2b8eb70ff06088c25ee4a950e3654f61ab2f80af9511601"
+        },
+        "102": {
+          "token_window": [
+            120745,
+            121258
+          ],
+          "token_ids_sha256": "c25af9bb2d0d50e0dc88df8708b1aa181d40b76bf5765316c44db178db0f5a05"
+        },
+        "103": {
+          "token_window": [
+            121923,
+            122436
+          ],
+          "token_ids_sha256": "7cfdd2daf35d09c065f7b3c772c920fd33431c7e253487c64cc67208cce5a5d2"
+        },
+        "104": {
+          "token_window": [
+            123101,
+            123614
+          ],
+          "token_ids_sha256": "4687dd3a377ed442cbf1bda7a1f96d61427cd39cd37ddf0bd254169df825b46a"
+        },
+        "105": {
+          "token_window": [
+            124279,
+            124792
+          ],
+          "token_ids_sha256": "28d7052f1c8b32769a7223a36888185e027445226ba1e5b7f99b09c529db7696"
+        },
+        "106": {
+          "token_window": [
+            125457,
+            125970
+          ],
+          "token_ids_sha256": "dbabbf69a2edf7856145002c6f4c6e5fb29ba7d3c59fcd07dfb034da27ccf462"
+        },
+        "107": {
+          "token_window": [
+            126635,
+            127148
+          ],
+          "token_ids_sha256": "05b0621d5796f8e99becdd5be590f96c0f27b1faaf5f1c2b4b7c5fbdce98da71"
+        },
+        "108": {
+          "token_window": [
+            127813,
+            128326
+          ],
+          "token_ids_sha256": "f532af6c5396f37a21f4e3a1ce5ae9f773cc30933cbaff2f65e02e53ab78ab42"
+        },
+        "109": {
+          "token_window": [
+            128991,
+            129504
+          ],
+          "token_ids_sha256": "0d0e32dd0863a1d33b5bee18eac3eb61dd02a2257d6f8938ec8064792c6064ec"
+        },
+        "110": {
+          "token_window": [
+            130169,
+            130682
+          ],
+          "token_ids_sha256": "14ef2c4334041741b598ef6ffccb8c31eccedbcd5c0c478ad6d75ea5011613c8"
+        },
+        "111": {
+          "token_window": [
+            131347,
+            131860
+          ],
+          "token_ids_sha256": "61a83fd60a1d27c7ef2bc79ec6cf62f5b86e74b3fb09ca9a568306fe730ec7d1"
+        },
+        "112": {
+          "token_window": [
+            132525,
+            133038
+          ],
+          "token_ids_sha256": "9ff9dca7bc27fd73fb35aa43c2d5faeac0c16c7269b219e67cc92dc4beb9303b"
+        },
+        "113": {
+          "token_window": [
+            133703,
+            134216
+          ],
+          "token_ids_sha256": "af6f779bc23e951e802f0c074e7ffa8e9be68b5fc867b55c4d0d1e19b7f1e666"
+        },
+        "114": {
+          "token_window": [
+            134881,
+            135394
+          ],
+          "token_ids_sha256": "d1b640bc44911e454e2906a3761001806664d260325649ac645ae506746667a1"
+        },
+        "115": {
+          "token_window": [
+            136059,
+            136572
+          ],
+          "token_ids_sha256": "ca571953c088ce5638db5c10923914c643f9bd213a07bd79239af9a7115487fc"
+        },
+        "116": {
+          "token_window": [
+            137237,
+            137750
+          ],
+          "token_ids_sha256": "27072969346d01c683c428189d1f05803e8006a7e0fd7d2ce0e79e61c737cbaa"
+        },
+        "117": {
+          "token_window": [
+            138415,
+            138928
+          ],
+          "token_ids_sha256": "803d33ebf75289b5cabea815b0f049894756487302d95731bb686c62fc82f3cc"
+        },
+        "118": {
+          "token_window": [
+            139593,
+            140106
+          ],
+          "token_ids_sha256": "c0f7aec7bd4de3e5cad77d355c020f0b4e67025d5869315e2123fb3ac8af2588"
+        },
+        "119": {
+          "token_window": [
+            140771,
+            141284
+          ],
+          "token_ids_sha256": "bc9db27aa96539ad8b26cb989b7db602234b31585bc1a42754f990b530d74e4d"
+        },
+        "120": {
+          "token_window": [
+            141949,
+            142462
+          ],
+          "token_ids_sha256": "5eecdbf3201829bceb840f3c7bc86f584a4c6e081af3d145bd2e4ac9ae06dbc1"
+        },
+        "121": {
+          "token_window": [
+            143127,
+            143640
+          ],
+          "token_ids_sha256": "0cdca41de0a189cfa496542c79861082bbba8aff23655b4fbab23fd1553df403"
+        },
+        "122": {
+          "token_window": [
+            144305,
+            144818
+          ],
+          "token_ids_sha256": "da9e0b45063b05c0d4fd6102495da8d7fdc2af0791c06412f70d1ec40962a9bf"
+        },
+        "123": {
+          "token_window": [
+            145483,
+            145996
+          ],
+          "token_ids_sha256": "5e1483e76527ff806cd3e47e15d7648c07e562d64f9bfc958dc91986ac0ebc7a"
+        },
+        "124": {
+          "token_window": [
+            146661,
+            147174
+          ],
+          "token_ids_sha256": "f752ddcaa9536ba42f43948891c214df485bb3b2ee28a0a205327866bec71524"
+        },
+        "125": {
+          "token_window": [
+            147839,
+            148352
+          ],
+          "token_ids_sha256": "24136c952282c192bf16fd738380fe3f539268124abeac286043512e0fa261c0"
+        },
+        "126": {
+          "token_window": [
+            149017,
+            149530
+          ],
+          "token_ids_sha256": "fc158151a3c5d0aa59104a6cbec4d93428f271f43a512d36a4c535d3faf0ffee"
+        },
+        "127": {
+          "token_window": [
+            150195,
+            150708
+          ],
+          "token_ids_sha256": "56acd9495cfea7dc2ada996cb8516175593461b17acfab7d94a013f52696a3a5"
+        }
+      },
+      "wikitext_train": {
+        "0": {
+          "token_window": [
+            6344,
+            6857
+          ],
+          "token_ids_sha256": "1b64ec4de999275ea8eecadb6f2d773527e64ac320820eaf9392ad5cf4f3f401"
+        },
+        "1": {
+          "token_window": [
+            19032,
+            19545
+          ],
+          "token_ids_sha256": "6063059b61b87085e5126d11953b75f74320c644a79f37f97211a0788dc6830f"
+        },
+        "2": {
+          "token_window": [
+            31720,
+            32233
+          ],
+          "token_ids_sha256": "43e7f2aa1ad8e63da1a772c24895cf0332ca9d41203a8151ddb5be6b39712417"
+        },
+        "3": {
+          "token_window": [
+            44408,
+            44921
+          ],
+          "token_ids_sha256": "9950cf8b07c4303ea1be56cd2e930f95fc2303ec6fc72ae041b521f71fded842"
+        },
+        "4": {
+          "token_window": [
+            57096,
+            57609
+          ],
+          "token_ids_sha256": "804e85207eaef74043ceef087c30df7e923dfd72ed565fc5d577d0be0a282272"
+        },
+        "5": {
+          "token_window": [
+            69784,
+            70297
+          ],
+          "token_ids_sha256": "d2a4dc12c374a8402be62e051eaf053b7d605e12aafd3adf7535e32d74472c29"
+        },
+        "6": {
+          "token_window": [
+            82472,
+            82985
+          ],
+          "token_ids_sha256": "12ea3a212398c6e93fada235afce95c4bb27d47e09deeabed18725a4662342f3"
+        },
+        "7": {
+          "token_window": [
+            95160,
+            95673
+          ],
+          "token_ids_sha256": "fce485b502a4f8fe77b767621bc9d8b6dc10d461d7f47b7d81f3fadd26e386f2"
+        },
+        "8": {
+          "token_window": [
+            107848,
+            108361
+          ],
+          "token_ids_sha256": "82e736092834791a00ddbe7cf966fad880ed9daf30ef5df1cd755b84f48f9803"
+        },
+        "9": {
+          "token_window": [
+            120536,
+            121049
+          ],
+          "token_ids_sha256": "f62d557c36c611c4bad3762033cf93d034be867e75dbb43ce973249cd92206c1"
+        },
+        "10": {
+          "token_window": [
+            133224,
+            133737
+          ],
+          "token_ids_sha256": "2aa1cfac00db3063d6560db9c0c28decff4b3e9433b29967b87854c863152689"
+        },
+        "11": {
+          "token_window": [
+            145912,
+            146425
+          ],
+          "token_ids_sha256": "fec8fe144fea73e13a6ff5da0d7d164d87c59440234f8f1a316e8040a052a13b"
+        },
+        "12": {
+          "token_window": [
+            158600,
+            159113
+          ],
+          "token_ids_sha256": "ed796a9221d7d1cad56b371b8bf432e7976f94205d6e7570ef7cf6684989254c"
+        },
+        "13": {
+          "token_window": [
+            171288,
+            171801
+          ],
+          "token_ids_sha256": "1b0eb7cdecbd9a286f4e58ac1fd72b19558cc44b78fb7f180dbc16dd250371cc"
+        },
+        "14": {
+          "token_window": [
+            183976,
+            184489
+          ],
+          "token_ids_sha256": "48dbdb572687794099eaf165118f73ec7ea05c64f3dfefd1246a92ffb58f8690"
+        },
+        "15": {
+          "token_window": [
+            196664,
+            197177
+          ],
+          "token_ids_sha256": "0ab74604a1aec3ee1d5082075c89ffd78a5d3ec6753ddfbe640dfdea379c096b"
+        },
+        "16": {
+          "token_window": [
+            209352,
+            209865
+          ],
+          "token_ids_sha256": "85b71bafdadf6ade61eee48a76e20f5d66885061a040d4422db4e75901400125"
+        },
+        "17": {
+          "token_window": [
+            222040,
+            222553
+          ],
+          "token_ids_sha256": "f0830339afaac1f895cd3da79cbad34a7a27a5e40f2af3b6022063aec1726f3e"
+        },
+        "18": {
+          "token_window": [
+            234728,
+            235241
+          ],
+          "token_ids_sha256": "28b545ee6c3165b6cec808ca2df4d38b7893ee550ec6cef807562c899c2a558d"
+        },
+        "19": {
+          "token_window": [
+            247416,
+            247929
+          ],
+          "token_ids_sha256": "b2f0751245c11f407c559a0bc4b002700bbc5fd0e90feef770b7c05c38268cbe"
+        },
+        "20": {
+          "token_window": [
+            260104,
+            260617
+          ],
+          "token_ids_sha256": "15c245024f163dd14058931feb255150dabbd59b707b0ab50e808b801104cfd3"
+        },
+        "21": {
+          "token_window": [
+            272792,
+            273305
+          ],
+          "token_ids_sha256": "05604c9f84cbb972ee23033083ae666ec68314effd7d59ab35da2510f833cc66"
+        },
+        "22": {
+          "token_window": [
+            285480,
+            285993
+          ],
+          "token_ids_sha256": "2346ef6b9d2ab5e82f600ece698e21ee4ff132e15e9ea010c77300e29e5b0576"
+        },
+        "23": {
+          "token_window": [
+            298168,
+            298681
+          ],
+          "token_ids_sha256": "cb680acf7f48f4ee674209c49b79716eaa934d5200e7b13ffcd07edfcaa74bbb"
+        },
+        "24": {
+          "token_window": [
+            310856,
+            311369
+          ],
+          "token_ids_sha256": "c8d2a7abc79105febfbea0c7f37d77fab2e5f5d14481fdb9a2e042b4a76394a1"
+        },
+        "25": {
+          "token_window": [
+            323544,
+            324057
+          ],
+          "token_ids_sha256": "1736f4e4f39c6544df470f4ab1f1d9d7c717349b5f7736021b30cac59159183f"
+        },
+        "26": {
+          "token_window": [
+            336232,
+            336745
+          ],
+          "token_ids_sha256": "7ba2813e751d3f6827eef09437ff35c23de30e8e2158a86c39479de5b0783fe2"
+        },
+        "27": {
+          "token_window": [
+            348920,
+            349433
+          ],
+          "token_ids_sha256": "3bcc631ea7a6df437dfd2e9df1251e8d34a433ac58f7c6b1e5281737ebed1eb5"
+        },
+        "28": {
+          "token_window": [
+            361608,
+            362121
+          ],
+          "token_ids_sha256": "cdb3c34bd5741fd76091f99f415e68a671be6cd55d6a9e080900601f1a77a6f5"
+        },
+        "29": {
+          "token_window": [
+            374296,
+            374809
+          ],
+          "token_ids_sha256": "7d4a36ade5001c1cb5d091374dfb1624806b28b39903ea7c5eb9af11c1080570"
+        },
+        "30": {
+          "token_window": [
+            386984,
+            387497
+          ],
+          "token_ids_sha256": "1bb5b3387f33bcab5e93485537814c71d07b3bdb1e3d0db6661241a31fca4824"
+        },
+        "31": {
+          "token_window": [
+            399672,
+            400185
+          ],
+          "token_ids_sha256": "22a27daf446bd60efb4b89c956654f2b5c955d75594b69b2e1a9cc29438fb694"
+        },
+        "32": {
+          "token_window": [
+            412360,
+            412873
+          ],
+          "token_ids_sha256": "252d08dc78e7c13efddffe359c1d292360813cbab51ade2de522bdbed8bc7d10"
+        },
+        "33": {
+          "token_window": [
+            425048,
+            425561
+          ],
+          "token_ids_sha256": "8aeb35cd5c8cdc94336efd4b041a55f3c6b706bb19f1009d798698694eff0e7a"
+        },
+        "34": {
+          "token_window": [
+            437736,
+            438249
+          ],
+          "token_ids_sha256": "2ca966501999538b14964c729f250bfddd2cf379f7174608e77768cbeb14b3ef"
+        },
+        "35": {
+          "token_window": [
+            450424,
+            450937
+          ],
+          "token_ids_sha256": "a823093651b5e47f4de29e4ad6a0f67fcde54d99e5f32663276ed95a27b2b810"
+        },
+        "36": {
+          "token_window": [
+            463112,
+            463625
+          ],
+          "token_ids_sha256": "ad5439e7818983ea8255d34dc53814d78fc99f443d6ecbf1fd2bf2954cafa2e9"
+        },
+        "37": {
+          "token_window": [
+            475800,
+            476313
+          ],
+          "token_ids_sha256": "2fbaaa544e7a45bad10a756d5107726217bee106847145a51e5d376c5395f5ea"
+        },
+        "38": {
+          "token_window": [
+            488488,
+            489001
+          ],
+          "token_ids_sha256": "0adc2d96504e88e617c92feb847fe77dff6573acee795ae4ee9fbb81ef61372d"
+        },
+        "39": {
+          "token_window": [
+            501176,
+            501689
+          ],
+          "token_ids_sha256": "588cdfbce86c7491c9716a67d829860c1e4ae0f6822099bff879b5da1c450a31"
+        },
+        "40": {
+          "token_window": [
+            513864,
+            514377
+          ],
+          "token_ids_sha256": "55462a7b29b0ba1c4f6354a28db98bdd76ea1f76d123090af6e1d6fceb7b6d42"
+        },
+        "41": {
+          "token_window": [
+            526552,
+            527065
+          ],
+          "token_ids_sha256": "5a4550fb2c1343f786d21af39c7299e6d5a18d2d01507ece61c31c976cab88fb"
+        },
+        "42": {
+          "token_window": [
+            539240,
+            539753
+          ],
+          "token_ids_sha256": "b8132a73c359378dcb81b87163d5f1d7b66094745a1316bfc4af2e5913f8e059"
+        },
+        "43": {
+          "token_window": [
+            551928,
+            552441
+          ],
+          "token_ids_sha256": "831dd5a9c6c1d81566bbf19f946faf0d79f47c52847f9d6811804515b10416a3"
+        },
+        "44": {
+          "token_window": [
+            564616,
+            565129
+          ],
+          "token_ids_sha256": "7c61fec1cd05d5f735f5559917bdc02f71b810fde4a9d9b261b477ed59f5d0c3"
+        },
+        "45": {
+          "token_window": [
+            577304,
+            577817
+          ],
+          "token_ids_sha256": "c0bb61149dedeb6dc05b05c9b3c24fb900ca4cda6635e14e7466f857c397638f"
+        },
+        "46": {
+          "token_window": [
+            589992,
+            590505
+          ],
+          "token_ids_sha256": "488816fec83802bdb3ee38e84f578db1f24b7f3ba01968f6ef421a585f5529ef"
+        },
+        "47": {
+          "token_window": [
+            602680,
+            603193
+          ],
+          "token_ids_sha256": "11949bbf28710925dc7ea7bf558f33da8dc0bb88d7a73186da5e53dda9f2e25d"
+        },
+        "48": {
+          "token_window": [
+            615368,
+            615881
+          ],
+          "token_ids_sha256": "76ef65c6ee2dccd58dde717f8babf2aada3a4bed0289639fb8d98c45dfaf15b1"
+        },
+        "49": {
+          "token_window": [
+            628056,
+            628569
+          ],
+          "token_ids_sha256": "4f8de7e1ce945097a3f2e76c51a57206799e6bd23aab57250599fd674cce4319"
+        },
+        "50": {
+          "token_window": [
+            640744,
+            641257
+          ],
+          "token_ids_sha256": "942c470bb023b61224d487fdc86e6b3f77d47a3dd9d9aee78004ca3137976cf6"
+        },
+        "51": {
+          "token_window": [
+            653432,
+            653945
+          ],
+          "token_ids_sha256": "5992c50fc10883bb1e0ba84cf9a74a923ecff879ae58bb2ae7a630c14f127ca6"
+        },
+        "52": {
+          "token_window": [
+            666120,
+            666633
+          ],
+          "token_ids_sha256": "a0af4cf11aeafb3ca4454aa27aa86bf00ab57c1e1afae79161212fe440c33ed4"
+        },
+        "53": {
+          "token_window": [
+            678808,
+            679321
+          ],
+          "token_ids_sha256": "1cdb094e279d544940046584051eb71d5680ddca2523238af862453445b0b6b8"
+        },
+        "54": {
+          "token_window": [
+            691496,
+            692009
+          ],
+          "token_ids_sha256": "87aa9c014d00ad7f2428f568a88a06dc459e4cd67addcae13a91e63d85d3d006"
+        },
+        "55": {
+          "token_window": [
+            704184,
+            704697
+          ],
+          "token_ids_sha256": "0b000ea959f703247f5953c2dffad9223f41a9d2061361459ed59c3ebf2e1919"
+        },
+        "56": {
+          "token_window": [
+            716872,
+            717385
+          ],
+          "token_ids_sha256": "31b88a9ab4d2d06dd2c93ca5488d4bd62f2cffad1c06db2b1e4e3194fd26b125"
+        },
+        "57": {
+          "token_window": [
+            729560,
+            730073
+          ],
+          "token_ids_sha256": "75e0da608b94670851b262c24c8272f7a702e209f003c84319bc49fd6bcf540f"
+        },
+        "58": {
+          "token_window": [
+            742248,
+            742761
+          ],
+          "token_ids_sha256": "50efc72140d21145c02679357b21527e89a0cd3234c59d855674487f4c54c056"
+        },
+        "59": {
+          "token_window": [
+            754936,
+            755449
+          ],
+          "token_ids_sha256": "5f1f473f7828788c57cde5b44fae8374f9374a4b55252a835dc596cda101aa93"
+        },
+        "60": {
+          "token_window": [
+            767624,
+            768137
+          ],
+          "token_ids_sha256": "9eca88da5953b527fdb61a164988f368dd36276b2ef754bce2071136d33fa2eb"
+        },
+        "61": {
+          "token_window": [
+            780312,
+            780825
+          ],
+          "token_ids_sha256": "619e45f794447f404c6bf7f0a06382ab4edabdde64816672155064d0a50be07f"
+        },
+        "62": {
+          "token_window": [
+            793000,
+            793513
+          ],
+          "token_ids_sha256": "4dd9887e18576cb739b54928172fdf80d66b0762a2dc2c66fb44fcb92986604a"
+        },
+        "63": {
+          "token_window": [
+            805688,
+            806201
+          ],
+          "token_ids_sha256": "1a09339a2003c58a13fc4f9e827b75ac5afbed071cf0a9fc3b8c97274ca0b3c3"
+        },
+        "64": {
+          "token_window": [
+            818376,
+            818889
+          ],
+          "token_ids_sha256": "ecdd140549819ecb2398b46d8c5684225015507f91c09fb771d2250868bc8879"
+        },
+        "65": {
+          "token_window": [
+            831064,
+            831577
+          ],
+          "token_ids_sha256": "879d881bb0a73943a708a931b4dab12ef67a83b186c5cc660691c062886ba488"
+        },
+        "66": {
+          "token_window": [
+            843752,
+            844265
+          ],
+          "token_ids_sha256": "30cb2969222fc70e9c767536c658a1d76edd080f1f38b540e71842b69b634928"
+        },
+        "67": {
+          "token_window": [
+            856440,
+            856953
+          ],
+          "token_ids_sha256": "755d601b0dc88264e7ae3ccbd6853f601566006625994f4bb7ab001f48e713e6"
+        },
+        "68": {
+          "token_window": [
+            869128,
+            869641
+          ],
+          "token_ids_sha256": "1fdd938da6564502b3aba56b92ac45aa8c02221c25bba55fc8cb3e43c0d2c668"
+        },
+        "69": {
+          "token_window": [
+            881816,
+            882329
+          ],
+          "token_ids_sha256": "4349de2c1f09297b7f91fc58c3f9157805ae08bca5b6e726fd6f294309a04fe0"
+        },
+        "70": {
+          "token_window": [
+            894504,
+            895017
+          ],
+          "token_ids_sha256": "d848d92cec2e0288a23622d958278df2263bf733048f581cb8c9d59f26c90dfe"
+        },
+        "71": {
+          "token_window": [
+            907192,
+            907705
+          ],
+          "token_ids_sha256": "e5b7741395f1468cad300eafdecbb63a591269669b45cbcfa271d9c147ad958f"
+        },
+        "72": {
+          "token_window": [
+            919880,
+            920393
+          ],
+          "token_ids_sha256": "2d356d813f4a942d878c02986c7ec7e2d39c2994dbe1f72a0e413e409b453cc6"
+        },
+        "73": {
+          "token_window": [
+            932568,
+            933081
+          ],
+          "token_ids_sha256": "cd2c1da9aa9338878feb9c6c65510525ad61001a16b8d31a2caf3877510233f1"
+        },
+        "74": {
+          "token_window": [
+            945256,
+            945769
+          ],
+          "token_ids_sha256": "0ee2961fd8f85a1a16ba05a1a04c1c2c91fabcb84f401079e7eb5f7807c80bb9"
+        },
+        "75": {
+          "token_window": [
+            957944,
+            958457
+          ],
+          "token_ids_sha256": "b5a311fd6cd8d430a0bdc3e9dfe6ecd2c7d5ef6ce0b0e655135a0aec4e7e1d73"
+        },
+        "76": {
+          "token_window": [
+            970632,
+            971145
+          ],
+          "token_ids_sha256": "25ab0e8efaacf0a48f38cd196210a7568c1a6e0140848d030225efa0435f4ed4"
+        },
+        "77": {
+          "token_window": [
+            983320,
+            983833
+          ],
+          "token_ids_sha256": "e6083efdfda33c6842f985963e330d78b812f4adfd19c1d3f03f8e5e549ab2bf"
+        },
+        "78": {
+          "token_window": [
+            996008,
+            996521
+          ],
+          "token_ids_sha256": "c053e684f5be82109f4508a6171bfa2112e34e3b7b0632781863ef9c339b83c3"
+        },
+        "79": {
+          "token_window": [
+            1008696,
+            1009209
+          ],
+          "token_ids_sha256": "de5acf5fe03818a2015f65aaddef1e7947037a48c45448ba3e2ed336f79241ce"
+        },
+        "80": {
+          "token_window": [
+            1021384,
+            1021897
+          ],
+          "token_ids_sha256": "5d88683513458ef29401be205ef20e8a158370caadc381e440a02b17253ef668"
+        },
+        "81": {
+          "token_window": [
+            1034072,
+            1034585
+          ],
+          "token_ids_sha256": "98e5d1a5dd8b6ebff6e6c507003d45bc48ad2553c3a03c07280b8146f1f05c23"
+        },
+        "82": {
+          "token_window": [
+            1046760,
+            1047273
+          ],
+          "token_ids_sha256": "2fae571ef514772081c2a76d5af71699382fbb2323e93ec67b84def7af062725"
+        },
+        "83": {
+          "token_window": [
+            1059448,
+            1059961
+          ],
+          "token_ids_sha256": "3ce5a964214307dc2679daf1d0ab3c6bb6e4b18da67dd73dbfe8c3f289d9f4fb"
+        },
+        "84": {
+          "token_window": [
+            1072136,
+            1072649
+          ],
+          "token_ids_sha256": "cf5568fd699240bb31f184bcd321d4451c36ba329353a5ccd45302ee4d8a47c5"
+        },
+        "85": {
+          "token_window": [
+            1084824,
+            1085337
+          ],
+          "token_ids_sha256": "846695993506ac045d190e9b226c268ed2d9e55a3809d99074dada8e803a5af3"
+        },
+        "86": {
+          "token_window": [
+            1097512,
+            1098025
+          ],
+          "token_ids_sha256": "00688d19aa60b296340bf744405aecd1ac17b0cc5cd48c6b85141d434a74333d"
+        },
+        "87": {
+          "token_window": [
+            1110200,
+            1110713
+          ],
+          "token_ids_sha256": "22ba76a54f1bc5a593bdb273d94153eaeeca33752ee3071158b2dadb298b800d"
+        },
+        "88": {
+          "token_window": [
+            1122888,
+            1123401
+          ],
+          "token_ids_sha256": "0da7d1dacf60b7f79b2181a6bd4566839cb635cd13a164cb998fe8fa20b6f2ba"
+        },
+        "89": {
+          "token_window": [
+            1135576,
+            1136089
+          ],
+          "token_ids_sha256": "6e07065db9c26cfd1e580690e12475a4926c0015d2fa10050c724dbd7081b40b"
+        },
+        "90": {
+          "token_window": [
+            1148264,
+            1148777
+          ],
+          "token_ids_sha256": "836224b7af2f2f56c46b35c7679b18caf2e4ef5e2cc1f04c9480fe89100f78ec"
+        },
+        "91": {
+          "token_window": [
+            1160952,
+            1161465
+          ],
+          "token_ids_sha256": "0927295f0d19cbfaaf4e4337f42f1272416bdb1ba1069fdd30f4fb870b9dae40"
+        },
+        "92": {
+          "token_window": [
+            1173640,
+            1174153
+          ],
+          "token_ids_sha256": "d627d1b6151e3fb680563f5752f0d208340e9600ed3535f35795537cdd4d6e40"
+        },
+        "93": {
+          "token_window": [
+            1186328,
+            1186841
+          ],
+          "token_ids_sha256": "7d7e6d4e1f82b05de095389aae44b8c089def29328cc4fc840814df632957ed0"
+        },
+        "94": {
+          "token_window": [
+            1199016,
+            1199529
+          ],
+          "token_ids_sha256": "67ee73f1bfd14c316390792456ea46d1e385176d034d7537811a95d0e58886a9"
+        },
+        "95": {
+          "token_window": [
+            1211704,
+            1212217
+          ],
+          "token_ids_sha256": "ed11e29d859068b86dd34ef806586ce08fd397f31f88094d9ae11d5fd8bff586"
+        },
+        "96": {
+          "token_window": [
+            1224392,
+            1224905
+          ],
+          "token_ids_sha256": "eaa69e878bbbdfdbe06500f7bfd1a0cfbfabeae61b65c46509832313585a920a"
+        },
+        "97": {
+          "token_window": [
+            1237080,
+            1237593
+          ],
+          "token_ids_sha256": "f906a914e64e699ce8bde4bac5dbdbc273f155aff68d3594a5313c38ca8906c3"
+        },
+        "98": {
+          "token_window": [
+            1249768,
+            1250281
+          ],
+          "token_ids_sha256": "f902a8dbbcd732da804f6f73af95f8b68e340a39d3ddd3ca28d38d6edad10fc1"
+        },
+        "99": {
+          "token_window": [
+            1262456,
+            1262969
+          ],
+          "token_ids_sha256": "b5e22d354ac6e9a0f1b43261de776b6bc2cc4be4fcbb0ac72869e8f546d88de2"
+        },
+        "100": {
+          "token_window": [
+            1275144,
+            1275657
+          ],
+          "token_ids_sha256": "af379a4c191fe5de32f647c112531422befef4b4a685e2178fc0c51f477fde01"
+        },
+        "101": {
+          "token_window": [
+            1287832,
+            1288345
+          ],
+          "token_ids_sha256": "ace8b6c6df03578f38a2878813c19443715ae5da68b7d668bdc507b888cb5fb0"
+        },
+        "102": {
+          "token_window": [
+            1300520,
+            1301033
+          ],
+          "token_ids_sha256": "6a6be7baa322c297f5d2b4a89b830a1df8c5659cf08d10ee175cbc335d94343a"
+        },
+        "103": {
+          "token_window": [
+            1313208,
+            1313721
+          ],
+          "token_ids_sha256": "73383355a6cff9ca69b35d20d178ef4ea1428b56b528275fe2c5a8f18c19d522"
+        },
+        "104": {
+          "token_window": [
+            1325896,
+            1326409
+          ],
+          "token_ids_sha256": "36f20d7d4758c5ab59310b118d8568ea0ab0107baaba122175036f58f54d5d40"
+        },
+        "105": {
+          "token_window": [
+            1338584,
+            1339097
+          ],
+          "token_ids_sha256": "0fd6a4ccf29c10bba0f37fb93dcf4fbde8a00ffc96276d1869551d35620219c8"
+        },
+        "106": {
+          "token_window": [
+            1351272,
+            1351785
+          ],
+          "token_ids_sha256": "3c19758aed463af0f420a0a3b0be70b2d109da5c85ddcc759c4d943dd086a5b0"
+        },
+        "107": {
+          "token_window": [
+            1363960,
+            1364473
+          ],
+          "token_ids_sha256": "0dafe3840ff726dd205d5d77ebcffaa9c8f326676900114b5f47feb6592554e1"
+        },
+        "108": {
+          "token_window": [
+            1376648,
+            1377161
+          ],
+          "token_ids_sha256": "78a7fc0d132b429e0d0569e84210b2de7db316bdb275ad3fe360cae2c569b270"
+        },
+        "109": {
+          "token_window": [
+            1389336,
+            1389849
+          ],
+          "token_ids_sha256": "783591ba0133a54f959c8d21200fad063c63eb3a934cdd216e158c334e2c4f5d"
+        },
+        "110": {
+          "token_window": [
+            1402024,
+            1402537
+          ],
+          "token_ids_sha256": "89c0af04ac434edf4b85601b73e855c6e25ab5035ee337f78c4a82a04b6e7b5c"
+        },
+        "111": {
+          "token_window": [
+            1414712,
+            1415225
+          ],
+          "token_ids_sha256": "438f8782f4cbeadf784ab3155fc7298296e09da80ab68055e3bf67db6835afc3"
+        },
+        "112": {
+          "token_window": [
+            1427400,
+            1427913
+          ],
+          "token_ids_sha256": "bec9f3961ec59f6f7853a73976ea788efe47789b6f8b44378067ccfa2fe9d767"
+        },
+        "113": {
+          "token_window": [
+            1440088,
+            1440601
+          ],
+          "token_ids_sha256": "99e3dda4a70fd3d9135ebe9052c669092fe4b6f3d3f99a83106316ab116adfeb"
+        },
+        "114": {
+          "token_window": [
+            1452776,
+            1453289
+          ],
+          "token_ids_sha256": "ad0b0a627fc6f9db412f70d6e90598c3c1c55e7d0582b3a386f757bd8ab85c30"
+        },
+        "115": {
+          "token_window": [
+            1465464,
+            1465977
+          ],
+          "token_ids_sha256": "5b13a253ceb777143acb370c28723f0b383274a0021494e17d345e2073ba6c43"
+        },
+        "116": {
+          "token_window": [
+            1478152,
+            1478665
+          ],
+          "token_ids_sha256": "da8b1edf7facc397e66a698271f865e2338d934ddbeb607140e084a2bdaf6226"
+        },
+        "117": {
+          "token_window": [
+            1490840,
+            1491353
+          ],
+          "token_ids_sha256": "e22f9d96667a26a0748763f8ba81e368d30d5cba936763c10a82d2a1178db5cd"
+        },
+        "118": {
+          "token_window": [
+            1503528,
+            1504041
+          ],
+          "token_ids_sha256": "c0e2559d7109826afd6eb819bab6cb4b17ed5698e67da8347b8a204f6282105d"
+        },
+        "119": {
+          "token_window": [
+            1516216,
+            1516729
+          ],
+          "token_ids_sha256": "2fc3b0f292edb2cc4c11c5273132d32fbbca2e3ec3ca6d031e6c2f2dd65edd92"
+        },
+        "120": {
+          "token_window": [
+            1528904,
+            1529417
+          ],
+          "token_ids_sha256": "8c43cdc3d733a0e4c542dd66589e250f499af347ed90dd54cf73e38a4d6acee3"
+        },
+        "121": {
+          "token_window": [
+            1541592,
+            1542105
+          ],
+          "token_ids_sha256": "23fa020bdbde22681936594be966276c29b3c19845d286aaf3b9d79d7d96c4bd"
+        },
+        "122": {
+          "token_window": [
+            1554280,
+            1554793
+          ],
+          "token_ids_sha256": "61da2ab5506c61047e7c5e6662b60b2f850b9c1a14a3568f0504f29cef898a92"
+        },
+        "123": {
+          "token_window": [
+            1566968,
+            1567481
+          ],
+          "token_ids_sha256": "2202828cb98b084b20f5d8214c5b1e436ae1c974a2ce6574db4d6d859a39ff3a"
+        },
+        "124": {
+          "token_window": [
+            1579656,
+            1580169
+          ],
+          "token_ids_sha256": "141dc828a388a36980c3ac6d283bf2853b319ed930d91564fa29112b2582fb1d"
+        },
+        "125": {
+          "token_window": [
+            1592344,
+            1592857
+          ],
+          "token_ids_sha256": "c4c80091044f1a1e1cd8e4828f8ed9e0b77fb2f0848ddff74e5cc1e5bd5e01bf"
+        },
+        "126": {
+          "token_window": [
+            1605032,
+            1605545
+          ],
+          "token_ids_sha256": "4e1dfa1ec661a2eb37628ad510a979cd0fa7c0ddd6d97411c8f1649b8de7f987"
+        },
+        "127": {
+          "token_window": [
+            1617720,
+            1618233
+          ],
+          "token_ids_sha256": "c0a22948f941a82759ae06273bcffea241c767843a44ebac478f827cfc400988"
+        },
+        "128": {
+          "token_window": [
+            1630408,
+            1630921
+          ],
+          "token_ids_sha256": "00fc9bd108ccee3b458432640eacc08cf097abb2473176c67bcb5b783997134d"
+        },
+        "129": {
+          "token_window": [
+            1643096,
+            1643609
+          ],
+          "token_ids_sha256": "97cb37dbd45639962aceda85b3603b8496fa7199e675b0fd759729c53ae677f5"
+        },
+        "130": {
+          "token_window": [
+            1655784,
+            1656297
+          ],
+          "token_ids_sha256": "044ea46fa02e12273d5cbb8ebb629dbc97a33ccb51a4397322020c2e0a213a2c"
+        },
+        "131": {
+          "token_window": [
+            1668472,
+            1668985
+          ],
+          "token_ids_sha256": "43e036ab1998618379e3edc7150b79e075deec79248eebb993f51f67ce77af9c"
+        },
+        "132": {
+          "token_window": [
+            1681160,
+            1681673
+          ],
+          "token_ids_sha256": "9606d3565c59b80a76c55511ca1205ff0830929bffd854839501a48277405831"
+        },
+        "133": {
+          "token_window": [
+            1693848,
+            1694361
+          ],
+          "token_ids_sha256": "c3c385f5390acfafba7e41afe6b1649af20faa374d029125858b1be64b53bb5b"
+        },
+        "134": {
+          "token_window": [
+            1706536,
+            1707049
+          ],
+          "token_ids_sha256": "c17e6a3b8a75048022555275a7f5d3b5cb1d433eb06ce538bfae999dd8b7f3bc"
+        },
+        "135": {
+          "token_window": [
+            1719224,
+            1719737
+          ],
+          "token_ids_sha256": "10dec70e2e8f9db053bf4ed00e3a7d533b23805deb4112035dbb3359f9b8354a"
+        },
+        "136": {
+          "token_window": [
+            1731912,
+            1732425
+          ],
+          "token_ids_sha256": "c21c482a0d68d0ef8a243a1f1fba1f0bf6f0c5acf9d2e4560cd9e62e3cdb4291"
+        },
+        "137": {
+          "token_window": [
+            1744600,
+            1745113
+          ],
+          "token_ids_sha256": "c5c98b58632da39682bc2ab5d800b860cec3126e1169cfcf3209da808b760fb6"
+        },
+        "138": {
+          "token_window": [
+            1757288,
+            1757801
+          ],
+          "token_ids_sha256": "504296ad93e0dbdbaebbe77c0534db8a4e0bdc8e233e0bf10d8e211054fd8a28"
+        },
+        "139": {
+          "token_window": [
+            1769976,
+            1770489
+          ],
+          "token_ids_sha256": "5dd28bb2e7ff3989f471965fb561b94ba891653776d8bf913c3d1bd54240a1b2"
+        },
+        "140": {
+          "token_window": [
+            1782664,
+            1783177
+          ],
+          "token_ids_sha256": "c14794953420cdb8698bda2edc8fe8c0fbbbab82d867554ef3ff58606ac1bb17"
+        },
+        "141": {
+          "token_window": [
+            1795352,
+            1795865
+          ],
+          "token_ids_sha256": "8206367e392276d903741aad30124536f91aefd292b805268052900a2863881c"
+        },
+        "142": {
+          "token_window": [
+            1808040,
+            1808553
+          ],
+          "token_ids_sha256": "af3c7d33f0e5818ee723bf711eb0ed925b1c689055253359b2415209196b3b96"
+        },
+        "143": {
+          "token_window": [
+            1820728,
+            1821241
+          ],
+          "token_ids_sha256": "bd14511102aa9e82ff38f748c5c6a34b99ee80e967998eff81b1cc232f0cac68"
+        },
+        "144": {
+          "token_window": [
+            1833416,
+            1833929
+          ],
+          "token_ids_sha256": "ccb8b11b8917695eb1cd053d54c6c037b76d172d6d5e1b705e644b6159b5350f"
+        },
+        "145": {
+          "token_window": [
+            1846104,
+            1846617
+          ],
+          "token_ids_sha256": "cc519954b588d78938379e8a52a9a0f027efe7f34a5df857fdd1803ec4d2e5c6"
+        },
+        "146": {
+          "token_window": [
+            1858792,
+            1859305
+          ],
+          "token_ids_sha256": "4ddbb7939a9b3eeddf658cc0bff66006e2a1eb209cd7a89e1d983862162a0ada"
+        },
+        "147": {
+          "token_window": [
+            1871480,
+            1871993
+          ],
+          "token_ids_sha256": "3c4975903ffcb76fc763f32022f8fe75249f54458c176b7e38218b6581fadae4"
+        },
+        "148": {
+          "token_window": [
+            1884168,
+            1884681
+          ],
+          "token_ids_sha256": "f1f7eef445f2236286b466f850acad67d045dabb4d3202b4476a40086f171843"
+        },
+        "149": {
+          "token_window": [
+            1896856,
+            1897369
+          ],
+          "token_ids_sha256": "c6775cdd95ed659f28398eeeeafd05eae8e903df71609a3c80c0af411074167d"
+        },
+        "150": {
+          "token_window": [
+            1909544,
+            1910057
+          ],
+          "token_ids_sha256": "d3ad873ac9001f6b883f769c3a14e7902ed5bb33af4b45097bacc358bde8fe27"
+        },
+        "151": {
+          "token_window": [
+            1922232,
+            1922745
+          ],
+          "token_ids_sha256": "863bca3f31c43b04d34c1b7902f530e6cd4c7598a3fa7b6bf0875994dc7c457f"
+        },
+        "152": {
+          "token_window": [
+            1934920,
+            1935433
+          ],
+          "token_ids_sha256": "232a6b72b672a9e4e352f04cade69f814e4f5272fc2f07a9514cdcacd4152635"
+        },
+        "153": {
+          "token_window": [
+            1947608,
+            1948121
+          ],
+          "token_ids_sha256": "f947164c7d8bdbdc4bf9d1ef4ceb25949e178c5425b7bd8d0ff94f16e30db090"
+        },
+        "154": {
+          "token_window": [
+            1960296,
+            1960809
+          ],
+          "token_ids_sha256": "4e4e06f76d324bff603a84a5305e484a2c8cfbd8ad78f1d8cd4247f197faf6e6"
+        },
+        "155": {
+          "token_window": [
+            1972984,
+            1973497
+          ],
+          "token_ids_sha256": "d977efb37d2c4690205b32db6c32ff7afc7113cf49af8c55e5b1ed5ecf5f882b"
+        },
+        "156": {
+          "token_window": [
+            1985672,
+            1986185
+          ],
+          "token_ids_sha256": "221676bff30be17861dd1f520f0a41de8f75790eaebf2efea37ea84c5ad5339e"
+        },
+        "157": {
+          "token_window": [
+            1998360,
+            1998873
+          ],
+          "token_ids_sha256": "025d965eee86a62c573e9967b3c6a8a897f01d1b7e7e0ffa5b905463d1b7a9de"
+        },
+        "158": {
+          "token_window": [
+            2011048,
+            2011561
+          ],
+          "token_ids_sha256": "ba6a4fa76e62044b9372e81cf442b85513806e92b82338cf8052bb751d22bdc1"
+        },
+        "159": {
+          "token_window": [
+            2023736,
+            2024249
+          ],
+          "token_ids_sha256": "0b79adc6f55316a92116b80669c321412c02fd07b65fae3e461b656483de6add"
+        },
+        "160": {
+          "token_window": [
+            2036424,
+            2036937
+          ],
+          "token_ids_sha256": "7889b2ddca42d731d5f0d68b7c2c60794dbdf42f90f879493f68498c116e7c55"
+        },
+        "161": {
+          "token_window": [
+            2049112,
+            2049625
+          ],
+          "token_ids_sha256": "78d91726e1d620d7173223dcb960fb33e9f91b5188bf4bf02f185ad4c12afa8b"
+        },
+        "162": {
+          "token_window": [
+            2061800,
+            2062313
+          ],
+          "token_ids_sha256": "d25981a96d5242887d99b07c23d30f4454db08e6781b1ea5936c5ec8511a91d0"
+        },
+        "163": {
+          "token_window": [
+            2074488,
+            2075001
+          ],
+          "token_ids_sha256": "737b681b9bec7592b50917d3e10f3dfa28676055c562932b698c82e8b98c3adc"
+        },
+        "164": {
+          "token_window": [
+            2087176,
+            2087689
+          ],
+          "token_ids_sha256": "2ca8667e0ebec1495e0e55ee679f50450c63d3c6d017b21b1d1b05659b550062"
+        },
+        "165": {
+          "token_window": [
+            2099864,
+            2100377
+          ],
+          "token_ids_sha256": "7ad16fc83280a2f81394cb5f33bf6aa378bb7c1e616076997ab1a7076122ee0d"
+        },
+        "166": {
+          "token_window": [
+            2112552,
+            2113065
+          ],
+          "token_ids_sha256": "14d1a3e0380ae4b8cc4718d0142758706705a05cf76129c59a0baccf8c9a7a94"
+        },
+        "167": {
+          "token_window": [
+            2125240,
+            2125753
+          ],
+          "token_ids_sha256": "44bf584ec5300d6498ae4a2bcdfeaa3226f03b1240b29602c57734e811e7aba2"
+        },
+        "168": {
+          "token_window": [
+            2137928,
+            2138441
+          ],
+          "token_ids_sha256": "24622795e92614872e185f12b453c0eeea869b146e51b38b8e96342ab523e620"
+        },
+        "169": {
+          "token_window": [
+            2150616,
+            2151129
+          ],
+          "token_ids_sha256": "d097e904008d714490e48a93b27ac9eed6b6103d6b75bc9114ca5d8fe4774d9b"
+        },
+        "170": {
+          "token_window": [
+            2163304,
+            2163817
+          ],
+          "token_ids_sha256": "cec6b2b31023959953ee90a30514cb65dbbe52d737b377c0dca6d5586776b636"
+        },
+        "171": {
+          "token_window": [
+            2175992,
+            2176505
+          ],
+          "token_ids_sha256": "2d7ecac006c763a8930bbab9253d7b455869f82d225ab14481055ab00cd1c39f"
+        },
+        "172": {
+          "token_window": [
+            2188680,
+            2189193
+          ],
+          "token_ids_sha256": "e9df39e3534cee8b4365f915232003a145336d880e864a0fd28d97d4414ea8f3"
+        },
+        "173": {
+          "token_window": [
+            2201368,
+            2201881
+          ],
+          "token_ids_sha256": "486acbe30f2817e476219a6cd9976c0e6e9b14f481b2c2e03ae687454aac163b"
+        },
+        "174": {
+          "token_window": [
+            2214056,
+            2214569
+          ],
+          "token_ids_sha256": "12ea594df47315bc50a9cb2d0cfbed15b14ebc03d4d6c3e515f374274f60f69a"
+        },
+        "175": {
+          "token_window": [
+            2226744,
+            2227257
+          ],
+          "token_ids_sha256": "20140e6349989a7ecc1cd5933431cd893bb2ea4c881bf1ff7e418bac58c48faf"
+        },
+        "176": {
+          "token_window": [
+            2239432,
+            2239945
+          ],
+          "token_ids_sha256": "3a6e7efb81834be025a696175722884b87dc33189fa6cffd7364d6bb28fe48e2"
+        },
+        "177": {
+          "token_window": [
+            2252120,
+            2252633
+          ],
+          "token_ids_sha256": "9005334bc3d6ea77d9a5988076879f6ac337c3ddc5177d3ce4ddd7f6b723dd90"
+        },
+        "178": {
+          "token_window": [
+            2264808,
+            2265321
+          ],
+          "token_ids_sha256": "f7f1b2f4eed7e0b855047274996d81d5cbf0f5682432f3c161cd6fde48f8f147"
+        },
+        "179": {
+          "token_window": [
+            2277496,
+            2278009
+          ],
+          "token_ids_sha256": "4a4fee16075b161a9ceba1bbc2bb6fc2b28a9a7f6afe39b64eabbe7d17e66082"
+        },
+        "180": {
+          "token_window": [
+            2290184,
+            2290697
+          ],
+          "token_ids_sha256": "8d3cd9f1f9bcc417dae0a2c8b30065a888ac3bfacfe424c0e25442b892803d88"
+        },
+        "181": {
+          "token_window": [
+            2302872,
+            2303385
+          ],
+          "token_ids_sha256": "0a7ed70d440c9fbb7229a7f144a652737fea4ebadf53a08ce74e9487413767e2"
+        },
+        "182": {
+          "token_window": [
+            2315560,
+            2316073
+          ],
+          "token_ids_sha256": "6722c426bd802fffe652bca410ff86d8ded030bb5c192921725f8f6309963f04"
+        },
+        "183": {
+          "token_window": [
+            2328248,
+            2328761
+          ],
+          "token_ids_sha256": "ae58702626e58b187c606cd5ccba74147ca0a4d6c999166899b423da5f2bdb19"
+        },
+        "184": {
+          "token_window": [
+            2340936,
+            2341449
+          ],
+          "token_ids_sha256": "638a8dc2011fff7952af078d53400c524ad85fc8fe8e163bb867b68721dcc189"
+        },
+        "185": {
+          "token_window": [
+            2353624,
+            2354137
+          ],
+          "token_ids_sha256": "39441c2f4be740a3e325e648236bd5175abc4b73ced72e5c7153d6edef0a6334"
+        },
+        "186": {
+          "token_window": [
+            2366312,
+            2366825
+          ],
+          "token_ids_sha256": "ae9efe871e609ccbaba75cc31b1917a5fb0235b104ccffea3e9f50522f90435f"
+        },
+        "187": {
+          "token_window": [
+            2379000,
+            2379513
+          ],
+          "token_ids_sha256": "de879a32981f5512f014d45bb572c4f35ea309f7c23b54f92598d52574d1f341"
+        },
+        "188": {
+          "token_window": [
+            2391688,
+            2392201
+          ],
+          "token_ids_sha256": "d9cba901cfa91c3e471697ce84371697bb54d09bac9dbe0031efd0230458b0d3"
+        },
+        "189": {
+          "token_window": [
+            2404376,
+            2404889
+          ],
+          "token_ids_sha256": "e80d46eb8b1482716fd6a120995d2733051d80168db76d7a53b449428bce872f"
+        },
+        "190": {
+          "token_window": [
+            2417064,
+            2417577
+          ],
+          "token_ids_sha256": "132fb16bd61d85283c6c55e4aaa73cefc654859f0f18354a919a9a651a6942ea"
+        },
+        "191": {
+          "token_window": [
+            2429752,
+            2430265
+          ],
+          "token_ids_sha256": "5c64f9196f90217d36baff1a607c2b17c29f28345e984fac30adf4d099c80efb"
+        }
+      }
+    },
+    "selection": {
+      "shakespeare": {
+        "55": {
+          "token_window": [
+            165972,
+            166485
+          ],
+          "token_ids_sha256": "198f909167261cb8da3403095613464cdbe117c4fd16e8c32cd9361b25e40567"
+        },
+        "58": {
+          "token_window": [
+            175026,
+            175539
+          ],
+          "token_ids_sha256": "33b48117284a20dc9bad35e6ead8c401a0d17eb946a29a042b2332c7f11c50d6"
+        },
+        "61": {
+          "token_window": [
+            184079,
+            184592
+          ],
+          "token_ids_sha256": "7af5a42eb7412d716c9557556fb8022c312b7f396e90671755e8fb9174d99fb0"
+        }
+      },
+      "wikitext_valid": {
+        "10": {
+          "token_window": [
+            25285,
+            25798
+          ],
+          "token_ids_sha256": "733b4fcaf5cc616a77b3c9c979b44fbe6a2bef5fd748b2fc38c9c65b99854632"
+        },
+        "20": {
+          "token_window": [
+            50570,
+            51083
+          ],
+          "token_ids_sha256": "bb9209cb44bdfb123e199f081acccf4582594168f622c6b2e0b1d04df79a4275"
+        },
+        "40": {
+          "token_window": [
+            101141,
+            101654
+          ],
+          "token_ids_sha256": "88a303b7ea8bd06fd2b46a81d0a14ad435fb1abbb63760f077f091996aa13601"
+        },
+        "60": {
+          "token_window": [
+            151712,
+            152225
+          ],
+          "token_ids_sha256": "75001607d6dc510af2f104a08e3cc0b8005eb90678f8357c2468a54c598a0bf9"
+        },
+        "80": {
+          "token_window": [
+            202283,
+            202796
+          ],
+          "token_ids_sha256": "12e4c0b8148907ff62d67df0175b76755e0135a4428104d653b880037cb3cd81"
+        },
+        "90": {
+          "token_window": [
+            227568,
+            228081
+          ],
+          "token_ids_sha256": "2c793ccf61a177112abe2a27b46075907801b0033e3f6cab757d5caeb392c367"
+        }
+      }
+    }
+  },
+  "pretrained_projection_hashes": {
+    "q_proj": "a7258d55787a3c90a5cd916380314a8899da7eea1b6cecc69a1e90ed8e700eb8",
+    "k_proj": "a15abc9e96278d2f64dcca8153c6436e0309473d43597b69bdaa039b8d7137cd",
+    "v_proj": "9573c5455117bd0b31363508f32d01291fb841250866bc44e48f070d431fae43",
+    "o_proj": "b92aa0d52bf712f12c261ec4ea8402305c4ed5b7bb4d84415a898d6e0558cbb9"
+  },
+  "prefix_vs_full_teacher_max_abs_logit": 0.0,
+  "teacher_selection": {
+    "score": 2.838706374168396,
+    "domains": {
+      "shakespeare": {
+        "nll": 3.177910486857096,
+        "by_window": [
+          2.9438107013702393,
+          3.1978864669799805,
+          3.3920342922210693
+        ]
+      },
+      "wikitext_valid": {
+        "nll": 2.499502261479696,
+        "by_window": [
+          2.944666862487793,
+          2.416152000427246,
+          2.499793767929077,
+          2.1134605407714844,
+          2.412627935409546,
+          2.6103124618530273
+        ]
+      }
+    }
+  },
+  "baseline_selection": {
+    "score": 2.8628130356470747,
+    "domains": {
+      "shakespeare": {
+        "nll": 3.2010698318481445,
+        "by_window": [
+          2.9512338638305664,
+          3.2348756790161133,
+          3.417099952697754
+        ]
+      },
+      "wikitext_valid": {
+        "nll": 2.5245562394460044,
+        "by_window": [
+          2.9541015625,
+          2.439332962036133,
+          2.5279722213745117,
+          2.1299471855163574,
+          2.458888053894043,
+          2.6370954513549805
+        ]
+      }
+    }
+  },
+  "curve": [
+    {
+      "step": 1,
+      "training_domain": "wikitext_train",
+      "training_window_index": 55,
+      "training_nll": 2.2113680839538574,
+      "selection": {
+        "score": 2.86234853665034,
+        "domains": {
+          "shakespeare": {
+            "nll": 3.200711806615194,
+            "by_window": [
+              2.949385166168213,
+              3.2348084449768066,
+              3.4179418087005615
+            ]
+          },
+          "wikitext_valid": {
+            "nll": 2.523985266685486,
+            "by_window": [
+              2.9522883892059326,
+              2.439763307571411,
+              2.52711820602417,
+              2.1314773559570312,
+              2.4579830169677734,
+              2.6352813243865967
+            ]
+          }
+        }
+      },
+      "gradient_norm_before_clip": 0.052105747163295746,
+      "metal_peak_bytes": 5184203606,
+      "host_load_average": [
+        4.3271484375,
+        4.47509765625,
+        4.79833984375
+      ]
+    },
+    {
+      "step": 50,
+      "training_domain": "wikitext_train",
+      "training_window_index": 86,
+      "training_nll": 2.8796920776367188,
+      "selection": {
+        "score": 2.863832513491313,
+        "domains": {
+          "shakespeare": {
+            "nll": 3.2008421421051025,
+            "by_window": [
+              2.9492335319519043,
+              3.23657488822937,
+              3.416718006134033
+            ]
+          },
+          "wikitext_valid": {
+            "nll": 2.526822884877523,
+            "by_window": [
+              2.955596685409546,
+              2.44409441947937,
+              2.528210163116455,
+              2.133357524871826,
+              2.46073579788208,
+              2.6389427185058594
+            ]
+          }
+        }
+      },
+      "gradient_norm_before_clip": 0.039628710597753525,
+      "metal_peak_bytes": 5185514402,
+      "host_load_average": [
+        4.78564453125,
+        4.57275390625,
+        4.8291015625
+      ]
+    },
+    {
+      "step": 100,
+      "training_domain": "shakespeare",
+      "training_window_index": 62,
+      "training_nll": 3.6662850379943848,
+      "selection": {
+        "score": 2.8636711835861206,
+        "domains": {
+          "shakespeare": {
+            "nll": 3.2020951906840005,
+            "by_window": [
+              2.952083110809326,
+              3.237454652786255,
+              3.416747808456421
+            ]
+          },
+          "wikitext_valid": {
+            "nll": 2.5252471764882407,
+            "by_window": [
+              2.9540839195251465,
+              2.442262887954712,
+              2.5278708934783936,
+              2.130302667617798,
+              2.460763931274414,
+              2.6361987590789795
+            ]
+          }
+        }
+      },
+      "gradient_norm_before_clip": 0.040176354348659515,
+      "metal_peak_bytes": 5185514402,
+      "host_load_average": [
+        4.6708984375,
+        4.5537109375,
+        4.8193359375
+      ]
+    },
+    {
+      "step": 150,
+      "training_domain": "shakespeare",
+      "training_window_index": 46,
+      "training_nll": 2.965118408203125,
+      "selection": {
+        "score": 2.8640037178993225,
+        "domains": {
+          "shakespeare": {
+            "nll": 3.201524337132772,
+            "by_window": [
+              2.953828811645508,
+              3.2345821857452393,
+              3.4161620140075684
+            ]
+          },
+          "wikitext_valid": {
+            "nll": 2.526483098665873,
+            "by_window": [
+              2.9550929069519043,
+              2.443330764770508,
+              2.5296475887298584,
+              2.1309337615966797,
+              2.461669445037842,
+              2.6382241249084473
+            ]
+          }
+        }
+      },
+      "gradient_norm_before_clip": 0.047193050384521484,
+      "metal_peak_bytes": 5185514402,
+      "host_load_average": [
+        4.77685546875,
+        4.57763671875,
+        4.826171875
+      ]
+    },
+    {
+      "step": 200,
+      "training_domain": "shakespeare",
+      "training_window_index": 126,
+      "training_nll": 2.8267085552215576,
+      "selection": {
+        "score": 2.863492687543233,
+        "domains": {
+          "shakespeare": {
+            "nll": 3.200831572214762,
+            "by_window": [
+              2.9524037837982178,
+              3.2349328994750977,
+              3.4151580333709717
+            ]
+          },
+          "wikitext_valid": {
+            "nll": 2.526153802871704,
+            "by_window": [
+              2.9543416500091553,
+              2.443794012069702,
+              2.530345916748047,
+              2.129194736480713,
+              2.4595041275024414,
+              2.639742374420166
+            ]
+          }
+        }
+      },
+      "gradient_norm_before_clip": 0.06506994366645813,
+      "metal_peak_bytes": 5185514402,
+      "host_load_average": [
+        4.49658203125,
+        4.52490234375,
+        4.8046875
+      ]
+    },
+    {
+      "step": 250,
+      "training_domain": "shakespeare",
+      "training_window_index": 115,
+      "training_nll": 3.03594970703125,
+      "selection": {
+        "score": 2.8646740913391113,
+        "domains": {
+          "shakespeare": {
+            "nll": 3.2028101285298667,
+            "by_window": [
+              2.9533944129943848,
+              3.238896369934082,
+              3.416139602661133
+            ]
+          },
+          "wikitext_valid": {
+            "nll": 2.526538054148356,
+            "by_window": [
+              2.9542624950408936,
+              2.44401478767395,
+              2.530099391937256,
+              2.1301913261413574,
+              2.461016893386841,
+              2.639643430709839
+            ]
+          }
+        }
+      },
+      "gradient_norm_before_clip": 0.057175736874341965,
+      "metal_peak_bytes": 5187611554,
+      "host_load_average": [
+        4.421875,
+        4.51318359375,
+        4.7958984375
+      ]
+    },
+    {
+      "step": 300,
+      "training_domain": "wikitext_train",
+      "training_window_index": 7,
+      "training_nll": 2.96935772895813,
+      "selection": {
+        "score": 2.8634319504102073,
+        "domains": {
+          "shakespeare": {
+            "nll": 3.2004447778066,
+            "by_window": [
+              2.9522573947906494,
+              3.235413074493408,
+              3.413663864135742
+            ]
+          },
+          "wikitext_valid": {
+            "nll": 2.5264191230138144,
+            "by_window": [
+              2.9560317993164062,
+              2.442945957183838,
+              2.5307254791259766,
+              2.129086971282959,
+              2.45986270904541,
+              2.639861822128296
+            ]
+          }
+        }
+      },
+      "gradient_norm_before_clip": 0.04202824831008911,
+      "metal_peak_bytes": 5187611554,
+      "host_load_average": [
+        4.28271484375,
+        4.4794921875,
+        4.7802734375
+      ]
+    },
+    {
+      "step": 350,
+      "training_domain": "wikitext_train",
+      "training_window_index": 134,
+      "training_nll": 3.1030564308166504,
+      "selection": {
+        "score": 2.8633596301078796,
+        "domains": {
+          "shakespeare": {
+            "nll": 3.201324939727783,
+            "by_window": [
+              2.952427864074707,
+              3.2352166175842285,
+              3.416330337524414
+            ]
+          },
+          "wikitext_valid": {
+            "nll": 2.525394320487976,
+            "by_window": [
+              2.952974319458008,
+              2.442434787750244,
+              2.528343677520752,
+              2.1292500495910645,
+              2.460195541381836,
+              2.639167547225952
+            ]
+          }
+        }
+      },
+      "gradient_norm_before_clip": 0.040519822388887405,
+      "metal_peak_bytes": 5187611554,
+      "host_load_average": [
+        4.1650390625,
+        4.44677734375,
+        4.7646484375
+      ]
+    },
+    {
+      "step": 400,
+      "training_domain": "shakespeare",
+      "training_window_index": 123,
+      "training_nll": 2.7919139862060547,
+      "selection": {
+        "score": 2.863973100980123,
+        "domains": {
+          "shakespeare": {
+            "nll": 3.2014764149983725,
+            "by_window": [
+              2.953583240509033,
+              3.237210988998413,
+              3.413635015487671
+            ]
+          },
+          "wikitext_valid": {
+            "nll": 2.5264697869618735,
+            "by_window": [
+              2.9563772678375244,
+              2.4438250064849854,
+              2.5289225578308105,
+              2.1287472248077393,
+              2.459756851196289,
+              2.6411898136138916
+            ]
+          }
+        }
+      },
+      "gradient_norm_before_clip": 0.038863688707351685,
+      "metal_peak_bytes": 5187611554,
+      "host_load_average": [
+        4.39208984375,
+        4.48193359375,
+        4.77294921875
+      ]
+    }
+  ],
+  "best": {
+    "step": 1,
+    "selection": {
+      "score": 2.86234853665034,
+      "domains": {
+        "shakespeare": {
+          "nll": 3.200711806615194,
+          "by_window": [
+            2.949385166168213,
+            3.2348084449768066,
+            3.4179418087005615
+          ]
+        },
+        "wikitext_valid": {
+          "nll": 2.523985266685486,
+          "by_window": [
+            2.9522883892059326,
+            2.439763307571411,
+            2.52711820602417,
+            2.1314773559570312,
+            2.4579830169677734,
+            2.6352813243865967
+          ]
+        }
+      }
+    }
+  },
+  "weights": {
+    "path": "/Users/richie/Documents/github/human-brain/experiments/results/query_global_map_nll_weights.npz",
+    "sha256": "90dedee1da17f835bebef81b1bbe89f59a3297d0d718ba328fac2888beb617d9"
+  },
+  "timing": {
+    "load_s": 0.5952592499961611,
+    "read_and_tokenize_s": 3.165959334000945,
+    "teacher_prefix_capture_s": 14.836658041982446,
+    "training_updates_s": 74.67714608050301,
+    "selection_s": 8.275931126991054,
+    "training_loop_s": 81.63995500002056
+  },
+  "capture_peak_metal_bytes": 3524289100,
+  "training_peak_metal_bytes": 5187611554,
+  "initial_gradient_norms": {
+    "delta_q": 0.051256854087114334,
+    "delta_k": 0.009367178194224834
+  }
+}

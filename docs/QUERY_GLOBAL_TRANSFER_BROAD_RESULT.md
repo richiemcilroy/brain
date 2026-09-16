@@ -86,11 +86,12 @@ NLL. The first and third conditions passed; **both-text quality
 failed**. The stricter unchanged-teacher conditions also failed.
 The selected broad map is therefore **not retained** for stage-2
 adjustment, and no multi-layer conversion is promoted. The old map is
-still the better measured starting point. A direct, balanced
-next-token objective with a matched full-attention control is a
-candidate next quality experiment; any gain must survive *new*
-holdouts and complete-model serving/training measurements. The
-[single-layer timing result](QUERY_GLOBAL_FAST_DECODE.md) already
+still the better measured starting point. A subsequent [direct,
+balanced next-token map adjustment](QUERY_GLOBAL_MAP_NLL_RESULT.md)
+selected after one update and failed a fresh three-text quality gate.
+A matched trainable full-attention control and any further quality gain
+must survive *new* holdouts and complete-model serving/training
+measurements. The [single-layer timing result](QUERY_GLOBAL_FAST_DECODE.md) already
 found no reliable whole-model speed gain.
 
 The raw training run, source/protocol/data hashes, window IDs, full
