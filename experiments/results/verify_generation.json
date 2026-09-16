@@ -1,0 +1,399 @@
+{
+  "status": "complete",
+  "meta": {
+    "revision": "9535bd9b1d1dea6acafbdc4813b728796aeb28da",
+    "weight_blob_id": "68a2e4be76fa709455a60272fba8e512c02d81c46e6c671cc9449e374fd6809a",
+    "config_sha256": "8f028e2cd88148fad38c7dece460947681adf6178e46e11ece9742aa49b378dd",
+    "prompt_ids_sha256": "84c7a519e18fc8316d2cb6bf95ba87f523117f4593fe2ebe4993d9589b488cf0",
+    "source_sha256": "3a3575bf84b765c20dcc1ae79a6234a8b6114289227705a241bde74f8ccd45a3",
+    "local_window_source_sha256": "f4fad1cc94227a762a1144090727072f62c757b25e3cf4898678691b42fbef7f",
+    "streaming_memory_source_sha256": "2b4924f9e4d334564ae87286a6f54cc2306c2969c887c00404501f2fd4b32b56",
+    "mlx_lm": "0.31.3",
+    "prompt_tokens": 129,
+    "generated_tokens": 4,
+    "prefill_step_size": 64,
+    "greedy": true,
+    "kv_bits": null,
+    "custom_prompt_cache": true,
+    "signed_memory_gain": -0.1,
+    "started_epoch": 1789519245.157988,
+    "finished_epoch": 1789519246.1073742
+  },
+  "rows": [
+    {
+      "arm": "teacher",
+      "generated_ids": [
+        323,
+        584,
+        527,
+        20250
+      ],
+      "manual_ids": [
+        323,
+        584,
+        527,
+        20250
+      ],
+      "ids_equal": true,
+      "sampled_logprobs": [
+        -1.0,
+        -2.0,
+        -1.875,
+        -2.25
+      ],
+      "logprobs_finite": true,
+      "direct_vs_last_head_max_abs_logit": 0.0625,
+      "direct_vs_last_head_top1_equal": true,
+      "generate_cache_offsets": [
+        133,
+        133,
+        133,
+        133,
+        133,
+        133,
+        133,
+        133,
+        133,
+        133,
+        133,
+        133,
+        133,
+        133,
+        133,
+        133
+      ],
+      "manual_cache_offsets": [
+        132,
+        132,
+        132,
+        132,
+        132,
+        132,
+        132,
+        132,
+        132,
+        132,
+        132,
+        132,
+        132,
+        132,
+        132,
+        132
+      ],
+      "generate_cache_offsets_agree": true,
+      "manual_cache_offsets_agree": true
+    },
+    {
+      "arm": "local",
+      "generated_ids": [
+        323,
+        584,
+        3358,
+        387
+      ],
+      "manual_ids": [
+        323,
+        584,
+        3358,
+        387
+      ],
+      "ids_equal": true,
+      "sampled_logprobs": [
+        -1.0,
+        -2.125,
+        -1.875,
+        -2.0
+      ],
+      "logprobs_finite": true,
+      "direct_vs_last_head_max_abs_logit": 0.0625,
+      "direct_vs_last_head_top1_equal": true,
+      "generate_cache_offsets": [
+        133,
+        133,
+        133,
+        133,
+        133,
+        133,
+        133,
+        133,
+        133,
+        133,
+        133,
+        133,
+        133,
+        133,
+        133,
+        133
+      ],
+      "manual_cache_offsets": [
+        132,
+        132,
+        132,
+        132,
+        132,
+        132,
+        132,
+        132,
+        132,
+        132,
+        132,
+        132,
+        132,
+        132,
+        132,
+        132
+      ],
+      "generate_cache_offsets_agree": true,
+      "manual_cache_offsets_agree": true,
+      "bounded_kv_tokens": 63,
+      "bounded_kv_ok": true
+    },
+    {
+      "arm": "hybrid",
+      "generated_ids": [
+        323,
+        584,
+        3358,
+        387
+      ],
+      "manual_ids": [
+        323,
+        584,
+        3358,
+        387
+      ],
+      "ids_equal": true,
+      "sampled_logprobs": [
+        -1.0,
+        -2.125,
+        -1.875,
+        -2.0
+      ],
+      "logprobs_finite": true,
+      "direct_vs_last_head_max_abs_logit": 0.0625,
+      "direct_vs_last_head_top1_equal": true,
+      "generate_cache_offsets": [
+        133,
+        133,
+        133,
+        133,
+        133,
+        133,
+        133,
+        133,
+        133,
+        133,
+        133,
+        133,
+        133,
+        133,
+        133,
+        133
+      ],
+      "manual_cache_offsets": [
+        132,
+        132,
+        132,
+        132,
+        132,
+        132,
+        132,
+        132,
+        132,
+        132,
+        132,
+        132,
+        132,
+        132,
+        132,
+        132
+      ],
+      "generate_cache_offsets_agree": true,
+      "manual_cache_offsets_agree": true,
+      "bounded_kv_tokens": 63,
+      "bounded_kv_ok": true
+    },
+    {
+      "arm": "signed",
+      "generated_ids": [
+        323,
+        584,
+        3358,
+        539
+      ],
+      "manual_ids": [
+        323,
+        584,
+        3358,
+        539
+      ],
+      "ids_equal": true,
+      "sampled_logprobs": [
+        -1.0,
+        -2.125,
+        -1.875,
+        -1.875
+      ],
+      "logprobs_finite": true,
+      "direct_vs_last_head_max_abs_logit": 0.03125,
+      "direct_vs_last_head_top1_equal": true,
+      "generate_cache_offsets": [
+        133,
+        133,
+        133,
+        133,
+        133,
+        133,
+        133,
+        133,
+        133,
+        133,
+        133,
+        133,
+        133,
+        133,
+        133,
+        133
+      ],
+      "manual_cache_offsets": [
+        132,
+        132,
+        132,
+        132,
+        132,
+        132,
+        132,
+        132,
+        132,
+        132,
+        132,
+        132,
+        132,
+        132,
+        132,
+        132
+      ],
+      "generate_cache_offsets_agree": true,
+      "manual_cache_offsets_agree": true,
+      "bounded_kv_tokens": 63,
+      "bounded_kv_ok": true
+    },
+    {
+      "arm": "trace",
+      "generated_ids": [
+        323,
+        584,
+        527,
+        539
+      ],
+      "manual_ids": [
+        323,
+        584,
+        527,
+        539
+      ],
+      "ids_equal": true,
+      "sampled_logprobs": [
+        -1.0,
+        -2.375,
+        -1.75,
+        -2.875
+      ],
+      "logprobs_finite": true,
+      "direct_vs_last_head_max_abs_logit": 0.0078125,
+      "direct_vs_last_head_top1_equal": true,
+      "generate_cache_offsets": [
+        133,
+        133,
+        133,
+        133,
+        133,
+        133,
+        133,
+        133,
+        133,
+        133,
+        133,
+        133,
+        133,
+        133,
+        133,
+        133
+      ],
+      "manual_cache_offsets": [
+        132,
+        132,
+        132,
+        132,
+        132,
+        132,
+        132,
+        132,
+        132,
+        132,
+        132,
+        132,
+        132,
+        132,
+        132,
+        132
+      ],
+      "generate_cache_offsets_agree": true,
+      "manual_cache_offsets_agree": true
+    }
+  ],
+  "conversion": {
+    "attr": "self_attn",
+    "d": 2048,
+    "mode": "transfer",
+    "banks": 1,
+    "fitted_decay": 0.7,
+    "decay_source": "explicit override",
+    "recency_profile_first8": null,
+    "fit_cdf_l1": null,
+    "found": [
+      "k_proj.weight",
+      "o_proj.weight",
+      "q_proj.weight",
+      "v_proj.weight"
+    ],
+    "quantized": false,
+    "value_expand_reps": 4,
+    "transplanted": true,
+    "wv_norm": 26.364788055419922,
+    "wo_norm": 29.8035831451416,
+    "gate_bias": 0.8472978603872034,
+    "gate_biases": [
+      0.8472978603872034
+    ],
+    "value_scaled_by": 0.30000000000000004,
+    "out_gain": 0.30000000000000004
+  },
+  "trace_conversion": {
+    "attr": "self_attn",
+    "d": 2048,
+    "mode": "transfer",
+    "banks": 1,
+    "fitted_decay": 0.7,
+    "decay_source": "explicit override",
+    "recency_profile_first8": null,
+    "fit_cdf_l1": null,
+    "found": [
+      "k_proj.weight",
+      "o_proj.weight",
+      "q_proj.weight",
+      "v_proj.weight"
+    ],
+    "quantized": false,
+    "value_expand_reps": 4,
+    "transplanted": true,
+    "wv_norm": 26.364788055419922,
+    "wo_norm": 29.8035831451416,
+    "gate_bias": 0.8472978603872034,
+    "gate_biases": [
+      0.8472978603872034
+    ],
+    "value_scaled_by": 0.30000000000000004,
+    "out_gain": 0.30000000000000004
+  }
+}
