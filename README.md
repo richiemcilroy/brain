@@ -52,6 +52,9 @@ the new map.
 A [direct next-token map adjustment](docs/QUERY_GLOBAL_MAP_NLL_RESULT.md)
 selected after one update and remained behind the teacher on Shakespeare,
 WikiText and an unadjusted literary text, so its three-text gate also failed.
+A [fixed-gain diagnostic](docs/QUERY_GLOBAL_GAIN_SWEEP.md) on reused windows
+found the current local/global scalar best among six tested settings on all
+three texts; simple gain retuning did not explain the remaining quality gap.
 The [layer and complete-model timing profile](docs/QUERY_GLOBAL_PERFORMANCE.md)
 finds a layer-only prefill crossover near 32K context, but that one
 attention layer is only about 3.5% of complete-model prefill time there.
